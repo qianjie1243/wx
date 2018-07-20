@@ -103,6 +103,7 @@ namespace WxTenpay
         /// <param name="total_fee">订单金额</param>
         /// <param name="refund_desc">退款原因</param>
         /// <param name="type">退款类型1微信公众号 2：APP退款(默认微信公众号)</param>
+        [Description("微信退款功能")]
         public string Get_Refund(string out_refund_no, string out_trade_no, double refund_fee, string transaction_id, double total_fee, string refund_desc, int type)
         {
             return pm.Get_Refund(out_refund_no, out_trade_no, refund_fee, transaction_id, total_fee, refund_desc, type);

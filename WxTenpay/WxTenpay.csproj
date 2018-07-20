@@ -67,6 +67,12 @@
     <Compile Include="WechatPublic.cs" />
     <Compile Include="wxconfig\Wx_pay.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="前端JS参考\wx.common.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="前端JS参考\微信支付DLL文档.docx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

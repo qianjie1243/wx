@@ -20,29 +20,27 @@ namespace WxTenpay
     public class WechatPublic
     {
 
-
         #region  ===
         /// <summary>
         /// 保存凭证
         /// </summary>
         [Description("Asscess凭证")]
-        private static string Asscess { set; get; }
+        private  string Asscess { set; get; }
         /// <summary>
         /// jsp_api 签名参数
         /// </summary>
         [Description("jsp_api 签名参数")]
-        private static string jsapi_ticket{set;get;}
+        private  string jsapi_ticket{set;get;}
         /// <summary>
         /// 保存凭证时间
         /// </summary>
-        private static DateTime Asscess_Time { set; get; }
+        private  DateTime Asscess_Time { set; get; }
         /// <summary>
         /// 保存jsp_api时间
         /// </summary>
-        private static DateTime Jsp_Api_Time { set; get; }
+        private  DateTime Jsp_Api_Time { set; get; }
 
         #endregion
-
 
         #region code获取个人信息,openid
 
