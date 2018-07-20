@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,8 @@ namespace WxTenpay
 
 
         #region 
+        [Description("商户号")]
+        public static string mch_id = "";//商户号
         public static string appid = "";//应用的ID
         public static string partnerid = "";//商户号
         public static string paysignkey = "";//证书密匙

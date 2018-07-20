@@ -20,8 +20,10 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// 网页授权接口
         /// </summary>
         const string access_tokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token";
-
-
+        /// <summary>
+        /// 微信退款接口
+        /// </summary>
+        const string refund_Url = "https://api.mch.weixin.qq.com/secapi/pay/refund";
         /// <summary>
         /// 提现接口
         /// </summary>
@@ -194,7 +196,6 @@ namespace WxTenpay.wxconfig.wxtenpay
 
         #endregion
 
-
         #region 微信提现返回结果
 
         /// <summary>
@@ -202,45 +203,13 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// </summary>
         public string getCash(Cash order)
         {
-            string prepay_id = "";
             string return_msg = "";
             int Code = 0;
             string return_string = string.Empty;
-
-            #region 请求提现
-            SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
-            sParams.Add("mch_appid", order.mch_appid);
-            sParams.Add("mch_id", order.mch_id);
-            sParams.Add("nonce_str", order.nonce_str);
-            sParams.Add("partner_trade_no", order.partner_trade_no);
-            sParams.Add("openid", order.openid);
-            sParams.Add("check_name", order.check_name);
-            sParams.Add("amount", order.amount);
-            sParams.Add("desc", order.desc);
-            sParams.Add("re_user_name", order.re_user_name);
-            sParams.Add("spbill_create_ip", order.spbill_create_ip);
-            string paySign = getsign(sParams, WXconfig.paysignkey);
-            sParams.Add("sign", paySign);
-            //拼接成XML请求数据
-            StringBuilder sbPay = new StringBuilder();
-            foreach (KeyValuePair<string, object> k in sParams)
-            {
-                if (k.Key == "sign")
-                {
-                    sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");
-                }
-                else
-                {
-                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
-                }
-            }
-            return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
-            byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
-            return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
+            return_string = getCashXml(order,WXconfig.paysignkey);        
             string request_data = PostXmlToUrl(CashPayUrl, return_string, "1");
-            #endregion
             Log.WriteLog1(request_data, "微信提现");
-
+            #region 解析返回结果
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
 
             foreach (KeyValuePair<string, object> k in requestXML)
@@ -250,96 +219,29 @@ namespace WxTenpay.wxconfig.wxtenpay
                     if (k.Value.ToString() != "")
                     {
                         return_msg = k.Value.ToString();
-
                     }
                 }
-                else if (k.Key == "partner_trade_no")
+                else if (k.Key == "result_code")
                 {
-                    prepay_id = k.Value.ToString();
-                    Code = 1;
-
+                    if (k.Value.ToString() == "SUCCESS")
+                    {
+                        Code = 1;
+                    }
                 }
-                else if (k.Key == "payment_no")
+                else if (k.Key == "err_code_des")
                 {
-                    prepay_id += "," + k.Value.ToString();
-
-                }
-                else if (k.Key == "payment_time")
-                {
-                    prepay_id += "," + k.Value.ToString();
-
-                }
-                else if (k.Key == "err_code")
-                {
-                    #region 错误信息
                     if (k.Value.ToString() != "" && k.Value != null)
                     {
-                        switch (k.Value.ToString())
-                        {
-                            case "NO_AUTH":
-                                return_msg += "-没有该接口权限";
-                                break;
-                            case "AMOUNT_LIMIT":
-                                return_msg += "-金额超限";
-                                break;
-                            case "PARAM_ERROR":
-                                return_msg += "-参数错误";
-                                break;
-                            case "OPENID_ERROR":
-                                return_msg += "-Openid错误";
-                                break;
-                            case "SEND_FAILED":
-                                return_msg += "-付款错误";
-                                break;
-                            case "NOTENOUGH":
-                                return_msg += "-余额不足";
-                                break;
-                            case "SYSTEMERROR":
-                                return_msg += "-系统繁忙，请稍后再试";
-                                break;
-                            case "NAME_MISMATCH":
-                                return_msg += "-姓名校验出错";
-                                break;
-                            case "SIGN_ERROR":
-                                return_msg += "-签名错误";
-                                break;
-                            case "XML_ERROR":
-                                return_msg += "-Post内容出错";
-                                break;
-                            case "FATAL_ERROR":
-                                return_msg += "-两次请求参数不一致";
-                                break;
-                            case "FREQ_LIMIT":
-                                return_msg += "-超过频率限制，请稍后再试";
-                                break;
-                            case "MONEY_LIMIT":
-                                return_msg += "-已经达到今日付款总额上限/已达到付款给此用户额度上限";
-                                break;
-                            case "CA_ERROR":
-                                return_msg += "-商户API证书校验出错";
-                                break;
-                            case "V2_ACCOUNT_SIMPLE_BAN":
-                                return_msg += "-无法给非实名用户付款";
-                                break;
-                            case "PARAM_IS_NOT_UTF8":
-                                return_msg += "-请求参数中包含非utf8编码字符";
-                                break;
-                            case "SENDNUM_LIMIT":
-                                return_msg += "-该用户今日付款次数超过限制,如有需要请登录微信支付商户平台更改API安全配置";
-                                break;
-                        }
-                        #endregion 
+                        return_msg += "-" + k.Value.ToString();
                     }
                 }
             }
+            #endregion
 
-
-            return "{\"Code\": " + Code + ", \"msg\": \"" + prepay_id + "\", \"Message\": \"" + return_msg + "\"}";
+            return "{\"Code\": " + Code + ", \"Message\": \"" + return_msg + "\"}";
         }
 
         #endregion
-
-     
 
         #region 获取微信订单明细
         /// <summary>
@@ -429,7 +331,46 @@ namespace WxTenpay.wxconfig.wxtenpay
         }
         #endregion
 
+        #region 微信退款
+        public string getRefund(refund order) {       
+            string return_msg = "";//异常
+            int Code = 0;
+            string return_string = string.Empty;
+            return_string = GetRefundOrderXml(order);
+            string request_data = PostXmlToUrl(refund_Url, return_string, "1");
+            Log.WriteLog1(request_data, "微信退款");
 
+            #region 解析返回结果
+            SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
+
+            foreach (KeyValuePair<string, object> k in requestXML)
+            {
+                if (k.Key == "return_msg")
+                {
+                    if (k.Value.ToString() != "")
+                    {
+                        return_msg = k.Value.ToString();
+                    }
+                }                      
+                else if (k.Key == "result_code")
+                {
+                    if (k.Value.ToString() == "SUCCESS")
+                    {
+                        Code = 1;
+                    }
+                }               
+                else if (k.Key == "err_code_des")
+                {
+                    if (k.Value.ToString() != "" && k.Value != null)
+                    {                                             
+                        return_msg += "-"+ k.Value.ToString();                  
+                    }
+                }
+            }
+            #endregion
+            return "{\"Code\": " + Code + ", \"Message\": \"" + return_msg + "\"}";
+        }
+        #endregion
 
         #region 
 
@@ -560,8 +501,95 @@ namespace WxTenpay.wxconfig.wxtenpay
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString().TrimEnd(','));
             return return_string;
         }
-        #endregion 
+        #endregion
 
+        #region 微信退款单接口xml参数整理
+        /// <summary>
+        /// 微信统一下单接口xml参数整理
+        /// </summary>
+        /// <param name="order">微信退款参数实例</param>
+        /// <param name="key">密钥</param>
+        /// <returns></returns>
+        protected string GetRefundOrderXml(refund order)
+        {
+            string return_string = string.Empty;
+            SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
+            sParams.Add("appid", order.appid);
+            sParams.Add("mch_id", order.mch_id);
+            sParams.Add("nonce_str", order.nonce_str);
+            sParams.Add("out_refund_no", order.out_refund_no);
+            sParams.Add("out_trade_no", order.out_trade_no);
+            sParams.Add("refund_fee", order.refund_fee);
+            sParams.Add("total_fee", order.total_fee);
+            sParams.Add("transaction_id", order.transaction_id);
+            sParams.Add("sign", order.sign);          
+
+            //拼接成XML请求数据
+            StringBuilder sbPay = new StringBuilder();
+            foreach (KeyValuePair<string, object> k in sParams)
+            {
+                if (k.Key == "attach" || k.Key == "body" || k.Key == "sign")
+                {
+                    sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");
+                }
+                else
+                {
+                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
+                }
+            }
+            return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
+            byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
+            return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
+            Byte[] temp = Encoding.UTF8.GetBytes(return_string);
+            string dataGBK = Encoding.GetEncoding("utf-8").GetString(temp);
+            return return_string;
+            //  GBK
+        }
+
+
+        #endregion
+
+        #region 微信提现接口XML参数整理
+        /// <summary>
+        /// 微信提现接口XML参数整理
+        /// </summary>
+        /// <param name="order">微信提现参数实例</param>
+        /// <param name="paysignkey">商户号</param>
+        /// <returns></returns>
+        protected string getCashXml(Cash order,string paysignkey) {
+            string return_string = string.Empty;
+            SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
+            sParams.Add("mch_appid", order.mch_appid);
+            sParams.Add("mch_id", order.mch_id);
+            sParams.Add("nonce_str", order.nonce_str);
+            sParams.Add("partner_trade_no", order.partner_trade_no);
+            sParams.Add("openid", order.openid);
+            sParams.Add("check_name", order.check_name);
+            sParams.Add("amount", order.amount);
+            sParams.Add("desc", order.desc);
+            sParams.Add("re_user_name", order.re_user_name);
+            sParams.Add("spbill_create_ip", order.spbill_create_ip);
+            string paySign = getsign(sParams, paysignkey);
+            sParams.Add("sign", paySign);
+            //拼接成XML请求数据
+            StringBuilder sbPay = new StringBuilder();
+            foreach (KeyValuePair<string, object> k in sParams)
+            {
+                if (k.Key == "sign")
+                {
+                    sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");
+                }
+                else
+                {
+                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
+                }
+            }
+            return_string= string.Format("<xml>{0}</xml>", sbPay.ToString());
+            byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
+            return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
+            return return_string;
+        }
+        #endregion
         #endregion
     }
 }

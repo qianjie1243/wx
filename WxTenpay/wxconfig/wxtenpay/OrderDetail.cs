@@ -134,12 +134,16 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// 返回错误提示,系统异常
         /// </summary>
         public string SYSTEMERROR { set; get; }
-            /// <summary>
-            /// 返回错误提示,订单号错误
-            /// </summary>
+        /// <summary>
+        /// 返回错误提示,订单号错误
+        /// </summary>
         public string ORDERNOTEXIST { set; get; }
         #endregion
 
 
     }
+
+  
+
+
 }

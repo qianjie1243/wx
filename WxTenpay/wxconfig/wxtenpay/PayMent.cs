@@ -261,5 +261,81 @@ namespace WxTenpay.wxconfig.wxtenpay
         }
         #endregion
 
+        #region 微信退款
+        /// <summary>
+        /// 微信退款
+        /// </summary>
+        /// <param name="out_refund_no">商户退款单号</param>
+        /// <param name="out_trade_no">微信订单号和商户订单号 （二选一）</param>
+        /// <param name="refund_fee">退款金额</param>
+        /// <param name="transaction_id">微信订单号和商户订单号 （二选一）</param>
+        /// <param name="total_fee">订单金额</param>
+        /// <param name="refund_desc">退款原因</param>
+        /// <param name="type">退款类型1微信公众号 2：APP退款</param>
+        /// <returns></returns>
+        public string Get_Refund(string out_refund_no, string out_trade_no, double refund_fee, string transaction_id, double total_fee, string refund_desc, int type = 1)
+        {
+            if (type == 1)
+            {
+                refund order = new refund();
+                order.appid = WXconfig.appid;
+                order.mch_id = WXconfig.paysignkey;
+                order.nonce_str = TenpayUtil.getNoncestr();
+                order.out_refund_no = out_refund_no;
+                order.out_trade_no = out_trade_no;
+                order.refund_fee = (refund_fee * 100).ToString();
+                order.total_fee = (total_fee * 100).ToString();
+                order.transaction_id = transaction_id;
+                TenpayUtil tenpay = new TenpayUtil();
+                SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
+                sParams.Add("appId", WXconfig.appid);
+                sParams.Add("mch_id", WXconfig.mch_id);
+                sParams.Add("nonce_str", TenpayUtil.getNoncestr());
+                sParams.Add("notify_url", WXconfig.url);
+                sParams.Add("out_refund_no", out_refund_no);
+                sParams.Add("out_trade_no", out_trade_no);
+                sParams.Add("refund_fee", (refund_fee * 100).ToString());
+                sParams.Add("transaction_id", transaction_id);
+                sParams.Add("total_fee", (total_fee * 100).ToString());
+                sParams.Add("refund_account", "REFUND_SOURCE_UNSETTLED_FUNDS");
+                sParams.Add("refund_desc", refund_desc);
+                sParams.Add("refund_fee_type", "CNY");
+                sParams.Add("sign_type", "MD5");
+                string sign = tenpay.getsign(sParams, WXconfig.paysignkey);
+                order.sign = sign;
+                return tenpay.getRefund(order);
+            }
+            else
+            {
+                refund order = new refund();
+                order.appid = APP_Iconfig.appid;
+                order.mch_id = APP_Iconfig.paysignkey;
+                order.nonce_str = TenpayUtil.getNoncestr();
+                order.out_refund_no = out_refund_no;
+                order.out_trade_no = out_trade_no;
+                order.refund_fee = (refund_fee * 100).ToString();
+                order.total_fee = (total_fee * 100).ToString();
+                order.transaction_id = transaction_id;
+                TenpayUtil tenpay = new TenpayUtil();
+                SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
+                sParams.Add("appId", APP_Iconfig.appid);
+                sParams.Add("mch_id", APP_Iconfig.mch_id);
+                sParams.Add("nonce_str", TenpayUtil.getNoncestr());
+                sParams.Add("notify_url", APP_Iconfig.url);
+                sParams.Add("out_refund_no", out_refund_no);
+                sParams.Add("out_trade_no", out_trade_no);
+                sParams.Add("refund_fee", (refund_fee * 100).ToString());
+                sParams.Add("transaction_id", transaction_id);
+                sParams.Add("total_fee", (total_fee * 100).ToString());
+                sParams.Add("refund_account", "REFUND_SOURCE_UNSETTLED_FUNDS");
+                sParams.Add("refund_desc", refund_desc);
+                sParams.Add("refund_fee_type", "CNY");
+                sParams.Add("sign_type", "MD5");
+                string sign = tenpay.getsign(sParams, APP_Iconfig.paysignkey);
+                order.sign = sign;
+                return tenpay.getRefund(order);
+            }
+        }
+        #endregion
     }
 }
