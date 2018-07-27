@@ -79,7 +79,15 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// 只在 trade_type 为 NATIVE时需要填写。
         /// </summary>
         public string product_id = "";
+        /// <summary>
+        /// 场景信息(用于H5支付)
+        /// </summary>
+        public string scene_info = "";
     }
+
+
+
+
 
 
     /// <summary>

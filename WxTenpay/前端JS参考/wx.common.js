@@ -64,7 +64,7 @@ function wx_chooseImage_config(date, debug) {
 //count 上传图片的张数 默认1张
 //返回全部选中图片serverId  多个以,分割
 function  wx_chooseImage(count) {
-	var serverIds;//定义返回结果
+	var serverIds=[];//定义返回结果
 	if (typeof (count) != "undefined" && count != "") {
 		count = 1;
 	}
@@ -76,7 +76,7 @@ function  wx_chooseImage(count) {
 			var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片         
 			for (var i = 0; i < localIds.length; i++) {
 				var result = uploadImage(localIds[i]);
-				serverIds += result+",";
+				serverIds.push(result);
 			}
 			return serverIds;
 		}
@@ -94,6 +94,7 @@ function uploadImage(localId) {
 		}
 	});
 }
+
 //返回图片下载后的本地ID
 function downloadImage(serverId) {
 	wx.downloadImage({
@@ -106,7 +107,6 @@ function downloadImage(serverId) {
 	});
 }
 //-------------------END---------------
-
 
 //支付方法-------------------------------------------
 //调用支付方法
@@ -129,6 +129,7 @@ function jsApiCall(r) {
    }
 );
 }
+
 function callpay(r) {
 	if (typeof WeixinJSBridge == "undefined") {
 		if (document.addEventListener) {
@@ -141,6 +142,7 @@ function callpay(r) {
 		jsApiCall(r);
 	}
 }
+
 //-----------------END-------------------------------------
 
 //------------------分享功能---------------------

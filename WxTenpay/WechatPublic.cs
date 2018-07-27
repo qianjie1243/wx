@@ -42,7 +42,7 @@ namespace WxTenpay
 
         #endregion
 
-        #region code获取个人信息,openid
+        #region code获取个人信息,openid====(已测试)
 
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace WxTenpay
 
         #endregion
 
-        #region 获取config
+        #region 获取前端JS所需WX.config====(已测试)
         /// <summary>
         /// 获取config
         /// </summary>
@@ -165,7 +165,7 @@ namespace WxTenpay
 
         #endregion
 
-        #region 客户消息
+        #region 客户消息====(已测试)
         /// <summary>
         /// 微信客户消息
         /// </summary>
@@ -181,7 +181,7 @@ namespace WxTenpay
         }
         #endregion
 
-        #region 发送微信模板消息
+        #region 发送微信模板消息====(已测试)
         /// <summary>
         /// 发送微信模板消息
         /// </summary>
@@ -201,7 +201,7 @@ namespace WxTenpay
         }
         #endregion
 
-        #region 微信配置URL对接
+        #region 微信配置URL对接====(已测试)
 
         [Description("微信配置URL对接")]
         public void wx(string token)
@@ -267,7 +267,7 @@ namespace WxTenpay
         //-----------------------------------------
         #endregion
 
-        #region 微信头像下载
+        #region 微信头像下载====(已测试)
         /// <summary>
         /// 微信头像下载
         /// </summary>

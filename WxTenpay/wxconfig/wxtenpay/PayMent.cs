@@ -9,8 +9,8 @@ using System.Web.Script.Serialization;
 
 namespace WxTenpay.wxconfig.wxtenpay
 {
-   
-   public  class PayMent
+
+    public class PayMent
     {
 
         #region 微信APP支付
@@ -25,23 +25,24 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// <param name="out_trade_no">商户订单号</param>
         /// <param name="attach">附加数据</param> 
         /// <returns></returns>
-        public Wx_pay APP_PayMent( string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no,int type)
-       {
-           UnifiedOrder order = new UnifiedOrder();
+        public Wx_pay APP_PayMent(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no, int type)
+        {
+            UnifiedOrder order = new UnifiedOrder();
             if (type == 1)
-            {               
-                    order.appid = APP_Aconfig.appid;
-                    order.mch_id = APP_Aconfig.partnerid;            
+            {
+                order.appid = APP_Aconfig.appid;
+                order.mch_id = APP_Aconfig.partnerid;
             }
-            else {                         
-                    order.appid = APP_Iconfig.appid;
-                    order.mch_id = APP_Iconfig.partnerid;                          
+            else
+            {
+                order.appid = APP_Iconfig.appid;
+                order.mch_id = APP_Iconfig.partnerid;
             }
-           order.attach = attach;
-           order.body = boby;
-           order.device_info = "WEB";
-           //order.mch_id = "";
-           order.nonce_str = TenpayUtil.getNoncestr();
+            order.attach = attach;
+            order.body = boby;
+            order.device_info = "WEB";
+            //order.mch_id = "";
+            order.nonce_str = TenpayUtil.getNoncestr();
 
             if (type == 1)
             {
@@ -53,31 +54,32 @@ namespace WxTenpay.wxconfig.wxtenpay
             }
 
             //order.notify_url = APP_Aconfig.url;
-           order.out_trade_no = out_trade_no;
-           order.trade_type = "APP";
-           order.spbill_create_ip = spbill_create_ip;
-           order.total_fee = Convert.ToInt32((total_fee) * 100);
+            order.out_trade_no = out_trade_no;
+            order.trade_type = "APP";
+            order.spbill_create_ip = spbill_create_ip;
+            order.total_fee = Convert.ToInt32((total_fee) * 100);
             TenpayUtil tenpay = new TenpayUtil();
             string paySignKey = string.Empty;
             if (type == 1)
-            {         
-                    paySignKey = APP_Aconfig.paysignkey;                        
+            {
+                paySignKey = APP_Aconfig.paysignkey;
             }
-            else {             
-                    paySignKey = APP_Iconfig.paysignkey;               
+            else
+            {
+                paySignKey = APP_Iconfig.paysignkey;
             }
-           string prepay_id = tenpay.getPrepay_id(order, paySignKey);       
-           string timeStamp = TenpayUtil.getTimestamp();
-           string nonceStr = TenpayUtil.getNoncestr();
-           SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
-           sParams.Add("appid", order.appid);
-          sParams.Add("partnerid", order.mch_id);
-            sParams.Add("prepayid", prepay_id);           
-           sParams.Add("noncestr", nonceStr);
+            string prepay_id = tenpay.getPrepay_id(order, paySignKey);
+            string timeStamp = TenpayUtil.getTimestamp();
+            string nonceStr = TenpayUtil.getNoncestr();
+            SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
+            sParams.Add("appid", order.appid);
+            sParams.Add("partnerid", order.mch_id);
+            sParams.Add("prepayid", prepay_id);
+            sParams.Add("noncestr", nonceStr);
             sParams.Add("timestamp", timeStamp);
             sParams.Add("package", "Sign=WXPay");
-          //  sParams.Add("signType", "MD5");
-           string paySign = tenpay.getsign(sParams, paySignKey);
+            //  sParams.Add("signType", "MD5");
+            string paySign = tenpay.getsign(sParams, paySignKey);
             Wx_pay wp = new Wx_pay();
             wp.appid = order.appid;
             wp.partnerid = order.mch_id;
@@ -86,7 +88,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             wp.sign = paySign;
             wp.timestamp = timeStamp;
             return wp;
-       }
+        }
         #endregion
 
         #region 微信扫码支付
@@ -103,41 +105,42 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// <param name="product_id">二维码中包含的商品ID</param>
         /// <param name="attach">附加数据</param>
         /// <returns></returns>
-        public string NATIVEPayMent (string boby,string attach , string spbill_create_ip, Double total_fee, string out_trade_no, string product_id)
-       {
-           UnifiedOrder order = new UnifiedOrder();
-           order.appid = WXconfig.appid;
-           order.attach = attach;
-           order.body = boby;
-           order.device_info = "";
-           order.mch_id = WXconfig.mch_id;
-           order.nonce_str = TenpayUtil.getNoncestr();
-           order.notify_url = WXconfig.url;
-           order.out_trade_no = out_trade_no;
-           order.product_id = product_id;
-           order.trade_type = "NATIVE";
-           order.spbill_create_ip = spbill_create_ip;
-           order.total_fee = Convert.ToInt32((total_fee) * 100);
-           TenpayUtil tenpay = new TenpayUtil();
-           string paySignKey = WXconfig.paysignkey;       
-           string code_url = tenpay.getcode_url(order, paySignKey);
-           return code_url;
-       }
+        public string NATIVEPayMent(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no, string product_id)
+        {
+            UnifiedOrder order = new UnifiedOrder();
+            order.appid = WXconfig.appid;
+            order.attach = attach;
+            order.body = boby;
+            order.device_info = "";
+            order.mch_id = WXconfig.mch_id;
+            order.nonce_str = TenpayUtil.getNoncestr();
+            order.notify_url = WXconfig.url;
+            order.out_trade_no = out_trade_no;
+            order.product_id = product_id;
+            order.trade_type = "NATIVE";
+            order.spbill_create_ip = spbill_create_ip;
+            order.total_fee = Convert.ToInt32((total_fee) * 100);
+            TenpayUtil tenpay = new TenpayUtil();
+            string paySignKey = WXconfig.paysignkey;
+            string code_url = tenpay.getcode_url(order, paySignKey);
+            return code_url;
+        }
         /// <summary>
         /// 获取支付订单状态（微信回调）
         /// </summary>
         /// <param name="GetInfoFromXml"></param>
         /// <returns></returns>
-        public string PayMent_result(string xmlstring) {
+        public string PayMent_result(string xmlstring)
+        {
             TenpayUtil tenpay = new TenpayUtil();
-           return  tenpay.GetXml(xmlstring);
+            return tenpay.GetXml(xmlstring);
         }
         /// <summary>
         /// 查询扫码订单情况
         /// </summary>
         /// <param name="out_trade_no">商户订单号</param>
         /// <returns></returns>
-        public string  GetPayMent_result(string out_trade_no)
+        public string GetPayMent_result(string out_trade_no)
         {
             TenpayUtil tenpay = new TenpayUtil();
             OrderDetail detail = tenpay.getOrderDetail(out_trade_no);
@@ -145,7 +148,7 @@ namespace WxTenpay.wxconfig.wxtenpay
 
             if (detail.trade_state == "SUCCESS")//支付成功          
                 return "SUCCESS";
-           
+
             else if (detail.trade_state == "USERPAYING")//用户支付中 
 
                 return "USERPAYING";
@@ -180,7 +183,7 @@ namespace WxTenpay.wxconfig.wxtenpay
                 return detail.trade_state; //其他状态
             }
 
-           
+
         }
         #endregion
 
@@ -197,7 +200,7 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// <param name="out_trade_no">商户订单号</param>
         /// 
         /// <returns></returns>
-        public String JSAPIPayMent(string boby,string attach, string openid, string spbill_create_ip, Double total_fee, string out_trade_no)
+        public String JSAPIPayMent(string boby, string attach, string openid, string spbill_create_ip, Double total_fee, string out_trade_no)
         {
             UnifiedOrder order = new UnifiedOrder();
             order.appid = WXconfig.appid;
@@ -228,6 +231,41 @@ namespace WxTenpay.wxconfig.wxtenpay
             return MD5Util.toJson(WXconfig.appid, timeStamp, nonceStr, package, "MD5", paySign);
         }
         #endregion
+
+        #region 微信H5支付
+        /// <summary>
+        /// 微信H5支付
+        /// </summary>
+        /// <param name="boby">商品描述</param>
+        /// <param name="mch_id">商户号</param>
+        /// <param name="openid">场景信息</param>
+        /// <param name="spbill_create_ip">终端IP</param>
+        /// <param name="total_fee">金额</param>
+        /// <param name="out_trade_no">商户订单号</param>
+        ///  <param name="wap_url">WAP网站URL地址</param>
+        ///   <param name="wap_name">WAP 网站名</param>
+        /// <returns></returns>
+        public string H5PayMent(string boby, string attach, string scene_info, string spbill_create_ip, Double total_fee, string wap_url, string wap_name)
+        {
+            UnifiedOrder order = new UnifiedOrder();
+            order.appid = WXconfig.appid;
+            order.attach = attach;
+            order.body = boby;
+            order.device_info = "";
+            order.mch_id = WXconfig.mch_id;
+            order.nonce_str = TenpayUtil.getNoncestr();
+            order.notify_url = WXconfig.url;
+            order.scene_info = "{\"h5_info\" {\"type\": \"Wap\", \"wap_url\": " + wap_url + ",\"wap_name\":" + wap_name + "}}";
+            order.trade_type = "MWEB";
+            order.spbill_create_ip = spbill_create_ip;
+            order.total_fee = Convert.ToInt32((total_fee) * 100);
+            TenpayUtil tenpay = new TenpayUtil();
+            string paySignKey = WXconfig.paysignkey;
+            string timeStamp = TenpayUtil.getTimestamp();
+            string nonceStr = TenpayUtil.getNoncestr();
+            return tenpay.H5PayMent(order, paySignKey);
+        }
+        #endregion 
 
         #region 微信公众号提现
         /// <summary>

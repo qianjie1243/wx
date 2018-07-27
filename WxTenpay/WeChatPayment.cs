@@ -12,8 +12,8 @@ namespace WxTenpay
     public class WeChatPayment
     {
         PayMent pm = new PayMent();
-     
-        #region 微信扫码支付
+
+        #region 微信扫码支付====(已测试)
         /// <summary>
         /// 微信扫码支付
         /// </summary>
@@ -27,13 +27,13 @@ namespace WxTenpay
         /// <param name="product_id">二维码中包含的商品ID</param>
         /// <returns></returns>
         [Description("微信扫码支付")]
-        public string NATIVEPayMent(string boby, string attach,string spbill_create_ip, Double total_fee, string out_trade_no, string product_id)
+        public string NATIVEPayMent(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no, string product_id)
         {
             return pm.NATIVEPayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, product_id);
         }
         #endregion 
 
-        #region 微信APP支付
+        #region 微信APP支付====(已测试)
         /// <summary>
         /// 微信APP支付
         /// </summary>
@@ -53,7 +53,7 @@ namespace WxTenpay
         }
         #endregion
 
-        #region 微信公众号支付
+        #region 微信公众号支付====(已测试)
         /// <summary>
         /// 微信支付
         /// </summary>
@@ -72,7 +72,26 @@ namespace WxTenpay
         }
         #endregion
 
-        #region 微信公众号提现功能
+        #region 微信H5支付====(待测试)
+        /// <summary>
+        /// 微信H5支付(支持web APP不支持APP内H5支付请接入支付)
+        /// </summary>
+        /// <param name="boby">商品描述</param>
+        /// <param name="mch_id">商户号</param>
+        /// <param name="openid">用户openid</param>
+        /// <param name="spbill_create_ip">终端IP</param>
+        /// <param name="total_fee">金额</param>
+        /// <param name="out_trade_no">商户订单号</param> 
+        ///  <param name="wap_url">WAP网站URL地址</param>
+        ///   <param name="wap_name">WAP 网站名</param>
+        /// <returns></returns>
+        public string H5PayMent(string boby, string attach, string scene_info, string spbill_create_ip, Double total_fee, string wap_url, string wap_name)
+        {
+            return pm.H5PayMent(boby, attach, scene_info, spbill_create_ip, total_fee, wap_url, wap_name);
+        }
+        #endregion
+
+        #region 微信公众号提现功能====(待测试)
         /// <summary>
         /// 微信提现
         /// </summary>
@@ -92,14 +111,14 @@ namespace WxTenpay
         }
         #endregion
 
-        #region 微信退款功能
+        #region 微信退款功能====(待测试)
         /// <summary>
         /// 微信退款
         /// </summary>
         /// <param name="out_refund_no">商户退款单号</param>
-        /// <param name="out_trade_no">微信订单号和商户订单号 （二选一）</param>
+        /// <param name="out_trade_no">商户订单号 （二选一）商户订单号和微信订单号</param>
         /// <param name="refund_fee">退款金额</param>
-        /// <param name="transaction_id">微信订单号和商户订单号 （二选一）</param>
+        /// <param name="transaction_id">微信订单号 （二选一）商户订单号和微信订单号</param>
         /// <param name="total_fee">订单金额</param>
         /// <param name="refund_desc">退款原因</param>
         /// <param name="type">退款类型1微信公众号 2：APP退款(默认微信公众号)</param>
@@ -112,7 +131,7 @@ namespace WxTenpay
 
         #region 微信支付订单基本操作
 
-        #region 查询扫码订单情况
+        #region 查询扫码订单情况====(已测试)
         /// <summary>
         /// 查询扫码订单情况
         /// </summary>
@@ -125,7 +144,7 @@ namespace WxTenpay
         }
         #endregion 
 
-        #region 获取支付订单状态（微信回调）
+        #region 获取支付订单状态（微信回调）====(已测试)
         /// <summary>
         /// 获取支付订单状态（微信回调）
         /// </summary>
@@ -138,11 +157,6 @@ namespace WxTenpay
         }
         #endregion
 
-        #region 微信退款订单查询
-         
-        #endregion 
-
         #endregion
-
     }
 }
