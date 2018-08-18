@@ -71,6 +71,7 @@
     <Compile Include="wxconfig\Wx_pay.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="前端JS参考\common.js" />
     <Content Include="前端JS参考\wx.common.js" />
   </ItemGroup>
   <ItemGroup>
