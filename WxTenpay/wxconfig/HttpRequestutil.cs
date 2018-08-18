@@ -164,12 +164,10 @@ namespace WxTenpay.wxconfig
         /// <summary>
         /// 图片上传到微信公众号素材
         /// </summary>
-        /// <param name="url"></param>
-        /// <param name="path"></param>
+        /// <param name="path">本地图片路径</param>
         /// <returns></returns>
-        public static string HttpUploadFile(string url, string path)//这个方法是两个URL第一个url是条到微信的，第二个是本地图片路径
-        {
-
+        public static string HttpUploadFile(string url, string path)//本地图片路径
+        {           
             string fileheaderName = "media";
             // 设置参数
             HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
@@ -182,9 +180,8 @@ namespace WxTenpay.wxconfig
             byte[] itemBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
             byte[] endBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
 
-            int pos = path.LastIndexOf("\\");
-            string fileName = path.Substring(pos + 1);
-
+            int pos = path.LastIndexOf("\\")+1;
+            string fileName = path.Substring(pos);
             //请求头部信息
             StringBuilder sbHeader = new StringBuilder(string.Format("Content-Disposition:form-data;  name=\"file\";filename=\"{0}\"\r\nContent-Type:application/octet-stream\r\n\r\n", fileheaderName, fileName));
             byte[] postHeaderBytes = Encoding.UTF8.GetBytes(sbHeader.ToString());

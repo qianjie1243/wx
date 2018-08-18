@@ -67,6 +67,7 @@ namespace WxTenpay.wxconfig
             return err;
         }
         #endregion
+
         #region 微信公众号的Token
         #region 获取Token
         /// <summary>

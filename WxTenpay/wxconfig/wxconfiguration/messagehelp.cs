@@ -8,7 +8,7 @@ using System.Text;
 using System.IO;
 using System.Web.Security;
 using System.Web.Script.Serialization;
-namespace WxTenpay.wxconfig
+namespace WxTenpay.wxconfig.wxconfigurateion
 {
     /// <summary>
     /// 接受微信端的信息，并处理信息，发送信息
@@ -85,7 +85,9 @@ namespace WxTenpay.wxconfig
             XmlNode ToUserName = xmldoc.SelectSingleNode("/xml/ToUserName");
             //发送方帐号（一个OpenID）
             XmlNode FromUserName = xmldoc.SelectSingleNode("/xml/FromUserName");
-          
+            #region 菜单单击事件
+
+            #endregion
             return responseContent;
         }
         #endregion

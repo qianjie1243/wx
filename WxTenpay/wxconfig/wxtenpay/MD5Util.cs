@@ -19,9 +19,7 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// </summary>
         /// <param name="encypStr">数据</param>
         /// <param name="charset">编码格式</param>
-        /// <returns></returns>
- 
-        
+        /// <returns></returns>       
         public static string GetMD5(string encypStr, string charset)
         {
             string retStr;
