@@ -11,7 +11,7 @@ namespace WxTenpay
     public class Wechat_Menu
     {
         wxconfig.wxconfiguration.wxmenu menu = new wxconfig.wxconfiguration.wxmenu();
-        WechatPublic Wechat = new WechatPublic();//获取access_token
+        WechatPublic Wechat = new WechatPublic();//获取access_token  
 
         #region  上传素材=========================（新增接口）
 
@@ -107,6 +107,8 @@ namespace WxTenpay
         /// </summary>
         /// <param name="Menu">自定义菜单字符串</param>
         /// <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
+        /// 
+
         public string Menu(string Menu, int type)
         {
             return menu.Add_Menu(Menu, Wechat.GetToken(),type);
