@@ -19,6 +19,8 @@ namespace WxTenpay
         public static string appid = "";//APPID
         public static string partnerid = "";//商户号
         public static string paysignkey = "";//证书密匙  
+
+
         #endregion
 
       
