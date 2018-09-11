@@ -7,6 +7,7 @@ using System.Xml;
 using System.Security.Cryptography.X509Certificates;
 using System.Net;
 using System.IO;
+using System.Net.Security;
 //using System.Web.Script.Serialization;
 
 namespace WxTenpay.wxconfig.wxtenpay
@@ -167,8 +168,10 @@ namespace WxTenpay.wxconfig.wxtenpay
                 string certPath = WXconfig.SSLCERT_PATH;
                 //证书密码
                 string password = WXconfig.SSLCERT_PASSWORD;
-                X509Certificate2 cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(certPath, password, X509KeyStorageFlags.MachineKeySet);
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
 
+                // X509Certificate2 cert = new X509Certificate2(certPath, password, X509KeyStorageFlags.MachineKeySet);
+                X509Certificate2 cert = new X509Certificate2(certPath, password);
                 // 设置参数  
                 request = WebRequest.Create(url) as HttpWebRequest;
                 CookieContainer cookieContainer = new CookieContainer();
@@ -199,10 +202,23 @@ namespace WxTenpay.wxconfig.wxtenpay
             }
         }
 
+        /*CheckValidationResult
+的定义
+*/
+        private static bool CheckValidationResult(object sender,
+        X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            if (errors == SslPolicyErrors.None)
+                return true;
+            return false;
+        }
+
+
         #endregion
 
         #region 微信H5统一下单接口
-        public string H5PayMent(UnifiedOrder order, string key) {
+        public string H5PayMent(UnifiedOrder order, string key)
+        {
             string msg = string.Empty;
             string mweb_url = string.Empty;
             string prepay_id = string.Empty;
@@ -215,7 +231,7 @@ namespace WxTenpay.wxconfig.wxtenpay
                 if (k.Key == "mweb_url")
                 {
                     mweb_url = k.Value.ToString();
-                    continue;              
+                    continue;
                 }
                 if (k.Key == "prepay_id")
                 {
@@ -224,7 +240,7 @@ namespace WxTenpay.wxconfig.wxtenpay
                 }
                 if (k.Key == "return_msg ")
                 {
-                    msg+= k.Value.ToString();
+                    msg += k.Value.ToString();
                     continue;
                 }
                 if (k.Key == "err_code_des")
@@ -233,7 +249,7 @@ namespace WxTenpay.wxconfig.wxtenpay
                     continue;
                 }
             }
-            return "{\"Code\":\"1\",\"mweb_url\":" + mweb_url + ",\"prepay_id\":" + prepay_id + ",\"msg\":"+msg+"}";
+            return "{\"Code\":\"1\",\"mweb_url\":" + mweb_url + ",\"prepay_id\":" + prepay_id + ",\"msg\":" + msg + "}";
         }
         #endregion
 
@@ -475,7 +491,8 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// </summary>
         /// <param name="wxpay">实体对象</param>
         /// <returns></returns>
-        public string getPayCashbonus(WxPayData wxpay) {
+        public string getPayCashbonus(WxPayData wxpay)
+        {
             string return_msg = "";
             int Code = 0;
             string result = string.Empty;
@@ -563,13 +580,13 @@ namespace WxTenpay.wxconfig.wxtenpay
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
             sParams.Add("appid", order.appid);
             sParams.Add("attach", order.attach);
-            sParams.Add("body", order.body);    
+            sParams.Add("body", order.body);
             sParams.Add("mch_id", order.mch_id);
             sParams.Add("nonce_str", order.nonce_str);
             sParams.Add("notify_url", order.notify_url);
             sParams.Add("spbill_create_ip", order.spbill_create_ip);
             sParams.Add("total_fee", order.total_fee);
-            sParams.Add("trade_type", order.trade_type);       
+            sParams.Add("trade_type", order.trade_type);
             sParams.Add("scene_info", order.scene_info);
             order.sign = getsign(sParams, key);
             sParams.Add("sign", order.sign);
@@ -717,8 +734,8 @@ namespace WxTenpay.wxconfig.wxtenpay
             //拼接成XML请求数据
             StringBuilder sbPay = new StringBuilder();
             foreach (KeyValuePair<string, object> k in sParams)
-            {              
-                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");               
+            {
+                sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
@@ -758,8 +775,8 @@ namespace WxTenpay.wxconfig.wxtenpay
             //拼接成XML请求数据
             StringBuilder sbPay = new StringBuilder();
             foreach (KeyValuePair<string, object> k in sParams)
-            {          
-                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
+            {
+                sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
@@ -791,13 +808,13 @@ namespace WxTenpay.wxconfig.wxtenpay
             sParams.Add("total_num", wxpay.total_num);
             sParams.Add("wishing", wxpay.wishing);
             sParams.Add("wxappid", wxpay.wxappid);
-            wxpay.sign = getsign(sParams,paysignkey);
+            wxpay.sign = getsign(sParams, paysignkey);
             sParams.Add("sign", wxpay.sign);
             //拼接成XML请求数据
             StringBuilder sbPay = new StringBuilder();
             foreach (KeyValuePair<string, object> k in sParams)
             {
-                    sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");            
+                sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
