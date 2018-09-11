@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Xml;
+using System.Security.Cryptography.X509Certificates;
+using System.Net;
+using System.IO;
 //using System.Web.Script.Serialization;
 
 namespace WxTenpay.wxconfig.wxtenpay
@@ -28,13 +31,14 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// 提现接口
         /// </summary>
         const string CashPayUrl = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
-
-
+        /// <summary>
+        /// 微信公众号现金红包接口
+        /// </summary>
+        const string PayCashbonus = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
         /// <summary>
         /// 微信订单查询接口
         /// </summary>
         const string OrderQueryUrl = "https://api.mch.weixin.qq.com/pay/orderquery";
-
         /// <summary>
         /// 微信H5支付
         /// </summary>
@@ -141,6 +145,60 @@ namespace WxTenpay.wxconfig.wxtenpay
             return returnmsg;
         }
 
+        /// <summary>
+        /// 微信需要证书接口
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postdata"></param>
+        /// <returns></returns>
+        public string Postxmltourl(string url, string postData)
+        {
+            Stream outstream = null;
+            Stream instream = null;
+            StreamReader sr = null;
+            HttpWebResponse response = null;
+            HttpWebRequest request = null;
+            Encoding encoding = Encoding.UTF8;
+            byte[] data = encoding.GetBytes(postData);
+            // 准备请求...  
+            try
+            {
+                //CerPath证书路径，这里是本机的路径，实际应用中，按照实际情况来填写
+                string certPath = WXconfig.SSLCERT_PATH;
+                //证书密码
+                string password = WXconfig.SSLCERT_PASSWORD;
+                X509Certificate2 cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(certPath, password, X509KeyStorageFlags.MachineKeySet);
+
+                // 设置参数  
+                request = WebRequest.Create(url) as HttpWebRequest;
+                CookieContainer cookieContainer = new CookieContainer();
+                request.CookieContainer = cookieContainer;//不可少（个人理解为，返回的时候需要验证）
+                request.AllowAutoRedirect = true;
+                request.Method = "POST";
+                request.ContentType = "text/xml";
+                request.ContentLength = data.Length;
+                request.ClientCertificates.Add(cert);//添加证书请求
+                outstream = request.GetRequestStream();
+                outstream.Write(data, 0, data.Length);
+                outstream.Close();
+                //发送请求并获取相应回应数据  
+                response = request.GetResponse() as HttpWebResponse;
+                //直到request.GetResponse()程序才开始向目标网页发送Post请求  
+                instream = response.GetResponseStream();
+                sr = new StreamReader(instream, encoding);
+                //返回结果网页（html）代码  
+                string content = sr.ReadToEnd();
+                string err = string.Empty;
+                return content;
+
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                return string.Empty;
+            }
+        }
+
         #endregion
 
         #region 微信H5统一下单接口
@@ -245,7 +303,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             int Code = 0;
             string return_string = string.Empty;
             return_string = getCashXml(order, WXconfig.paysignkey);
-            string request_data = PostXmlToUrl(CashPayUrl, return_string, "1");
+            string request_data = Postxmltourl(CashPayUrl, return_string);
             Log.WriteLog1(request_data, "微信提现");
             #region 解析返回结果
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
@@ -410,6 +468,51 @@ namespace WxTenpay.wxconfig.wxtenpay
             return "{\"Code\": " + Code + ", \"Message\": \"" + return_msg + "\"}";
         }
         #endregion
+
+        #region 微信公众号现金红包
+        /// <summary>
+        /// 微信公众号现金红包
+        /// </summary>
+        /// <param name="wxpay">实体对象</param>
+        /// <returns></returns>
+        public string getPayCashbonus(WxPayData wxpay) {
+            string return_msg = "";
+            int Code = 0;
+            string result = string.Empty;
+            string return_string = getCashbonusXml(wxpay, WXconfig.paysignkey);
+            string request_data = Postxmltourl(CashPayUrl, return_string);
+            Log.WriteLog1(request_data, "微信现金红包");
+            SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
+
+            foreach (KeyValuePair<string, object> k in requestXML)
+            {
+                if (k.Key == "return_msg")
+                {
+                    if (k.Value.ToString() != "")
+                    {
+                        return_msg = k.Value.ToString();
+                    }
+                }
+                else if (k.Key == "result_code")
+                {
+                    if (k.Value.ToString() == "SUCCESS")
+                    {
+                        Code = 1;
+                    }
+                }
+                else if (k.Key == "err_code_des")
+                {
+                    if (k.Value.ToString() != "" && k.Value != null)
+                    {
+                        return_msg += "-" + k.Value.ToString();
+                    }
+                }
+            }
+
+            return "{\"Code\": " + Code + ", \"Message\": \"" + return_msg + "\"}";
+        }
+        #endregion
+
 
         #region 
 
@@ -614,15 +717,8 @@ namespace WxTenpay.wxconfig.wxtenpay
             //拼接成XML请求数据
             StringBuilder sbPay = new StringBuilder();
             foreach (KeyValuePair<string, object> k in sParams)
-            {
-                if (k.Key == "attach" || k.Key == "body" || k.Key == "sign")
-                {
-                    sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");
-                }
-                else
-                {
-                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
-                }
+            {              
+                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");               
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
@@ -662,15 +758,8 @@ namespace WxTenpay.wxconfig.wxtenpay
             //拼接成XML请求数据
             StringBuilder sbPay = new StringBuilder();
             foreach (KeyValuePair<string, object> k in sParams)
-            {
-                if (k.Key == "sign")
-                {
-                    sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");
-                }
-                else
-                {
+            {          
                     sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
-                }
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
@@ -678,6 +767,45 @@ namespace WxTenpay.wxconfig.wxtenpay
             return return_string;
         }
         #endregion
+
+        #region 微信公众号现金红包接口XML参数整理
+        /// <summary>
+        /// 微信提现接口XML参数整理
+        /// </summary>
+        /// <param name="order">微信提现参数实例</param>
+        /// <param name="paysignkey">商户号</param>
+        /// <returns></returns>
+        protected string getCashbonusXml(WxPayData wxpay, string paysignkey)
+        {
+            string return_string = string.Empty;
+            SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
+            sParams.Add("act_name", wxpay.act_name);
+            sParams.Add("client_ip", wxpay.client_ip);
+            sParams.Add("mch_billno", wxpay.mch_billno);
+            sParams.Add("mch_id", wxpay.mch_id);
+            sParams.Add("nonce_str", wxpay.nonce_str);
+            sParams.Add("remark", wxpay.remark);
+            sParams.Add("re_openid", wxpay.re_openid);
+            sParams.Add("send_name", wxpay.send_name);
+            sParams.Add("total_amount", wxpay.total_amount);
+            sParams.Add("total_num", wxpay.total_num);
+            sParams.Add("wishing", wxpay.wishing);
+            sParams.Add("wxappid", wxpay.wxappid);
+            wxpay.sign = getsign(sParams,paysignkey);
+            sParams.Add("sign", wxpay.sign);
+            //拼接成XML请求数据
+            StringBuilder sbPay = new StringBuilder();
+            foreach (KeyValuePair<string, object> k in sParams)
+            {
+                    sbPay.Append("<" + k.Key + "><![CDATA[" + k.Value + "]]></" + k.Key + ">");            
+            }
+            return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
+            byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
+            return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
+            return return_string;
+        }
+        #endregion
+
 
         #endregion
     }

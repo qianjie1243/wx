@@ -19,6 +19,10 @@ namespace WxTenpay
         public static string mch_id = "";//商户号
         [Description("证书密匙")]
         public static string paysignkey = "";//证书密匙
+        [Description("证书路径")]
+        public static string SSLCERT_PATH = "";//证书路径
+        [Description("证书的密码")]
+        public static string SSLCERT_PASSWORD = "";//证书的密码
 
     }
 }

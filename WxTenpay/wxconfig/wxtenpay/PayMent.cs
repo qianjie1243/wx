@@ -299,6 +299,42 @@ namespace WxTenpay.wxconfig.wxtenpay
         }
         #endregion
 
+        #region 微信公众号现金红包
+        /// <summary>
+        /// 微信公众号现金红包
+        /// </summary>
+        ///  <param name="mch_billno">客户订单号</param>
+        /// <param name="send_name">商户名称</param>
+        /// <param name="re_openid">用户openid</param>
+        /// <param name="total_amount">付款金额</param>
+        /// <param name="total_num">红包发放总人数</param>
+        /// <param name="wishing">红包祝福语</param>
+        /// <param name="client_ip">Ip地址</param>
+        /// <param name="act_name">活动名称</param>
+        /// <param name="remark">备注</param>
+        /// <returns></returns>
+        public string PayCashbonus(string mch_billno, string send_name, string re_openid, double total_amount, int total_num, string wishing, string client_ip, string act_name, string remark)
+        {
+            string result = string.Empty;
+            WxPayData wxpay = new WxPayData();
+            wxpay.act_name = act_name;
+            wxpay.client_ip = client_ip;
+            wxpay.mch_billno = mch_billno;
+            wxpay.mch_id = WXconfig.mch_id;
+            wxpay.nonce_str= TenpayUtil.getNoncestr();
+            wxpay.remark = remark;
+            wxpay.re_openid = re_openid;
+            wxpay.send_name = send_name;
+            wxpay.total_amount =Convert.ToInt32((total_amount)*100);
+            wxpay.total_num = total_num;
+            wxpay.wishing = wishing;
+            wxpay.wxappid = WXconfig.appid;
+            TenpayUtil tenpay = new TenpayUtil();
+            result = tenpay.getPayCashbonus(wxpay);
+            return result;
+        }
+        #endregion 
+
         #region 微信退款
         /// <summary>
         /// 微信退款

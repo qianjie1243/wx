@@ -91,6 +91,27 @@ namespace WxTenpay
         }
         #endregion
 
+        #region  微信公众号现金红包功能====(待测试)
+        /// <summary>
+        /// 微信公众号现金红包功能
+        /// </summary>
+        ///  <param name="mch_billno">客户订单号</param>
+        /// <param name="send_name">商户名称</param>
+        /// <param name="re_openid">用户openid</param>
+        /// <param name="total_amount">付款金额</param>
+        /// <param name="total_num">红包发放总人数</param>
+        /// <param name="wishing">红包祝福语</param>
+        /// <param name="client_ip">Ip地址</param>
+        /// <param name="act_name">活动名称</param>
+        /// <param name="remark">备注</param>
+        /// <returns></returns>
+        public string PayCash_bonus(string mch_billno, string send_name, string re_openid, double total_amount, int total_num, string wishing, string client_ip, string act_name, string remark)
+        {
+            return pm.PayCashbonus(mch_billno, send_name, re_openid, total_amount, total_num, wishing, client_ip, act_name, remark);
+        }
+        
+        #endregion 
+
         #region 微信公众号提现功能====(待测试)
         /// <summary>
         /// 微信提现

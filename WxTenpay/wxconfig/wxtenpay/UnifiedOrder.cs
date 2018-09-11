@@ -85,11 +85,6 @@ namespace WxTenpay.wxconfig.wxtenpay
         public string scene_info = "";
     }
 
-
-
-
-
-
     /// <summary>
     /// 微信提现类
     /// </summary>
@@ -158,7 +153,6 @@ namespace WxTenpay.wxconfig.wxtenpay
     [Serializable]
     public class refund
     {
-
         /// <summary>
         /// 公众账号ID
         /// </summary>
@@ -179,9 +173,9 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// 签名类型
         /// </summary>
         public string sign_type { set; get; } = "MD5";//目前支持HMAC-SHA256和MD5，默认为MD5
-         /// <summary>
-         /// 微信订单号
-         /// </summary>
+                                                      /// <summary>
+                                                      /// 微信订单号
+                                                      /// </summary>
         public string transaction_id { set; get; } = ""; // 微信生成的订单号，在支付通知中有返回
         /// <summary>
         /// 商户订单号
@@ -219,4 +213,64 @@ namespace WxTenpay.wxconfig.wxtenpay
     }
 
 
+    /// <summary>
+    /// 微信公众号现金红包实体对象
+    /// </summary>
+    [Serializable]
+    public class WxPayData
+    {
+        /// <summary>
+        /// 随机字符串，不长于32位
+        /// </summary>
+        public string nonce_str { set; get; } = "";
+        /// <summary>
+        /// 签名 
+        /// </summary>
+        public string sign { set; get; } = "";
+        /// <summary>
+        /// 商户订单号
+        /// </summary>
+        public string mch_billno { set; get; }
+        /// <summary>
+        /// 商户号 
+        /// </summary>
+        public string mch_id { set; get; } = "";
+        /// <summary>
+        /// 公众账号appid
+        /// </summary>
+        public string wxappid { set; get; } = "";
+        /// <summary>
+        /// 红包发送者名称
+        /// </summary>
+        public string send_name { set; get; } = "";
+        /// <summary>
+        /// 用户的openid
+        /// </summary>
+        public string re_openid { set; get; } = "";
+        /// <summary>
+        /// 付款金额，单位分
+        /// </summary>
+        public int total_amount { set; get; } = 0;
+        /// <summary>
+        /// 红包发放总人数
+        /// </summary>
+        public int total_num { set; get; } = 1;
+        /// <summary>
+        /// 红包祝福语
+        /// </summary>
+        public string wishing { set; get; } = "";
+        /// <summary>
+        /// 调用接口的机器Ip地址
+        /// </summary>
+        public string client_ip { set; get; } = "";
+        /// <summary>
+        /// 活动名称
+        /// </summary>
+        public string act_name { set; get; } = "";
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string remark { set; get; } = "";
+
+    }
 }
