@@ -91,6 +91,19 @@ namespace WxTenpay.wxconfig.wxtenpay
             return json;
         }
 
+        /// <summary>
+        /// string转utf-8
+        /// </summary>
+        /// <param name="unicodeString"></param>
+        /// <returns></returns>
+        public static string get_uft8(string unicodeString)
+        {
+            UTF8Encoding utf8 = new UTF8Encoding();
+            Byte[] encodedBytes = utf8.GetBytes(unicodeString);
+            String decodedString = utf8.GetString(encodedBytes);
+            return decodedString;
+        }
+
     }
 }
 

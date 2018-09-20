@@ -29,6 +29,7 @@ namespace WxTenpay
         [Description("微信扫码支付")]
         public string NATIVEPayMent(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no, string product_id)
         {
+         
             return pm.NATIVEPayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, product_id);
         }
         #endregion 
