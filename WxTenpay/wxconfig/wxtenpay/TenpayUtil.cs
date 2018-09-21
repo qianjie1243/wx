@@ -258,7 +258,7 @@ namespace WxTenpay.wxconfig.wxtenpay
         public string getcode_url(UnifiedOrder order, string key)
         {
             string code_url = "";
-            order.body= MD5Util.get_uft8(order.body);
+            order.body= MD5Util.get_uft8(order.body);//进行uft-8编码
             string post_data = getUnifiedOrderXml(order, key);
             string request_data = PostXmlToUrl(UnifiedPayUrl, post_data);
             //string request_data = HttpRequestutil.RequestUrl(UnifiedPayUrl, post_data, "post");
