@@ -21,9 +21,7 @@ namespace WxTenpay
         public static string paysignkey = "";//证书密匙  
 
 
-        #endregion
-
-      
+        #endregion     
 
     }
 }

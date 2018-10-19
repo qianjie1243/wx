@@ -48,6 +48,30 @@ function Dajax(url, data, dataType, type) {
     return res;
 }
 
+//定义POST--formdata请求
+//url请求地址
+//data数据源 类型formdata格式 
+//返回res对象，res.responseText属性为接口返回数据
+function DajaxPostformdata(url, data) {
+    var result;
+    url = host + url;
+    $.ajax({
+        type: "post",
+        url: url,
+        data: data,
+        async: false,
+        dataType: "formData",
+        cache: false,//上传文件无需缓存
+        processData: false,//用于对data参数进行序列化处理 这里必须false
+        contentType: false, //必须
+    }).done(function (res) {
+        result = res;
+    }).fail(function (res) {
+        result = res;
+    });
+}
+
+
 $(function () {
     //添加弹出事件
 
