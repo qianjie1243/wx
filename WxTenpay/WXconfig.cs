@@ -10,19 +10,19 @@ namespace WxTenpay
     public class WXconfig
     {
         [Description("公众号ID")]
-        public const string appid = "";//公众号ID
+        public static string appid = "";//公众号ID
         [Description("微信公众号的secret")]
-        public const string secret = "";//微信公众号的secret
+        public static string secret = "";//微信公众号的secret
         [Description("回调url")]
-        public const string url = "";//回调url
+        public static string url = "";//回调url
         [Description("商户号")]
-        public const string mch_id = "";//商户号
+        public static string mch_id = "";//商户号
         [Description("证书密匙")]
-        public const string paysignkey = "";//证书密匙
+        public static string paysignkey = "";//证书密匙
         [Description("证书路径")]
-        public const string SSLCERT_PATH = "";//证书路径
+        public static string SSLCERT_PATH = "";//证书路径
         [Description("证书的密码")]
-        public const string SSLCERT_PASSWORD = "";//证书的密码
+        public static string SSLCERT_PASSWORD = "";//证书的密码
 
     }
 
@@ -35,11 +35,11 @@ namespace WxTenpay
         /// <summary>
         /// 阿里云ID
         /// </summary>
-        public const string accessKeyId = "";
+        public static string accessKeyId = "";
         /// <summary>
         /// 阿里云KEY
         /// </summary>
-        public const string accessKeySecret = "";
+        public static string accessKeySecret = "";
 
     }
 
@@ -51,23 +51,23 @@ namespace WxTenpay
         /// <summary>
         /// 支付宝ID
         /// </summary>
-       public const string APPID = "";
+       public static string APPID = "";
         /// <summary>
         /// 你的应用私钥
         /// /// </summary>
-        public const string APP_PRIVATE_KEY = "";
+        public static string APP_PRIVATE_KEY = "";
         /// <summary>
         /// 你的支付宝公钥
         /// </summary>
-        public const  string ALIPAY_PUBLIC_KEY = "";
+        public static string ALIPAY_PUBLIC_KEY = "";
         /// <summary>
         /// 支付宝异步url地址
         /// </summary>
-        public const string   NotifyUrl= "";
+        public static string   NotifyUrl= "";
         /// <summary>
         /// 支付宝同步url地址
         /// </summary>
-        public const string ReturnUrl = "";
+        public static string ReturnUrl = "";
     }
 
 }

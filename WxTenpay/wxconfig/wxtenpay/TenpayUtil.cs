@@ -544,6 +544,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             try
             {
                 XmlDocument doc = new XmlDocument();
+                doc.XmlResolver = null;
                 doc.LoadXml(xmlstring);
                 XmlElement root = doc.DocumentElement;
                 int len = root.ChildNodes.Count;
