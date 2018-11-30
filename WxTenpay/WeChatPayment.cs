@@ -78,11 +78,11 @@ namespace WxTenpay
         /// 微信H5支付(支持web APP不支持APP内H5支付请接入支付)
         /// </summary>
         /// <param name="boby">商品描述</param>
-        /// <param name="mch_id">商户号</param>
-        /// <param name="openid">用户openid</param>
+        /// <param name="attach">附加数据</param>
+        /// <param name="scene_info">场景信息</param>
         /// <param name="spbill_create_ip">终端IP</param>
         /// <param name="total_fee">金额</param>
-        /// <param name="out_trade_no">商户订单号</param> 
+        /// <param name="out_trade_no">商户订单号</param>
         ///  <param name="wap_url">WAP网站URL地址</param>
         ///   <param name="wap_name">WAP 网站名</param>
         /// <returns></returns>

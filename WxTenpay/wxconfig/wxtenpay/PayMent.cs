@@ -237,8 +237,8 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// 微信H5支付
         /// </summary>
         /// <param name="boby">商品描述</param>
-        /// <param name="mch_id">商户号</param>
-        /// <param name="openid">场景信息</param>
+        /// <param name="attach">附加数据</param>
+        /// <param name="scene_info">场景信息已注释掉，默认H5支付</param>
         /// <param name="spbill_create_ip">终端IP</param>
         /// <param name="total_fee">金额</param>
         /// <param name="out_trade_no">商户订单号</param>
@@ -255,6 +255,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             order.mch_id = WXconfig.mch_id;
             order.nonce_str = TenpayUtil.getNoncestr();
             order.notify_url = WXconfig.url;
+           // order.scene_info = scene_info;
             order.scene_info = "{\"h5_info\" {\"type\": \"Wap\", \"wap_url\": " + wap_url + ",\"wap_name\":" + wap_name + "}}";
             order.trade_type = "MWEB";
             order.spbill_create_ip = spbill_create_ip;
