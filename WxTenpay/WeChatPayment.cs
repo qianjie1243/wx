@@ -92,6 +92,24 @@ namespace WxTenpay
         }
         #endregion
 
+        #region 微信小程序支付====(待测试)
+        /// <summary>
+        /// 微信小程序支付
+        /// </summary>
+        /// <param name="boby">商品描述</param>
+        /// <param name="mch_id">商户号</param>     
+        /// <param name="spbill_create_ip">终端IP</param>
+        /// <param name="total_fee">金额</param>
+        /// <param name="out_trade_no">商户订单号</param>
+        /// 
+        /// <returns></returns>
+        public string JSAPISmallProgram(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no)
+        {
+            return pm.JSAPISmallProgram(boby, attach, spbill_create_ip, total_fee, out_trade_no);
+        }
+        #endregion
+
+
         #region  微信公众号现金红包功能====(待测试)
         /// <summary>
         /// 微信公众号现金红包功能

@@ -266,7 +266,48 @@ namespace WxTenpay.wxconfig.wxtenpay
             string nonceStr = TenpayUtil.getNoncestr();
             return tenpay.H5PayMent(order, paySignKey);
         }
-        #endregion 
+        #endregion
+
+
+        #region 微信小程序支付
+        /// <summary>
+        /// 微信小程序支付
+        /// </summary>
+        /// <param name="boby">商品描述</param>
+        /// <param name="mch_id">商户号</param>     
+        /// <param name="spbill_create_ip">终端IP</param>
+        /// <param name="total_fee">金额</param>
+        /// <param name="out_trade_no">商户订单号</param>
+        /// 
+        /// <returns></returns>
+        public string  JSAPISmallProgram(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no)
+        {
+            UnifiedOrder order = new UnifiedOrder();
+            order.appid = SmallProgram.appid;
+            order.attach = attach;
+            order.body = boby;
+            order.device_info = "";
+            order.nonce_str = TenpayUtil.getNoncestr();    
+            order.out_trade_no = out_trade_no;
+            order.trade_type = "JSAPI";
+            order.spbill_create_ip = spbill_create_ip;
+            order.total_fee = Convert.ToInt32((total_fee) * 100);
+            TenpayUtil tenpay = new TenpayUtil();
+            string paySignKey = SmallProgram.paysignkey;
+            string prepay_id = tenpay.getPrepay_id(order, paySignKey);
+            string timeStamp = TenpayUtil.getTimestamp();
+            string nonceStr = TenpayUtil.getNoncestr();
+            SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
+            sParams.Add("appId", SmallProgram.appid);
+            sParams.Add("timeStamp", timeStamp);
+            sParams.Add("nonceStr", nonceStr);
+            sParams.Add("package", "prepay_id=" + prepay_id);
+            sParams.Add("signType", "MD5");
+            string paySign = tenpay.getsign(sParams, paySignKey);
+            string package = "prepay_id=" + prepay_id;
+            return MD5Util.toJson(WXconfig.appid, timeStamp, nonceStr, package, "MD5", paySign);
+        }
+        #endregion
 
         #region 微信公众号提现
         /// <summary>
