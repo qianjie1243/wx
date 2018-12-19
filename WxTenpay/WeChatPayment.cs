@@ -109,7 +109,6 @@ namespace WxTenpay
         }
         #endregion
 
-
         #region  微信公众号现金红包功能====(待测试)
         /// <summary>
         /// 微信公众号现金红包功能

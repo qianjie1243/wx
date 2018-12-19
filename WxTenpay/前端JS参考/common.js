@@ -144,7 +144,4 @@ function Opentis(title, content, second) {
         $("#tisshi").css("display", "block").fadeOut(second);
     else
         $("#tisshi").css("display", "block").fadeOut(3000);
-
-
-
 }
