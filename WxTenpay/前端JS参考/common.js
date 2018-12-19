@@ -1,10 +1,14 @@
-﻿
+﻿var host = "";//请求后台url
+
+
 //定义请求（基本版）
 //url==>请求地址，
 //data==>参数
 //method==>请求格式
 //默认post请求
+$.ajaxSettings.async = false;//设置同步请求
 function Jajax(url, data, method) {
+    url = host + url;
     var res;
     //Get请求
     if (method == "get") {
@@ -14,7 +18,6 @@ function Jajax(url, data, method) {
         })
     } else {  //post
         $.post(url, data, function (result) {
-
             res = result;
         })
     }
@@ -32,13 +35,12 @@ function Dajax(url, data, dataType, type) {
     var res;
     $.ajax({
         type: type,
-        url: url,
+        url: host + url,
         async: false,
         data: data,
         dataType: dataType,
         success: function (data) {
             res = data
-
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             //通常情况下textStatus和errorThrown只有其中一个包含信息
