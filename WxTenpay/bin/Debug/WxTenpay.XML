@@ -200,11 +200,12 @@
             <param name="out_trade_no">商户订单号</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.WeChatPayment.PayMent_result(System.String)">
+        <member name="M:WxTenpay.WeChatPayment.PayMent_result(System.String,System.Int32)">
             <summary>
             获取支付订单状态（微信回调）
             </summary>
             <param name="xmlstring">微信回调数据</param>
+            <param name="type">微信回调数据返回的结果, 0：result_code的值 ,客户订单号</param>
             <returns></returns>
         </member>
         <member name="T:WxTenpay.APP_Aconfig">
@@ -1022,11 +1023,12 @@
             <param name="attach">附加数据</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.PayMent_result(System.String)">
+        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.PayMent_result(System.String,System.Int32)">
             <summary>
             获取支付订单状态（微信回调）
             </summary>
             <param name="GetInfoFromXml"></param>
+            <param name="type">微信回调数据返回的结果, 0：result_code的值,客户订单号</param>
             <returns></returns>
         </member>
         <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.GetPayMent_result(System.String)">
@@ -1203,6 +1205,14 @@
             网页授权接口
             </summary>
         </member>
+        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.GetXml(System.String,System.Int32)">
+            <summary>
+            把微信扫码支付的回调XML转换集合
+            </summary>
+            <param name="xmlstring"></param>
+            <param name="type">微信回调数据返回的结果, 0：result_code的值,客户订单号</param>
+            <returns></returns>
+        </member>
         <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getsign(System.Collections.Generic.SortedDictionary{System.String,System.Object},System.String)">
             <summary>
             获取微信签名
@@ -1242,6 +1252,8 @@
             <summary>
             获取微信订单明细
             </summary>
+            <param name="out_trade_no">客户订单号</param>
+            <returns></returns>
         </member>
         <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getPayCashbonus(WxTenpay.wxconfig.wxtenpay.WxPayData)">
             <summary>

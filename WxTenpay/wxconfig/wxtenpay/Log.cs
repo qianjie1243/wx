@@ -44,7 +44,6 @@ namespace WxTenpay.wxconfig.wxtenpay
              filename = path + "/" +name+ DateTime.Now.ToString("yyyy-MM-dd") + ".txt";//用日期对日志文件命名
             //创建或打开日志文件，向日志文件末尾追加记录
             StreamWriter mySw =  File.AppendText(filename);
-         
             //向日志文件写入内容
             string write_content = time+"==>"+ content + "----------";
 

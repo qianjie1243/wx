@@ -33,13 +33,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="aliyun-net-sdk-core">
-      <HintPath>F:\qq群项目\短信平台\dysms_net\net\api_demo\net2.0\aliyun-net-sdk-core.dll</HintPath>
+      <HintPath>F:\项目_EsayUi，支付宝支付\aliyun-net-sdk\aliyun-net-sdk-core.dll</HintPath>
     </Reference>
     <Reference Include="aliyun-net-sdk-dysmsapi">
-      <HintPath>F:\qq群项目\短信平台\dysms_net\net\api_demo\net2.0\aliyun-net-sdk-dysmsapi.dll</HintPath>
+      <HintPath>F:\项目_EsayUi，支付宝支付\aliyun-net-sdk\aliyun-net-sdk-dysmsapi.dll</HintPath>
     </Reference>
     <Reference Include="AopSdk">
-      <HintPath>F:\项目=》青豆，EsayUi，支付宝支付\支付宝支付\F2FPay_Demo_DotNet\Projects\alipay-sdk-NET20161213174056\bin\Debug\AopSdk.dll</HintPath>
+      <HintPath>F:\项目_EsayUi，支付宝支付\alipay-sdk-NET-3.2.0\bin\Debug\AopSdk.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

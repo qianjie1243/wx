@@ -26,20 +26,20 @@ namespace WxTenpay
         /// 保存凭证
         /// </summary>
         [Description("Asscess凭证")]
-        private string Asscess { set; get; }
+        private static string Asscess { set; get; }
         /// <summary>
         /// jsp_api 签名参数
         /// </summary>
         [Description("jsp_api 签名参数")]
-        private string jsapi_ticket { set; get; }
+        private static string jsapi_ticket { set; get; }
         /// <summary>
         /// 保存凭证时间
         /// </summary>
-        private DateTime Asscess_Time { set; get; }
+        private static DateTime Asscess_Time { set; get; }
         /// <summary>
         /// 保存jsp_api时间
         /// </summary>
-        private DateTime Jsp_Api_Time { set; get; }
+        private static DateTime Jsp_Api_Time { set; get; }
 
         #endregion
 
