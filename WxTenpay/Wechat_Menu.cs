@@ -23,7 +23,13 @@ namespace WxTenpay
         /// <returns></returns>
         public string graphic( string content)
         {
-            return menu.graphic(Wechat.GetToken(), content);
+            try
+            {
+                return menu.graphic(Wechat.GetToken(), content);
+            }
+            catch (Exception ex) {
+                throw;
+            }
         }
         #endregion
 
@@ -35,7 +41,15 @@ namespace WxTenpay
         /// <param name="type">类型 image 图片类型,   thumb 缩略图, voice 语音</param>
         public string material(string path, string type)
         {
-            return menu.material(path, Wechat.GetToken(),type);
+            try
+            {
+                return menu.material(path, Wechat.GetToken(), type);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
@@ -49,7 +63,15 @@ namespace WxTenpay
         /// <returns></returns>
         public string video(string path, string title, string introduction)
         {
-            return menu.video(Wechat.GetToken(), path, title, introduction);
+            try
+            {
+                return menu.video(Wechat.GetToken(), path, title, introduction);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
@@ -62,7 +84,15 @@ namespace WxTenpay
         /// <param name="content">修改图文JSON字符串</param>
         public string Update_graphic(string content)
         {
-            return menu.Update_graphic(Wechat.GetToken(), content);  
+            try
+            {
+                return menu.Update_graphic(Wechat.GetToken(), content);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+          
         }
         #endregion
 
@@ -74,7 +104,15 @@ namespace WxTenpay
         /// </summary>
         public string Get_list()
         {
-            return menu.Get_list(Wechat.GetToken());
+            try
+            {
+                return menu.Get_list(Wechat.GetToken());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
@@ -84,7 +122,16 @@ namespace WxTenpay
         /// </summary>
         public string Get_count()
         {
-            return menu.Get_count(Wechat.GetToken());
+
+            try
+            {
+                return menu.Get_count(Wechat.GetToken());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
         #endregion
 
@@ -97,7 +144,15 @@ namespace WxTenpay
         /// <param name="media_id">要获取的素材的media_id</param>
         public string Get_graphic(string media_id)
         {
-            return menu.Get_graphic(media_id, Wechat.GetToken());
+            try
+            {
+                return menu.Get_graphic(media_id, Wechat.GetToken());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
@@ -111,7 +166,15 @@ namespace WxTenpay
 
         public string Menu(string Menu, int type)
         {
-            return menu.Add_Menu(Menu, Wechat.GetToken(),type);
+            try
+            {
+                return menu.Add_Menu(Menu, Wechat.GetToken(), type);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
     }

@@ -9,6 +9,7 @@ using System.Net;
 using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 
+
 namespace WxTenpay.wxconfig
 {
     public static class HttpRequestutil
@@ -41,22 +42,30 @@ namespace WxTenpay.wxconfig
         public static string RequestUrl(string url, string method)
         {
             // 设置参数
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-            CookieContainer cookieContainer = new CookieContainer();
-            request.CookieContainer = cookieContainer;
-            request.AllowAutoRedirect = true;
-            request.Method = method;
-            request.ContentType = "text/html";
-            request.Headers.Add("charset", "utf-8");
+            try
+            {
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                CookieContainer cookieContainer = new CookieContainer();
+                request.CookieContainer = cookieContainer;
+                request.AllowAutoRedirect = true;
+                request.Method = method;
+                request.ContentType = "text/html";
+                request.Headers.Add("charset", "utf-8");
 
-            //发送请求并获取相应回应数据
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-            //直到request.GetResponse()程序才开始向目标网页发送Post请求
-            Stream responseStream = response.GetResponseStream();
-            StreamReader sr = new StreamReader(responseStream, Encoding.UTF8);
-            //返回结果网页（html）代码
-            string content = sr.ReadToEnd();
-            return content;
+                //发送请求并获取相应回应数据
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                //直到request.GetResponse()程序才开始向目标网页发送Post请求
+                Stream responseStream = response.GetResponseStream();
+                StreamReader sr = new StreamReader(responseStream, Encoding.UTF8);
+                //返回结果网页（html）代码
+                string content = sr.ReadToEnd();
+                return content;
+            }
+            catch (Exception ex)
+            {
+                wxtenpay.Log.WriteLog1(ex.Message, "请求Url发送数据_Error");
+                throw;
+            }
         }
         #endregion
 
@@ -107,8 +116,8 @@ namespace WxTenpay.wxconfig
             }
             catch (Exception ex)
             {
-                string err = ex.Message;
-                return string.Empty;
+                wxtenpay.Log.WriteLog1(ex.Message, "请求Url发送数据_Error");
+                throw;
             }
         }
         #endregion
@@ -122,14 +131,22 @@ namespace WxTenpay.wxconfig
         /// <returns></returns>
         public static string PostXmlToUrl(string url, NameValueCollection postData)
         {
-            string returnmsg = "";
-            using (System.Net.WebClient wc = new System.Net.WebClient())
+            try
             {
-                Encoding encoding = Encoding.UTF8;
-                byte[] byRemoteInfo = wc.UploadValues(url, "POST", postData);
-                returnmsg = System.Text.Encoding.Default.GetString(byRemoteInfo);
+                string returnmsg = "";
+                using (System.Net.WebClient wc = new System.Net.WebClient())
+                {
+                    Encoding encoding = Encoding.UTF8;
+                    byte[] byRemoteInfo = wc.UploadValues(url, "POST", postData);
+                    returnmsg = System.Text.Encoding.Default.GetString(byRemoteInfo);
+                }
+                wxtenpay.Log.WriteLog1(returnmsg, "Post模拟from提交数据");
+                return returnmsg;
             }
-            return returnmsg;
+            catch (Exception ex) {
+                wxtenpay.Log.WriteLog1(ex.Message, "Post模拟from提交数据_Error");
+                throw;
+            }
         }
         /// <summary>
         /// Unicode转中文
@@ -167,45 +184,53 @@ namespace WxTenpay.wxconfig
         /// <param name="path">本地图片路径</param>
         /// <returns></returns>
         public static string HttpUploadFile(string url, string path)//本地图片路径
-        {           
-            string fileheaderName = "media";
-            // 设置参数
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-            CookieContainer cookieContainer = new CookieContainer();
-            request.CookieContainer = cookieContainer;
-            request.AllowAutoRedirect = true;
-            request.Method = "POST";
-            string boundary = DateTime.Now.Ticks.ToString("X"); // 随机分隔线
-            request.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
-            byte[] itemBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
-            byte[] endBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
+        {
+            try
+            {
+                string fileheaderName = "media";
+                // 设置参数
+                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+                CookieContainer cookieContainer = new CookieContainer();
+                request.CookieContainer = cookieContainer;
+                request.AllowAutoRedirect = true;
+                request.Method = "POST";
+                string boundary = DateTime.Now.Ticks.ToString("X"); // 随机分隔线
+                request.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
+                byte[] itemBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "\r\n");
+                byte[] endBoundaryBytes = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
 
-            int pos = path.LastIndexOf("\\")+1;
-            string fileName = path.Substring(pos);
-            //请求头部信息
-            StringBuilder sbHeader = new StringBuilder(string.Format("Content-Disposition:form-data;  name=\"file\";filename=\"{0}\"\r\nContent-Type:application/octet-stream\r\n\r\n", fileheaderName, fileName));
-            byte[] postHeaderBytes = Encoding.UTF8.GetBytes(sbHeader.ToString());
+                int pos = path.LastIndexOf("\\") + 1;
+                string fileName = path.Substring(pos);
+                //请求头部信息
+                StringBuilder sbHeader = new StringBuilder(string.Format("Content-Disposition:form-data;  name=\"file\";filename=\"{0}\"\r\nContent-Type:application/octet-stream\r\n\r\n", fileheaderName, fileName));
+                byte[] postHeaderBytes = Encoding.UTF8.GetBytes(sbHeader.ToString());
 
-            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            byte[] bArr = new byte[fs.Length];
-            fs.Read(bArr, 0, bArr.Length);
-            fs.Close();
+                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                byte[] bArr = new byte[fs.Length];
+                fs.Read(bArr, 0, bArr.Length);
+                fs.Close();
 
-            Stream postStream = request.GetRequestStream();
-            postStream.Write(itemBoundaryBytes, 0, itemBoundaryBytes.Length);
-            postStream.Write(postHeaderBytes, 0, postHeaderBytes.Length);
-            postStream.Write(bArr, 0, bArr.Length);
-            postStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
-            postStream.Close();
+                Stream postStream = request.GetRequestStream();
+                postStream.Write(itemBoundaryBytes, 0, itemBoundaryBytes.Length);
+                postStream.Write(postHeaderBytes, 0, postHeaderBytes.Length);
+                postStream.Write(bArr, 0, bArr.Length);
+                postStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
+                postStream.Close();
 
-            //发送请求并获取相应回应数据
-            HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-            //直到request.GetResponse()程序才开始向目标网页发送Post请求
-            Stream instream = response.GetResponseStream();
-            StreamReader sr = new StreamReader(instream, Encoding.UTF8);
-            //返回结果网页（html）代码
-            string content = sr.ReadToEnd();
-            return content;
+                //发送请求并获取相应回应数据
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+                //直到request.GetResponse()程序才开始向目标网页发送Post请求
+                Stream instream = response.GetResponseStream();
+                StreamReader sr = new StreamReader(instream, Encoding.UTF8);
+                //返回结果网页（html）代码
+                string content = sr.ReadToEnd();
+                wxtenpay.Log.WriteLog1(content, "图片上传到微信公众号素材");
+                return content;
+            }
+            catch (Exception ex) {
+                wxtenpay.Log.WriteLog1(ex.Message, "图片上传到微信公众号素材_Error");
+                throw;
+            }
         }
 
         #endregion
@@ -222,19 +247,27 @@ namespace WxTenpay.wxconfig
 
         public static string GetUploadVideoResult(string accessToken, string filePath, string title, string introduction)
         {
-            var url = string.Format("https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={0}", accessToken);
-            var fileDictionary = new Dictionary<string, string>();
-            fileDictionary["media"] = filePath;
-            fileDictionary["description"] = string.Format("{{\"title\":\"{0}\", \"introduction\":\"{1}\"}}", title, introduction);
-
-            string returnText = string.Empty;
-            Dictionary<string, string> postDataDictionary = null;
-            using (MemoryStream ms = new MemoryStream())
+            try
             {
-                postDataDictionary.FillFormDataStream(ms); //填充formData
-                returnText = HttpPost(url, null, ms, fileDictionary, null, null, 1200000);
+                var url = string.Format("https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={0}", accessToken);
+                var fileDictionary = new Dictionary<string, string>();
+                fileDictionary["media"] = filePath;
+                fileDictionary["description"] = string.Format("{{\"title\":\"{0}\", \"introduction\":\"{1}\"}}", title, introduction);
+
+                string returnText = string.Empty;
+                Dictionary<string, string> postDataDictionary = null;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    postDataDictionary.FillFormDataStream(ms); //填充formData
+                    returnText = HttpPost(url, null, ms, fileDictionary, null, null, 1200000);
+                }
+                wxtenpay.Log.WriteLog1(returnText, "视频上传到微信公众号");
+                return returnText;
             }
-            return returnText;
+            catch (Exception ex) {
+                wxtenpay.Log.WriteLog1(ex.Message, "视频上传到微信公众号_Error");
+                throw;
+            }
         }
 
         /// <summary>
@@ -242,7 +275,7 @@ namespace WxTenpay.wxconfig
         /// </summary>
         /// <param name="formData"></param>
         /// <param name="stream"></param>
-        public static void FillFormDataStream(this Dictionary<string, string> formData, Stream stream)
+        private static void FillFormDataStream(this Dictionary<string, string> formData, Stream stream)
         {
             string dataString = GetQueryString(formData);
             var formDataBytes = formData == null ? new byte[0] : Encoding.UTF8.GetBytes(dataString);
@@ -256,7 +289,7 @@ namespace WxTenpay.wxconfig
         /// </summary>
         /// <param name="formData"></param>
         /// <returns></returns>
-        public static string GetQueryString(this Dictionary<string, string> formData)
+        private static string GetQueryString(this Dictionary<string, string> formData)
         {
             if (formData == null || formData.Count == 0)
             {
@@ -284,7 +317,7 @@ namespace WxTenpay.wxconfig
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static FileStream GetFileStream(string fileName)
+        private static FileStream GetFileStream(string fileName)
         {
             FileStream fileStream = null;
             if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
@@ -303,133 +336,139 @@ namespace WxTenpay.wxconfig
         /// <param name="fileDictionary">需要上传的文件，Key：对应要上传的Name，Value：本地文件名</param>
         /// <param name="timeOut">超时</param>
         /// <returns></returns>
-        public static string HttpPost(string url, CookieContainer cookieContainer = null, Stream postStream = null, Dictionary<string, string> fileDictionary = null, string refererUrl = null, Encoding encoding = null, int timeOut = 1200000)
+        private static string HttpPost(string url, CookieContainer cookieContainer = null, Stream postStream = null, Dictionary<string, string> fileDictionary = null, string refererUrl = null, Encoding encoding = null, int timeOut = 1200000)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "POST";
-            request.Timeout = timeOut;
-
-            #region 处理Form表单文件上传
-            var formUploadFile = fileDictionary != null && fileDictionary.Count > 0;//是否用Form上传文件
-            if (formUploadFile)
+            try
             {
-                //通过表单上传文件
-                postStream = postStream ?? new MemoryStream();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "POST";
+                request.Timeout = timeOut;
 
-                string boundary = "----" + DateTime.Now.Ticks.ToString("x");
-                //byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
-                string fileFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
-                string dataFormdataTemplate = "\r\n--" + boundary +
-                                              "\r\nContent-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
-                foreach (var file in fileDictionary)
+                #region 处理Form表单文件上传
+                var formUploadFile = fileDictionary != null && fileDictionary.Count > 0;//是否用Form上传文件
+                if (formUploadFile)
                 {
-                    try
+                    //通过表单上传文件
+                    postStream = postStream ?? new MemoryStream();
+
+                    string boundary = "----" + DateTime.Now.Ticks.ToString("x");
+                    //byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+                    string fileFormdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
+                    string dataFormdataTemplate = "\r\n--" + boundary +
+                                                  "\r\nContent-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+                    foreach (var file in fileDictionary)
                     {
-                        var fileName = file.Value;
-
-                        //准备文件流
-                        using (var fileStream = GetFileStream(fileName))
+                        try
                         {
-                            string formdata = null;
-                            if (fileStream != null)
-                            {
-                                //存在文件
-                                formdata = string.Format(fileFormdataTemplate, file.Key, /*fileName*/ Path.GetFileName(fileName));
-                            }
-                            else
-                            {
-                                //不存在文件或只是注释
-                                formdata = string.Format(dataFormdataTemplate, file.Key, file.Value);
-                            }
+                            var fileName = file.Value;
 
-                            //统一处理
-                            var formdataBytes = Encoding.UTF8.GetBytes(postStream.Length == 0 ? formdata.Substring(2, formdata.Length - 2) : formdata);//第一行不需要换行
-                            postStream.Write(formdataBytes, 0, formdataBytes.Length);
-
-                            //写入文件
-                            if (fileStream != null)
+                            //准备文件流
+                            using (var fileStream = GetFileStream(fileName))
                             {
-                                byte[] buffer = new byte[1024];
-                                int bytesRead = 0;
-                                while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+                                string formdata = null;
+                                if (fileStream != null)
                                 {
-                                    postStream.Write(buffer, 0, bytesRead);
+                                    //存在文件
+                                    formdata = string.Format(fileFormdataTemplate, file.Key, /*fileName*/ Path.GetFileName(fileName));
+                                }
+                                else
+                                {
+                                    //不存在文件或只是注释
+                                    formdata = string.Format(dataFormdataTemplate, file.Key, file.Value);
+                                }
+
+                                //统一处理
+                                var formdataBytes = Encoding.UTF8.GetBytes(postStream.Length == 0 ? formdata.Substring(2, formdata.Length - 2) : formdata);//第一行不需要换行
+                                postStream.Write(formdataBytes, 0, formdataBytes.Length);
+
+                                //写入文件
+                                if (fileStream != null)
+                                {
+                                    byte[] buffer = new byte[1024];
+                                    int bytesRead = 0;
+                                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+                                    {
+                                        postStream.Write(buffer, 0, bytesRead);
+                                    }
                                 }
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
                     }
-                    catch (Exception ex)
+                    //结尾
+                    var footer = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
+                    postStream.Write(footer, 0, footer.Length);
+
+                    request.ContentType = string.Format("multipart/form-data; boundary={0}", boundary);
+                }
+                else
+                {
+                    request.ContentType = "application/x-www-form-urlencoded";
+                }
+                #endregion
+
+                request.ContentLength = postStream != null ? postStream.Length : 0;
+                request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
+                request.KeepAlive = true;
+
+                if (!string.IsNullOrEmpty(refererUrl))
+                {
+                    request.Referer = refererUrl;
+                }
+                request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36";
+
+                if (cookieContainer != null)
+                {
+                    request.CookieContainer = cookieContainer;
+                }
+
+                #region 输入二进制流
+                if (postStream != null)
+                {
+                    postStream.Position = 0;
+
+                    //直接写入流
+                    Stream requestStream = request.GetRequestStream();
+
+                    byte[] buffer = new byte[1024];
+                    int bytesRead = 0;
+                    while ((bytesRead = postStream.Read(buffer, 0, buffer.Length)) != 0)
                     {
-                        throw ex;
+                        requestStream.Write(buffer, 0, bytesRead);
+                    }
+
+
+                    //debug
+                    postStream.Seek(0, SeekOrigin.Begin);
+                    StreamReader sr = new StreamReader(postStream);
+                    var postStr = sr.ReadToEnd();
+
+
+                    postStream.Close();//关闭文件访问
+                }
+                #endregion
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                if (cookieContainer != null)
+                {
+                    response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
+                }
+
+                using (Stream responseStream = response.GetResponseStream())
+                {
+                    using (StreamReader myStreamReader = new StreamReader(responseStream, encoding ?? Encoding.GetEncoding("utf-8")))
+                    {
+                        string retString = myStreamReader.ReadToEnd();                       
+                        return retString;
                     }
                 }
-                //结尾
-                var footer = Encoding.UTF8.GetBytes("\r\n--" + boundary + "--\r\n");
-                postStream.Write(footer, 0, footer.Length);
-
-                request.ContentType = string.Format("multipart/form-data; boundary={0}", boundary);
             }
-            else
-            {
-                request.ContentType = "application/x-www-form-urlencoded";
-            }
-            #endregion
-
-            request.ContentLength = postStream != null ? postStream.Length : 0;
-            request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
-            request.KeepAlive = true;
-
-            if (!string.IsNullOrEmpty(refererUrl))
-            {
-                request.Referer = refererUrl;
-            }
-            request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36";
-
-            if (cookieContainer != null)
-            {
-                request.CookieContainer = cookieContainer;
-            }
-
-            #region 输入二进制流
-            if (postStream != null)
-            {
-                postStream.Position = 0;
-
-                //直接写入流
-                Stream requestStream = request.GetRequestStream();
-
-                byte[] buffer = new byte[1024];
-                int bytesRead = 0;
-                while ((bytesRead = postStream.Read(buffer, 0, buffer.Length)) != 0)
-                {
-                    requestStream.Write(buffer, 0, bytesRead);
-                }
-
-
-                //debug
-                postStream.Seek(0, SeekOrigin.Begin);
-                StreamReader sr = new StreamReader(postStream);
-                var postStr = sr.ReadToEnd();
-
-
-                postStream.Close();//关闭文件访问
-            }
-            #endregion
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-            if (cookieContainer != null)
-            {
-                response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
-            }
-
-            using (Stream responseStream = response.GetResponseStream())
-            {
-                using (StreamReader myStreamReader = new StreamReader(responseStream, encoding ?? Encoding.GetEncoding("utf-8")))
-                {
-                    string retString = myStreamReader.ReadToEnd();
-                    return retString;
-                }
+            catch (Exception ex) {             
+                throw;
             }
         }
 

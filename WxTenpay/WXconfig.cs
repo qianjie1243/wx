@@ -4,13 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace WxTenpay
+namespace  WxTenpay
 {
     /// <summary>
     /// 微信公众号配置
     /// </summary>
     [Description("微信基本配置类")]
-    public class WXconfig
+    public static class WXconfig
     {
         [Description("公众号ID")]
         public static string appid = "";//公众号ID

@@ -129,11 +129,12 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// 获取支付订单状态（微信回调）
         /// </summary>
         /// <param name="GetInfoFromXml"></param>
+        /// <param name="type">微信回调数据返回的结果, 0：result_code的值,客户订单号</param>
         /// <returns></returns>
-        public string PayMent_result(string xmlstring)
+        public object PayMent_result(string xmlstring,int type)
         {
             TenpayUtil tenpay = new TenpayUtil();
-            return tenpay.GetXml(xmlstring);
+            return tenpay.GetXml(xmlstring, type);
         }
         /// <summary>
         /// 查询扫码订单情况
@@ -148,42 +149,19 @@ namespace WxTenpay.wxconfig.wxtenpay
 
             if (detail.trade_state == "SUCCESS")//支付成功          
                 return "SUCCESS";
-
             else if (detail.trade_state == "USERPAYING")//用户支付中 
-
                 return "USERPAYING";
-            //return "3";
 
-
-            else if (detail.trade_state == "NOTPAY")//未支付 
-            {
+            else if (detail.trade_state == "NOTPAY")//未支付            
                 return "NOTPAY";
-                // return "2";
-
-            }
             else if (detail.trade_state == "PAYERROR")//支付失败
-            {
                 return "PAYERROR";
-                //return "4"; ;
-
-            }
             else if (detail.err_code == "ORDERNOTEXIST")//订单不存在
-            {
                 return "ORDERNOTEXIST";
-
-            }
             else if (detail.err_code == "SYSTEMERROR")
-            {
-
                 return "SYSTEMERROR";
-            }
             else
-            {
-
                 return detail.trade_state; //其他状态
-            }
-
-
         }
         #endregion
 

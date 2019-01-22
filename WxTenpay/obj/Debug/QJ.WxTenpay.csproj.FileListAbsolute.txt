@@ -1,0 +1,13 @@
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\QJ.WxTenpay.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\QJ.WxTenpay.pdb
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\aliyun-net-sdk-core.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\aliyun-net-sdk-dysmsapi.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\AopSdk.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\System.Net.Http.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\ThoughtWorks.QRCode.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\AopSdk.pdb
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\System.Net.Http.xml
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\zh-Hans\System.Net.Http.resources.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\obj\Debug\QJ.WxTenpay.csprojResolveAssemblyReference.cache
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\obj\Debug\QJ.WxTenpay.dll
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\obj\Debug\QJ.WxTenpay.pdb

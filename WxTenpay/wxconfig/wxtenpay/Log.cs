@@ -13,8 +13,8 @@ namespace WxTenpay.wxconfig.wxtenpay
 { 
     public static class Log
     {
-       // public static string path = HttpContext.Current.Request.PhysicalApplicationPath + "logs";
-        public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "logs";
+        // public static string path = HttpContext.Current.Request.PhysicalApplicationPath + "logs";
+        public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "logs/" + DateTime.Now.ToString("yyyy-MM-dd");
         /// <summary>
         /// 写入日志
         /// </summary>

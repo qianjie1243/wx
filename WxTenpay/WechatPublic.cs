@@ -52,20 +52,26 @@ namespace WxTenpay
         [Description("code获取个人信息")]
         public gerenxinxi GetPersonal(string code)
         {
-            gerenxinxi xx = new gerenxinxi();
-            Getopenid getopenid = asscess_token.shouquangerenxinxi(code);
-
-            if (asscess_token.pandunaccess_token(getopenid.access_token, getopenid.openid).errcode == "0")
+            try
             {
-                xx = asscess_token.gerenxinxi(getopenid.access_token, getopenid.openid);
+                gerenxinxi xx = new gerenxinxi();
+                Getopenid getopenid = asscess_token.shouquangerenxinxi(code);
 
+                if (asscess_token.pandunaccess_token(getopenid.access_token, getopenid.openid).errcode == "0")
+                {
+                    xx = asscess_token.gerenxinxi(getopenid.access_token, getopenid.openid);
+
+                }
+                else
+                {
+                    getopenid = asscess_token.ShuaXinaccess_token(WXconfig.appid, getopenid.refresh_token);
+                    xx = asscess_token.gerenxinxi(getopenid.access_token, getopenid.openid);
+                }
+                return xx;
             }
-            else
-            {
-                getopenid = asscess_token.ShuaXinaccess_token(WXconfig.appid, getopenid.refresh_token);
-                xx = asscess_token.gerenxinxi(getopenid.access_token, getopenid.openid);
+            catch (Exception ex) {
+                throw;
             }
-            return xx;
         }
 
         /// <summary>
@@ -76,9 +82,16 @@ namespace WxTenpay
         [Description("返回openid")]
         public string GetOpenid(string code)
         {
-            gerenxinxi xx = new gerenxinxi();
-            Getopenid openid = asscess_token.shouquangerenxinxi(code);
-            return openid.openid;
+            try
+            {
+                gerenxinxi xx = new gerenxinxi();
+                Getopenid openid = asscess_token.shouquangerenxinxi(code);
+                return openid.openid;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         #endregion
@@ -91,18 +104,24 @@ namespace WxTenpay
         [Description("获取config")]
         public string GetWxConfig(string url)
         {
-            string nonceStr = TenpayUtil.getNoncestr();
-            string timeStamp = TenpayUtil.getTimestamp();
-            string JsapiTicket = GetJsapi_ticket();
-            string string1 = "jsapi_ticket=" + JsapiTicket + "&noncestr=" + nonceStr + "&timestamp=" + timeStamp + "&url=" + url;
-            string signature = MD5Util.sha1(string1);
-            string config = "{";
-            config += "\"appId\":" + "\"" + WXconfig.appid + "\",";
-            config += "\"timeStamp\":" + "\"" + timeStamp + "\",";
-            config += "\"nonceStr\":" + "\"" + nonceStr + "\",";
-            config += "\"signature\":" + "\"" + signature + "\"";
-            config += "}";
-            return config;
+            try
+            {
+                string nonceStr = TenpayUtil.getNoncestr();
+                string timeStamp = TenpayUtil.getTimestamp();
+                string JsapiTicket = GetJsapi_ticket();
+                string string1 = "jsapi_ticket=" + JsapiTicket + "&noncestr=" + nonceStr + "&timestamp=" + timeStamp + "&url=" + url;
+                string signature = MD5Util.sha1(string1);
+                string config = "{";
+                config += "\"appId\":" + "\"" + WXconfig.appid + "\",";
+                config += "\"timeStamp\":" + "\"" + timeStamp + "\",";
+                config += "\"nonceStr\":" + "\"" + nonceStr + "\",";
+                config += "\"signature\":" + "\"" + signature + "\"";
+                config += "}";
+                return config;
+            }
+            catch (Exception ex) {
+                throw;
+            }
         }
 
 
@@ -114,25 +133,32 @@ namespace WxTenpay
         [Description("获取access_token")]
         public string GetToken()
         {
-            if (Asscess == null)
+            try
             {
-                string token = asscess_token.GetToken(WXconfig.appid, WXconfig.secret);
-                Asscess = token;
-                Asscess_Time = DateTime.Now;
-            }
-            else
-            {
-                DateTime time = DateTime.Now;
-
-                if ((time - Asscess_Time).TotalSeconds > 7000)
+                if (Asscess == null)
                 {
                     string token = asscess_token.GetToken(WXconfig.appid, WXconfig.secret);
                     Asscess = token;
                     Asscess_Time = DateTime.Now;
                 }
-            }
-            return Asscess;
+                else
+                {
+                    DateTime time = DateTime.Now;
 
+                    if ((time - Asscess_Time).TotalSeconds > 7000)
+                    {
+                        string token = asscess_token.GetToken(WXconfig.appid, WXconfig.secret);
+                        Asscess = token;
+                        Asscess_Time = DateTime.Now;
+                    }
+                }
+                return Asscess;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 
@@ -174,9 +200,17 @@ namespace WxTenpay
         [Description("微信客户最基本消息")]
         public string WeiXinKeFu(string openid, string text)
         {
-            messagehelp mp = new messagehelp();
-            string result = mp.FaSongXingXi(openid, text, GetToken());
-            return result;
+            try
+            {
+                messagehelp mp = new messagehelp();
+                string result = mp.FaSongXingXi(openid, text, GetToken());
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+       
         }
         #endregion
 
@@ -192,10 +226,19 @@ namespace WxTenpay
         [Description("发送微信模板消息")]
         public string WeiXinTemplate(string openid, string template_id, string shuju_data, string url)
         {
-            Dictionary<string, object> diy = new Dictionary<string, object>();
-            messagehelp mp = new messagehelp();
-            string result = mp.Template(openid, template_id, shuju_data, GetToken(), url);
-            return result;
+            try
+            {
+                Dictionary<string, object> diy = new Dictionary<string, object>();
+                messagehelp mp = new messagehelp();
+                string result = mp.Template(openid, template_id, shuju_data, GetToken(), url);              
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
 
         }
         #endregion
@@ -224,7 +267,7 @@ namespace WxTenpay
             }
             catch (Exception ex)
             {
-
+                throw;
             }
         }
         /// <summary>
@@ -233,22 +276,31 @@ namespace WxTenpay
         [Description("微信公众号url对接")]
         public void InterfaceTest(string token1)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(token1))
+                {
+                    return;
+                }
+
+                string echoString = System.Web.HttpContext.Current.Request.QueryString["echoStr"];
+                string signature = System.Web.HttpContext.Current.Request.QueryString["signature"];
+                string timestamp = System.Web.HttpContext.Current.Request.QueryString["timestamp"];
+                string nonce = System.Web.HttpContext.Current.Request.QueryString["nonce"];
+
+                if (!string.IsNullOrEmpty(echoString))
+                {
+                    System.Web.HttpContext.Current.Response.Write(echoString);
+                    System.Web.HttpContext.Current.Response.End();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             //string token = token1;
-            if (string.IsNullOrEmpty(token1))
-            {
-                return;
-            }
-
-            string echoString = System.Web.HttpContext.Current.Request.QueryString["echoStr"];
-            string signature = System.Web.HttpContext.Current.Request.QueryString["signature"];
-            string timestamp = System.Web.HttpContext.Current.Request.QueryString["timestamp"];
-            string nonce = System.Web.HttpContext.Current.Request.QueryString["nonce"];
-
-            if (!string.IsNullOrEmpty(echoString))
-            {
-                System.Web.HttpContext.Current.Response.Write(echoString);
-                System.Web.HttpContext.Current.Response.End();
-            }
+            
         }
         /// <summary>
         /// 处理信息并应答
@@ -257,11 +309,20 @@ namespace WxTenpay
         [Description("处理信息并应答")]
         public void Handle(string poststr)
         {
-            messagehelp help = new messagehelp();
-            string responseContent = help.ReturnMessage(poststr);
-            //System.Web.HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
-            System.Web.HttpContext.Current.Response.Write(responseContent);
-            System.Web.HttpContext.Current.Response.End();
+            try
+            {
+                messagehelp help = new messagehelp();
+                string responseContent = help.ReturnMessage(poststr);
+                //System.Web.HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
+                System.Web.HttpContext.Current.Response.Write(responseContent);
+                System.Web.HttpContext.Current.Response.End();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
         }
         //-----------------------------------------
         #endregion
@@ -279,9 +340,19 @@ namespace WxTenpay
         public string Head_portrait(string serverId, string path, string Name)
         {
 
-            string access_token = GetToken();
-            string url = string.Format("https://api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", access_token, serverId);
-            return Download_Image(url, Name, path);
+            try
+            {
+                string access_token = GetToken();
+                string url = string.Format("https://api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}", access_token, serverId);
+                return Download_Image(url, Name, path);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         #region 下载微信头像
@@ -355,20 +426,29 @@ namespace WxTenpay
         [Description("根据openid头像下载")]
         public string OpenidGetHead(string openid, string path, string Name)
         {
+            try
+            {
+                string access_token = GetToken();
+                string url = string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN", GetToken(), openid);//获取用户个人信息
+                string result = HttpRequestutil.RequestUrl(url, "get");
+                Log.WriteLog1(result, "根据openid头像下载");
+                JavaScriptSerializer json = new JavaScriptSerializer();
+                Dictionary<string, object> diy = json.Deserialize<Dictionary<string, object>>(result);
+                if (diy["headimgurl"] != null && diy["headimgurl"].ToString() != "")
+                {
+                    return Download_Image(diy["headimgurl"].ToString(), Name, path);
+                }
+                else
+                {
+                    return ToJson(new ResponseMessage { Code = 2, Message = "异常" });
+                }
+            }
+            catch (Exception)
+            {
 
-            string access_token = GetToken();
-            string url = string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN", GetToken(), openid);//获取用户个人信息
-            string result = HttpRequestutil.RequestUrl(url, "get");
-            JavaScriptSerializer json = new JavaScriptSerializer();
-            Dictionary<string, object> diy = json.Deserialize<Dictionary<string, object>>(result);
-            if (diy["headimgurl"] != null && diy["headimgurl"].ToString() != "")
-            {
-                return Download_Image(diy["headimgurl"].ToString(), Name, path);
+                throw;
             }
-            else
-            {
-                return ToJson(new ResponseMessage { Code = 2, Message = "异常" });
-            }
+           
 
         }
 

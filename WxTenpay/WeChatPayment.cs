@@ -29,8 +29,14 @@ namespace WxTenpay
         [Description("微信扫码支付")]
         public string NATIVEPayMent(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no, string product_id)
         {
-         
-            return pm.NATIVEPayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, product_id);
+            try
+            {
+                return pm.NATIVEPayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, product_id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
         #endregion 
 
@@ -50,7 +56,14 @@ namespace WxTenpay
         [Description("微信APP支付")]
         public Wx_pay APP_PayMent(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no, int type)
         {
-            return pm.APP_PayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, type);
+            try
+            {
+                return pm.APP_PayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, type);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
         #endregion
 
@@ -69,7 +82,14 @@ namespace WxTenpay
         [Description("微信公众号支付")]
         public String JSAPIPayMent(string boby, string attach, string openid, string spbill_create_ip, Double total_fee, string out_trade_no)
         {
-            return pm.JSAPIPayMent(boby, attach, openid, spbill_create_ip, total_fee, out_trade_no);
+            try
+            {
+                return pm.JSAPIPayMent(boby, attach, openid, spbill_create_ip, total_fee, out_trade_no);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
         #endregion
 
@@ -88,7 +108,15 @@ namespace WxTenpay
         /// <returns></returns>
         public string H5PayMent(string boby, string attach, string scene_info, string spbill_create_ip, Double total_fee, string wap_url, string wap_name)
         {
-            return pm.H5PayMent(boby, attach, scene_info, spbill_create_ip, total_fee, wap_url, wap_name);
+            try
+            {
+                return pm.H5PayMent(boby, attach, scene_info, spbill_create_ip, total_fee, wap_url, wap_name);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
@@ -105,7 +133,15 @@ namespace WxTenpay
         /// <returns></returns>
         public string JSAPISmallProgram(string boby, string attach, string spbill_create_ip, Double total_fee, string out_trade_no)
         {
-            return pm.JSAPISmallProgram(boby, attach, spbill_create_ip, total_fee, out_trade_no);
+            try
+            {
+                return pm.JSAPISmallProgram(boby, attach, spbill_create_ip, total_fee, out_trade_no);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
         #endregion
 
@@ -125,10 +161,19 @@ namespace WxTenpay
         /// <returns></returns>
         public string PayCash_bonus(string mch_billno, string send_name, string re_openid, double total_amount, int total_num, string wishing, string client_ip, string act_name, string remark)
         {
-            return pm.PayCashbonus(mch_billno, send_name, re_openid, total_amount, total_num, wishing, client_ip, act_name, remark);
+
+            try
+            {
+                return pm.PayCashbonus(mch_billno, send_name, re_openid, total_amount, total_num, wishing, client_ip, act_name, remark);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
-        
-        #endregion 
+
+        #endregion
 
         #region 微信公众号提现功能====(待测试)
         /// <summary>
@@ -146,7 +191,15 @@ namespace WxTenpay
         [Description("微信公众号提现功能")]
         public String CashPayMent(string desc, string openid, string spbill_create_ip, Double total_fee, string partner_trade_no, string name)
         {
-            return pm.CashPayMent(desc, openid, spbill_create_ip, total_fee, partner_trade_no, name);
+            try
+            {
+                return pm.CashPayMent(desc, openid, spbill_create_ip, total_fee, partner_trade_no, name);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
@@ -164,7 +217,15 @@ namespace WxTenpay
         [Description("微信退款功能")]
         public string Get_Refund(string out_refund_no, string out_trade_no, double refund_fee, string transaction_id, double total_fee, string refund_desc, int type)
         {
-            return pm.Get_Refund(out_refund_no, out_trade_no, refund_fee, transaction_id, total_fee, refund_desc, type);
+            try
+            {
+                return pm.Get_Refund(out_refund_no, out_trade_no, refund_fee, transaction_id, total_fee, refund_desc, type);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
@@ -179,7 +240,15 @@ namespace WxTenpay
         [Description("查询扫码订单情况")]
         public string GetPayMent_result(string out_trade_no)
         {
-            return pm.GetPayMent_result(out_trade_no);
+            try
+            {
+                return pm.GetPayMent_result(out_trade_no);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
         #endregion 
 
@@ -188,11 +257,20 @@ namespace WxTenpay
         /// 获取支付订单状态（微信回调）
         /// </summary>
         /// <param name="xmlstring">微信回调数据</param>
+        /// <param name="type">微信回调数据返回的结果, 0：result_code的值 ,客户订单号</param>
         /// <returns></returns>
         [Description("获取支付订单状态（微信回调）")]
-        public string PayMent_result(string xmlstring)
+        public object PayMent_result(string xmlstring,int type=0)
         {
-            return pm.PayMent_result(xmlstring);
+            try
+            {
+                return pm.PayMent_result(xmlstring,type);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
         #endregion
 
