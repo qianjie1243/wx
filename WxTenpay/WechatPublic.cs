@@ -12,6 +12,9 @@ using WxTenpay.wxconfig.wxconfigurateion;
 using WxTenpay.wxconfig;
 using WxTenpay.wxconfig.wxtenpay;
 
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+
 namespace WxTenpay
 {
     [Description("微信基本操作类")]
@@ -69,7 +72,8 @@ namespace WxTenpay
                 }
                 return xx;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw;
             }
         }
@@ -119,7 +123,8 @@ namespace WxTenpay
                 config += "}";
                 return config;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw;
             }
         }
@@ -210,7 +215,7 @@ namespace WxTenpay
             {
                 throw;
             }
-       
+
         }
         #endregion
 
@@ -230,7 +235,7 @@ namespace WxTenpay
             {
                 Dictionary<string, object> diy = new Dictionary<string, object>();
                 messagehelp mp = new messagehelp();
-                string result = mp.Template(openid, template_id, shuju_data, GetToken(), url);              
+                string result = mp.Template(openid, template_id, shuju_data, GetToken(), url);
                 return result;
             }
             catch (Exception)
@@ -238,7 +243,7 @@ namespace WxTenpay
 
                 throw;
             }
-            
+
 
         }
         #endregion
@@ -300,7 +305,7 @@ namespace WxTenpay
                 throw;
             }
             //string token = token1;
-            
+
         }
         /// <summary>
         /// 处理信息并应答
@@ -322,7 +327,7 @@ namespace WxTenpay
 
                 throw;
             }
-          
+
         }
         //-----------------------------------------
         #endregion
@@ -352,7 +357,7 @@ namespace WxTenpay
 
                 throw;
             }
-            
+
         }
 
         #region 下载微信头像
@@ -448,10 +453,47 @@ namespace WxTenpay
 
                 throw;
             }
-           
+
 
         }
 
+        #endregion
+
+        #region  根据坐标获取地理位置
+        /// <summary>
+        /// 根据坐标获取地理位置
+        /// </summary>
+        /// <param name="lon"></param>
+        /// <param name="lat"></param>
+        /// <param name="type">类型1：返回经纬度，2：返回地址名称</param>
+        /// <returns></returns>
+        public string GetBaiduMap(string lon, string lat,int  type=1)
+        {
+            var url = "http://api.map.baidu.com/geoconv/v1/?coords=" + lon + "," + lat + "&from=1&to=5&ak=" + BaiduMap.ak;
+            try
+            {
+                var result = HttpRequestutil.RequestUrl(url, "Post");
+                if (type == 1)
+                {
+                    return result;
+                }
+                else {
+                    JObject obj = (JObject)JsonConvert.DeserializeObject(result);
+                    if (obj["status"].ToString() == "0") {
+                        JObject obj1 = (JObject)JsonConvert.DeserializeObject(obj["result"].ToString());
+                        var apiurl = $"http://api.map.baidu.com/geocoder/v2/?ak={ BaiduMap.ak}&callback=renderReverse&location={obj1["y"].ToString()},{obj1["x"].ToString()}&output=json&pois=1";
+                        return HttpRequestutil.RequestUrl(apiurl, "Post");
+                    }
+                    else {
+                        return result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         #endregion
 
         #region obj=>json

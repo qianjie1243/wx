@@ -80,13 +80,13 @@ $(function () {
     var zhi = "";
     zhi += " <div style='display: none;' id='xianshi'>"
     zhi += " <div class='mask' style='position: fixed;z-index: 1000;top: 0;right: 0;left: 0; bottom: 0;background: rgba(0, 0, 0, 0.6);'></div>";
-    zhi += " <div style='position: fixed; z-index: 5000;width:80%;top: 44%;left: 50%;transform: translate(-50%, -50%);background-color: #FFFFFF;text-align: center;border-radius: 0.10667rem;overflow: hidden;'>";
+    zhi += " <div style='position: fixed; z-index: 5000;width:80%;top: 44%;left: 50%;transform: translate(-50%, -50%);background-color: #FFFFFF;text-align: center;border-radius: 0.5rem;overflow: hidden;'>";
     zhi += " <div class='modal-title' style='padding: 0.53333rem 0 0.28rem 0;font-family:PingFang SC Medium;font-size: 16px;color: #292929;'></div>";
     zhi += " <div class='modal-content'style='color: #373737; padding: 0 0.53333rem 0.41333rem;font-size: 16px;text-align: center;word-wrap: break-word;word-break: break-all;'>";
 
     zhi += "</div>";
-    zhi += "<div style='color: #373737; padding: 0 0.53333rem 0.41333rem;font-size: 16px;text-align: center;word-wrap: break-word;word-break: break-all;'>";
-    zhi += "<div style='margin-left:20%;float:left'> <input type='button' value='确认' id='btnqueren' onclick='Btnqueding()' style=' display: block;background-color: #5ba1e9;border: 1px solid #5ba1e9;color: #fff; width: 80px; height: 30px;line-height: 30px;border-radius: 4px;'/></div><div style='float:left;border-left:20px;margin:0px 10px'><input type='button' value='取消' id='quxiao'  style=' display: block;background-color: #5ba1e9;border: 1px solid #5ba1e9;color: #fff; width: 80px; height: 30px;line-height: 30px;border-radius: 4px;'/></div></div>";
+    zhi += "<div class='cl' style='color: #373737; padding: 1.5rem 0.53333rem 1.5rem;font-size: 16px;text-align: center;word-wrap: break-word;word-break: break-all;'>";
+    zhi += "<div> <input type='button' value='确认' id='btnqueren'  style=' display: block;background-color: #5ba1e9;border: 1px solid #5ba1e9;color: #fff; width: 80px; margin:auto;height: 30px;line-height: 30px;border-radius: 4px;'/></div></div>";
     zhi += "</div>";
     zhi += "</div>";
     $("body").append(zhi);

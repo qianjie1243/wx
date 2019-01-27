@@ -91,4 +91,16 @@ namespace  WxTenpay
         public static string ReturnUrl = "";
     }
 
+    /// <summary>
+    /// 百度map   ak 参数
+    /// </summary>
+    public class BaiduMap {
+        /// <summary>
+        /// 百度地图的ak参数
+        /// </summary>
+        public static string ak { set; get; } = "";
+
+    }
+
+
 }

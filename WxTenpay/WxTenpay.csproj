@@ -41,6 +41,10 @@
     <Reference Include="AopSdk">
       <HintPath>F:\项目_EsayUi，支付宝支付\alipay-sdk-NET-3.2.0\bin\Debug\AopSdk.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity.Design" />
@@ -92,6 +96,7 @@
     <Content Include="前端JS参考\wx.common.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="前端JS参考\微信支付DLL文档.docx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
