@@ -459,7 +459,7 @@ namespace WxTenpay
 
         #endregion
 
-        #region  根据坐标获取地理位置
+        #region  根据坐标获取地理位置========(根据腾讯地图的坐标获取百度地图的信息)
         /// <summary>
         /// 根据坐标获取地理位置
         /// </summary>
