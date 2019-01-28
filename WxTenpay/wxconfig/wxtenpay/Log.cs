@@ -14,23 +14,11 @@ namespace WxTenpay.wxconfig.wxtenpay
     public static class Log
     {
         // public static string path = HttpContext.Current.Request.PhysicalApplicationPath + "logs";
-        public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "logs/" + DateTime.Now.ToString("yyyy-MM-dd");
-        /// <summary>
-        /// 写入日志
-        /// </summary>
-        /// <param name="text"></param>
-        public static void WriteLog(string text)
-        {
-
-           StreamWriter sw = new StreamWriter(HttpContext.Current.Server.MapPath("./text") + "\\log.txt", true,Encoding.Default);
-            //StreamWriter sw = new StreamWriter(path, true);
-            text = " 时间：" + DateTime.Now + text;
-            sw.WriteLine(text);
-            sw.Close();//写入
-        }
+        public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "WxLogs/" + DateTime.Now.ToString("yyyy-MM-dd");
+     
 
         //---------------
-        public  static void WriteLog1( string content,string name="")
+        public  static void WriteLog( string content,string name="")
         {
             if (!Directory.Exists(path))//如果日志目录不存在就创建
             {
