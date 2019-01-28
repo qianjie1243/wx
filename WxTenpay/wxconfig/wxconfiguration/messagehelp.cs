@@ -365,7 +365,7 @@ namespace WxTenpay.wxconfig.wxconfigurateion
                 menu = menu.Replace("openid", openid).Replace("txt", text);
                 var json1 = HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token, menu, "post");
                 JavaScriptSerializer js = new JavaScriptSerializer();
-                wxconfig.wxtenpay.Log.WriteLog1(json1,"微信客户消息");
+                wxconfig.wxtenpay.Log.WriteLog(json1,"微信客户消息");
                 erroy er = js.Deserialize<erroy>(json1);
                 if (er.errcode == "0")
                 {

@@ -85,7 +85,7 @@ namespace WxTenpay.wxconfig.wxtenpay
         /// <returns></returns>
         public object GetXml(string xmlstring, int type)
         {
-            Log.WriteLog1(xmlstring, "微信回调");
+            Log.WriteLog(xmlstring, "微信回调");
             SortedDictionary<string, object> sd = GetInfoFromXml(xmlstring);
             string result_code = "";
             string out_trade_no = "";
@@ -239,7 +239,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             string prepay_id = string.Empty;
             string post_data = getH5UnifiedOrderXml(order, key);
             string request_data = PostXmlToUrl(H5PayMentUrl, post_data);
-            Log.WriteLog1(request_data);
+            Log.WriteLog(request_data);
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
             foreach (KeyValuePair<string, object> k in requestXML)
             {
@@ -281,7 +281,7 @@ namespace WxTenpay.wxconfig.wxtenpay
                 string post_data = getUnifiedOrderXml(order, key);
                 string request_data = PostXmlToUrl(UnifiedPayUrl, post_data);
                 //string request_data = HttpRequestutil.RequestUrl(UnifiedPayUrl, post_data, "post");
-                Log.WriteLog1(request_data);
+                Log.WriteLog(request_data);
 
                 SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
 
@@ -315,7 +315,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             string prepay_id = "";
             string post_data = getUnifiedOrderXml(order, key);
             string request_data = PostXmlToUrl(UnifiedPayUrl, post_data);
-            Log.WriteLog1(request_data);
+            Log.WriteLog(request_data);
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
             foreach (KeyValuePair<string, object> k in requestXML)
             {
@@ -342,7 +342,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             string return_string = string.Empty;
             return_string = getCashXml(order, WXconfig.paysignkey);
             string request_data = Postxmltourl(CashPayUrl, return_string);
-            Log.WriteLog1(request_data, "微信提现");
+            Log.WriteLog(request_data, "微信提现");
             #region 解析返回结果
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
 
@@ -475,7 +475,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             string return_string = string.Empty;
             return_string = GetRefundOrderXml(order);
             string request_data = PostXmlToUrl(refund_Url, return_string, "1");
-            Log.WriteLog1(request_data, "微信退款");
+            Log.WriteLog(request_data, "微信退款");
 
             #region 解析返回结果
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
@@ -522,7 +522,7 @@ namespace WxTenpay.wxconfig.wxtenpay
             string result = string.Empty;
             string return_string = getCashbonusXml(wxpay, WXconfig.paysignkey);
             string request_data = Postxmltourl(CashPayUrl, return_string);
-            Log.WriteLog1(request_data, "微信现金红包");
+            Log.WriteLog(request_data, "微信现金红包");
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
 
             foreach (KeyValuePair<string, object> k in requestXML)

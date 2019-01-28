@@ -63,7 +63,7 @@ namespace WxTenpay.wxconfig
             }
             catch (Exception ex)
             {
-                wxtenpay.Log.WriteLog1(ex.Message, "请求Url发送数据_Error");
+                wxtenpay.Log.WriteLog(ex.Message, "请求Url发送数据_Error");
                 throw;
             }
         }
@@ -116,7 +116,7 @@ namespace WxTenpay.wxconfig
             }
             catch (Exception ex)
             {
-                wxtenpay.Log.WriteLog1(ex.Message, "请求Url发送数据_Error");
+                wxtenpay.Log.WriteLog(ex.Message, "请求Url发送数据_Error");
                 throw;
             }
         }
@@ -140,11 +140,11 @@ namespace WxTenpay.wxconfig
                     byte[] byRemoteInfo = wc.UploadValues(url, "POST", postData);
                     returnmsg = System.Text.Encoding.Default.GetString(byRemoteInfo);
                 }
-                wxtenpay.Log.WriteLog1(returnmsg, "Post模拟from提交数据");
+                wxtenpay.Log.WriteLog(returnmsg, "Post模拟from提交数据");
                 return returnmsg;
             }
             catch (Exception ex) {
-                wxtenpay.Log.WriteLog1(ex.Message, "Post模拟from提交数据_Error");
+                wxtenpay.Log.WriteLog(ex.Message, "Post模拟from提交数据_Error");
                 throw;
             }
         }
@@ -224,11 +224,11 @@ namespace WxTenpay.wxconfig
                 StreamReader sr = new StreamReader(instream, Encoding.UTF8);
                 //返回结果网页（html）代码
                 string content = sr.ReadToEnd();
-                wxtenpay.Log.WriteLog1(content, "图片上传到微信公众号素材");
+                wxtenpay.Log.WriteLog(content, "图片上传到微信公众号素材");
                 return content;
             }
             catch (Exception ex) {
-                wxtenpay.Log.WriteLog1(ex.Message, "图片上传到微信公众号素材_Error");
+                wxtenpay.Log.WriteLog(ex.Message, "图片上传到微信公众号素材_Error");
                 throw;
             }
         }
@@ -261,11 +261,11 @@ namespace WxTenpay.wxconfig
                     postDataDictionary.FillFormDataStream(ms); //填充formData
                     returnText = HttpPost(url, null, ms, fileDictionary, null, null, 1200000);
                 }
-                wxtenpay.Log.WriteLog1(returnText, "视频上传到微信公众号");
+                wxtenpay.Log.WriteLog(returnText, "视频上传到微信公众号");
                 return returnText;
             }
             catch (Exception ex) {
-                wxtenpay.Log.WriteLog1(ex.Message, "视频上传到微信公众号_Error");
+                wxtenpay.Log.WriteLog(ex.Message, "视频上传到微信公众号_Error");
                 throw;
             }
         }

@@ -436,7 +436,7 @@ namespace WxTenpay
                 string access_token = GetToken();
                 string url = string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN", GetToken(), openid);//获取用户个人信息
                 string result = HttpRequestutil.RequestUrl(url, "get");
-                Log.WriteLog1(result, "根据openid头像下载");
+                Log.WriteLog(result, "根据openid头像下载");
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 Dictionary<string, object> diy = json.Deserialize<Dictionary<string, object>>(result);
                 if (diy["headimgurl"] != null && diy["headimgurl"].ToString() != "")

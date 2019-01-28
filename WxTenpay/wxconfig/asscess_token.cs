@@ -76,7 +76,7 @@ namespace WxTenpay.wxconfig
         public static string GetToken(string appid, string secret)
         {
             var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", appid, secret), "get");
-            wxtenpay.Log.WriteLog1(strJson, "微信获取Token");
+            wxtenpay.Log.WriteLog(strJson, "微信获取Token");
             JavaScriptSerializer json = new JavaScriptSerializer();
             token tk = json.Deserialize<token>(strJson);
             return tk.access_token;
@@ -90,7 +90,7 @@ namespace WxTenpay.wxconfig
         public static string getjsapi_ticket(string Asscess)
         {
             var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi", Asscess), "get");
-            wxtenpay.Log.WriteLog1(strJson, "微信获取jsapi_ticket");
+            wxtenpay.Log.WriteLog(strJson, "微信获取jsapi_ticket");
             JavaScriptSerializer json = new JavaScriptSerializer();
             token tk = json.Deserialize<token>(strJson);
             return tk.ticket;
