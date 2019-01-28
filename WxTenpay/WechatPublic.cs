@@ -480,8 +480,8 @@ namespace WxTenpay
                 else {
                     JObject obj = (JObject)JsonConvert.DeserializeObject(result);
                     if (obj["status"].ToString() == "0") {
-                        JObject obj1 = (JObject)JsonConvert.DeserializeObject(obj["result"].ToString());
-                        var apiurl = $"http://api.map.baidu.com/geocoder/v2/?ak={ BaiduMap.ak}&callback=renderReverse&location={obj1["y"].ToString()},{obj1["x"].ToString()}&output=json&pois=1";
+                        JArray obj1 = (JArray)JsonConvert.DeserializeObject(obj["result"].ToString());
+                        var apiurl = $"http://api.map.baidu.com/geocoder/v2/?ak={ BaiduMap.ak}&callback=renderReverse&location={obj1[0]["y"].ToString()},{obj1[0]["x"].ToString()}&output=json&pois=1";
                         return HttpRequestutil.RequestUrl(apiurl, "Post");
                     }
                     else {
