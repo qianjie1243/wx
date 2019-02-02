@@ -68,7 +68,7 @@ function wx_chooseImage_config(date, debug) {
 //返回全部选中图片serverId  多个以,分割
 function wx_chooseImage(count) {
     var serverIds = [];//定义返回结果
-    if (typeof (count) != "undefined" && count != "") {
+    if (typeof (count) == "undefined" && count == "") {
         count = 1;
     }
     wx.chooseImage({
