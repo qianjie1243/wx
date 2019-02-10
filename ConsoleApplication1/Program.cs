@@ -10,6 +10,10 @@ namespace ConsoleApplication1
 {
     class Program
     {
+        /// <summary>
+        /// 测试自定义菜单
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Wechat_Menu wx = new Wechat_Menu();

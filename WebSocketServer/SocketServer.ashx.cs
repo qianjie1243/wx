@@ -10,6 +10,10 @@ using System.Net.WebSockets;
 
 namespace WebSocketServer
 {
+    #region 离线消息
+    /// <summary>
+    /// 离线消息
+    /// </summary>
     public class Message
     {
         public Message(DateTime _MsgTime, ArraySegment<byte> _MsgContent)
@@ -17,10 +21,17 @@ namespace WebSocketServer
             MsgTime = _MsgTime;
             MsgContent = _MsgContent;
         }
+        /// <summary>
+        /// 时间
+        /// </summary>
         public DateTime MsgTime { get; set; }
 
+        /// <summary>
+        /// 消息内容
+        /// </summary>
         public ArraySegment<byte> MsgContent { get; set; }
     }
+    #endregion 
 
     /// <summary>
     /// SocketServer 的摘要说明
@@ -39,7 +50,7 @@ namespace WebSocketServer
 
 
         /// <summary>
-        /// 消息处理的异步方法
+        /// 消息处理
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
