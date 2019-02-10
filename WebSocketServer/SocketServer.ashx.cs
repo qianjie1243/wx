@@ -34,7 +34,8 @@ namespace WebSocketServer
     #endregion 
 
     /// <summary>
-    /// SocketServer 的摘要说明
+    /// SocketServer服务端
+    /// IIS 8以上使用
     /// </summary>
     public class SocketServer : IHttpHandler
     {
@@ -49,6 +50,7 @@ namespace WebSocketServer
         }
 
 
+        #region 消息处理（目前支持最基础的数据，不支持图片）
         /// <summary>
         /// 消息处理
         /// </summary>
@@ -153,10 +155,7 @@ namespace WebSocketServer
             }
         }
 
-
-
-
-
+        #endregion
 
 
 
