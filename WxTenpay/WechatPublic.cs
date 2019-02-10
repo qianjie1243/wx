@@ -497,7 +497,7 @@ namespace WxTenpay
         #endregion
 
         #region obj=>json
-        private string ToJson(object obj)
+        public string ToJson(object obj)
         {
             JavaScriptSerializer json = new JavaScriptSerializer();
             string reslut = json.Serialize(obj);

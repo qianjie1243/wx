@@ -13,3 +13,4 @@ E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\WxTenpay.XML
 E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\Newtonsoft.Json.dll
 E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\Newtonsoft.Json.pdb
 E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Debug\Newtonsoft.Json.xml
+E:\c#项目\新建文件夹\WxTenpay\WxTenpay\obj\Debug\WxTenpay.csprojResolveAssemblyReference.cache

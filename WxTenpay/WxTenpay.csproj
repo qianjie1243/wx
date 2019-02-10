@@ -76,6 +76,7 @@
     <Compile Include="wxconfig\gerenxinxi.cs" />
     <Compile Include="wxconfig\Getopenid.cs" />
     <Compile Include="wxconfig\HttpRequestutil.cs" />
+    <Compile Include="wxconfig\wxconfiguration\MenuModel.cs" />
     <Compile Include="wxconfig\wxconfiguration\messagehelp.cs" />
     <Compile Include="wxconfig\token.cs" />
     <Compile Include="WXconfig.cs" />

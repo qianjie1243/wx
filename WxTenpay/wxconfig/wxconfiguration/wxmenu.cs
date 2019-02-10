@@ -10,6 +10,7 @@ namespace WxTenpay.wxconfig.wxconfiguration
     /// <summary>
     /// 微信自定义菜单
     /// </summary>
+    [Serializable]
     public class wxmenu
     {
 
@@ -113,15 +114,15 @@ namespace WxTenpay.wxconfig.wxconfiguration
         /// 自定义菜单
         /// </summary>
         /// <param name="menu">自定义菜单字符串</param>
-        /// <param name="asscess">asscess字符串</param>
+        /// <param name="access_token">access_token字符串</param>
         /// <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
-        public string  Add_Menu(string menu,string access_token, int type)
+        public string  Add_Menu(string  menu,string access_token, int type)
         {
             string result = string.Empty;
             if (type == 1)//添加菜单
                 result = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/menu/create?access_token={0}", access_token), menu, "post");
             else if (type == 2)//删除菜单            
-                result = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/material/delete?access_token={0}", access_token), menu, "post");
+                result = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/material/delete?access_token={0}", access_token), "GET");
             else //查询菜单
                 result = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/menu/get?access_token={0}", access_token), "GET");
             return result;

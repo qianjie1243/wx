@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WxTenpay.wxconfig.wxconfiguration;
+
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+
 
 namespace WxTenpay
 {
@@ -10,7 +15,7 @@ namespace WxTenpay
     /// </summary>
     public class Wechat_Menu
     {
-        wxconfig.wxconfiguration.wxmenu menu = new wxconfig.wxconfiguration.wxmenu();
+        wxmenu menu = new wxmenu();
         WechatPublic Wechat = new WechatPublic();//获取access_token  
 
         #region  上传素材=========================（新增接口）
@@ -160,15 +165,16 @@ namespace WxTenpay
         /// <summary>
         /// 自定义菜单
         /// </summary>
-        /// <param name="Menu">自定义菜单字符串</param>
+        /// <param name="_menu">自定义菜单对象</param>
         /// <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
         /// 
 
-        public string Menu(string Menu, int type)
+        public string Menu(object _menu, int type)
         {
             try
             {
-                return menu.Add_Menu(Menu, Wechat.GetToken(), type);
+                var Json= new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };//设定过滤null的
+                return menu.Add_Menu(JsonConvert.SerializeObject(_menu, Formatting.Indented, Json), Wechat.GetToken(), type);
             }
             catch (Exception ex)
             {
