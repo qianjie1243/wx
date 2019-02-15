@@ -10,13 +10,7 @@ namespace WxTenpay.wxconfig.wxconfiguration
     /// 二级菜单的参数
     /// </summary>
     public class MenuModel
-    {
-
-        /// <summary>
-        ///二级菜单数组，个数应为1~5个
-        /// </summary>
-        public List<MenuModel> sub_button { set; get; }
-
+    {     
         /// <summary>
         ///菜单的响应动作类型，view表示网页类型，click表示点击类型，miniprogram表示小程序类型
         /// </summary>
@@ -51,5 +45,10 @@ namespace WxTenpay.wxconfig.wxconfiguration
         ///	小程序的页面路径
         /// </summary>
         public string pagepath { set; get; }
+
+        /// <summary>
+        ///二级菜单数组，个数应为1~5个
+        /// </summary>
+        public List<MenuModel> sub_button { set; get; }
     }
 }

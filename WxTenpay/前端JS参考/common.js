@@ -13,7 +13,6 @@ function Jajax(url, data, method) {
     //Get请求
     if (method == "get") {
         $.get(url, data, function (result) {
-
             res = result;
         })
     } else {  //post

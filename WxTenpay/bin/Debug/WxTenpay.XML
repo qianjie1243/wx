@@ -543,11 +543,6 @@
             二级菜单的参数
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.sub_button">
-             <summary>
-            二级菜单数组，个数应为1~5个
-             </summary>
-        </member>
         <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.type">
              <summary>
             菜单的响应动作类型，view表示网页类型，click表示点击类型，miniprogram表示小程序类型
@@ -582,6 +577,11 @@
             <summary>
             小程序的页面路径
             </summary>
+        </member>
+        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.sub_button">
+             <summary>
+            二级菜单数组，个数应为1~5个
+             </summary>
         </member>
         <member name="T:WxTenpay.wxconfig.wxconfiguration.Model">
             <summary>

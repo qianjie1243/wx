@@ -28,6 +28,12 @@ namespace ConsoleApplication1
             model.url = "https://baidu.com";
             _MenuParameter.Add(model);
 
+            MenuModel model2 = new MenuModel();
+            model2.name = "测试";
+            model2.type = "view";
+            model2.url = "https://baidu.com";
+            _MenuParameter.Add(model2);
+
             MenuModel _model = new MenuModel();
             _model.name = "测试1";
             _model.sub_button = _MenuParameter;
