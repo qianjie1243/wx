@@ -1945,14 +1945,9 @@
             错误信息
             </summary>
         </member>
-        <member name="P:WxTenpay.ResponseMessage.Tag">
+        <member name="P:WxTenpay.ResponseMessage.Data">
             <summary>
-            附加信息
-            </summary>
-        </member>
-        <member name="P:WxTenpay.ResponseMessage.Tag1">
-            <summary>
-            附加信息1
+            数据对象
             </summary>
         </member>
     </members>

@@ -18,14 +18,14 @@ namespace ConsoleApplication1
         {
             Wechat_Menu wx = new Wechat_Menu();
 
-            List<MenuModel> list = new List<MenuModel> { new MenuModel {name="cesi",url= "https://baidu.com",type="view" }, new MenuModel { name = "cesi", url = "https://baidu.com", type = "view" } };
+            List<MenuModel> list = new List<MenuModel> { new MenuModel { name = "cesi", url = "https://baidu.com", type = "view" }, new MenuModel { name = "cesi", url = "https://baidu.com", type = "view" } };
 
             List<MenuModel> _MenuParameter = new List<MenuModel>();//多按钮列表
 
             MenuModel model = new MenuModel();
-            model.name = "测试";
+            model.name = "医疗";
             model.type = "view";
-            model.url = "https://baidu.com";
+            model.url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxad5c6b5c0796716f&redirect_uri=http://qianjie.iok.la/medical_WX/index.html&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
             _MenuParameter.Add(model);
 
             MenuModel model2 = new MenuModel();
@@ -40,7 +40,7 @@ namespace ConsoleApplication1
             list.Add(_model);
 
             Dictionary<string, object> diy = new Dictionary<string, object>();
-            diy.Add("button",list);
+            diy.Add("button", list);
             wx.Menu(diy, 1);
         }
     }

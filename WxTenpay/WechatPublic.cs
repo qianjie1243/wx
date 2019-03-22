@@ -388,7 +388,7 @@ namespace WxTenpay
                 reader.Close();
                 reader.Dispose();
                 response.Close();
-                return ToJson(new ResponseMessage { Code = 1, Tag = (path + Name) });
+                return ToJson(new ResponseMessage { Code = 1, Data = (path + Name) });
             }
             catch (Exception ex)
             {
@@ -562,13 +562,9 @@ namespace WxTenpay
         /// </summary>
         public string Message { set; get; }
         /// <summary>
-        /// 附加信息
+        /// 数据对象
         /// </summary>
-        public string Tag { set; get; }
-        /// <summary>
-        /// 附加信息1
-        /// </summary>
-        public string Tag1 { set; get; }
+        public object Data { set; get; }
     }
     #endregion
 }
