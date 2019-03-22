@@ -116,7 +116,7 @@ namespace WxTenpay
             {
                 throw;
             }
-           
+
         }
         #endregion
 
@@ -141,7 +141,7 @@ namespace WxTenpay
             {
                 throw;
             }
-            
+
         }
         #endregion
 
@@ -170,7 +170,7 @@ namespace WxTenpay
             {
                 throw;
             }
-            
+
         }
 
         #endregion
@@ -199,7 +199,7 @@ namespace WxTenpay
             {
                 throw;
             }
-           
+
         }
         #endregion
 
@@ -225,7 +225,7 @@ namespace WxTenpay
             {
                 throw;
             }
-           
+
         }
         #endregion
 
@@ -248,7 +248,7 @@ namespace WxTenpay
             {
                 throw;
             }
-            
+
         }
         #endregion 
 
@@ -260,20 +260,42 @@ namespace WxTenpay
         /// <param name="type">微信回调数据返回的结果, 0：result_code的值 ,客户订单号</param>
         /// <returns></returns>
         [Description("获取支付订单状态（微信回调）")]
-        public object PayMent_result(string xmlstring,int type=0)
+        public object PayMent_result(string xmlstring, int type = 0)
         {
             try
             {
-                return pm.PayMent_result(xmlstring,type);
+                return pm.PayMent_result(xmlstring, type);
             }
             catch (Exception ex)
             {
                 throw;
             }
-           
+
         }
         #endregion
 
+        #region 通知微信已收到XML回调通知
+        /// <summary>
+        /// 通知微信已收到XML回调通知
+        /// </summary>
+        public void Inform()
+        {
+            try
+            {
+                var result = $@"<xml> 
+                            <return_code><![CDATA[SUCCESS]]></return_code>
+                            <return_msg><![CDATA[OK]]></return_msg>
+                            </xml> ";
+                System.Web.HttpContext.Current.Response.Write(result);
+                System.Web.HttpContext.Current.Response.End();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        #endregion 
         #endregion
     }
 }
