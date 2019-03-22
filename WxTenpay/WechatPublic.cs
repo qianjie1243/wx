@@ -468,7 +468,7 @@ namespace WxTenpay
         {
             try
             {
-                return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={WXconfig.appid}&redirect_uri={NameUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+                return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={WXconfig.appid}&redirect_uri={NameUrl}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
             }
             catch (Exception)
             {
