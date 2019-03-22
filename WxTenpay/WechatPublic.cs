@@ -339,7 +339,6 @@ namespace WxTenpay
         /// <param name="serverId"></param>
         /// <param name="path">保存头像图片地址已/结尾</param>
         /// <param name="Name">保存头像图片名称</param>
-
         /// <returns></returns>
         [Description("serverId微信头像下载")]
         public string Head_portrait(string serverId, string path, string Name)
@@ -366,7 +365,7 @@ namespace WxTenpay
         /// 下载微信头像
         /// </summary>
         /// <param name="url">头像地址</param>
-        /// <param name="Name">保存头像图片名称</param>
+        /// <param name="Name">保存头像图片名称.png  .jpg 结尾</param>
         /// <param name="path">保存头像图片地址已/结尾</param>
         [Description("url=头像地址 下载微信头像")]
         public string Download_Image(string url, string Name, string path)
@@ -467,9 +466,9 @@ namespace WxTenpay
         /// <param name="lat"></param>
         /// <param name="type">类型1：返回经纬度，2：返回地址名称</param>
         /// <returns></returns>
-        public string GetBaiduMap(string lon, string lat,int  type=1)
+        public string GetBaiduMap(string lon, string lat, int type = 1)
         {
-            var url = "http://api.map.baidu.com/geoconv/v1/?coords=" + lon + "," + lat + "&from=1&to=5&ak=" + BaiduMap.ak;
+            var url = $"http://api.map.baidu.com/geoconv/v1/?coords={lon },{lat}&from=1&to=5&ak=" + BaiduMap.ak;
             try
             {
                 var result = HttpRequestutil.RequestUrl(url, "Post");

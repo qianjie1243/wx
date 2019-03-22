@@ -1860,7 +1860,7 @@
             下载微信头像
             </summary>
             <param name="url">头像地址</param>
-            <param name="Name">保存头像图片名称</param>
+            <param name="Name">保存头像图片名称.png  .jpg 结尾</param>
             <param name="path">保存头像图片地址已/结尾</param>
         </member>
         <member name="M:WxTenpay.WechatPublic.GetPath(System.String,System.String)">

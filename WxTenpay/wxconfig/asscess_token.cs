@@ -18,8 +18,7 @@ namespace WxTenpay.wxconfig
         /// <returns></returns>
         public static gerenxinxi gerenxinxi(string token, string openid)
         {
-            var url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + token + "&openid=" + openid + "&lang=zh_CN ";
-            // var url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" + token + "&openid=" + openid + "&lang=zh_CN ";
+            var url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + token + "&openid=" + openid + "&lang=zh_CN ";          
             var json1 = HttpRequestutil.RequestUrlget(url);
             JavaScriptSerializer js = new JavaScriptSerializer();
             gerenxinxi geren = js.Deserialize<gerenxinxi>(json1);
@@ -75,8 +74,7 @@ namespace WxTenpay.wxconfig
         /// </summary>
         public static string GetToken(string appid, string secret)
         {
-            var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", appid, secret), "get");
-            wxtenpay.Log.WriteLog(strJson, "微信获取Token");
+            var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", appid, secret), "get");          
             JavaScriptSerializer json = new JavaScriptSerializer();
             token tk = json.Deserialize<token>(strJson);
             return tk.access_token;
@@ -89,8 +87,7 @@ namespace WxTenpay.wxconfig
         /// <returns></returns>
         public static string getjsapi_ticket(string Asscess)
         {
-            var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi", Asscess), "get");
-            wxtenpay.Log.WriteLog(strJson, "微信获取jsapi_ticket");
+            var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi", Asscess), "get");        
             JavaScriptSerializer json = new JavaScriptSerializer();
             token tk = json.Deserialize<token>(strJson);
             return tk.ticket;
