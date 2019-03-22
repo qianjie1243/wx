@@ -17,10 +17,11 @@ using Newtonsoft.Json;
 
 namespace WxTenpay
 {
-    [Description("微信基本操作类")]
+
     /// <summary>
     /// 微信基本操作类
     /// </summary>
+    [Description("微信基本操作类")]
     public class WechatPublic
     {
 
@@ -235,8 +236,7 @@ namespace WxTenpay
             {
                 Dictionary<string, object> diy = new Dictionary<string, object>();
                 messagehelp mp = new messagehelp();
-                string result = mp.Template(openid, template_id, shuju_data, GetToken(), url);
-                return result;
+                return mp.Template(openid, template_id, shuju_data, GetToken(), url);
             }
             catch (Exception)
             {
@@ -435,7 +435,6 @@ namespace WxTenpay
                 string access_token = GetToken();
                 string url = string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN", GetToken(), openid);//获取用户个人信息
                 string result = HttpRequestutil.RequestUrl(url, "get");
-                Log.WriteLog(result, "根据openid头像下载");
                 JavaScriptSerializer json = new JavaScriptSerializer();
                 Dictionary<string, object> diy = json.Deserialize<Dictionary<string, object>>(result);
                 if (diy["headimgurl"] != null && diy["headimgurl"].ToString() != "")
@@ -458,6 +457,27 @@ namespace WxTenpay
 
         #endregion
 
+        #region 重新授权URL
+        /// <summary>
+        ///重新授权URL
+        /// </summary>
+        /// <param name="NameUrl">授权URL地址</param>
+        /// <returns></returns>
+        [Description("重新授权URL")]
+        public string Geturl(string NameUrl)
+        {
+            try
+            {
+                return $"https://open.weixin.qq.com/connect/oauth2/authorize?appid={WXconfig.appid}&redirect_uri={NameUrl}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion 
+
         #region  根据坐标获取地理位置========(根据腾讯地图的坐标获取百度地图的信息)
         /// <summary>
         /// 根据坐标获取地理位置
@@ -476,14 +496,17 @@ namespace WxTenpay
                 {
                     return result;
                 }
-                else {
+                else
+                {
                     JObject obj = (JObject)JsonConvert.DeserializeObject(result);
-                    if (obj["status"].ToString() == "0") {
+                    if (obj["status"].ToString() == "0")
+                    {
                         JArray obj1 = (JArray)JsonConvert.DeserializeObject(obj["result"].ToString());
                         var apiurl = $"http://api.map.baidu.com/geocoder/v2/?ak={ BaiduMap.ak}&callback=renderReverse&location={obj1[0]["y"].ToString()},{obj1[0]["x"].ToString()}&output=json&pois=1";
                         return HttpRequestutil.RequestUrl(apiurl, "Post");
                     }
-                    else {
+                    else
+                    {
                         return result;
                     }
                 }

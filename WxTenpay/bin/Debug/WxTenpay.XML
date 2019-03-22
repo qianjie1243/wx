@@ -871,6 +871,19 @@
             jsp_api签到凭证
             </summary>
         </member>
+        <member name="M:WxTenpay.wxconfig.wxtenpay.Log.WriteLogFile(System.String,System.String)">
+            <summary>
+            写入日志文件
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:WxTenpay.wxconfig.wxtenpay.Log.WriteLogTxt(System.Exception,System.String)">
+            <summary>
+            将异常打印到LOG文件
+            </summary>
+            <param name="ex">异常</param>
+            <param name="LogAddress">日志文件名称</param>
+        </member>
         <member name="M:WxTenpay.wxconfig.wxtenpay.MD5Util.GetMD5(System.String,System.String)">
             <summary>
             /** 获取大写的MD5签名结果 */
@@ -1292,6 +1305,13 @@
             获取微信订单明细
             </summary>
             <param name="out_trade_no">客户订单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getRefund(WxTenpay.wxconfig.wxtenpay.refund)">
+            <summary>
+            微信退款
+            </summary>
+            <param name="order"></param>
             <returns></returns>
         </member>
         <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getPayCashbonus(WxTenpay.wxconfig.wxtenpay.WxPayData)">
@@ -1765,6 +1785,11 @@
             百度地图的ak参数
             </summary>
         </member>
+        <member name="T:WxTenpay.WechatPublic">
+            <summary>
+            微信基本操作类
+            </summary>
+        </member>
         <member name="P:WxTenpay.WechatPublic.Asscess">
             <summary>
             保存凭证
@@ -1878,6 +1903,13 @@
             <param name="path">保存头像图片地址已/结尾</param>
             <param name="Name">保存头像图片名称</param>
             <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WechatPublic.Geturl(System.String)">
+             <summary>
+            重新授权URL
+             </summary>
+             <param name="NameUrl">授权URL地址</param>
+             <returns></returns>
         </member>
         <member name="M:WxTenpay.WechatPublic.GetBaiduMap(System.String,System.String,System.Int32)">
             <summary>

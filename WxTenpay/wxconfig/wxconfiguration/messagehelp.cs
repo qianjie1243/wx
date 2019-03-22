@@ -46,9 +46,9 @@ namespace WxTenpay.wxconfig.wxconfigurateion
                 {
                     deleteGuanZhu(xmldoc);
                 }
-               
-                    
-              
+
+
+
                 switch (MsgType.InnerText)
                 {
                     case "event":
@@ -102,7 +102,7 @@ namespace WxTenpay.wxconfig.wxconfigurateion
         {
 
 
-           // string responsecontent = "";
+            // string responsecontent = "";
             XmlNode ToUserName = xmldoc.SelectSingleNode("/xml/ToUserName");
             XmlNode FromUserName = xmldoc.SelectSingleNode("/xml/FromUserName");
             XmlNode Content = xmldoc.SelectSingleNode("/xml/Content");
@@ -120,16 +120,16 @@ namespace WxTenpay.wxconfig.wxconfigurateion
             //    }
             //    else
             //    {
-                //    responsecontent = string.Format(
-                //             ReplyType.Message_Text,
-                //                FromUserName.InnerText,
-                //                ToUserName.InnerText,
-                //                DateTime.Now.Ticks,
-                //                "success"
-                //                 ); 
-                    return "success";
-                //}
-           // }
+            //    responsecontent = string.Format(
+            //             ReplyType.Message_Text,
+            //                FromUserName.InnerText,
+            //                ToUserName.InnerText,
+            //                DateTime.Now.Ticks,
+            //                "success"
+            //                 ); 
+            return "success";
+            //}
+            // }
             //return responsecontent;
         }
         #endregion
@@ -154,7 +154,7 @@ namespace WxTenpay.wxconfig.wxconfigurateion
 
             return responsecontent;
         }
-          #endregion
+        #endregion
         //-----------------------
         #region 取消关注后的事件
         public void deleteGuanZhu(XmlDocument xmldoc)
@@ -358,14 +358,15 @@ namespace WxTenpay.wxconfig.wxconfigurateion
         /// <param name="text">发送的信息</param>
         /// <param name="token">微信的token</param>
         /// <returns></returns>
-        public string FaSongXingXi(string openid,string text,string token) {
+        public string FaSongXingXi(string openid, string text, string token)
+        {
             try
             {
                 string menu = "{\"touser\":\"openid\",\"msgtype\":\"text\",\"text\":{\"content\":\"txt\"}}";
                 menu = menu.Replace("openid", openid).Replace("txt", text);
                 var json1 = HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token, menu, "post");
                 JavaScriptSerializer js = new JavaScriptSerializer();
-                wxconfig.wxtenpay.Log.WriteLog(json1,"微信客户消息");
+                wxtenpay.Log.WriteLogFile(json1, "微信客户消息");
                 erroy er = js.Deserialize<erroy>(json1);
                 if (er.errcode == "0")
                 {
@@ -373,7 +374,8 @@ namespace WxTenpay.wxconfig.wxconfigurateion
                 }
                 return er.errcode;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
 
                 return ex.Message;
             }
@@ -392,20 +394,14 @@ namespace WxTenpay.wxconfig.wxconfigurateion
         /// <param name="token">微信的token</param>
         /// <param name="url">点击的url</param>
         /// <returns></returns>
-        public string Template(string openid, string template_id, string shuju_data, string token,string url)
+        public string Template(string openid, string template_id, string shuju_data, string token, string url)
         {
             try
             {
-                string menu = "{\"touser\":\"openid\",\"template_id\":\"tem_id_name\",\"url\":\"to_url\",\"data\":shuju_data}";            
+                string menu = "{\"touser\":\"openid\",\"template_id\":\"tem_id_name\",\"url\":\"to_url\",\"data\":shuju_data}";
                 menu = menu.Replace("openid", openid).Replace("tem_id_name", template_id).Replace("shuju_data", shuju_data).Replace("to_url", url);
-                var json = HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + token, menu, "post");
-                JavaScriptSerializer js = new JavaScriptSerializer();         
-                erroy er = js.Deserialize<erroy>(json);
-                if (er.errcode == "0")
-                {
-                    return "1";
-                }
-                return er.errcode;
+                return HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + token, menu, "post");
+
             }
             catch (Exception ex)
             {

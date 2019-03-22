@@ -86,13 +86,13 @@ namespace WxTenpay.wxconfig.wxtenpay
                 log.BaseStream.Seek(0, SeekOrigin.End);
 
                 //写入“Log Entry : ”
-                log.Write("\n\rLog Entry : ");
+                log.Write("\n\r====> : ");
 
                 //写入当前系统时间并换行
-                log.Write("{0} {1} \n\r", DateTime.Now.ToLongTimeString(),DateTime.Now.ToLongDateString());
+                log.Write("{0} {1} \n\r", DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());
 
                 //写入日志内容并换行
-                log.Write(content + "\n\r");
+                log.Write("\n\r"+content + "\n\r===END===\n\r");
 
                 //清空缓冲区
                 log.Flush();
