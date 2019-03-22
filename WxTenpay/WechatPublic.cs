@@ -464,7 +464,7 @@ namespace WxTenpay
         /// <param name="NameUrl">授权URL地址</param>
         /// <returns></returns>
         [Description("重新授权URL")]
-        public string Geturl(string NameUrl)
+        public string GetAuthorizationUrl(string NameUrl)
         {
             try
             {
