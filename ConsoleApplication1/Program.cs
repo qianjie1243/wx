@@ -18,24 +18,24 @@ namespace ConsoleApplication1
         {
             Wechat_Menu wx = new Wechat_Menu();
 
-            List<MenuModel> list = new List<MenuModel> { new MenuModel { name = "cesi", url = "https://baidu.com", type = "view" }, new MenuModel { name = "cesi", url = "https://baidu.com", type = "view" } };
+            List<MenuModel> list = new List<MenuModel> { new MenuModel { name = "菜单1", url = "https://baidu.com", type = "view" }, new MenuModel { name = "菜单2", url = "https://baidu.com", type = "view" } };
 
             List<MenuModel> _MenuParameter = new List<MenuModel>();//多按钮列表
 
-            MenuModel model = new MenuModel();
-            model.name = "医疗";
+            MenuModel model = new MenuModel();//
+            model.name = "菜单3-1";
             model.type = "view";
-            model.url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxad5c6b5c0796716f&redirect_uri=http://qianjie.iok.la/medical_WX/index.html&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect";
+            model.url = "https://baidu.com";
             _MenuParameter.Add(model);
 
             MenuModel model2 = new MenuModel();
-            model2.name = "测试";
+            model2.name = "菜单3-2";
             model2.type = "view";
             model2.url = "https://baidu.com";
             _MenuParameter.Add(model2);
 
-            MenuModel _model = new MenuModel();
-            _model.name = "测试1";
+            MenuModel _model = new MenuModel();//多按钮主列表名称
+            _model.name = "菜单3";
             _model.sub_button = _MenuParameter;
             list.Add(_model);
 
