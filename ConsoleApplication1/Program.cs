@@ -49,7 +49,7 @@ namespace ConsoleApplication1
                 //wx.Menu(diy, 1);
                 #endregion
                 BaiDu_CharacterRecognition ce = new BaiDu_CharacterRecognition();
-                var result = ce.GetGeneral_basic(2,@"E:/c#项目/新建文件夹/WxTenpay/ConsoleApplication1/11.png");
+                var result = ce.GetGeneral_basic(2,@"E:/新建文件夹/WxTenpay/ConsoleApplication1/11.png");
                 Console.Write(result);
             }
             catch (Exception ex)

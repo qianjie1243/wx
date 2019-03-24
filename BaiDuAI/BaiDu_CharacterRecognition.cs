@@ -29,7 +29,7 @@ namespace BaiDuAI
         /// <param name="probability">	是否返回识别结果中每一行的置信度</param>
         /// <param name="type">	类型 1：普通版 2：高精度版 3：含位置信息版 4：含位置高精度版 5:含生僻字版</param>
         /// <returns></returns>
-        public object GetGeneral_basic(int type, string path, string language_type, string detect_direction="false", string probability= "false")
+        public object GetGeneral_basic(int type, string path, string language_type= "CHN_ENG", string detect_direction="false", string probability= "false")
         {
             try
             {
