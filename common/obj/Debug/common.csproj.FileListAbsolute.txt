@@ -2,3 +2,4 @@ E:\c#项目\新建文件夹\WxTenpay\common\bin\Debug\common.dll
 E:\c#项目\新建文件夹\WxTenpay\common\bin\Debug\common.pdb
 E:\c#项目\新建文件夹\WxTenpay\common\obj\Debug\common.dll
 E:\c#项目\新建文件夹\WxTenpay\common\obj\Debug\common.pdb
+E:\c#项目\新建文件夹\WxTenpay\common\obj\Debug\common.csprojResolveAssemblyReference.cache

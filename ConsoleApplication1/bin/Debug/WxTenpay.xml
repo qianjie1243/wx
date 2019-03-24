@@ -208,6 +208,11 @@
             <param name="type">微信回调数据返回的结果, 0：result_code的值 ,客户订单号</param>
             <returns></returns>
         </member>
+        <member name="M:WxTenpay.WeChatPayment.Inform">
+            <summary>
+            通知微信已收到XML回调通知
+            </summary>
+        </member>
         <member name="T:WxTenpay.APP_Aconfig">
             <summary>
             APP安卓支付配置
@@ -1904,7 +1909,7 @@
             <param name="Name">保存头像图片名称</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.WechatPublic.Geturl(System.String)">
+        <member name="M:WxTenpay.WechatPublic.GetAuthorizationUrl(System.String)">
              <summary>
             重新授权URL
              </summary>

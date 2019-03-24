@@ -4,89 +4,90 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
+using System.Web;
 
-namespace  Common
+namespace Common
 {
-	/// <summary>
-	/// Thumbnail 的摘要说明。
-	/// </summary>
-	public class Thumbnail
-	{
-		private Image srcImage;
-		private string srcFileName;		
-		
-		/// <summary>
-		/// 创建
-		/// </summary>
-		/// <param name="FileName">原始图片路径</param>
-		public bool SetImage(string FileName)
-		{
-			srcFileName = Utils.GetMapPath(FileName);
-			try
-			{
-				srcImage = Image.FromFile(srcFileName);
-			}
-			catch
-			{
-				return false;
-			}
-			return true;
+    /// <summary>
+    /// Thumbnail 的摘要说明。
+    /// </summary>
+    public class Thumbnail
+    {
+        private Image srcImage;
+        private string srcFileName;
 
-		}
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="FileName">原始图片路径</param>
+        public bool SetImage(string FileName)
+        {
+            srcFileName = Utils.GetMapPath(FileName);
+            try
+            {
+                srcImage = Image.FromFile(srcFileName);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
 
-		/// <summary>
-		/// 回调
-		/// </summary>
-		/// <returns></returns>
-		public bool ThumbnailCallback()
-		{
-			return false;
-		}
+        }
 
-		/// <summary>
-		/// 生成缩略图,返回缩略图的Image对象
-		/// </summary>
-		/// <param name="Width">缩略图宽度</param>
-		/// <param name="Height">缩略图高度</param>
-		/// <returns>缩略图的Image对象</returns>
-		public Image GetImage(int Width,int Height)
-		{
-			Image img;
-			Image.GetThumbnailImageAbort callb = new Image.GetThumbnailImageAbort(ThumbnailCallback); 
- 			img = srcImage.GetThumbnailImage(Width,Height,callb, IntPtr.Zero);
- 			return img;
-		}
+        /// <summary>
+        /// 回调
+        /// </summary>
+        /// <returns></returns>
+        public bool ThumbnailCallback()
+        {
+            return false;
+        }
 
-		/// <summary>
-		/// 保存缩略图
-		/// </summary>
-		/// <param name="Width"></param>
-		/// <param name="Height"></param>
-		public void SaveThumbnailImage(int Width,int Height)
-		{
-			switch(Path.GetExtension(srcFileName).ToLower())
-			{
-				case ".png":
-					SaveImage(Width, Height, ImageFormat.Png);
-					break;
-				case ".gif":
-					SaveImage(Width, Height, ImageFormat.Gif);
-					break;
-				default:
-					SaveImage(Width, Height, ImageFormat.Jpeg);
-					break;
-			}
-		}
+        /// <summary>
+        /// 生成缩略图,返回缩略图的Image对象
+        /// </summary>
+        /// <param name="Width">缩略图宽度</param>
+        /// <param name="Height">缩略图高度</param>
+        /// <returns>缩略图的Image对象</returns>
+        public Image GetImage(int Width, int Height)
+        {
+            Image img;
+            Image.GetThumbnailImageAbort callb = new Image.GetThumbnailImageAbort(ThumbnailCallback);
+            img = srcImage.GetThumbnailImage(Width, Height, callb, IntPtr.Zero);
+            return img;
+        }
 
-		/// <summary>
-		/// 生成缩略图并保存
-		/// </summary>
-		/// <param name="Width">缩略图的宽度</param>
-		/// <param name="Height">缩略图的高度</param>
-		/// <param name="imgformat">保存的图像格式</param>
-		/// <returns>缩略图的Image对象</returns>
-		public void SaveImage(int Width,int Height, ImageFormat imgformat)
-		{
+        /// <summary>
+        /// 保存缩略图
+        /// </summary>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        public void SaveThumbnailImage(int Width, int Height)
+        {
+            switch (Path.GetExtension(srcFileName).ToLower())
+            {
+                case ".png":
+                    SaveImage(Width, Height, ImageFormat.Png);
+                    break;
+                case ".gif":
+                    SaveImage(Width, Height, ImageFormat.Gif);
+                    break;
+                default:
+                    SaveImage(Width, Height, ImageFormat.Jpeg);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 生成缩略图并保存
+        /// </summary>
+        /// <param name="Width">缩略图的宽度</param>
+        /// <param name="Height">缩略图的高度</param>
+        /// <param name="imgformat">保存的图像格式</param>
+        /// <returns>缩略图的Image对象</returns>
+        public void SaveImage(int Width, int Height, ImageFormat imgformat)
+        {
             if (imgformat != ImageFormat.Gif && (srcImage.Width > Width) || (srcImage.Height > Height))
             {
                 Image img;
@@ -96,89 +97,89 @@ namespace  Common
                 img.Save(srcFileName, imgformat);
                 img.Dispose();
             }
-		}
+        }
 
-		#region Helper
+        #region Helper
 
-		/// <summary>
-		/// 保存图片
-		/// </summary>
-		/// <param name="image">Image 对象</param>
-		/// <param name="savePath">保存路径</param>
-		/// <param name="ici">指定格式的编解码参数</param>
-		private static void SaveImage(Image image, string savePath, ImageCodecInfo ici)
-		{
-			//设置 原图片 对象的 EncoderParameters 对象
-			EncoderParameters parameters = new EncoderParameters(1);
-			parameters.Param[0] = new EncoderParameter(Encoder.Quality, ((long) 100));
-			image.Save(savePath, ici, parameters);
-			parameters.Dispose();
-		}
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="image">Image 对象</param>
+        /// <param name="savePath">保存路径</param>
+        /// <param name="ici">指定格式的编解码参数</param>
+        private static void SaveImage(Image image, string savePath, ImageCodecInfo ici)
+        {
+            //设置 原图片 对象的 EncoderParameters 对象
+            EncoderParameters parameters = new EncoderParameters(1);
+            parameters.Param[0] = new EncoderParameter(Encoder.Quality, ((long)100));
+            image.Save(savePath, ici, parameters);
+            parameters.Dispose();
+        }
 
-		/// <summary>
-		/// 获取图像编码解码器的所有相关信息
-		/// </summary>
-		/// <param name="mimeType">包含编码解码器的多用途网际邮件扩充协议 (MIME) 类型的字符串</param>
-		/// <returns>返回图像编码解码器的所有相关信息</returns>
-		private static ImageCodecInfo GetCodecInfo(string mimeType)
-		{
-			ImageCodecInfo[] CodecInfo = ImageCodecInfo.GetImageEncoders();
-			foreach(ImageCodecInfo ici in CodecInfo)
-			{
-				if(ici.MimeType == mimeType)
+        /// <summary>
+        /// 获取图像编码解码器的所有相关信息
+        /// </summary>
+        /// <param name="mimeType">包含编码解码器的多用途网际邮件扩充协议 (MIME) 类型的字符串</param>
+        /// <returns>返回图像编码解码器的所有相关信息</returns>
+        private static ImageCodecInfo GetCodecInfo(string mimeType)
+        {
+            ImageCodecInfo[] CodecInfo = ImageCodecInfo.GetImageEncoders();
+            foreach (ImageCodecInfo ici in CodecInfo)
+            {
+                if (ici.MimeType == mimeType)
                     return ici;
-			}
-			return null;
-		}
+            }
+            return null;
+        }
 
-		/// <summary>
-		/// 计算新尺寸
-		/// </summary>
-		/// <param name="width">原始宽度</param>
-		/// <param name="height">原始高度</param>
-		/// <param name="maxWidth">最大新宽度</param>
-		/// <param name="maxHeight">最大新高度</param>
-		/// <returns></returns>
-		private static Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
-		{
+        /// <summary>
+        /// 计算新尺寸
+        /// </summary>
+        /// <param name="width">原始宽度</param>
+        /// <param name="height">原始高度</param>
+        /// <param name="maxWidth">最大新宽度</param>
+        /// <param name="maxHeight">最大新高度</param>
+        /// <returns></returns>
+        private static Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
+        {
             //此次2012-02-05修改过=================
             if (maxWidth <= 0)
                 maxWidth = width;
             if (maxHeight <= 0)
                 maxHeight = height;
             //以上2012-02-05修改过=================
-			decimal MAX_WIDTH = (decimal)maxWidth;
-			decimal MAX_HEIGHT = (decimal)maxHeight;
-			decimal ASPECT_RATIO = MAX_WIDTH / MAX_HEIGHT;
+            decimal MAX_WIDTH = (decimal)maxWidth;
+            decimal MAX_HEIGHT = (decimal)maxHeight;
+            decimal ASPECT_RATIO = MAX_WIDTH / MAX_HEIGHT;
 
-			int newWidth, newHeight;
-			decimal originalWidth = (decimal)width;
-			decimal originalHeight = (decimal)height;
-			
-			if (originalWidth > MAX_WIDTH || originalHeight > MAX_HEIGHT) 
-			{
-				decimal factor;
-				// determine the largest factor 
-				if (originalWidth / originalHeight > ASPECT_RATIO) 
-				{
-					factor = originalWidth / MAX_WIDTH;
-					newWidth = Convert.ToInt32(originalWidth / factor);
-					newHeight = Convert.ToInt32(originalHeight / factor);
-				} 
-				else 
-				{
-					factor = originalHeight / MAX_HEIGHT;
-					newWidth = Convert.ToInt32(originalWidth / factor);
-					newHeight = Convert.ToInt32(originalHeight / factor);
-				}	  
-			} 
-			else 
-			{
-				newWidth = width;
-				newHeight = height;
-			}
-			return new Size(newWidth,newHeight);			
-		}
+            int newWidth, newHeight;
+            decimal originalWidth = (decimal)width;
+            decimal originalHeight = (decimal)height;
+
+            if (originalWidth > MAX_WIDTH || originalHeight > MAX_HEIGHT)
+            {
+                decimal factor;
+                // determine the largest factor 
+                if (originalWidth / originalHeight > ASPECT_RATIO)
+                {
+                    factor = originalWidth / MAX_WIDTH;
+                    newWidth = Convert.ToInt32(originalWidth / factor);
+                    newHeight = Convert.ToInt32(originalHeight / factor);
+                }
+                else
+                {
+                    factor = originalHeight / MAX_HEIGHT;
+                    newWidth = Convert.ToInt32(originalWidth / factor);
+                    newHeight = Convert.ToInt32(originalHeight / factor);
+                }
+            }
+            else
+            {
+                newWidth = width;
+                newHeight = height;
+            }
+            return new Size(newWidth, newHeight);
+        }
 
         /// <summary>
         /// 得到图片格式
@@ -203,49 +204,49 @@ namespace  Common
                     return ImageFormat.Jpeg;
             }
         }
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// 制作小正方形
-		/// </summary>
-		/// <param name="image">图片对象</param>
-		/// <param name="newFileName">新地址</param>
-		/// <param name="newSize">长度或宽度</param>
-		public static void MakeSquareImage(Image image, string newFileName, int newSize)
-		{	
-			int i = 0;
-			int width = image.Width;
-			int height = image.Height;
-			if (width > height)
-				i = height;
-			else
-				i = width;
+        /// <summary>
+        /// 制作小正方形
+        /// </summary>
+        /// <param name="image">图片对象</param>
+        /// <param name="newFileName">新地址</param>
+        /// <param name="newSize">长度或宽度</param>
+        public static void MakeSquareImage(Image image, string newFileName, int newSize)
+        {
+            int i = 0;
+            int width = image.Width;
+            int height = image.Height;
+            if (width > height)
+                i = height;
+            else
+                i = width;
 
             Bitmap b = new Bitmap(newSize, newSize);
 
-			try
-			{
-				Graphics g = Graphics.FromImage(b);
+            try
+            {
+                Graphics g = Graphics.FromImage(b);
                 //设置高质量插值法
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 //设置高质量,低速度呈现平滑程度
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-				//清除整个绘图面并以透明背景色填充
-				g.Clear(Color.Transparent);
-				if (width < height)
-					g.DrawImage(image,  new Rectangle(0, 0, newSize, newSize), new Rectangle(0, (height-width)/2, width, width), GraphicsUnit.Pixel);
-				else
-					g.DrawImage(image, new Rectangle(0, 0, newSize, newSize), new Rectangle((width-height)/2, 0, height, height), GraphicsUnit.Pixel);
+                //清除整个绘图面并以透明背景色填充
+                g.Clear(Color.Transparent);
+                if (width < height)
+                    g.DrawImage(image, new Rectangle(0, 0, newSize, newSize), new Rectangle(0, (height - width) / 2, width, width), GraphicsUnit.Pixel);
+                else
+                    g.DrawImage(image, new Rectangle(0, 0, newSize, newSize), new Rectangle((width - height) / 2, 0, height, height), GraphicsUnit.Pixel);
 
                 SaveImage(b, newFileName, GetCodecInfo("image/" + GetFormat(newFileName).ToString().ToLower()));
-			}
-			finally
-			{
-				image.Dispose();
-				b.Dispose();
-			}
-		}
+            }
+            finally
+            {
+                image.Dispose();
+                b.Dispose();
+            }
+        }
 
         /// <summary>
         /// 制作小正方形
@@ -274,15 +275,15 @@ namespace  Common
             MakeSquareImage(original, newFileName, newSize);
         }
 
-		/// <summary>
-		/// 制作缩略图
-		/// </summary>
-		/// <param name="original">图片对象</param>
-		/// <param name="newFileName">新图路径</param>
-		/// <param name="maxWidth">最大宽度</param>
-		/// <param name="maxHeight">最大高度</param>
+        /// <summary>
+        /// 制作缩略图
+        /// </summary>
+        /// <param name="original">图片对象</param>
+        /// <param name="newFileName">新图路径</param>
+        /// <param name="maxWidth">最大宽度</param>
+        /// <param name="maxHeight">最大高度</param>
         public static void MakeThumbnailImage(Image original, string newFileName, int maxWidth, int maxHeight)
-		{
+        {
             Size _newSize = ResizeImage(original.Width, original.Height, maxWidth, maxHeight);
 
             using (Image displayImage = new Bitmap(original, _newSize))
@@ -296,7 +297,7 @@ namespace  Common
                     original.Dispose();
                 }
             }
-		}
+        }
 
         /// <summary>
         /// 制作缩略图
@@ -391,7 +392,7 @@ namespace  Common
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 //清空画布并以透明背景色填充
-                g.Clear(Color.White); 
+                g.Clear(Color.White);
                 //g.Clear(Color.Transparent);
                 //在指定位置并且按指定大小绘制原图片的指定部分
                 g.DrawImage(originalImage, new Rectangle(0, 0, towidth, toheight), new Rectangle(x, y, ow, oh), GraphicsUnit.Pixel);
@@ -467,7 +468,7 @@ namespace  Common
         public static void MakeRemoteThumbnailImage(string url, string newFileName, int maxWidth, int maxHeight)
         {
             Stream stream = GetRemoteImage(url);
-            if(stream == null)
+            if (stream == null)
                 return;
             Image original = Image.FromStream(stream);
             stream.Close();
@@ -497,5 +498,72 @@ namespace  Common
                 return null;
             }
         }
-	}
+
+
+        /// <summary>
+        /// 图片转Base64
+        /// </summary>
+        /// <param name="Imagefilename">图片路劲</param>
+        /// <returns></returns>
+        public static string ImgToBase64String(string Imagefilename)
+        {
+            try
+            {
+                //if (!Imagefilename.ToLower().Contains("http://"))
+                //{
+                //    Imagefilename = HttpContext.Current.Server.MapPath(Imagefilename);
+                //}
+                Bitmap bmp = new Bitmap(Imagefilename);
+
+                MemoryStream ms = new MemoryStream();
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] arr = new byte[ms.Length];
+                ms.Position = 0;
+                ms.Read(arr, 0, (int)ms.Length);
+                ms.Close();
+                return Convert.ToBase64String(arr);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Base64转图片
+        /// </summary>
+        /// <param name="strbase64">strbase64</param>
+        /// <param name="path">保存图片路劲</param>
+        /// <param name="Name">图片名称</param>
+        /// <returns></returns>
+        public static string Base64StringToImage(string strbase64, string path, string Name)
+        {
+            try
+            {
+                string ls_path = HttpContext.Current.Server.MapPath(path);
+
+                if (!Directory.Exists(ls_path))
+                {
+                    Directory.CreateDirectory(ls_path);
+                }
+                ls_path = ls_path + Name + ".jpg";
+                if (!File.Exists(ls_path))
+                {
+                    File.Create(ls_path);
+                }
+
+                byte[] arr = Convert.FromBase64String(strbase64);
+                MemoryStream ms = new MemoryStream(arr);
+                System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
+                img.Save(ls_path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return ls_path;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+    }
 }

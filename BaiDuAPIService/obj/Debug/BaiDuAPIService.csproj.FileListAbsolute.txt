@@ -1,0 +1,11 @@
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\obj\Debug\BaiDuAPIService.csprojResolveAssemblyReference.cache
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\BaiDuAPIService.dll
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\BaiDuAPIService.pdb
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\common.dll
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\Newtonsoft.Json.dll
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\ThoughtWorks.QRCode.dll
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\common.pdb
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\Newtonsoft.Json.pdb
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\bin\Debug\Newtonsoft.Json.xml
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\obj\Debug\BaiDuAPIService.dll
+E:\c#项目\新建文件夹\WxTenpay\BaiDuAPIService\obj\Debug\BaiDuAPIService.pdb

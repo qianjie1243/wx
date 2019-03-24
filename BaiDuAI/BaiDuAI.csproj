@@ -40,9 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaiDuConfig.cs" />
     <Compile Include="BaiDu_CharacterRecognition.cs" />
     <Compile Include="BaiDu_ImageRecognition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaiDuAPIService\BaiDuAPIService.csproj">
+      <Project>{687919f7-a398-4f7f-9281-f4a846d1ae73}</Project>
+      <Name>BaiDuAPIService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
