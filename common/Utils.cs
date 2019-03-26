@@ -9,7 +9,7 @@ using System.Web;
 using System.Security.Cryptography;
 using System.Collections.Specialized;
 
-namespace  Common
+namespace Common
 {
     public class Utils
     {
@@ -705,7 +705,7 @@ namespace  Common
         {
             return !Regex.IsMatch(str, @"[-|;|,|\/|\(|\)|\[|\]|\}|\{|%|@|\*|!|\']");
         }
-        
+
         /// <summary>
         /// 检查危险字符
         /// </summary>
@@ -1472,11 +1472,14 @@ namespace  Common
         /// <param name="url">URL.</param>
         /// <param name="param">POST的数据</param>
         /// <returns></returns>
-        public static string HttpPost(string url, string param)
+        public static string HttpPost(string url, string param, string ContentType = "")
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
+            if (string.IsNullOrEmpty(ContentType))
+                request.ContentType = "application/x-www-form-urlencoded";
+            else
+                request.ContentType = ContentType;
             request.Accept = "*/*";
             request.Timeout = 15000;
             request.AllowAutoRedirect = false;
@@ -1512,7 +1515,7 @@ namespace  Common
 
             return responseStr;
         }
-        
+
         /// <summary>
         /// HTTP GET方式请求数据.
         /// </summary>
@@ -1554,7 +1557,7 @@ namespace  Common
             return responseStr;
         }
 
-     
+
         /// <summary>
         /// POst模拟from提交数据
         /// </summary>
@@ -1572,12 +1575,12 @@ namespace  Common
                     byte[] byRemoteInfo = wc.UploadValues(url, "POST", postData);
                     returnmsg = System.Text.Encoding.Default.GetString(byRemoteInfo);
                 }
-                
+
                 return returnmsg;
             }
             catch (Exception ex)
             {
-               
+
                 throw;
             }
         }
@@ -1610,7 +1613,7 @@ namespace  Common
             }
             return strResult.ToString();
         }
-       
+
         /// <summary>
         /// 执行URL获取页面内容
         /// </summary>
@@ -1636,9 +1639,9 @@ namespace  Common
                 sw.Dispose();
             }
         }
-        #endregion     
+        #endregion
 
-      
+
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using BaiDuAPIService;
+﻿using BaiDuAI.SERVICE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,6 @@ namespace BaiDuAI
         CharacterRecognitionService _cr = new CharacterRecognitionService();
         #endregion
 
-
         #region 功能
 
         #region 通用文字识别
@@ -33,7 +32,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.GetGeneral_basic(type, path, language_type, detect_direction, probability, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.GetGeneral_basic(type, path, language_type, detect_direction, probability);
 
             }
             catch (Exception ex)
@@ -59,7 +58,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.GetIdNumber(path, BaiDuConfig.AK, BaiDuConfig.SK,id_card_side, detect_direction);
+                return _cr.GetIdNumber(path,id_card_side, detect_direction);
             }
             catch (Exception)
             {
@@ -81,7 +80,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.GetBankcard(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.GetBankcard(path);
             }
             catch (Exception)
             {
@@ -101,7 +100,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getpassport(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getpassport(path);
             }
             catch (Exception)
             {
@@ -122,7 +121,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getdrivinglicense(path, BaiDuConfig.AK, BaiDuConfig.SK, detect_direction);
+                return _cr.Getdrivinglicense(path, detect_direction);
             }
             catch (Exception)
             {
@@ -144,7 +143,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getvehiclelicense(path, BaiDuConfig.AK, BaiDuConfig.SK, detect_direction, vehicle_license_side);
+                return _cr.Getvehiclelicense(path, detect_direction, vehicle_license_side);
             }
             catch (Exception)
             {
@@ -164,7 +163,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Gethouseholdregister(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Gethouseholdregister(path);
             }
             catch (Exception)
             {
@@ -184,7 +183,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getbirthcertificate(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getbirthcertificate(path);
             }
             catch (Exception)
             {
@@ -204,7 +203,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.GetHKMacauexitentrypermit(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.GetHKMacauexitentrypermit(path);
             }
             catch (Exception)
             {
@@ -224,7 +223,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Gettaiwanexitentrypermit(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Gettaiwanexitentrypermit(path);
             }
             catch (Exception)
             {
@@ -249,7 +248,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getbusinesslicense(path, BaiDuConfig.AK, BaiDuConfig.SK, detect_direction);
+                return _cr.Getbusinesslicense(path, detect_direction);
             }
             catch (Exception)
             {
@@ -269,7 +268,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getvatinvoice(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getvatinvoice(path);
             }
             catch (Exception)
             {
@@ -290,7 +289,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getreceipt(path, BaiDuConfig.AK, BaiDuConfig.SK, detect_direction);
+                return _cr.Getreceipt(path,  detect_direction);
             }
             catch (Exception)
             {
@@ -310,7 +309,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Gettrainticket(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Gettrainticket(path);
             }
             catch (Exception)
             {
@@ -330,7 +329,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Gettaxireceipt(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Gettaxireceipt(path);
             }
             catch (Exception)
             {
@@ -350,7 +349,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getquotainvoice(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getquotainvoice(path);
             }
             catch (Exception)
             {
@@ -370,7 +369,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getvehicleinvoice(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getvehicleinvoice(path);
             }
             catch (Exception)
             {
@@ -391,7 +390,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.GetHandWriting(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.GetHandWriting(path);
             }
             catch (Exception)
             {
@@ -411,7 +410,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getbusinesscard(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getbusinesscard(path);
             }
             catch (Exception)
             {
@@ -432,7 +431,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getlicenseplate(path, BaiDuConfig.AK, BaiDuConfig.SK, multi_detect);
+                return _cr.Getlicenseplate(path, multi_detect);
             }
             catch (Exception)
             {
@@ -452,7 +451,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getvehiclecertificate(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getvehiclecertificate(path);
             }
             catch (Exception)
             {
@@ -472,7 +471,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getvincode(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getvincode(path);
             }
             catch (Exception)
             {
@@ -492,7 +491,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getqrcode(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getqrcode(path);
             }
             catch (Exception)
             {
@@ -512,7 +511,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getlottery(path, BaiDuConfig.AK, BaiDuConfig.SK);
+                return _cr.Getlottery(path);
             }
             catch (Exception)
             {
@@ -533,7 +532,7 @@ namespace BaiDuAI
         {
             try
             {
-                return _cr.Getlinsurancedocuments(path, BaiDuConfig.AK, BaiDuConfig.SK, rkv_business);
+                return _cr.Getlinsurancedocuments(path, rkv_business);
             }
             catch (Exception)
             {
@@ -544,7 +543,6 @@ namespace BaiDuAI
         #endregion
 
         #endregion
-
 
     }
 }

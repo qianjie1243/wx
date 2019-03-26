@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiDuAI", "BaiDuAI\BaiDuAI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "common\Common.csproj", "{A7EB4559-810A-46A3-84FB-E9CB88EE9A09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaiDuAPIService", "BaiDuAPIService\BaiDuAPIService.csproj", "{687919F7-A398-4F7F-9281-F4A846D1AE73}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{A7EB4559-810A-46A3-84FB-E9CB88EE9A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7EB4559-810A-46A3-84FB-E9CB88EE9A09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7EB4559-810A-46A3-84FB-E9CB88EE9A09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{687919F7-A398-4F7F-9281-F4A846D1AE73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{687919F7-A398-4F7F-9281-F4A846D1AE73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{687919F7-A398-4F7F-9281-F4A846D1AE73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{687919F7-A398-4F7F-9281-F4A846D1AE73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
