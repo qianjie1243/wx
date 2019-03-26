@@ -1,4 +1,5 @@
 ﻿using BaiDuAI.SERVICE;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace BaiDuAI
         /// <param name="path"></param>
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
         /// <returns></returns>
-        public object GetDetect(string path, string image_type)
+        public JObject GetDetect(string path, string image_type)
         {
             try
             {
@@ -45,7 +46,7 @@ namespace BaiDuAI
         /// <param name="path1">图片路劲</param>
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
         /// <returns></returns>
-        public object GetMatch(string path, string path1,  string image_type)
+        public JObject GetMatch(string path, string path1,  string image_type)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace BaiDuAI
         /// </summary>
         /// <param name="path"></param>   
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
-        public object GetCar(string path,  string image_type)
+        public JObject GetCar(string path,  string image_type)
         {
             try
             {
@@ -85,7 +86,7 @@ namespace BaiDuAI
         /// </summary>
         /// <param name="path"></param>  
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
-        public object GetVehicleattr(string path,string image_type)
+        public JObject GetVehicleattr(string path,string image_type)
         {
             try
             {

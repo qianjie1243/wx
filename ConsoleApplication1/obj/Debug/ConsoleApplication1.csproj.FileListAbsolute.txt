@@ -15,9 +15,7 @@ E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\obj\Debug\ConsoleApplic
 E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
 E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
 E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\bin\Debug\BaiDuAI.dll
-E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\bin\Debug\BaiDuAPIService.dll
 E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\bin\Debug\common.dll
 E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\bin\Debug\ThoughtWorks.QRCode.dll
 E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\bin\Debug\BaiDuAI.pdb
-E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\bin\Debug\BaiDuAPIService.pdb
 E:\c#项目\新建文件夹\WxTenpay\ConsoleApplication1\bin\Debug\common.pdb

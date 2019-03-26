@@ -216,7 +216,6 @@ namespace BaiDuAI.SERVICE
         #endregion 
         #endregion
 
-
         #region 通用文字识别
         /// <summary>
         /// 通用文字识别
@@ -227,7 +226,7 @@ namespace BaiDuAI.SERVICE
         /// <param name="probability">	是否返回识别结果中每一行的置信度</param>
         /// <param name="type">	类型 1：普通版 2：高精度版 3：含位置信息版 4：含位置高精度版 5:含生僻字版</param>
         /// <returns></returns>
-        public object GetGeneral_basic(int type, string path, string language_type, string detect_direction, string probability)
+        public JObject GetGeneral_basic(int type, string path, string language_type, string detect_direction, string probability)
         {
             try
             {
@@ -251,7 +250,7 @@ namespace BaiDuAI.SERVICE
                         break;
                 }
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&language_type={language_type}&detect_direction={detect_direction}&probability={probability}";
-                var result = Utils.HttpPost(url + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(url + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
 
@@ -275,12 +274,12 @@ namespace BaiDuAI.SERVICE
         /// <param name="id_card_side">front：身份证含照片的一面；back：身份证带国徽的一面</param> 
         /// <param name="detect_direction">true：检测旋转角度并矫正识别；false：不检测旋转角度，针对摆放情况不可控制的情况建议本参数置为true</param>
         /// <returns></returns>
-        public object GetIdNumber(string path, string id_card_side, string detect_direction)
+        public JObject GetIdNumber(string path, string id_card_side, string detect_direction)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&id_card_side={id_card_side}&detect_direction={detect_direction}";
-                var result = Utils.HttpPost(idcardurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(idcardurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -299,12 +298,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object GetBankcard(string path)
+        public JObject GetBankcard(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(bankcardurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(bankcardurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -322,12 +321,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getpassport(string path)
+        public JObject Getpassport(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(businesslicenseurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(businesslicenseurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -346,12 +345,12 @@ namespace BaiDuAI.SERVICE
         /// <param name="path">图片路劲</param>
         /// <param name="detect_direction">是否检测图像朝向，默认不检测，即：false。朝向是指输入图像是正常方向、逆时针旋转90/180/270度。可选值包括:- true：检测朝向；- false：不检测朝向。</param>
         /// <returns></returns>
-        public object Getdrivinglicense(string path, string detect_direction)
+        public JObject Getdrivinglicense(string path, string detect_direction)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&detect_direction={detect_direction}";
-                var result = Utils.HttpPost(drivinglicenseurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(drivinglicenseurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -371,12 +370,12 @@ namespace BaiDuAI.SERVICE
         /// <param name="detect_direction">是否检测图像朝向，默认不检测，即：false。朝向是指输入图像是正常方向、逆时针旋转90/180/270度。可选值包括:- true：检测朝向；- false：不检测朝向。</param>
         /// <param name="vehicle_license_side">front：识别行驶证主页，back：识别行驶证副页,默认为正页</param>
         /// <returns></returns>
-        public object Getvehiclelicense(string path, string detect_direction, string vehicle_license_side)
+        public JObject Getvehiclelicense(string path, string detect_direction, string vehicle_license_side)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&detect_direction={detect_direction}&vehicle_license_side={vehicle_license_side}";
-                var result = Utils.HttpPost(vehiclelicenseurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(vehiclelicenseurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -394,12 +393,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Gethouseholdregister(string path)
+        public JObject Gethouseholdregister(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(householdregisterurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(householdregisterurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -417,12 +416,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getbirthcertificate(string path)
+        public JObject Getbirthcertificate(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(birthcertificateurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(birthcertificateurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -440,12 +439,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object GetHKMacauexitentrypermit(string path)
+        public JObject GetHKMacauexitentrypermit(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(HKMacauexitentrypermiturl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(HKMacauexitentrypermiturl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -463,12 +462,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Gettaiwanexitentrypermit(string path)
+        public JObject Gettaiwanexitentrypermit(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(taiwanexitentrypermiturl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(taiwanexitentrypermiturl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -491,12 +490,12 @@ namespace BaiDuAI.SERVICE
         /// <param name="path">图片路劲</param>
         /// <param name="detect_direction">可选值 true,false是否检测图像朝向，默认不检测，即：false。可选值包括true - 检测朝向；false - 不检测朝向。朝向是指输入图像是正常方向、逆时针旋转90/180/270度</param>
         /// <returns></returns>
-        public object Getbusinesslicense(string path,  string detect_direction)
+        public JObject Getbusinesslicense(string path,  string detect_direction)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&detect_direction={detect_direction}";
-                var result = Utils.HttpPost(businesslicenseurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(businesslicenseurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -514,12 +513,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getvatinvoice(string path)
+        public JObject Getvatinvoice(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(vatinvoiceurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(vatinvoiceurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -538,12 +537,12 @@ namespace BaiDuAI.SERVICE
         /// <param name="path">图片路劲</param>
         /// <param name="detect_direction">是否检测图像朝向，默认不检测，即：false。朝向是指输入图像是正常方向、逆时针旋转90/180/270度。可选值包括:- true：检测朝向；- false：不检测朝向。</param>
         /// <returns></returns>
-        public object Getreceipt(string path, string detect_direction)
+        public JObject Getreceipt(string path, string detect_direction)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&detect_direction={detect_direction}";
-                var result = Utils.HttpPost(receipturl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(receipturl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -561,12 +560,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Gettrainticket(string path)
+        public JObject Gettrainticket(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(trainticketurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(trainticketurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -584,12 +583,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Gettaxireceipt(string path)
+        public JObject Gettaxireceipt(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(taxireceipturl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(taxireceipturl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -607,12 +606,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getquotainvoice(string path)
+        public JObject Getquotainvoice(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(quotainvoiceurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(quotainvoiceurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -630,12 +629,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getvehicleinvoice(string path)
+        public JObject Getvehicleinvoice(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(vehicleinvoiceurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(vehicleinvoiceurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -654,12 +653,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public object GetHandWriting(string path)
+        public JObject GetHandWriting(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(handwritingurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(handwritingurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -677,12 +676,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getbusinesscard(string path)
+        public JObject Getbusinesscard(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(businesscardurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(businesscardurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -701,15 +700,15 @@ namespace BaiDuAI.SERVICE
         /// <param name="path">图片路劲</param>
         /// <param name="multi_detect">是否检测多张车牌，默认为false，当置为true的时候可以对一张图片内的多张车牌进行识别</param>
         /// <returns></returns>
-        public object Getlicenseplate(string path, bool multi_detect)
+        public JObject Getlicenseplate(string path, bool multi_detect)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&multi_detect={multi_detect}";
-                var result = Utils.HttpPost(licenseplateurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(licenseplateurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
-               var number= jo["words_result"]["number"];
-                return number;
+              // var number= jo["words_result"]["number"];
+                return jo;
             }
             catch (Exception)
             {
@@ -725,12 +724,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getvehiclecertificate(string path)
+        public JObject Getvehiclecertificate(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(vehiclecertificateurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(vehiclecertificateurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -748,12 +747,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getvincode(string path)
+        public JObject Getvincode(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(vincodeurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(vincodeurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -771,12 +770,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getqrcode(string path)
+        public JObject Getqrcode(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(qrcodeurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(qrcodeurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -794,12 +793,12 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path">图片路劲</param>
         /// <returns></returns>
-        public object Getlottery(string path)
+        public JObject Getlottery(string path)
         {
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}";
-                var result = Utils.HttpPost(lotteryurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(lotteryurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -823,7 +822,7 @@ namespace BaiDuAI.SERVICE
             try
             {
                 string str = $"image={HttpUtility.UrlEncode(Thumbnail.ImgToBase64String(path))}&rkv_business={rkv_business}";
-                var result = Utils.HttpPost(linsurancedocumentsurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), str);
+                var result = Utils.HttpPost(linsurancedocumentsurl + "?access_token=" + AccessToken.getAccessToken(), str);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }

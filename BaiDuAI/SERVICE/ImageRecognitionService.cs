@@ -50,7 +50,7 @@ namespace BaiDuAI.SERVICE
         /// <param name="path"></param>
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
         /// <returns></returns>
-        public object GetDetect(string path, string image_type)
+        public JObject GetDetect(string path, string image_type)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace BaiDuAI.SERVICE
                     image_type = image_type,
                     face_field= "faceshape,facetype",
                 };
-                var result = Utils.HttpPost(detecturl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), JsonConvert.SerializeObject(data), "application/json");
+                var result = Utils.HttpPost(detecturl + "?access_token=" + AccessToken.getAccessToken(), JsonConvert.SerializeObject(data), "application/json");
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -88,7 +88,7 @@ namespace BaiDuAI.SERVICE
         /// <param name="path1">图片路劲</param>
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
         /// <returns></returns>
-        public object GetMatch(string path, string path1, string image_type)
+        public JObject GetMatch(string path, string path1, string image_type)
         {
             try
             {
@@ -122,7 +122,7 @@ namespace BaiDuAI.SERVICE
                     face_field = "faceshape,facetype"
                 });
 
-                var result = Utils.HttpPost(matchurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), JsonConvert.SerializeObject(list), "application/json");
+                var result = Utils.HttpPost(matchurl + "?access_token=" + AccessToken.getAccessToken(), JsonConvert.SerializeObject(list), "application/json");
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -140,7 +140,7 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path"></param>  
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
-        public object GetCar(string path, string image_type)
+        public JObject GetCar(string path, string image_type)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace BaiDuAI.SERVICE
                     image_type = image_type,
                     face_field = "faceshape,facetype"
                 };
-                var result = Utils.HttpPost(carurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), JsonConvert.SerializeObject(data));
+                var result = Utils.HttpPost(carurl + "?access_token=" + AccessToken.getAccessToken(), JsonConvert.SerializeObject(data));
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }
@@ -168,7 +168,7 @@ namespace BaiDuAI.SERVICE
         /// </summary>
         /// <param name="path"></param>
         /// <param name="image_type">图片类型:BASE64,URL,FACE_TOKEN</param>
-        public object GetVehicleattr(string path, string image_type)
+        public JObject GetVehicleattr(string path, string image_type)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace BaiDuAI.SERVICE
                     image_type = image_type,
                     face_field = "faceshape,facetype",
                 };
-                var result = Utils.HttpPost(vehicleattrurl + "?access_token=" + AccessToken.getAccessToken(BaiDuConfig.AK, BaiDuConfig.SK), JsonConvert.SerializeObject(data));
+                var result = Utils.HttpPost(vehicleattrurl + "?access_token=" + AccessToken.getAccessToken(), JsonConvert.SerializeObject(data));
                 JObject jo = (JObject)JsonConvert.DeserializeObject(result);
                 return jo;
             }

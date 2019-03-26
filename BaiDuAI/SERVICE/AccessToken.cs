@@ -57,6 +57,26 @@ namespace BaiDuAI.SERVICE
         }
 
         /// <summary>
+        /// 获取getAccessToken,默认配置参数
+        /// </summary>
+        /// <returns></returns>
+        public static string getAccessToken()
+        {
+            if (string.IsNullOrEmpty(access_token))
+            {
+                getAccess(BaiDuConfig.AK, BaiDuConfig.SK);
+            }
+            else
+            {
+                var timedata = DateTime.Now;
+                if ((timedata - time).TotalSeconds > (expires_in - 100))
+                {
+                    getAccess(BaiDuConfig.AK, BaiDuConfig.SK);
+                }
+            }
+            return access_token;
+        }
+        /// <summary>
         /// 获取Access
         /// </summary>
         private static void getAccess(string AK, string SK)

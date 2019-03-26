@@ -511,7 +511,7 @@ namespace Common
             {
                 //if (!Imagefilename.ToLower().Contains("http://"))
                 //{
-                //    Imagefilename = HttpContext.Current.Server.MapPath(Imagefilename);
+                //   Imagefilename = HttpContext.Current.Server.MapPath(Imagefilename);
                 //}
                 Bitmap bmp = new Bitmap(Imagefilename);
 
