@@ -12,7 +12,7 @@ namespace BaiDuAI.SERVICE
 {
 
     /// <summary>
-    /// 文字识别
+    /// 文字识别，百度免费试用，每天有次数限制
     /// </summary>
     public class CharacterRecognitionService
     {

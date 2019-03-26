@@ -11,7 +11,7 @@ using System.Web;
 namespace BaiDuAI.SERVICE
 {
     /// <summary>
-    /// 图片识别
+    /// 图片识别,需要去百度AI，购买获取权限
     /// </summary>
     public class ImageRecognitionService
     {
