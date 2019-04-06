@@ -22,11 +22,8 @@ namespace ConsoleApplication1
             {
                 #region  微信公众号菜单测试
                 //Wechat_Menu wx = new Wechat_Menu();
-
                 //List<MenuModel> list = new List<MenuModel> { new MenuModel { name = "菜单1", url = "https://baidu.com", type = "view" }, new MenuModel { name = "菜单2", url = "https://baidu.com", type = "view" } };
-
                 //List<MenuModel> _MenuParameter = new List<MenuModel>();//多按钮列表
-
                 //MenuModel model = new MenuModel();//
                 //model.name = "菜单3-1";
                 //model.type = "view";
@@ -49,8 +46,8 @@ namespace ConsoleApplication1
                 //wx.Menu(diy, 1);
                 #endregion
                 BaiDu_CharacterRecognition ce = new BaiDu_CharacterRecognition();
-                var result = ce.Getlicenseplate(@"E:/c#项目/新建文件夹/WxTenpay/ConsoleApplication1/111.png");
-                var number = result["words_result"]["number"];
+                var result = ce.GetIdNumber(@"E:/c#项目/新建文件夹/WxTenpay/ConsoleApplication1/111.png");
+                //var number = result["words_result"]["number"];
                 Console.Write(result);
             }
             catch (Exception ex)
