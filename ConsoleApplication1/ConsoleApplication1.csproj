@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\BaiDuAI\BaiDuAI.csproj">
       <Project>{4baabb14-edad-4bf4-8272-f5fb92e23a5d}</Project>
       <Name>BaiDuAI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\common\Common.csproj">
+      <Project>{a7eb4559-810a-46a3-84fb-e9cb88ee9a09}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\WxTenpay\WxTenpay.csproj">
       <Project>{0a25af62-395f-41b9-84a5-714258ee70ae}</Project>

@@ -540,7 +540,7 @@ namespace Common
         {
             try
             {
-                string ls_path = HttpContext.Current.Server.MapPath(path);
+                string ls_path = GetMapPath(path);
 
                 if (!Directory.Exists(ls_path))
                 {
@@ -561,6 +561,31 @@ namespace Common
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+        /// <summary>
+        /// 获取当前目录
+        /// （网站为网站根目录，测试时为dll所在目录）
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string GetMapPath(string path)
+        {
+            if (HttpContext.Current != null)
+            {
+                return HttpContext.Current.Server.MapPath(path);
+            }
+            else
+            {
+                string root = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                if (!string.IsNullOrWhiteSpace(path))
+                {
+                    path = path.Replace("/", "\\");
+                    if (!path.StartsWith("\\"))
+                        path = "\\" + path;
+                    path = path.Substring(path.IndexOf('\\') + (root.EndsWith("\\") ? 1 : 0));
+                }
+                return root + path;
             }
         }
 

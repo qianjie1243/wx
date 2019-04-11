@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using WxTenpay;
 using WxTenpay.wxconfig.wxconfiguration;
 using BaiDuAI;
-
+using System.Security.Cryptography;
+using System.Web;
+using Newtonsoft.Json;
 
 namespace ConsoleApplication1
 {
     class Program
     {
+
+
         /// <summary>
         /// 测试自定义菜单
         /// </summary>
@@ -45,10 +49,21 @@ namespace ConsoleApplication1
                 //diy.Add("button", list);
                 //wx.Menu(diy, 1);
                 #endregion
-                BaiDu_CharacterRecognition ce = new BaiDu_CharacterRecognition();
-                var result = ce.GetIdNumber(@"E:/c#项目/新建文件夹/WxTenpay/ConsoleApplication1/111.png");
+              //  BaiDu_CharacterRecognition ce = new BaiDu_CharacterRecognition();
+                //  var result = ce.GetIdNumber(@"E:/c#项目/新建文件夹/WxTenpay/ConsoleApplication1/111.png");
                 //var number = result["words_result"]["number"];
-                Console.Write(result);
+                // var res= HttpUtility.UrlDecode("cK1ryyENDj3uPBgLy3iQUT4M9LhSjWArGUjMcg8uNK0uiwtMsxvPSlx4FAkCZYujr1rKS0O5Um7r5iyyqcxpIyavMkex1I20F%2B5cQU6XsPrTFMbrswO%2BnxH5s%2FSLc4uJ8TmBgGSzKzTkqhH5hezXPVFLGzx%2Bk3fo%2FVjUUWPuBKE%3D", System.Text.Encoding.GetEncoding("utf-8"));
+                // var rets = RSADecrypt(key, res);
+                var date = new
+                {
+                    zjhm = "42011119721030565X",
+                    khmc = "敖海",
+                    sjhm = "13771763587"
+                };
+
+                var data = Common.DESEncrypt.MD5Encrypt(JsonConvert.SerializeObject(date), "12345678");
+
+                Console.Write(data);
             }
             catch (Exception ex)
             {
