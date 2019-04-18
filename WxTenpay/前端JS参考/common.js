@@ -410,3 +410,23 @@ Date.prototype.formatDate = function (fmt) {
     return fmt;
 }
 //==========================END===================
+
+
+//=======================JS Base64===================
+///解密：
+function atob(Object){
+    window.atob(Object) 
+
+}
+
+///加密：
+function btoa(Object) {
+    window.btoa(Object)
+
+}
+
+///带中文解密
+function atob(obj) {
+    decodeURIComponent(window.atob(obj))
+}
+//=============END
