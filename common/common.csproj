@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarCodeToHTML.cs" />
+    <Compile Include="Base64.cs" />
     <Compile Include="CacheHelper.cs" />
     <Compile Include="ConvertHelper.cs" />
     <Compile Include="DESEncrypt.cs" />
