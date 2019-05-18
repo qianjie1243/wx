@@ -14,10 +14,10 @@ namespace BaiDuAI
         /// <summary>
         /// 百度云应用的AK
         /// </summary>
-        public  const string  AK= "TwvyuTfwGEvueFHOcBn1Uevy";
+        public  const string  AK= "";//TwvyuTfwGEvueFHOcBn1Uevy
         /// <summary>
         /// 百度云应用的SK
         /// </summary>
-        public  const  string  SK= "47jjmT7Yt1L8Qu8xGruEIT17pILDTwBv";
+        public  const  string  SK= "";//47jjmT7Yt1L8Qu8xGruEIT17pILDTwBv
     }
 }

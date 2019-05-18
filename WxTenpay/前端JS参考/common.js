@@ -5,79 +5,91 @@
 //url==>请求地址，
 //data==>参数
 //method==>请求格式
+//fun==>执行方法
 //默认post请求
 $.ajaxSettings.async = false;//设置同步请求
-function Jajax(url, data, method) {
+function Jajax(url, data, method, fun) {
     url = host + url;
-    var res;
     //Get请求
     if (method == "get") {
         $.get(url, data, function (result) {
-            res = result;
+            if (fun)
+                fun(result);
         })
     } else {  //post
         $.post(url, data, function (result) {
-            res = result;
+            if (fun)
+                fun(result);
         })
     }
-    return res;
+
     //----END
 }
-
 
 //定义请求（底层版）
 //url==>请求地址，
 //data==>参数
 //type==>请求格式
+//fun==>执行方法
 //dataType==>返回数据格式
-function Dajax(url, data, dataType, type) {
-    var res;
+function Dajax(url, data, dataType, type, async, fun) {
+
+    if (!async) {
+        async = false;
+    }
     $.ajax({
         type: type,
         url: host + url,
-        async: false,
+        async: async,
         data: data,
         dataType: dataType,
         success: function (data) {
-            res = data
+            if (data)
+                fun(data);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             //通常情况下textStatus和errorThrown只有其中一个包含信息
             this;   //调用本次ajax请求时传递的options参数
         }
     });
-    return res;
+
 }
 
 //定义POST--formdata请求
 //url请求地址
 //data数据源 类型formdata格式 
 //返回res对象，res.responseText属性为接口返回数据
-function DajaxPostformdata(url, data) {
-    var result;
+function DajaxPostformdata(url, data, async, fun) {
+
+    if (!async) {
+        async = false;
+    }
     url = host + url;
     $.ajax({
         type: "post",
         url: url,
         data: data,
-        async: false,
+        async: async,
         dataType: "formData",
         cache: false,//上传文件无需缓存
         processData: false,//用于对data参数进行序列化处理 这里必须false
         contentType: false, //必须
-    }).done(function (res) {
-        result = res;
-    }).fail(function (res) {
-        result = res;
+    }).done(function (res) {//完成
+        fun(res);
+    }).fail(function (res) {//失败
+        fun(res);
     });
 }
+
+
+
 
 
 $(function () {
     //添加弹出事件
 
     var zhi = "";
-    zhi += " <div style='display: none;' id='xianshi'>"
+    zhi += " <div style='display: none;' id='Dialog_xianshi'>"
     zhi += " <div class='mask' style='position: fixed;z-index: 1000;top: 0;right: 0;left: 0; bottom: 0;background: rgba(0, 0, 0, 0.6);'></div>";
     zhi += " <div style='position: fixed; z-index: 5000;width:80%;top: 44%;left: 50%;transform: translate(-50%, -50%);background-color: #FFFFFF;text-align: center;border-radius: 0.5rem;overflow: hidden;'>";
     zhi += " <div class='modal-title' style='padding: 0.53333rem 0 0.28rem 0;font-family:PingFang SC Medium;font-size: 16px;color: #292929;'></div>";
@@ -85,13 +97,14 @@ $(function () {
 
     zhi += "</div>";
     zhi += "<div class='cl' style='color: #373737; padding: 1.5rem 0.53333rem 1.5rem;font-size: 16px;text-align: center;word-wrap: break-word;word-break: break-all;'>";
-    zhi += "<div> <input type='button' value='确认' id='btnqueren'  style=' display: block;background-color: #5ba1e9;border: 1px solid #5ba1e9;color: #fff; width: 80px; margin:auto;height: 30px;line-height: 30px;border-radius: 4px;'/></div></div>";
+    zhi += "<div  id='Dialog_xianshi_type'> <input type='button' value='确认' id='btnqueren'  style=' display: block;background-color: #5ba1e9;border: 1px solid #5ba1e9;color: #fff; width: 80px; margin:auto;height: 30px;line-height: 30px;border-radius: 4px;'/></div></div>";
     zhi += "</div>";
     zhi += "</div>";
     $("body").append(zhi);
 
+
     var zhi1 = "";
-    zhi1 += " <div style='display: none;' id='xianshi1'>"
+    zhi1 += " <div style='display: none;' id='Dialog_xianshi1'>"
     zhi1 += " <div class='mask' style='position: fixed;z-index: 1000;top: 0;right: 0;left: 0; bottom: 0;background: rgba(0, 0, 0, 0.6);'></div>";
     zhi1 += " <div style='position: fixed; z-index: 5000;width:80%;top: 44%;left: 50%;transform: translate(-50%, -50%);background-color: #FFFFFF;text-align: center;border-radius: 0.5rem;overflow: hidden;'>";
     zhi1 += " <div class='modal-title' style='padding: 0.53333rem 0 0.28rem 0;font-family:PingFang SC Medium;font-size: 16px;color: #292929;'></div>";
@@ -106,7 +119,7 @@ $(function () {
     $("body").append(zhi1);
 
     var tis = "";
-    tis += " <div style='display: none;' id='tisshi'>"
+    tis += " <div style='display: none;' id='Dialog_tisshi'>"
     tis += " <div class='mask' style='position: fixed;z-index: 1000;top: 0;right: 0;left: 0; bottom: 0;background: rgba(0, 0, 0, 0);'></div>";
     tis += " <div style='position: fixed; z-index: 5000;width:80%;top: 44%;left: 50%;transform: translate(-50%, -50%);background-color: #292929bf;text-align: center;border-radius: 0.10667rem;overflow: hidden;'>";
     tis += " <div class='modal-title' style='padding: 0.53333rem 0 0.28rem 0;font-family:PingFang SC Medium;font-size: 16px;color: #292929;'></div>";
@@ -119,8 +132,8 @@ $(function () {
     $("body").append(tis);
 
 
-    $("#xianshi #quxiao").click(function () {
-        $("#xianshi").css("display", "none");
+    $("#Dialog_xianshi #quxiao").click(function () {
+        $("#Dialog_xianshi").hide();
     });
 
 });
@@ -131,9 +144,26 @@ $(function () {
 //title：标题
 //value：跳转url传入的值
 function OpenDialog(title, content) {
-    $("#xianshi .modal-title").text(title);
-    $("#xianshi .modal-content").text(content);
-    $("#xianshi").show();
+    $("#Dialog_xianshi .modal-title").text(title);
+    $("#Dialog_xianshi .modal-content").text(content);
+    $("#Dialog_xianshi").show();
+}
+
+
+//弹出提示框(没有按钮)
+//content：输出内容
+//url：跳转url
+//title：标题
+//value：跳转url传入的值
+function OpenDialog(title, content, type) {
+    if (type)
+        $("#Dialog_xianshi #Dialog_xianshi_type").hide();
+    else
+        $("#Dialog_xianshi #Dialog_xianshi_type").show();
+
+    $("#Dialog_xianshi .modal-title").text(title);
+    $("#Dialog_xianshi .modal-content").text(content);
+    $("#Dialog_xianshi").show();
 }
 
 //弹出提示框
@@ -142,37 +172,31 @@ function OpenDialog(title, content) {
 //title：标题
 //fun：确定执行的方法
 function Dialog(title, content, fun) {
-    $("#xianshi1 .modal-title").text(title);
-    $("#xianshi1 .modal-content").text(content);
-    $("#xianshi1").show();
+    $("#Dialog_xianshi1 .modal-title").text(title);
+    $("#Dialog_xianshi1 .modal-content").text(content);
+    $("#Dialog_xianshi1").show();
 
     $("#xianshi1 #btn_close").click(function () {
-        $("#xianshi1").hide();
+        $("#Dialog_xianshi1").hide();
     })
     $("#xianshi1 #btnqueren").click(function () {
         fun();//执行方法
-        $("#xianshi1").hide();//隐藏
+        $("#Dialog_xianshi1").hide();//隐藏
     })
 }
-
-
-
-
 
 //弹出提示3S消失
 //content：输出内容
 //title：标题
 //second 秒，默认3s
 function Opentis(title, content, second) {
-    $("#tisshi .modal-title").text(title);
-    $("#tisshi .modal-content").text(content);
+    $("#Dialog_tisshi .modal-title").text(title);
+    $("#Dialog_tisshi .modal-content").text(content);
     if (typeof (second) != "undefined" && second != "")
-        $("#tisshi").css("display", "block").fadeOut(second);
+        $("#Dialog_tisshi").css("display", "block").fadeOut(second);
     else
-        $("#tisshi").css("display", "block").fadeOut(3000);
+        $("#Dialog_tisshi").css("display", "block").fadeOut(3000);
 }
-
-
 
 //JS导出EX-----------
 //tableid 表格ID   sheetName导出表格名称
@@ -414,8 +438,8 @@ Date.prototype.formatDate = function (fmt) {
 
 //=======================JS Base64===================
 ///解密：
-function atob(Object){
-    window.atob(Object) 
+function atob(Object) {
+    window.atob(Object)
 
 }
 
@@ -426,7 +450,79 @@ function btoa(Object) {
 }
 
 ///带中文解密
-function atob(obj) {
+function decode_atob(obj) {
     decodeURIComponent(window.atob(obj))
 }
-//=============END
+//=============END=======
+
+
+//初始化Form 表单
+//name 赋值
+//formId 表单ID
+function getFormData(formId) {
+    var data = {};
+    $('#' + formId).find('input[type=number],input[type=password],input[type=text],input[type=radio]:checked,input[type=hidden],input[type=date],select,textarea').each(function () {
+        var elName = $(this).attr('name');
+        var elValue = $(this).val();
+        if (elName) {
+            data[elName] = elValue;
+        }
+
+    });
+
+    $('#' + formId).find('input[type=checkbox]:checked').each(function () {
+        var elName = $(this).attr('name');
+        var elValue = $(this).val();
+
+        if (elName in data) {
+            data[elName].push(elValue);
+        }
+        else {
+            data[elName] = [elValue];
+        }
+    })
+
+    return data;
+}
+
+
+
+//=================END================
+
+//=================对象数组分组==========
+function groupBy(array, f) {
+    const groups = {};
+    array.forEach(function (o) {
+        const group = JSON.stringify(f(o));
+        groups[group] = groups[group] || [];
+        groups[group].push(o);
+    });
+    return Object.keys(groups).map(function (group) {
+        return groups[group];
+    });
+}
+//const sorted = this.groupBy(app.list, function (item) {
+//       return [item.key];
+//  });
+//========================END========================
+
+
+//===============替换字符串数据============
+String.prototype.replaceAll = function (FindText, RepText) {
+
+    regExp = new RegExp(FindText, "g");
+
+    return this.replace(regExp, RepText);
+
+}
+//=========================END================
+
+//获取URl中的参数值
+function GetQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
