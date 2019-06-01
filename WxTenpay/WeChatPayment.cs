@@ -8,6 +8,10 @@ using WxTenpay.wxconfig;
 using WxTenpay.wxconfig.wxtenpay;
 namespace WxTenpay
 {
+
+    /// <summary>
+    /// 微信支付类
+    /// </summary>
     [Description("微信支付类")]
     public class WeChatPayment
     {

@@ -49,11 +49,27 @@ namespace ConsoleApplication1
                 //diy.Add("button", list);
                 //wx.Menu(diy, 1);
                 #endregion
+
+                #region 百度Ai测试
                 //  BaiDu_CharacterRecognition ce = new BaiDu_CharacterRecognition();
                 //  var result = ce.GetIdNumber(@"E:/c#项目/新建文件夹/WxTenpay/ConsoleApplication1/111.png");
                 //var number = result["words_result"]["number"];
                 // var res= HttpUtility.UrlDecode("cK1ryyENDj3uPBgLy3iQUT4M9LhSjWArGUjMcg8uNK0uiwtMsxvPSlx4FAkCZYujr1rKS0O5Um7r5iyyqcxpIyavMkex1I20F%2B5cQU6XsPrTFMbrswO%2BnxH5s%2FSLc4uJ8TmBgGSzKzTkqhH5hezXPVFLGzx%2Bk3fo%2FVjUUWPuBKE%3D", System.Text.Encoding.GetEncoding("utf-8"));
-                // var rets = RSADecrypt(key, res);                 
+                // var rets = RSADecrypt(key, res); 
+                #endregion
+
+                #region  微信公众号模板消息测试
+                //WechatPublic wx = new WechatPublic();
+                //List<Template> list = new List<Template>() {
+                //    new Template {Name= "first", values=new Templatetext { value="first" } },
+                //    new Template {Name= "tradeDateTime", values=new Templatetext { value="tradeDateTime" } },
+                //    new Template {Name= "orderType", values=new Templatetext { value="orderType" } },
+                //    new Template {Name= "orderItemName", values=new Templatetext { value="orderItemName" } },
+                //};
+
+                //wx.WeiXinTemplate("测试", "测试", list, "测试");
+
+                #endregion 
 
                 Console.Write("");
             }

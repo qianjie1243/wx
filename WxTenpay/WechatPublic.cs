@@ -228,15 +228,21 @@ namespace WxTenpay
         /// <param name="shuju_data">模板信息内容</param>
         /// <param name="template_id">模板ID</param>
         /// <param name="url">点击的url</param>
+        /// <param name="test">模板数据对象</param>
         /// <returns></returns>
+        /// 
         [Description("发送微信模板消息")]
-        public string WeiXinTemplate(string openid, string template_id, string shuju_data, string url)
+        public string WeiXinTemplate(string openid, string template_id, List<Template> test, string url)
         {
             try
             {
                 Dictionary<string, object> diy = new Dictionary<string, object>();
+                foreach (var itm in test)
+                {
+                    diy.Add(itm.Name, itm.values);
+                }
                 messagehelp mp = new messagehelp();
-                return mp.Template(openid, template_id, shuju_data, GetToken(), url);
+                return mp.Template(openid, template_id, JsonConvert.SerializeObject(diy), GetToken(), url);
             }
             catch (Exception)
             {
@@ -251,7 +257,7 @@ namespace WxTenpay
         #region 微信配置URL对接====(已测试)
 
         [Description("微信配置URL对接")]
-        public void wx(string token)
+        public void WxDocking(string token)
         {
             InterfaceTest(token);
 
@@ -279,7 +285,7 @@ namespace WxTenpay
         /// 微信公众号url对接
         /// </summary>
         [Description("微信公众号url对接")]
-        public void InterfaceTest(string token1)
+        private void InterfaceTest(string token1)
         {
             try
             {
@@ -312,7 +318,7 @@ namespace WxTenpay
         /// </summary>
         /// <param name="poststr"></param>
         [Description("处理信息并应答")]
-        public void Handle(string poststr)
+        private void Handle(string poststr)
         {
             try
             {
@@ -424,7 +430,7 @@ namespace WxTenpay
         /// </summary>
         /// <param name="serverId"></param>
         /// <param name="path">保存头像图片地址已/结尾</param>
-        /// <param name="Name">保存头像图片名称</param>
+        /// <param name="Name">保存头像图片名称.png  .jpg 结尾</param>
 
         /// <returns></returns>
         [Description("根据openid头像下载")]
@@ -480,7 +486,7 @@ namespace WxTenpay
 
         #region  根据坐标获取地理位置========(根据腾讯地图的坐标获取百度地图的信息)
         /// <summary>
-        /// 根据坐标获取地理位置
+        /// 根据坐标获取地理位置(使用该接口需要在WXconfig里面配置ak参数，来源百度地图的ak)
         /// </summary>
         /// <param name="lon"></param>
         /// <param name="lat"></param>
@@ -530,7 +536,9 @@ namespace WxTenpay
     }
 
     #region 模板消息的实体类
-    [Description("模板消息的实体类")]
+    /// <summary>
+    /// 模板内容说明和字体
+    /// </summary>
     public class Templatetext
     {
         /// <summary>
@@ -540,7 +548,24 @@ namespace WxTenpay
         /// <summary>
         /// 字体颜色
         /// </summary>
-        public string color { set; get; }
+        public string color { set; get; } = "#FF0000";
+
+    }
+
+
+
+    /// <summary>
+    /// 模板消息的实体类
+    /// </summary>
+    [Description("模板消息的实体类")]
+    public class Template
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { set; get; }
+
+        public Templatetext values { set; get; }
 
     }
     #endregion

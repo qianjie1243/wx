@@ -94,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="前端JS参考\common.js" />
+    <Content Include="前端JS参考\Dialog.js" />
+    <Content Include="前端JS参考\loader.min.css" />
     <Content Include="前端JS参考\wx.common.js" />
   </ItemGroup>
   <ItemGroup>

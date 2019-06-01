@@ -115,7 +115,7 @@ namespace WxTenpay.wxconfig.wxconfigurateion
             //    FromUserName.InnerText,
             //   ToUserName.InnerText,
             //   DateTime.Now.Ticks,
-            //    "你好！：qq369841603"
+            //    "你好！："
             //   );
             //    }
             //    else

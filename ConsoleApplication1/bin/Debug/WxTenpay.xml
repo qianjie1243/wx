@@ -1855,7 +1855,7 @@
             <param name="text">发送消息内容</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.WechatPublic.WeiXinTemplate(System.String,System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WechatPublic.WeiXinTemplate(System.String,System.String,System.Collections.Generic.List{WxTenpay.Template},System.String)">
             <summary>
             发送微信模板消息
             </summary>
@@ -1863,7 +1863,9 @@
             <param name="shuju_data">模板信息内容</param>
             <param name="template_id">模板ID</param>
             <param name="url">点击的url</param>
+            <param name="test">模板数据对象</param>
             <returns></returns>
+            
         </member>
         <member name="M:WxTenpay.WechatPublic.InterfaceTest(System.String)">
             <summary>
@@ -1925,6 +1927,11 @@
             <param name="type">类型1：返回经纬度，2：返回地址名称</param>
             <returns></returns>
         </member>
+        <member name="T:WxTenpay.Templatetext">
+            <summary>
+            模板内容说明和字体
+            </summary>
+        </member>
         <member name="P:WxTenpay.Templatetext.value">
             <summary>
             说明
@@ -1933,6 +1940,16 @@
         <member name="P:WxTenpay.Templatetext.color">
             <summary>
             字体颜色
+            </summary>
+        </member>
+        <member name="T:WxTenpay.Template">
+            <summary>
+            模板消息的实体类
+            </summary>
+        </member>
+        <member name="P:WxTenpay.Template.Name">
+            <summary>
+            名称
             </summary>
         </member>
         <member name="T:WxTenpay.ResponseMessage">
