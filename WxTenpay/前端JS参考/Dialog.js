@@ -75,7 +75,7 @@ $(function () {
 
 
     var Loader = "";
-    Loader += '<div id="loader-wrapper">';
+    Loader += '<div id="loader-wrapper" style="display:none">';
     Loader += '<div id="loader"></div>';
     Loader += '<div class="loader-section section-left"></div>';
     Loader += '<div class="loader-section section-right"></div>';
@@ -86,6 +86,9 @@ $(function () {
 });
 
 
+
+
+//--------------------------提示框-----------------------
 
 //弹出提示框(没有按钮,默认隐藏按钮)
 //content：输出内容
@@ -134,6 +137,12 @@ function Dialog(title, content, fun) {
     })
 }
 
+//---------------------------END-------------------------
+
+
+
+//--------------------提示隐藏框--------------
+
 //弹出提示3S消失
 //content：输出内容
 //title：标题
@@ -147,6 +156,10 @@ function Opentis(title, content, second) {
         $("#Dialog_tisshi").css("display", "block").fadeOut(3000);
 }
 
+//---------------------END--------------
+
+
+//------------------------加载框---------------------------
 
 //显示加载动画
 function loaded() {
@@ -156,3 +169,5 @@ function loaded() {
 function closeloaded() {
     $("#loader-wrapper").hide();
 }
+
+//--------------------------END----------------------------
