@@ -13,9 +13,9 @@ namespace  WxTenpay
     public static class WXconfig
     {
         [Description("公众号ID")]
-        public static string appid = "";//公众号ID
+        public static string appid = "wxad5c6b5c0796716f";//公众号ID
         [Description("微信公众号的secret")]
-        public static string secret = "";//微信公众号的secret
+        public static string secret = "5fd73cb4473735eda6fe5b301405e5f6";//微信公众号的secret
         [Description("回调url")]
         public static string url = "";//回调url
         [Description("商户号")]

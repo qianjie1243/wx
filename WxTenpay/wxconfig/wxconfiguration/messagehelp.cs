@@ -370,14 +370,13 @@ namespace WxTenpay.wxconfig.wxconfigurateion
                 erroy er = js.Deserialize<erroy>(json1);
                 if (er.errcode == "0")
                 {
-                    return "1";
+                    return "OK";
                 }
                 return er.errcode;
             }
             catch (Exception ex)
             {
-
-                return ex.Message;
+                throw;
             }
         }
 
@@ -405,8 +404,7 @@ namespace WxTenpay.wxconfig.wxconfigurateion
             }
             catch (Exception ex)
             {
-
-                return ex.Message;
+                throw;
             }
         }
 

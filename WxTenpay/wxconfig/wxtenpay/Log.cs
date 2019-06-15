@@ -60,12 +60,11 @@ namespace WxTenpay.wxconfig.wxtenpay
             {
                 Name = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
             }
-
-            if (!File.Exists(Name))
+            if (!Directory.Exists(path))//如果日志目录不存在就创建
             {
-                //不存在文件
-                File.Create(Name).Dispose();//创建该文件
+                Directory.CreateDirectory(path);
             }
+           
 
             /**/
             ///判断文件是否存在以及是否大于2K

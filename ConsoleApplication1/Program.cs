@@ -59,7 +59,7 @@ namespace ConsoleApplication1
                 #endregion
 
                 #region  微信公众号模板消息测试
-                //WechatPublic wx = new WechatPublic();
+                WechatPublic wx = new WechatPublic();
                 //List<Template> list = new List<Template>() {
                 //    new Template {Name= "first", values=new Templatetext { value="first" } },
                 //    new Template {Name= "tradeDateTime", values=new Templatetext { value="tradeDateTime" } },
@@ -69,6 +69,10 @@ namespace ConsoleApplication1
 
                 //wx.WeiXinTemplate("测试", "测试", list, "测试");
 
+
+                var result = wx.WeiXinKeFu("oMaP8571JvoI-GXMeQL9nTmibTXk", "你好！");
+
+                Console.Write(result);
                 #endregion 
 
                 Console.Write("");
