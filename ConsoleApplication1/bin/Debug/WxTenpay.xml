@@ -529,7 +529,7 @@
             <param name="formData"></param>
             <param name="stream"></param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:WxTenpay.wxconfig.HttpRequestutil.GetQueryString(System.Collections.Generic.Dictionary{System.String,System.String})" -->
+        <!-- 对于成员“M:WxTenpay.wxconfig.HttpRequestutil.GetQueryString(System.Collections.Generic.Dictionary{System.String,System.String})”忽略有格式错误的 XML 注释 -->
         <member name="M:WxTenpay.wxconfig.HttpRequestutil.GetFileStream(System.String)">
             <summary>
             根据完整文件路径获取FileStream
@@ -1021,7 +1021,7 @@
             订单总金额，单位为分
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "F:WxTenpay.wxconfig.wxtenpay.OrderDetail.coupon_fee" -->
+        <!-- 对于成员“F:WxTenpay.wxconfig.wxtenpay.OrderDetail.coupon_fee”忽略有格式错误的 XML 注释 -->
         <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.fee_type">
             <summary>
             货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY
@@ -1331,7 +1331,7 @@
             <param name="wxpay">实体对象</param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.GetInfoFromXml(System.String)" -->
+        <!-- 对于成员“M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.GetInfoFromXml(System.String)”忽略有格式错误的 XML 注释 -->
         <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getH5UnifiedOrderXml(WxTenpay.wxconfig.wxtenpay.UnifiedOrder,System.String)">
             <summary>
             微信H5统一下单接口xml参数整理

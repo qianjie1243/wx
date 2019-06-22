@@ -71,7 +71,7 @@ namespace ConsoleApplication1
 
 
                 var result = wx.WeiXinKeFu("oMaP8571JvoI-GXMeQL9nTmibTXk", "你好！");
-
+                //45015      用户未交互
                 Console.Write(result);
                 #endregion 
 
