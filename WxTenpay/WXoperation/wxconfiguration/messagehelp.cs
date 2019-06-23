@@ -8,7 +8,9 @@ using System.Text;
 using System.IO;
 using System.Web.Security;
 using System.Web.Script.Serialization;
-namespace WxTenpay.wxconfig.wxconfigurateion
+using WxTenpay.WXoperation.Common;
+
+namespace WxTenpay.WXoperation.wxconfigurateion
 {
     /// <summary>
     /// 接受微信端的信息，并处理信息，发送信息
@@ -366,12 +368,13 @@ namespace WxTenpay.wxconfig.wxconfigurateion
                 menu = menu.Replace("openid", openid).Replace("txt", text);
                 var json1 = HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token, menu, "post");
                 JavaScriptSerializer js = new JavaScriptSerializer();
-                wxtenpay.Log.WriteLogFile(json1, "微信客户消息");
+                Log.WriteLogFile(json1, "微信客户消息");
                 erroy er = js.Deserialize<erroy>(json1);
                 if (er.errcode == "0")
                 {
                     return "OK";
                 }
+                //45015 返回码，用户48小时内没有和公众号互动
                 return er.errcode;
             }
             catch (Exception ex)

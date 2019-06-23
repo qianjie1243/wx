@@ -291,26 +291,26 @@
             <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
             
         </member>
-        <member name="T:WxTenpay.wxconfig.asscess_token">
+        <member name="T:WxTenpay.WXoperation.asscess_token">
             <summary>
             授权网站登入获取个人信息
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.asscess_token.gerenxinxi(System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.asscess_token.gerenxinxi(System.String,System.String)">
             <summary>
             授权登入获取个人信息
             </summary>
             <param name="openid"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.asscess_token.shouquangerenxinxi(System.String)">
+        <member name="M:WxTenpay.WXoperation.asscess_token.shouquangerenxinxi(System.String)">
             <summary>
             使用code获取openid,access_token(网页的access_token)
             </summary>
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.asscess_token.pandunaccess_token(System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.asscess_token.pandunaccess_token(System.String,System.String)">
             <summary>
             检验授权凭证（access_token）是否有效
             </summary>
@@ -318,7 +318,7 @@
             <param name="openid"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.asscess_token.ShuaXinaccess_token(System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.asscess_token.ShuaXinaccess_token(System.String,System.String)">
             <summary>
             刷新网页access_token
             </summary>
@@ -326,171 +326,171 @@
             <param name="openid"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.asscess_token.GetToken(System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.asscess_token.GetToken(System.String,System.String)">
             <summary>
             获取Token
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.asscess_token.getjsapi_ticket(System.String)">
+        <member name="M:WxTenpay.WXoperation.asscess_token.getjsapi_ticket(System.String)">
             <summary>
             获取jsapi_ticket
             </summary>
             <returns></returns>
         </member>
-        <member name="T:WxTenpay.wxconfig.erroy">
+        <member name="T:WxTenpay.WXoperation.erroy">
             <summary>
             错误信息类
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.erroy.errcode">
+        <member name="P:WxTenpay.WXoperation.erroy.errcode">
             <summary>
             错误编号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.erroy.errmsg">
+        <member name="P:WxTenpay.WXoperation.erroy.errmsg">
             <summary>
             错误原因
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.subscribe">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.subscribe">
             <summary>
             用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.openid">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.openid">
             <summary>
             用户的标识，对当前公众号唯一
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.nickname">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.nickname">
             <summary>
             用户的昵称
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.sex">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.sex">
             <summary>
             用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.city">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.city">
             <summary>
             用户所在城市
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.country">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.country">
             <summary>
             用户所在国家
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.province">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.province">
             <summary>
             用户所在省份
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.language">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.language">
             <summary>
             用户的语言，简体中文为zh_CN
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.headimgurl">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.headimgurl">
             <summary>
             用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空。若用户更换头像，原有头像URL将失效。
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.subscribe_time">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.subscribe_time">
             <summary>
             用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.unionid">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.unionid">
             <summary>
             只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.remark">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.remark">
             <summary>
             公众号运营者对粉丝的备注，公众号运营者可在微信公众平台用户管理界面对粉丝添加备注
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.groupid">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.groupid">
             <summary>
             用户所在的分组ID（兼容旧的用户分组接口）
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.tagid_list">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.tagid_list">
             <summary>
             用户被打上的标签ID列表
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.errcode">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.errcode">
             <summary>
             错误编号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.gerenxinxi.errmsg">
+        <member name="P:WxTenpay.WXoperation.gerenxinxi.errmsg">
             <summary>
             错误原因
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Getopenid.openid">
+        <member name="P:WxTenpay.WXoperation.Getopenid.openid">
             <summary>
             openid 用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Getopenid.access_token">
+        <member name="P:WxTenpay.WXoperation.Getopenid.access_token">
             <summary>
             网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Getopenid.expires_in">
+        <member name="P:WxTenpay.WXoperation.Getopenid.expires_in">
             <summary>
             expires_in	access_token接口调用凭证超时时间，单位（秒）
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Getopenid.refresh_token">
+        <member name="P:WxTenpay.WXoperation.Getopenid.refresh_token">
             <summary>
             refresh_token	用户刷新access_token
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Getopenid.scope">
+        <member name="P:WxTenpay.WXoperation.Getopenid.scope">
             <summary>
             scope	用户授权的作用域，使用逗号（,）分隔
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Getopenid.errcode">
+        <member name="P:WxTenpay.WXoperation.Getopenid.errcode">
             <summary>
             错误编号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Getopenid.errmsg">
+        <member name="P:WxTenpay.WXoperation.Getopenid.errmsg">
             <summary>
             错误原因
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.RequestUrlpost(System.String)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.RequestUrlpost(System.String)">
             <summary>
             post请求Url，不发送数据
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.RequestUrlget(System.String)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.RequestUrlget(System.String)">
             <summary>
             get请求Url，不发送数据
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.RequestUrl(System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.RequestUrl(System.String,System.String)">
             <summary>
             请求Url，不发送数据
              Method  发送类型（post，get）
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.RequestUrl(System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.RequestUrl(System.String,System.String,System.String)">
             <summary>
             请求Url，发送数据
             Method  发送类型（post，get）
             postdata   发送的数据
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.PostXmlToUrl(System.String,System.Collections.Specialized.NameValueCollection)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.PostXmlToUrl(System.String,System.Collections.Specialized.NameValueCollection)">
             <summary>
             POst模拟from提交数据
             </summary>
@@ -498,21 +498,21 @@
             <param name="postData">集合</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.FromUnicodeString(System.String)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.FromUnicodeString(System.String)">
             <summary>
             Unicode转中文
             </summary>
             <param name="str">数据</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.HttpUploadFile(System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.HttpUploadFile(System.String,System.String)">
             <summary>
             图片上传到微信公众号素材
             </summary>
             <param name="path">本地图片路径</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.GetUploadVideoResult(System.String,System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.GetUploadVideoResult(System.String,System.String,System.String,System.String)">
             <summary>
             视频上传到微信公众号
             </summary>
@@ -522,22 +522,22 @@
             <param name="introduction"></param>视频的描述
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.FillFormDataStream(System.Collections.Generic.Dictionary{System.String,System.String},System.IO.Stream)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.FillFormDataStream(System.Collections.Generic.Dictionary{System.String,System.String},System.IO.Stream)">
             <summary>
             填充表单信息的Stream
             </summary>
             <param name="formData"></param>
             <param name="stream"></param>
         </member>
-        <!-- 对于成员“M:WxTenpay.wxconfig.HttpRequestutil.GetQueryString(System.Collections.Generic.Dictionary{System.String,System.String})”忽略有格式错误的 XML 注释 -->
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.GetFileStream(System.String)">
+        <!-- 对于成员“M:WxTenpay.WXoperation.Common.HttpRequestutil.GetQueryString(System.Collections.Generic.Dictionary{System.String,System.String})”忽略有格式错误的 XML 注释 -->
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.GetFileStream(System.String)">
             <summary>
             根据完整文件路径获取FileStream
             </summary>
             <param name="fileName"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.HttpRequestutil.HttpPost(System.String,System.Net.CookieContainer,System.IO.Stream,System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.Text.Encoding,System.Int32)">
+        <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.HttpPost(System.String,System.Net.CookieContainer,System.IO.Stream,System.Collections.Generic.Dictionary{System.String,System.String},System.String,System.Text.Encoding,System.Int32)">
             <summary>
             使用Post方法获取字符串结果
             </summary>
@@ -548,227 +548,131 @@
             <param name="timeOut">超时</param>
             <returns></returns>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxconfiguration.MenuModel">
+        <member name="M:WxTenpay.WXoperation.Common.Log.WriteLogFile(System.String,System.String)">
+            <summary>
+            写入日志文件
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:WxTenpay.WXoperation.Common.Log.WriteLogTxt(System.Exception,System.String)">
+            <summary>
+            将异常打印到LOG文件
+            </summary>
+            <param name="ex">异常</param>
+            <param name="LogAddress">日志文件名称</param>
+        </member>
+        <member name="M:WxTenpay.WXoperation.Common.MD5Util.GetMD5(System.String,System.String)">
+            <summary>
+            /** 获取大写的MD5签名结果 */
+            </summary>
+            <param name="encypStr">数据</param>
+            <param name="charset">编码格式</param>
+            <returns></returns>       
+        </member>
+        <member name="M:WxTenpay.WXoperation.Common.MD5Util.sha1(System.String)">
+            <summary>
+            SHA1加密
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.Common.MD5Util.SHA1(System.String)">
+            <summary>
+            SHA1加密
+            </summary>
+            <param name="str"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:WxTenpay.WXoperation.Common.MD5Util.toJson(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            json
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.Common.MD5Util.get_uft8(System.String)">
+            <summary>
+            string转utf-8
+            </summary>
+            <param name="unicodeString"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WxTenpay.WXoperation.MenuModel">
             <summary>
             二级菜单的参数
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.type">
+        <member name="P:WxTenpay.WXoperation.MenuModel.type">
              <summary>
             菜单的响应动作类型，view表示网页类型，click表示点击类型，miniprogram表示小程序类型
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.name">
+        <member name="P:WxTenpay.WXoperation.MenuModel.name">
              <summary>
             菜单标题
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.key">
+        <member name="P:WxTenpay.WXoperation.MenuModel.key">
             <summary>
             click等点击类型必须	菜单KEY值，用于消息接口推送，不超过128字节
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.url">
+        <member name="P:WxTenpay.WXoperation.MenuModel.url">
              <summary>
             view、miniprogram类型必须
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.media_id">
+        <member name="P:WxTenpay.WXoperation.MenuModel.media_id">
              <summary>
             调用新增永久素材接口返回的合法media_id
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.appid">
+        <member name="P:WxTenpay.WXoperation.MenuModel.appid">
              <summary>
             小程序的appid（仅认证公众号可配置）
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.pagepath">
+        <member name="P:WxTenpay.WXoperation.MenuModel.pagepath">
             <summary>
             小程序的页面路径
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.MenuModel.sub_button">
+        <member name="P:WxTenpay.WXoperation.MenuModel.sub_button">
              <summary>
             二级菜单数组，个数应为1~5个
              </summary>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxconfiguration.Model">
-            <summary>
-            微信菜单请求返回类
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.Model.media_id">
-            <summary>
-            返回视频的id
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.Model.errcode">
-            <summary>
-            返回的错误id
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.Model.errmsg">
-            <summary>
-            返回的错误描述
-            </summary>
-        </member>
-        <member name="T:WxTenpay.wxconfig.wxconfiguration.articles">
-            <summary>
-            图文素材的参数类
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.articles.title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.articles.thumb_media_id">
-            <summary>
-            图文消息的封面图片素材id（必须是永久mediaID）
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.articles.author">
-            <summary>
-            作者
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.articles.digest">
-            <summary>
-            图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空。如果本字段为没有填写，则默认抓取正文前64个字。
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.articles.show_cover_pic">
-            <summary>
-            是否显示封面，0为false，即不显示，1为true，即显示
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.articles.content">
-            <summary>
-            图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS,涉及图片url必须来源 "上传图文消息内的图片获取URL"接口获取。外部图片url将被过滤。
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.articles.content_source_url">
-            <summary>
-            图文消息的原文地址，即点击“阅读原文”后的URL
-            </summary>
-        </member>
-        <member name="T:WxTenpay.wxconfig.wxconfiguration.update_articles">
-            <summary>
-            修改图文素材的参数类
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.update_articles.article">
-            <summary>
-            修改articles的参数类
-            </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.update_articles.media_id">
-             <summary>
-            要修改的图文消息的id
-             </summary>
-        </member>
-        <member name="P:WxTenpay.wxconfig.wxconfiguration.update_articles.index">
-             <summary>
-            要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为0
-             </summary>
-        </member>
-        <member name="T:WxTenpay.wxconfig.wxconfiguration.wxmenu">
-            <summary>
-            微信自定义菜单
-            </summary>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.graphic(System.String,System.String)">
-            <summary>
-            上传图文素材
-            </summary>
-            <param name="access_token"></param>
-            <param name="content">上传的图文JSON字符串</param>
-            <returns></returns>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.material(System.String,System.String,System.String)">
-            <summary>
-            上传图片,语音，缩略图
-            </summary>
-            <param name="path">绝对图片路径</param>
-            <param name="type">类型 image 图片类型,   thumb 缩略图, voice 语音</param>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.video(System.String,System.String,System.String,System.String)">
-            <summary>
-            视频上传到微信公众号
-            </summary>
-            <param name="accessToken"></param>accesstoken 微信公众号的token
-            <param name="path"></param>视频文件
-            <param name="title"></param>视频的标题
-            <param name="introduction"></param>视频的描述
-            <returns></returns>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.Update_graphic(System.String,System.String)">
-            <summary>
-            修改素材
-            </summary>
-            <param name="access_token"></param>
-            <param name="content">修改图文JSON字符串</param>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.Get_list(System.String)">
-            <summary>
-            获取素材列表
-            </summary>
-            <param name="access_token"></param>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.Get_count(System.String)">
-            <summary>
-            获取素材总数
-            </summary>
-            <param name="access_token"></param>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.Get_graphic(System.String,System.String)">
-            <summary>
-            获取永久素材
-            </summary>
-            <param name="access_token"></param>
-            <param name="media_id">要获取的素材的media_id</param>
-        </member>
-        <member name="M:WxTenpay.wxconfig.wxconfiguration.wxmenu.Add_Menu(System.String,System.String,System.Int32)">
-            <summary>
-            自定义菜单
-            </summary>
-            <param name="menu">自定义菜单字符串</param>
-            <param name="access_token">access_token字符串</param>
-            <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
-        </member>
-        <member name="T:WxTenpay.wxconfig.wxconfigurateion.messagehelp">
+        <member name="T:WxTenpay.WXoperation.wxconfigurateion.messagehelp">
             <summary>
             接受微信端的信息，并处理信息，发送信息
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReturnMessage(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReturnMessage(System.String)">
             <summary>
             接受来自微信端的信息，根据信息内容返回信息
             </summary>
             <param name="postStr"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxconfigurateion.messagehelp.EventHandle(System.Xml.XmlDocument)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.EventHandle(System.Xml.XmlDocument)">
             <summary>
             事件
             </summary>
             <param name="xmldoc"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxconfigurateion.messagehelp.TextHandle(System.Xml.XmlDocument)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.TextHandle(System.Xml.XmlDocument)">
             <summary>
             接受文本消息
             </summary>
             <param name="xmldoc"></param>
             <returns></returns>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType">
+        <member name="T:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType">
             <summary>
             文本消息类型
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType.Message_Text">
+        <member name="P:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType.Message_Text">
             <summary>
             普通文本消息
             ToUserName  接受方openid
@@ -778,7 +682,7 @@
             Content  数据内容
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType.Message_News_Main">
+        <member name="P:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType.Message_News_Main">
             <summary>
             图文消息主体
             ToUserName  接受方openid
@@ -789,7 +693,7 @@
             Articles  添加item
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType.Message_image">
+        <member name="P:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType.Message_image">
              <summary>
              图片消息
              ToUserName	是	接收方帐号（收到的OpenID）
@@ -799,7 +703,7 @@
             MediaId	是	通过上传多媒体文件，得到的id。
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType.Message_News_Item">
+        <member name="P:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType.Message_News_Item">
             <summary>
             图文消息项
             url   跳转链接
@@ -808,7 +712,7 @@
             Description 摘要
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType.Message_voice">
+        <member name="P:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType.Message_voice">
              <summary>
              语音消息
              ToUserName	是	接收方帐号（收到的OpenID）
@@ -818,7 +722,7 @@
             MediaId   	是	通过素材管理中的接口上传多媒体文件，得到的id
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType.Message_music">
+        <member name="P:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType.Message_music">
              <summary>
              音乐消息
              ToUserName	是	接收方帐号（收到的OpenID）
@@ -832,7 +736,7 @@
             ThumbMediaId	是	缩略图的媒体id，通过素材管理中的接口上传多媒体文件，得到的id
              </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxconfigurateion.messagehelp.ReplyType.Message_Video">
+        <member name="P:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReplyType.Message_Video">
              <summary>
              视频消息
              ToUserName	是	接收方帐号（收到的OpenID）
@@ -846,7 +750,7 @@
             ThumbMediaId	是	缩略图的媒体id，通过素材管理中的接口上传多媒体文件，得到的id
              </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxconfigurateion.messagehelp.FaSongXingXi(System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.FaSongXingXi(System.String,System.String,System.String)">
             <summary>
             微信端主动发送信息给客户
             </summary>
@@ -855,7 +759,7 @@
             <param name="token">微信的token</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxconfigurateion.messagehelp.Template(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.Template(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             微信端主动发送信息给客户(模板消息)
             </summary>
@@ -866,120 +770,216 @@
             <param name="url">点击的url</param>
             <returns></returns>
         </member>
-        <member name="P:WxTenpay.wxconfig.token.access_token">
+        <member name="P:WxTenpay.WXoperation.token.access_token">
             <summary>
             凭证
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.token.expires_in">
+        <member name="P:WxTenpay.WXoperation.token.expires_in">
             <summary>
             有效时间
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.token.ticket">
+        <member name="P:WxTenpay.WXoperation.token.ticket">
             <summary>
             jsp_api签到凭证
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.Log.WriteLogFile(System.String,System.String)">
+        <member name="T:WxTenpay.WXoperation.Model">
             <summary>
-            写入日志文件
+            微信菜单请求返回类
             </summary>
-            <param name="input"></param>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.Log.WriteLogTxt(System.Exception,System.String)">
+        <member name="P:WxTenpay.WXoperation.Model.media_id">
             <summary>
-            将异常打印到LOG文件
+            返回视频的id
             </summary>
-            <param name="ex">异常</param>
-            <param name="LogAddress">日志文件名称</param>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.MD5Util.GetMD5(System.String,System.String)">
+        <member name="P:WxTenpay.WXoperation.Model.errcode">
             <summary>
-            /** 获取大写的MD5签名结果 */
+            返回的错误id
             </summary>
-            <param name="encypStr">数据</param>
-            <param name="charset">编码格式</param>
-            <returns></returns>       
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.MD5Util.sha1(System.String)">
+        <member name="P:WxTenpay.WXoperation.Model.errmsg">
             <summary>
-            SHA1加密
+            返回的错误描述
             </summary>
-            <param name="str"></param>
+        </member>
+        <member name="T:WxTenpay.WXoperation.articles">
+            <summary>
+            图文素材的参数类
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.articles.title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.articles.thumb_media_id">
+            <summary>
+            图文消息的封面图片素材id（必须是永久mediaID）
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.articles.author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.articles.digest">
+            <summary>
+            图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空。如果本字段为没有填写，则默认抓取正文前64个字。
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.articles.show_cover_pic">
+            <summary>
+            是否显示封面，0为false，即不显示，1为true，即显示
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.articles.content">
+            <summary>
+            图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS,涉及图片url必须来源 "上传图文消息内的图片获取URL"接口获取。外部图片url将被过滤。
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.articles.content_source_url">
+            <summary>
+            图文消息的原文地址，即点击“阅读原文”后的URL
+            </summary>
+        </member>
+        <member name="T:WxTenpay.WXoperation.update_articles">
+            <summary>
+            修改图文素材的参数类
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.update_articles.article">
+            <summary>
+            修改articles的参数类
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.update_articles.media_id">
+             <summary>
+            要修改的图文消息的id
+             </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.update_articles.index">
+             <summary>
+            要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为0
+             </summary>
+        </member>
+        <member name="T:WxTenpay.WXoperation.wxconfiguration.wxmenu">
+            <summary>
+            微信自定义菜单
+            </summary>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.graphic(System.String,System.String)">
+            <summary>
+            上传图文素材
+            </summary>
+            <param name="access_token"></param>
+            <param name="content">上传的图文JSON字符串</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.MD5Util.SHA1(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.material(System.String,System.String,System.String)">
             <summary>
-            SHA1加密
+            上传图片,语音，缩略图
             </summary>
-            <param name="str"></param>
-            <returns></returns> 
+            <param name="path">绝对图片路径</param>
+            <param name="type">类型 image 图片类型,   thumb 缩略图, voice 语音</param>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.MD5Util.toJson(System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.video(System.String,System.String,System.String,System.String)">
             <summary>
-            json
+            视频上传到微信公众号
             </summary>
+            <param name="accessToken"></param>accesstoken 微信公众号的token
+            <param name="path"></param>视频文件
+            <param name="title"></param>视频的标题
+            <param name="introduction"></param>视频的描述
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.MD5Util.get_uft8(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Update_graphic(System.String,System.String)">
             <summary>
-            string转utf-8
+            修改素材
             </summary>
-            <param name="unicodeString"></param>
-            <returns></returns>
+            <param name="access_token"></param>
+            <param name="content">修改图文JSON字符串</param>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxtenpay.OrderDetail">
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Get_list(System.String)">
+            <summary>
+            获取素材列表
+            </summary>
+            <param name="access_token"></param>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Get_count(System.String)">
+            <summary>
+            获取素材总数
+            </summary>
+            <param name="access_token"></param>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Get_graphic(System.String,System.String)">
+            <summary>
+            获取永久素材
+            </summary>
+            <param name="access_token"></param>
+            <param name="media_id">要获取的素材的media_id</param>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Add_Menu(System.String,System.String,System.Int32)">
+            <summary>
+            自定义菜单
+            </summary>
+            <param name="menu">自定义菜单字符串</param>
+            <param name="access_token">access_token字符串</param>
+            <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
+        </member>
+        <member name="T:WxTenpay.WXoperation.OrderDetail">
             <summary>
             微信订单明细实体对象
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.return_code">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.return_code">
             <summary>
             返回状态码，SUCCESS/FAIL 此字段是通信标识，非交易标识，交易是否成功需要查看trade_state来判断
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.return_msg">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.return_msg">
             <summary>
             返回信息返回信息，如非空，为错误原因 签名失败 参数格式校验错误
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.appid">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.appid">
             <summary>
             公共号ID(微信分配的公众账号 ID)
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.mch_id">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.mch_id">
             <summary>
             商户号(微信支付分配的商户号)
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.nonce_str">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.nonce_str">
             <summary>
             随机字符串，不长于32位
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.sign">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.sign">
             <summary>
             签名
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.result_code">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.result_code">
             <summary>
             业务结果,SUCCESS/FAIL
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.err_code">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.err_code">
             <summary>
             错误代码
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.err_code_des">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.err_code_des">
             <summary>
             错误代码描述
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.trade_state">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.trade_state">
              <summary>
              交易状态
             SUCCESS—支付成功
@@ -991,74 +991,74 @@
             NOPAY--未支付(输入密码或确认支付超时) PAYERROR--支付失败(其他原因，如银行返回失败)
              </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.device_info">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.device_info">
             <summary>
             微信支付分配的终端设备号
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.openid">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.openid">
             <summary>
             用户在商户appid下的唯一标识
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.is_subscribe">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.is_subscribe">
             <summary>
             用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.trade_type">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.trade_type">
             <summary>
             交易类型,JSAPI、NATIVE、MICROPAY、APP
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.bank_type">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.bank_type">
             <summary>
             银行类型，采用字符串类型的银行标识
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.total_fee">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.total_fee">
             <summary>
             订单总金额，单位为分
             </summary>
         </member>
-        <!-- 对于成员“F:WxTenpay.wxconfig.wxtenpay.OrderDetail.coupon_fee”忽略有格式错误的 XML 注释 -->
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.fee_type">
+        <!-- 对于成员“F:WxTenpay.WXoperation.OrderDetail.coupon_fee”忽略有格式错误的 XML 注释 -->
+        <member name="F:WxTenpay.WXoperation.OrderDetail.fee_type">
             <summary>
             货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.transaction_id">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.transaction_id">
             <summary>
             微信支付订单号
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.out_trade_no">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.out_trade_no">
             <summary>
             商户系统的订单号，与请求一致。
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.attach">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.attach">
             <summary>
             商家数据包，原样返回
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.OrderDetail.time_end">
+        <member name="F:WxTenpay.WXoperation.OrderDetail.time_end">
             <summary>
             支付完成时间，格式为yyyyMMddhhmmss，如2009年12月27日9点10分10秒表示为20091227091010。
             时区为GMT+8 beijing。该时间取自微信支付服务器
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.OrderDetail.SYSTEMERROR">
+        <member name="P:WxTenpay.WXoperation.OrderDetail.SYSTEMERROR">
             <summary>
             返回错误提示,系统异常
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.OrderDetail.ORDERNOTEXIST">
+        <member name="P:WxTenpay.WXoperation.OrderDetail.ORDERNOTEXIST">
             <summary>
             返回错误提示,订单号错误
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.APP_PayMent(System.String,System.String,System.String,System.Double,System.String,System.Int32)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.APP_PayMent(System.String,System.String,System.String,System.Double,System.String,System.Int32)">
             <summary>
             微信APP支付
             </summary>
@@ -1071,7 +1071,7 @@
             <param name="attach">附加数据</param> 
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.NATIVEPayMent(System.String,System.String,System.String,System.Double,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.NATIVEPayMent(System.String,System.String,System.String,System.Double,System.String,System.String)">
             <summary>
             微信扫码支付
             </summary>
@@ -1085,7 +1085,7 @@
             <param name="attach">附加数据</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.PayMent_result(System.String,System.Int32)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.PayMent_result(System.String,System.Int32)">
             <summary>
             获取支付订单状态（微信回调）
             </summary>
@@ -1093,14 +1093,14 @@
             <param name="type">微信回调数据返回的结果, 0：result_code的值,客户订单号</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.GetPayMent_result(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.GetPayMent_result(System.String)">
             <summary>
             查询扫码订单情况
             </summary>
             <param name="out_trade_no">商户订单号</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.JSAPIPayMent(System.String,System.String,System.String,System.String,System.Double,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.JSAPIPayMent(System.String,System.String,System.String,System.String,System.Double,System.String)">
             <summary>
             微信支付
             </summary>
@@ -1114,7 +1114,7 @@
             
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.H5PayMent(System.String,System.String,System.String,System.String,System.Double,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.H5PayMent(System.String,System.String,System.String,System.String,System.Double,System.String,System.String)">
             <summary>
             微信H5支付
             </summary>
@@ -1128,7 +1128,7 @@
               <param name="wap_name">WAP 网站名</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.JSAPISmallProgram(System.String,System.String,System.String,System.Double,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.JSAPISmallProgram(System.String,System.String,System.String,System.Double,System.String)">
             <summary>
             微信小程序支付
             </summary>
@@ -1140,7 +1140,7 @@
             
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.CashPayMent(System.String,System.String,System.String,System.Double,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.CashPayMent(System.String,System.String,System.String,System.Double,System.String,System.String)">
             <summary>
             微信提现
             </summary>
@@ -1154,7 +1154,7 @@
             <param name="name">提现人的真实姓名</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.PayCashbonus(System.String,System.String,System.String,System.Double,System.Int32,System.String,System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.PayCashbonus(System.String,System.String,System.String,System.Double,System.Int32,System.String,System.String,System.String,System.String)">
             <summary>
             微信公众号现金红包
             </summary>
@@ -1169,7 +1169,7 @@
             <param name="remark">备注</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.PayMent.Get_Refund(System.String,System.String,System.Double,System.String,System.Double,System.String,System.Int32)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.PayMent.Get_Refund(System.String,System.String,System.Double,System.String,System.Double,System.String,System.Int32)">
             <summary>
             微信退款
             </summary>
@@ -1182,92 +1182,57 @@
             <param name="type">退款类型1微信公众号 2：APP退款</param>
             <returns></returns>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxtenpay.QueryOrder">
-            <summary>
-            微信订单查询接口请求实体对象
-            </summary>
-        </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.QueryOrder.appid">
-            <summary>
-            公共号ID(微信分配的公众账号 ID)
-            </summary>
-        </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.QueryOrder.mch_id">
-            <summary>
-            商户号(微信支付分配的商户号)
-            </summary>
-        </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.QueryOrder.transaction_id">
-            <summary>
-            微信订单号，优先使用
-            </summary>
-        </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.QueryOrder.out_trade_no">
-            <summary>
-            商户系统内部订单号
-            </summary>
-        </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.QueryOrder.nonce_str">
-            <summary>
-            随机字符串，不长于 32 位
-            </summary>
-        </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.QueryOrder.sign">
-            <summary>
-            签名，参与签名参数：appid，mch_id，transaction_id，out_trade_no，nonce_str，key
-            </summary>
-        </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.TenpayUtil.UnifiedPayUrl">
+        <member name="F:WxTenpay.WXoperation.wxtenpay.TenpayUtil.UnifiedPayUrl">
             <summary>
             统一支付接口
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.TenpayUtil.access_tokenUrl">
+        <member name="F:WxTenpay.WXoperation.wxtenpay.TenpayUtil.access_tokenUrl">
             <summary>
             网页授权接口
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.TenpayUtil.refund_Url">
+        <member name="F:WxTenpay.WXoperation.wxtenpay.TenpayUtil.refund_Url">
             <summary>
             微信退款接口
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.TenpayUtil.CashPayUrl">
+        <member name="F:WxTenpay.WXoperation.wxtenpay.TenpayUtil.CashPayUrl">
             <summary>
             提现接口
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.TenpayUtil.PayCashbonus">
+        <member name="F:WxTenpay.WXoperation.wxtenpay.TenpayUtil.PayCashbonus">
             <summary>
             微信公众号现金红包接口
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.TenpayUtil.OrderQueryUrl">
+        <member name="F:WxTenpay.WXoperation.wxtenpay.TenpayUtil.OrderQueryUrl">
             <summary>
             微信订单查询接口
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.TenpayUtil.H5PayMentUrl">
+        <member name="F:WxTenpay.WXoperation.wxtenpay.TenpayUtil.H5PayMentUrl">
             <summary>
             微信H5支付
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getNoncestr">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getNoncestr">
             <summary>
             随机串
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getTimestamp">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getTimestamp">
             <summary>
             时间截，自1970年以来的秒数
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getAccess_tokenUrl">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getAccess_tokenUrl">
             <summary>
             网页授权接口
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.GetXml(System.String,System.Int32)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.GetXml(System.String,System.Int32)">
             <summary>
             把微信扫码支付的回调XML转换集合
             </summary>
@@ -1275,19 +1240,19 @@
             <param name="type">微信回调数据返回的结果, 0：result_code的值,客户订单号</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getsign(System.Collections.Generic.SortedDictionary{System.String,System.Object},System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getsign(System.Collections.Generic.SortedDictionary{System.String,System.Object},System.String)">
             <summary>
             获取微信签名
             </summary>
             <param name="sParams"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.PostXmlToUrl(System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.PostXmlToUrl(System.String,System.String,System.String)">
             <summary>
             post数据到指定接口并返回数据
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.Postxmltourl(System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.Postxmltourl(System.String,System.String)">
             <summary>
             微信需要证书接口
             </summary>
@@ -1295,44 +1260,44 @@
             <param name="postdata"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getcode_url(WxTenpay.wxconfig.wxtenpay.UnifiedOrder,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getcode_url(WxTenpay.WXoperation.UnifiedOrder,System.String)">
             <summary>
             获取code_url
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getPrepay_id(WxTenpay.wxconfig.wxtenpay.UnifiedOrder,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getPrepay_id(WxTenpay.WXoperation.UnifiedOrder,System.String)">
             <summary>
             获取prepay_id
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getCash(WxTenpay.wxconfig.wxtenpay.Cash)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getCash(WxTenpay.WXoperation.Cash)">
             <summary>
             微信提现返回结果
             </summary>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getOrderDetail(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getOrderDetail(System.String)">
             <summary>
             获取微信订单明细
             </summary>
             <param name="out_trade_no">客户订单号</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getRefund(WxTenpay.wxconfig.wxtenpay.refund)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getRefund(WxTenpay.WXoperation.refund)">
             <summary>
             微信退款
             </summary>
             <param name="order"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getPayCashbonus(WxTenpay.wxconfig.wxtenpay.WxPayData)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getPayCashbonus(WxTenpay.WXoperation.WxPayData)">
             <summary>
             微信公众号现金红包
             </summary>
             <param name="wxpay">实体对象</param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.GetInfoFromXml(System.String)”忽略有格式错误的 XML 注释 -->
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getH5UnifiedOrderXml(WxTenpay.wxconfig.wxtenpay.UnifiedOrder,System.String)">
+        <!-- 对于成员“M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.GetInfoFromXml(System.String)”忽略有格式错误的 XML 注释 -->
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getH5UnifiedOrderXml(WxTenpay.WXoperation.UnifiedOrder,System.String)">
             <summary>
             微信H5统一下单接口xml参数整理
             </summary>
@@ -1340,7 +1305,7 @@
             <param name="key">密钥</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getUnifiedOrderXml(WxTenpay.wxconfig.wxtenpay.UnifiedOrder,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getUnifiedOrderXml(WxTenpay.WXoperation.UnifiedOrder,System.String)">
             <summary>
             微信统一下单接口xml参数整理
             </summary>
@@ -1348,7 +1313,7 @@
             <param name="key">密钥</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getQueryOrderXml(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getQueryOrderXml(System.String)">
             <summary>
             微信订单查询接口XML参数整理
             </summary>
@@ -1356,7 +1321,7 @@
             <param name="key">密钥</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.GetRefundOrderXml(WxTenpay.wxconfig.wxtenpay.refund)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.GetRefundOrderXml(WxTenpay.WXoperation.refund)">
             <summary>
             微信统一下单接口xml参数整理
             </summary>
@@ -1364,7 +1329,7 @@
             <param name="key">密钥</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getCashXml(WxTenpay.wxconfig.wxtenpay.Cash,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getCashXml(WxTenpay.WXoperation.Cash,System.String)">
             <summary>
             微信提现接口XML参数整理
             </summary>
@@ -1372,7 +1337,7 @@
             <param name="paysignkey">商户号</param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.wxconfig.wxtenpay.TenpayUtil.getCashbonusXml(WxTenpay.wxconfig.wxtenpay.WxPayData,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getCashbonusXml(WxTenpay.WXoperation.WxPayData,System.String)">
             <summary>
             微信提现接口XML参数整理
             </summary>
@@ -1380,352 +1345,387 @@
             <param name="paysignkey">商户号</param>
             <returns></returns>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxtenpay.UnifiedOrder">
+        <member name="T:WxTenpay.WXoperation.QueryOrder">
+            <summary>
+            微信订单查询接口请求实体对象
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXoperation.QueryOrder.appid">
+            <summary>
+            公共号ID(微信分配的公众账号 ID)
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXoperation.QueryOrder.mch_id">
+            <summary>
+            商户号(微信支付分配的商户号)
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXoperation.QueryOrder.transaction_id">
+            <summary>
+            微信订单号，优先使用
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXoperation.QueryOrder.out_trade_no">
+            <summary>
+            商户系统内部订单号
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXoperation.QueryOrder.nonce_str">
+            <summary>
+            随机字符串，不长于 32 位
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXoperation.QueryOrder.sign">
+            <summary>
+            签名，参与签名参数：appid，mch_id，transaction_id，out_trade_no，nonce_str，key
+            </summary>
+        </member>
+        <member name="T:WxTenpay.WXoperation.UnifiedOrder">
             <summary>
             微信统一接口请求实体对象
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.appid">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.appid">
             <summary>
             公众号ID(微信分配的公众账号 ID)
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.mch_id">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.mch_id">
             <summary>
             商户号(微信支付分配的商户号)
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.device_info">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.device_info">
             <summary>
             微信支付分配的终端设备号
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.nonce_str">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.nonce_str">
             <summary>
             随机字符串，不长于 32 位
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.sign">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.sign">
             <summary>
             签名
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.body">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.body">
             <summary>
             商品描述
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.attach">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.attach">
             <summary>
             附加数据，原样返回
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.out_trade_no">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.out_trade_no">
             <summary>
             商户系统内部的订单号,32个字符内、可包含字母,确保在商户系统唯一,详细说明
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.total_fee">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.total_fee">
             <summary>
             订单总金额，单位为分，不能带小数点
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.spbill_create_ip">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.spbill_create_ip">
             <summary>
             终端IP
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.time_start">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.time_start">
             <summary>
             订 单 生 成 时 间 ， 格 式 为yyyyMMddHHmmss，如 2009 年12 月 25 日 9 点 10 分 10 秒表示为 20091225091010。时区为 GMT+8 beijing。该时间取自商户服务器
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.time_expire">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.time_expire">
             <summary>
             交易结束时间
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.goods_tag">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.goods_tag">
             <summary>
             商品标记 商品标记，该字段不能随便填，不使用请填空，使用说明详见第 5 节
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.notify_url">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.notify_url">
             <summary>
             接收微信支付成功通知
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.trade_type">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.trade_type">
             <summary>
             JSAPI、NATIVE、APP
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.openid">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.openid">
             <summary>
             用户标识 trade_type 为 JSAPI时，此参数必传
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.product_id">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.product_id">
             <summary>
             只在 trade_type 为 NATIVE时需要填写。
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.UnifiedOrder.scene_info">
+        <member name="F:WxTenpay.WXoperation.UnifiedOrder.scene_info">
             <summary>
             场景信息(用于H5支付)
             </summary>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxtenpay.Cash">
+        <member name="T:WxTenpay.WXoperation.Cash">
             <summary>
             微信提现类
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.openid">
+        <member name="F:WxTenpay.WXoperation.Cash.openid">
             <summary>
             此参数必传
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.spbill_create_ip">
+        <member name="F:WxTenpay.WXoperation.Cash.spbill_create_ip">
             <summary>
             终端IP
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.mch_appid">
+        <member name="F:WxTenpay.WXoperation.Cash.mch_appid">
             <summary>
             公众号ID(微信分配的公众账号 ID)
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.mch_id">
+        <member name="F:WxTenpay.WXoperation.Cash.mch_id">
             <summary>
             商户号(微信支付分配的商户号)
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.device_info">
+        <member name="F:WxTenpay.WXoperation.Cash.device_info">
             <summary>
             微信支付分配的终端设备号
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.nonce_str">
+        <member name="F:WxTenpay.WXoperation.Cash.nonce_str">
             <summary>
             随机字符串，不长于 32 位
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.sign">
+        <member name="F:WxTenpay.WXoperation.Cash.sign">
             <summary>
             签名
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.partner_trade_no">
+        <member name="F:WxTenpay.WXoperation.Cash.partner_trade_no">
             <summary>
             商户订单号
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.check_name">
+        <member name="F:WxTenpay.WXoperation.Cash.check_name">
             <summary>
             校验用户姓名选项
             NO_CHECK：不校验真实姓名 
             FORCE_CHECK：强校验真实姓名
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.re_user_name">
+        <member name="F:WxTenpay.WXoperation.Cash.re_user_name">
              <summary>
              收款用户姓名
              收款用户真实姓名。 
             如果check_name设置为FORCE_CHECK，则必填用户真实姓名
              </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.amount">
+        <member name="F:WxTenpay.WXoperation.Cash.amount">
             <summary>
             金额
             企业付款金额，单位为分
             </summary>
         </member>
-        <member name="F:WxTenpay.wxconfig.wxtenpay.Cash.desc">
+        <member name="F:WxTenpay.WXoperation.Cash.desc">
             <summary>
             企业付款描述信息
             </summary>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxtenpay.refund">
+        <member name="T:WxTenpay.WXoperation.refund">
             <summary>
             微信退款订单明细实体对象
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.appid">
+        <member name="P:WxTenpay.WXoperation.refund.appid">
             <summary>
             公众账号ID
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.mch_id">
+        <member name="P:WxTenpay.WXoperation.refund.mch_id">
             <summary>
             商户号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.nonce_str">
+        <member name="P:WxTenpay.WXoperation.refund.nonce_str">
             <summary>
             随机字符串
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.sign">
+        <member name="P:WxTenpay.WXoperation.refund.sign">
             <summary>
             签名
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.sign_type">
+        <member name="P:WxTenpay.WXoperation.refund.sign_type">
             <summary>
             签名类型
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.transaction_id">
+        <member name="P:WxTenpay.WXoperation.refund.transaction_id">
             <summary>
             微信订单号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.out_trade_no">
+        <member name="P:WxTenpay.WXoperation.refund.out_trade_no">
             <summary>
             商户订单号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.out_refund_no">
+        <member name="P:WxTenpay.WXoperation.refund.out_refund_no">
             <summary>
             商户退款单号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.total_fee">
+        <member name="P:WxTenpay.WXoperation.refund.total_fee">
             <summary>
             订单金额
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.refund_fee">
+        <member name="P:WxTenpay.WXoperation.refund.refund_fee">
             <summary>
             退款金额
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.refund_fee_type">
+        <member name="P:WxTenpay.WXoperation.refund.refund_fee_type">
             <summary>
             退款货币种类
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.refund_desc">
+        <member name="P:WxTenpay.WXoperation.refund.refund_desc">
             <summary>
             退款原因
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.refund_account">
+        <member name="P:WxTenpay.WXoperation.refund.refund_account">
             <summary>
             退款资金来源
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.refund.notify_url">
+        <member name="P:WxTenpay.WXoperation.refund.notify_url">
             <summary>
             退款结果通知url
             </summary>
         </member>
-        <member name="T:WxTenpay.wxconfig.wxtenpay.WxPayData">
+        <member name="T:WxTenpay.WXoperation.WxPayData">
             <summary>
             微信公众号现金红包实体对象
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.nonce_str">
+        <member name="P:WxTenpay.WXoperation.WxPayData.nonce_str">
             <summary>
             随机字符串，不长于32位
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.sign">
+        <member name="P:WxTenpay.WXoperation.WxPayData.sign">
             <summary>
             签名 
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.mch_billno">
+        <member name="P:WxTenpay.WXoperation.WxPayData.mch_billno">
             <summary>
             商户订单号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.mch_id">
+        <member name="P:WxTenpay.WXoperation.WxPayData.mch_id">
             <summary>
             商户号 
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.wxappid">
+        <member name="P:WxTenpay.WXoperation.WxPayData.wxappid">
             <summary>
             公众账号appid
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.send_name">
+        <member name="P:WxTenpay.WXoperation.WxPayData.send_name">
             <summary>
             红包发送者名称
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.re_openid">
+        <member name="P:WxTenpay.WXoperation.WxPayData.re_openid">
             <summary>
             用户的openid
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.total_amount">
+        <member name="P:WxTenpay.WXoperation.WxPayData.total_amount">
             <summary>
             付款金额，单位分
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.total_num">
+        <member name="P:WxTenpay.WXoperation.WxPayData.total_num">
             <summary>
             红包发放总人数
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.wishing">
+        <member name="P:WxTenpay.WXoperation.WxPayData.wishing">
             <summary>
             红包祝福语
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.client_ip">
+        <member name="P:WxTenpay.WXoperation.WxPayData.client_ip">
             <summary>
             调用接口的机器Ip地址
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.act_name">
+        <member name="P:WxTenpay.WXoperation.WxPayData.act_name">
             <summary>
             活动名称
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.wxtenpay.WxPayData.remark">
+        <member name="P:WxTenpay.WXoperation.WxPayData.remark">
             <summary>
             备注
             </summary>
         </member>
-        <member name="T:WxTenpay.wxconfig.Wx_pay">
+        <member name="T:WxTenpay.WXoperation.Wx_pay">
             <summary>
             微信APP支付实体
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Wx_pay.appid">
+        <member name="P:WxTenpay.WXoperation.Wx_pay.appid">
             <summary>
             应用ID
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Wx_pay.partnerid">
+        <member name="P:WxTenpay.WXoperation.Wx_pay.partnerid">
             <summary>
             商户号
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Wx_pay.prepayid">
+        <member name="P:WxTenpay.WXoperation.Wx_pay.prepayid">
             <summary>
             预支付交易会话ID
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Wx_pay.wxpackage">
+        <member name="P:WxTenpay.WXoperation.Wx_pay.wxpackage">
             <summary>
             扩展字段
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Wx_pay.noncestr">
+        <member name="P:WxTenpay.WXoperation.Wx_pay.noncestr">
             <summary>
             随机字符串
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Wx_pay.timestamp">
+        <member name="P:WxTenpay.WXoperation.Wx_pay.timestamp">
             <summary>
             时间戳
             </summary>
         </member>
-        <member name="P:WxTenpay.wxconfig.Wx_pay.sign">
+        <member name="P:WxTenpay.WXoperation.Wx_pay.sign">
             <summary>
             签名
             </summary>
@@ -1733,6 +1733,41 @@
         <member name="T:WxTenpay.WXconfig">
             <summary>
             微信公众号配置
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXconfig.appid">
+            <summary>
+              公众号ID
+            </summary>  
+        </member>
+        <member name="F:WxTenpay.WXconfig.secret">
+            <summary>
+                 微信公众号的secret
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXconfig.url">
+            <summary>
+                  回调url
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXconfig.mch_id">
+            <summary>
+              商户号
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXconfig.paysignkey">
+            <summary>
+                证书密匙
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXconfig.SSLCERT_PATH">
+            <summary>
+             证书路径
+            </summary>
+        </member>
+        <member name="F:WxTenpay.WXconfig.SSLCERT_PASSWORD">
+            <summary>
+             证书的密码
             </summary>
         </member>
         <member name="T:WxTenpay.SmallProgram">
@@ -1795,11 +1830,7 @@
             百度地图的ak参数
             </summary>
         </member>
-        <member name="T:WxTenpay.WechatPublic">
-            <summary>
-            微信基本操作类
-            </summary>
-        </member>
+        <!-- 对于成员“T:WxTenpay.WechatPublic”忽略有格式错误的 XML 注释 -->
         <member name="P:WxTenpay.WechatPublic.Asscess">
             <summary>
             保存凭证

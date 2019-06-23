@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WxTenpay.wxconfig.wxconfiguration;
 
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-
+using WxTenpay.WXoperation.wxconfiguration;
 
 namespace WxTenpay
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Text;
-namespace WxTenpay.wxconfig.wxtenpay
+namespace WxTenpay.WXoperation
 {
     /// <summary>
     /// 微信统一接口请求实体对象

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
-namespace WxTenpay.wxconfig
+
+using WxTenpay.WXoperation.Common;
+
+namespace WxTenpay.WXoperation
 {
     /// <summary>
     /// 授权网站登入获取个人信息

@@ -121,7 +121,365 @@ var format = function (s, c) {
 
 
 
+
+//file图片预览
+//file控件
+//obj 显示图片ID或class
+//urlpath 图片的URL,有提交图片，urlpath为新的Base64图片
+function PreviewFile(file, obj, urlpath) {
+    if (file.files && file.files[0]) {
+        var size = file.files[0].size
+        size = size / 1024;//kb
+        size = size / 1024;//mb
+        if (size > 1) {
+            alert("上传的图片不能超过1M");
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            jQuery(obj).attr("src", evt.target.result)//预览图片
+            urlpath = evt.target.result;//绑定新的图片
+        }
+        reader.readAsDataURL(file.files[0]);
+    }
+    else {
+        jQuery(obj).attr("src", urlpath);//使用旧的图片
+    }
+}
+
+
+
+
+//===========================日期处理============================
+// week first date
+/*  Parameters：
+ *  date: {Date}日期类型
+ *  format: {string}日期格式
+ */
+function fn_weekFirstDate(date, format) {
+    if (!format) { format = "yyyy-MM-dd" };
+    var now = date; //当前日期 
+    var nowDayOfWeek = now.getDay(); //今天本周的第几天 
+    var nowDay = now.getDate(); //当前日
+    if (nowDayOfWeek == 0) { nowDayOfWeek = 7 };
+    var nowMonth = now.getMonth(); //当前月 
+    var nowYear = now.getYear(); //当前年 
+    nowYear += (nowYear < 2000) ? 1900 : 0;
+    var weekStartDate = new Date(nowYear, nowMonth, nowDay + 1 - nowDayOfWeek);
+    return weekStartDate.formatDate(format);
+}
+
+// week last date
+/*  Parameters：
+ *  date: {Date}日期类型
+ *  format: {string}日期格式
+ */
+function fn_weekLastDate(date, format) {
+    if (!format) { format = "yyyy-MM-dd" };
+    var now = date; //当前日期 
+    var nowDayOfWeek = now.getDay(); //今天本周的第几天 
+    var nowDay = now.getDate(); //当前日 
+    if (nowDayOfWeek == 0) { nowDayOfWeek = 7 };
+    var nowMonth = now.getMonth(); //当前月 
+    var nowYear = now.getYear(); //当前年 
+    nowYear += (nowYear < 2000) ? 1900 : 0;
+    var weekEndDate = new Date(nowYear, nowMonth, nowDay + (6 + 1 - nowDayOfWeek));
+    return weekEndDate.formatDate(format);
+}
+
+// add days
+/*  Parameters：
+ *  date: {Date}日期类型
+ *  day:天数
+ *  format: {string}日期格式
+ */
+function fn_addDays(date, day, format) {
+    if (!format) { format = "yyyy-MM-dd" };
+    var now = date;//时间
+    now.setDate(now.getDate() + day);//设置天数 +1 天
+    return now.formatDate(format);
+}
+
+// time cut
+/*  Parameters：
+ *  date: {Date}日期类型
+ */
+function fn_timeCut(date) {
+    var publishTime = date / 1000,
+        d_seconds,
+        d_minutes,
+        d_hours,
+        d_days,
+        timeNow = parseInt(new Date().getTime() / 1000),
+        d,
+
+        date = new Date(publishTime * 1000),
+        Y = date.getFullYear(),
+        M = date.getMonth() + 1,
+        D = date.getDate(),
+        H = date.getHours(),
+        m = date.getMinutes(),
+        s = date.getSeconds();
+    //小于10的在前面补0
+    if (M < 10) {
+        M = '0' + M;
+    }
+    if (D < 10) {
+        D = '0' + D;
+    }
+    if (H < 10) {
+        H = '0' + H;
+    }
+    if (m < 10) {
+        m = '0' + m;
+    }
+    if (s < 10) {
+        s = '0' + s;
+    }
+
+    d = timeNow - publishTime;
+    d_days = parseInt(d / 86400);
+    d_hours = parseInt(d / 3600);
+    d_minutes = parseInt(d / 60);
+    d_seconds = parseInt(d);
+
+    if (d_days > 0 && d_days < 7) {
+        return d_days + '天前';
+    } else if (d_days <= 0 && d_hours > 0) {
+        return d_hours + '小时前';
+    } else if (d_hours <= 0 && d_minutes > 0) {
+        return d_minutes + '分钟前';
+    } else if (d_seconds < 60) {
+        if (d_seconds <= 0) {
+            return '刚刚';
+        } else {
+            return d_seconds + '秒前';
+        }
+    } else if (d_days >= 7 && d_days < 30) {
+        return M + '-' + D + ' ' + H + ':' + m;
+    } else if (d_days >= 30) {
+        return Y + '-' + M + '-' + D + ' ' + H + ':' + m;
+    }
+}
+
+//format date
+Date.prototype.formatDate = function (fmt) {
+    if (!fmt) { fmt = "yyyy-MM-dd"; }
+    var o = {
+        "M+": this.getMonth() + 1, //月份   
+        "d+": this.getDate(), //日   
+        "h+": this.getHours(), //小时   
+        "m+": this.getMinutes(), //分   
+        "s+": this.getSeconds(), //秒   
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+        "S": this.getMilliseconds() //毫秒   
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o
+
+        [k]).length)));
+    return fmt;
+}
+//==========================END===================
+
+
+//=======================JS Base64===================
+///解密：
+function atob(Object) {
+    window.atob(Object)
+
+}
+
+///加密：
+function btoa(Object) {
+    window.btoa(Object)
+
+}
+
+///带中文解密
+function decode_atob(obj) {
+    decodeURIComponent(window.atob(obj))
+}
+//=============END=======
+
+
+//初始化Form 表单
+//name 赋值
+//formId 表单ID
+function getFormData(formId) {
+    var data = {};
+    $('#' + formId).find('input[type=number],input[type=password],input[type=text],input[type=radio]:checked,input[type=hidden],input[type=date],select,textarea').each(function () {
+        var elName = $(this).attr('name');
+        var elValue = $(this).val();
+        if (elName) {
+            data[elName] = elValue;
+        }
+
+    });
+
+    $('#' + formId).find('input[type=checkbox]:checked').each(function () {
+        var elName = $(this).attr('name');
+        var elValue = $(this).val();
+
+        if (elName in data) {
+            data[elName].push(elValue);
+        }
+        else {
+            data[elName] = [elValue];
+        }
+    })
+
+    return data;
+}
+
+
+
+//=================END================
+
+//=================对象数组分组==========
+function groupBy(array, f) {
+    const groups = {};
+    array.forEach(function (o) {
+        const group = JSON.stringify(f(o));
+        groups[group] = groups[group] || [];
+        groups[group].push(o);
+    });
+    return Object.keys(groups).map(function (group) {
+        return groups[group];
+    });
+}
+//const sorted = this.groupBy(app.list, function (item) {
+//       return [item.key];
+//  });
+//========================END========================
+
+
+//===============替换字符串数据============
+String.prototype.replaceAll = function (FindText, RepText) {
+
+    regExp = new RegExp(FindText, "g");
+
+    return this.replace(regExp, RepText);
+
+}
+//=========================END================
+
+//获取URl中的参数值
+function GetQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+
+
+
+
+
 //===========================工具类函数============================
+
+
+
+
+
+//判断日期类型是否为YYYY-MM-DD格式的类型    
+function IsDate(str) {
+    if (str.length != 0) {
+        var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/;
+        var r = str.match(reg);
+        if (r == null)
+            return false;
+        else
+            return true;
+    }
+    return false;
+}
+
+//判断日期类型是否为YYYY-MM-DD hh:mm:ss格式的类型    
+function IsDateTime(str) {
+    if (str.length != 0) {
+        var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+        var r = str.match(reg);
+        if (r == null) return false; else return true
+    }
+    return false
+}
+
+
+
+//判断输入的字符是否为英文字母    
+function IsLetter(str) {
+    if (str.length != 0) {
+        reg = /^[a-zA-Z]+$/;
+        if (!reg.test(str)) return fasle; else return true;
+    }
+    return false;
+}
+
+//判断输入的字符是否为整数    
+function IsInteger(str) {
+    if (str.length != 0) {
+        reg = /^[-+]?\d*$/;
+        if (!reg.test(str)) return false; else return true;
+    }
+    return false;
+}
+
+//判断输入的字符是否为双精度    
+function IsDouble(str) {
+    if (str.length != 0) {
+        reg = /^[-\+]?\d+(\.\d+)?$/;
+        if (!reg.test(str)) return false; else return true;
+
+    } 
+        return false;
+}
+
+
+//判断输入的字符是否为:a-z,A-Z,0-9    
+function IsString(str) {
+    if (str.length != 0) {
+        reg = /^[a-zA-Z0-9_]+$/;
+        if (!reg.test(str)) return false; else return true;
+        
+    }
+    return false;
+}
+
+//判断输入的字符是否为中文    
+function IsChinese(str) {
+    if (str.length != 0) {
+        reg = /^[\u0391-\uFFE5]+$/;
+        if (!reg.test(str)) return false; else return true;
+    }
+    return false;
+}
+
+//判断输入的EMAIL格式是否正确    
+function IsEmail(str) { 
+    if (str.length != 0) {
+        reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        if (!reg.test(str)) return false; else return true;
+    }
+    return false;
+}
+
+//判断输入的邮编(只能为六位)是否正确    
+function IsZIP(str) {
+    if (str.length != 0) {
+        reg = /^\d{6}$/;
+        if (!reg.test(str)) return false; else return true;
+    }
+    return false;
+}
+
+
+
+
 //只允许输入数字
 function checkNumber(e) {
     var keynum = window.event ? e.keyCode : e.which;
@@ -139,7 +497,7 @@ function checkForFloat(obj, e) {
         (key > 47 && key < 60) ||  //大键盘上的0到9  
         (key == 110 && obj.value.indexOf(".") < 0) || //小键盘上的.而且以前没有输入.  
         (key == 190 && obj.value.indexOf(".") < 0) || //大键盘上的.而且以前没有输入.  
-         key == 8 || key == 9 || key == 46 || key == 37 || key == 39) {
+        key == 8 || key == 9 || key == 46 || key == 37 || key == 39) {
         isOK = true;
     } else {
         if (window.event) { //IE
@@ -173,283 +531,31 @@ function checkreg(obj) {
     return (regString.test(obj));
 }
 
-//file图片预览
-//file控件
-//obj 显示图片ID或class
-//urlpath 图片的URL,有提交图片，urlpath为新的Base64图片
-function PreviewFile(file, obj, urlpath) {
-    if (file.files && file.files[0]) {
-        var size = file.files[0].size
-        size = size / 1024;//kb
-        size = size / 1024;//mb
-        if (size > 1) {
-            alert("上传的图片不能超过1M");
-            return;
-        }
-
-        var reader = new FileReader();
-        reader.onload = function (evt) {
-            jQuery(obj).attr("src", evt.target.result)//预览图片
-            urlpath = evt.target.result;//绑定新的图片
-        }
-        reader.readAsDataURL(file.files[0]);
-    }
-    else {
-        jQuery(obj).attr("src", urlpath);//使用旧的图片
-    }
-}
-
 
 //四舍五入函数
 function ForDight(Dight, How) {
     Dight = Math.round(Dight * Math.pow(10, How)) / Math.pow(10, How);
     return Dight;
 }
-    //写Cookie
+//写Cookie
 function addCookie(objName, objValue, objHours) {
-        var str = objName + "=" + escape(objValue);
-        if (objHours > 0) {//为0时不设定过期时间，浏览器关闭时cookie自动消失
-            var date = new Date();
-            var ms = objHours * 3600 * 1000;
-            date.setTime(date.getTime() + ms);
-            str += "; expires=" + date.toGMTString();
-        }
-        document.cookie = str;
+    var str = objName + "=" + escape(objValue);
+    if (objHours > 0) {//为0时不设定过期时间，浏览器关闭时cookie自动消失
+        var date = new Date();
+        var ms = objHours * 3600 * 1000;
+        date.setTime(date.getTime() + ms);
+        str += "; expires=" + date.toGMTString();
     }
+    document.cookie = str;
+}
 
-    //读Cookie
+//读Cookie
 function getCookie(objName) {//获取指定名称的cookie的值
-        var arrStr = document.cookie.split("; ");
-        for (var i = 0; i < arrStr.length; i++) {
-            var temp = arrStr[i].split("=");
-            if (temp[0] == objName) return unescape(temp[1]);
-        }
-        return "";
+    var arrStr = document.cookie.split("; ");
+    for (var i = 0; i < arrStr.length; i++) {
+        var temp = arrStr[i].split("=");
+        if (temp[0] == objName) return unescape(temp[1]);
     }
+    return "";
+}
     //===================END==============
-
-
-    //===========================日期处理============================
-    // week first date
-    /*  Parameters：
-     *  date: {Date}日期类型
-     *  format: {string}日期格式
-     */
-    function fn_weekFirstDate(date, format) {
-        if (!format) { format = "yyyy-MM-dd" };
-        var now = date; //当前日期 
-        var nowDayOfWeek = now.getDay(); //今天本周的第几天 
-        var nowDay = now.getDate(); //当前日
-        if (nowDayOfWeek == 0) { nowDayOfWeek = 7 };
-        var nowMonth = now.getMonth(); //当前月 
-        var nowYear = now.getYear(); //当前年 
-        nowYear += (nowYear < 2000) ? 1900 : 0;
-        var weekStartDate = new Date(nowYear, nowMonth, nowDay + 1 - nowDayOfWeek);
-        return weekStartDate.formatDate(format);
-    }
-
-    // week last date
-    /*  Parameters：
-     *  date: {Date}日期类型
-     *  format: {string}日期格式
-     */
-    function fn_weekLastDate(date, format) {
-        if (!format) { format = "yyyy-MM-dd" };
-        var now = date; //当前日期 
-        var nowDayOfWeek = now.getDay(); //今天本周的第几天 
-        var nowDay = now.getDate(); //当前日 
-        if (nowDayOfWeek == 0) { nowDayOfWeek = 7 };
-        var nowMonth = now.getMonth(); //当前月 
-        var nowYear = now.getYear(); //当前年 
-        nowYear += (nowYear < 2000) ? 1900 : 0;
-        var weekEndDate = new Date(nowYear, nowMonth, nowDay + (6 + 1 - nowDayOfWeek));
-        return weekEndDate.formatDate(format);
-    }
-
-    // add days
-    /*  Parameters：
-     *  date: {Date}日期类型
-     *  day:天数
-     *  format: {string}日期格式
-     */
-    function fn_addDays(date, day, format) {
-        if (!format) { format = "yyyy-MM-dd" };
-        var now = date;//时间
-        now.setDate(now.getDate() + day);//设置天数 +1 天
-        return now.formatDate(format);
-    }
-
-    // time cut
-    /*  Parameters：
-     *  date: {Date}日期类型
-     */
-    function fn_timeCut(date) {
-        var publishTime = date / 1000,
-            d_seconds,
-            d_minutes,
-            d_hours,
-            d_days,
-            timeNow = parseInt(new Date().getTime() / 1000),
-            d,
-
-            date = new Date(publishTime * 1000),
-            Y = date.getFullYear(),
-            M = date.getMonth() + 1,
-            D = date.getDate(),
-            H = date.getHours(),
-            m = date.getMinutes(),
-            s = date.getSeconds();
-        //小于10的在前面补0
-        if (M < 10) {
-            M = '0' + M;
-        }
-        if (D < 10) {
-            D = '0' + D;
-        }
-        if (H < 10) {
-            H = '0' + H;
-        }
-        if (m < 10) {
-            m = '0' + m;
-        }
-        if (s < 10) {
-            s = '0' + s;
-        }
-
-        d = timeNow - publishTime;
-        d_days = parseInt(d / 86400);
-        d_hours = parseInt(d / 3600);
-        d_minutes = parseInt(d / 60);
-        d_seconds = parseInt(d);
-
-        if (d_days > 0 && d_days < 7) {
-            return d_days + '天前';
-        } else if (d_days <= 0 && d_hours > 0) {
-            return d_hours + '小时前';
-        } else if (d_hours <= 0 && d_minutes > 0) {
-            return d_minutes + '分钟前';
-        } else if (d_seconds < 60) {
-            if (d_seconds <= 0) {
-                return '刚刚';
-            } else {
-                return d_seconds + '秒前';
-            }
-        } else if (d_days >= 7 && d_days < 30) {
-            return M + '-' + D + ' ' + H + ':' + m;
-        } else if (d_days >= 30) {
-            return Y + '-' + M + '-' + D + ' ' + H + ':' + m;
-        }
-    }
-
-    //format date
-    Date.prototype.formatDate = function (fmt) {
-        if (!fmt) { fmt = "yyyy-MM-dd"; }
-        var o = {
-            "M+": this.getMonth() + 1, //月份   
-            "d+": this.getDate(), //日   
-            "h+": this.getHours(), //小时   
-            "m+": this.getMinutes(), //分   
-            "s+": this.getSeconds(), //秒   
-            "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
-            "S": this.getMilliseconds() //毫秒   
-        };
-        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (var k in o)
-            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o
-
-            [k]).length)));
-        return fmt;
-    }
-    //==========================END===================
-
-
-    //=======================JS Base64===================
-    ///解密：
-    function atob(Object) {
-        window.atob(Object)
-
-    }
-
-    ///加密：
-    function btoa(Object) {
-        window.btoa(Object)
-
-    }
-
-    ///带中文解密
-    function decode_atob(obj) {
-        decodeURIComponent(window.atob(obj))
-    }
-    //=============END=======
-
-
-    //初始化Form 表单
-    //name 赋值
-    //formId 表单ID
-    function getFormData(formId) {
-        var data = {};
-        $('#' + formId).find('input[type=number],input[type=password],input[type=text],input[type=radio]:checked,input[type=hidden],input[type=date],select,textarea').each(function () {
-            var elName = $(this).attr('name');
-            var elValue = $(this).val();
-            if (elName) {
-                data[elName] = elValue;
-            }
-
-        });
-
-        $('#' + formId).find('input[type=checkbox]:checked').each(function () {
-            var elName = $(this).attr('name');
-            var elValue = $(this).val();
-
-            if (elName in data) {
-                data[elName].push(elValue);
-            }
-            else {
-                data[elName] = [elValue];
-            }
-        })
-
-        return data;
-    }
-
-
-
-    //=================END================
-
-    //=================对象数组分组==========
-    function groupBy(array, f) {
-        const groups = {};
-        array.forEach(function (o) {
-            const group = JSON.stringify(f(o));
-            groups[group] = groups[group] || [];
-            groups[group].push(o);
-        });
-        return Object.keys(groups).map(function (group) {
-            return groups[group];
-        });
-    }
-    //const sorted = this.groupBy(app.list, function (item) {
-    //       return [item.key];
-    //  });
-    //========================END========================
-
-
-    //===============替换字符串数据============
-    String.prototype.replaceAll = function (FindText, RepText) {
-
-        regExp = new RegExp(FindText, "g");
-
-        return this.replace(regExp, RepText);
-
-    }
-    //=========================END================
-
-    //获取URl中的参数值
-    function GetQueryString(name) {
-        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) {
-            return unescape(r[2]);
-        }
-        return null;
-    }

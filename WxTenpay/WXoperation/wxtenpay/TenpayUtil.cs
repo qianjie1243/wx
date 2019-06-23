@@ -8,9 +8,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net;
 using System.IO;
 using System.Net.Security;
+
+using WxTenpay.WXoperation.Common;
 //using System.Web.Script.Serialization;
 
-namespace WxTenpay.wxconfig.wxtenpay
+namespace WxTenpay.WXoperation.wxtenpay
 {
     public class TenpayUtil
     {

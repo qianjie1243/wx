@@ -8,24 +8,28 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
-using WxTenpay.wxconfig.wxconfigurateion;
-using WxTenpay.wxconfig;
-using WxTenpay.wxconfig.wxtenpay;
+
 
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using WxTenpay.WXoperation.wxtenpay;
+using WxTenpay.WXoperation.Common;
+using WxTenpay.WXoperation;
+using WxTenpay.WXoperation.wxconfigurateion;
 
 namespace WxTenpay
 {
 
     /// <summary>
     /// 微信基本操作类
+    /// 关于微信公众号出现10秒后再次请求问题解决方法：授权URL最后添加&connect_redirect=1  
+    /// 说明：connect_redirect=1  腾讯(微信)服务器配置的动态参数， 意为只触发一次请求， 超时也不重发
     /// </summary>
     [Description("微信基本操作类")]
     public class WechatPublic
     {
 
-        #region  ===
+        #region  ==保存凭证=
         /// <summary>
         /// 保存凭证
         /// </summary>

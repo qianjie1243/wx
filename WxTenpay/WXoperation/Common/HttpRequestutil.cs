@@ -10,7 +10,7 @@ using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 
 
-namespace WxTenpay.wxconfig
+namespace WxTenpay.WXoperation.Common
 {
     public static class HttpRequestutil
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using System.Security.Cryptography;
-namespace WxTenpay.wxconfig.wxtenpay
+namespace WxTenpay.WXoperation.Common
 {
     public class MD5Util
     {

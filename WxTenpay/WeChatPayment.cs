@@ -4,8 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WxTenpay.wxconfig;
-using WxTenpay.wxconfig.wxtenpay;
+using WxTenpay.WXoperation;
+using WxTenpay.WXoperation.wxtenpay;
+
 namespace WxTenpay
 {
 

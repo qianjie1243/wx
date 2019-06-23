@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WxTenpay.wxconfig.wxconfiguration
+namespace WxTenpay.WXoperation
 {
     /// <summary>
     /// 微信菜单请求返回类

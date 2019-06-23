@@ -5,8 +5,9 @@ using System.Text;
 using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
+using WxTenpay.WXoperation.Common;
 
-namespace WxTenpay.wxconfig.wxtenpay
+namespace WxTenpay.WXoperation.wxtenpay
 {
 
     public class PayMent

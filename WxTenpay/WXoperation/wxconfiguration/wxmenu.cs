@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
-using WxTenpay.wxconfig;
+using WxTenpay.WXoperation.Common;
 
-namespace WxTenpay.wxconfig.wxconfiguration
+namespace WxTenpay.WXoperation.wxconfiguration
 {
     /// <summary>
     /// 微信自定义菜单

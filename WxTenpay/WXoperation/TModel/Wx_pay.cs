@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WxTenpay.wxconfig
+namespace WxTenpay.WXoperation
 {
     /// <summary>
     /// 微信APP支付实体

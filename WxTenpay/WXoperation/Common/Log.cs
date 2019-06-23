@@ -9,7 +9,7 @@ using System.Web;
 using System.IO;
 using System.Text;
 
-namespace WxTenpay.wxconfig.wxtenpay
+namespace WxTenpay.WXoperation.Common
 { 
     public static class Log
     {

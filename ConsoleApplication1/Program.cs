@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WxTenpay;
-using WxTenpay.wxconfig.wxconfiguration;
 using BaiDuAI;
 using System.Security.Cryptography;
 using System.Web;
@@ -70,6 +69,7 @@ namespace ConsoleApplication1
                 //wx.WeiXinTemplate("测试", "测试", list, "测试");
 
 
+                //微信客户消息
                 var result = wx.WeiXinKeFu("oMaP8571JvoI-GXMeQL9nTmibTXk", "你好！");
                 //45015用户未交互
                 Console.Write(result);
