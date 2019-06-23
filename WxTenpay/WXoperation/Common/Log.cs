@@ -11,6 +11,10 @@ using System.Text;
 
 namespace WxTenpay.WXoperation.Common
 { 
+
+    /// <summary>
+    /// 记录异常处理
+    /// </summary>
     public static class Log
     {
         public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "WxLogs/" + DateTime.Now.ToString("yyyy-MM-dd");

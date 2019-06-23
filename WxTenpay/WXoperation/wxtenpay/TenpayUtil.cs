@@ -241,7 +241,7 @@ namespace WxTenpay.WXoperation.wxtenpay
             string prepay_id = string.Empty;
             string post_data = getH5UnifiedOrderXml(order, key);
             string request_data = PostXmlToUrl(H5PayMentUrl, post_data);
-            Log.WriteLogFile(request_data);
+            Log.WriteLogFile(request_data);  //记录
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
             foreach (KeyValuePair<string, object> k in requestXML)
             {
@@ -282,8 +282,7 @@ namespace WxTenpay.WXoperation.wxtenpay
                 order.body = MD5Util.get_uft8(order.body);//进行uft-8编码，针对中文出现签名失败原因，
                 string post_data = getUnifiedOrderXml(order, key);
                 string request_data = PostXmlToUrl(UnifiedPayUrl, post_data);
-                Log.WriteLogFile(request_data);
-
+                Log.WriteLogFile(request_data);//记录
                 SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
 
                 foreach (KeyValuePair<string, object> k in requestXML)

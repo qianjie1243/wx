@@ -70,7 +70,7 @@ namespace ConsoleApplication1
 
 
                 //微信客户消息
-                var result = wx.WeiXinKeFu("oMaP8571JvoI-GXMeQL9nTmibTXk", "你好！");
+                var result = wx.WeiXinKeFu("", "你好！");
                 //45015用户未交互
                 Console.Write(result);
                 #endregion 

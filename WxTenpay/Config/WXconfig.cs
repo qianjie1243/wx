@@ -15,12 +15,12 @@ namespace WxTenpay
         /// <summary>
         ///   公众号ID
         /// </summary>  
-        public static string appid = "wxad5c6b5c0796716f";//
+        public static string appid = "";//
         /// <summary>
         ///      微信公众号的secret
         /// </summary>
         [Description("微信公众号的secret")]
-        public static string secret = "5fd73cb4473735eda6fe5b301405e5f6";//
+        public static string secret = "";//
         /// <summary>
         ///       回调url
         /// </summary>

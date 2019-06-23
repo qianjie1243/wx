@@ -1,8 +1,0 @@
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Release\WxTenpay.dll
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Release\WxTenpay.pdb
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Release\System.Net.Http.dll
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Release\System.Net.Http.xml
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\bin\Release\zh-Hans\System.Net.Http.resources.dll
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\obj\Release\WxTenpay.csprojResolveAssemblyReference.cache
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\obj\Release\WxTenpay.dll
-E:\c#项目\新建文件夹\WxTenpay\WxTenpay\obj\Release\WxTenpay.pdb
