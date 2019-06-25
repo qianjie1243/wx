@@ -17,7 +17,7 @@ namespace WxTenpay.WXoperation.Common
     /// </summary>
     public static class Log
     {
-        public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "WxLogs/" + DateTime.Now.ToString("yyyy-MM-dd");
+        public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "Logs/" + DateTime.Now.ToString("yyyy-MM-dd");
      
 
         //---------------

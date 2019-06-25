@@ -135,7 +135,9 @@ namespace WxTenpay
         }
 
 
-        #region 获取Asscess,jsapi_ticket
+        #endregion
+
+        #region  GetToken
         /// <summary>
         /// 获取access_token
         /// </summary>
@@ -171,7 +173,9 @@ namespace WxTenpay
             }
         }
 
+        #endregion 
 
+        #region 获取Asscess,jsapi_ticket
         /// <summary>
         /// jsapi_ticket
         /// </summary>
@@ -196,8 +200,6 @@ namespace WxTenpay
             }
             return jsapi_ticket;
         }
-        #endregion
-
         #endregion
 
         #region 客户消息====(已测试)
@@ -568,7 +570,9 @@ namespace WxTenpay
         /// 名称
         /// </summary>
         public string Name { set; get; }
-
+        /// <summary>
+        ///内容的值
+        /// </summary>
         public Templatetext values { set; get; }
 
     }
