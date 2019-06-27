@@ -548,6 +548,11 @@
             <param name="timeOut">超时</param>
             <returns></returns>
         </member>
+        <member name="T:WxTenpay.WXoperation.Common.Log">
+            <summary>
+            记录异常处理
+            </summary>
+        </member>
         <member name="M:WxTenpay.WXoperation.Common.Log.WriteLogFile(System.String,System.String)">
             <summary>
             写入日志文件
@@ -1987,6 +1992,11 @@
             <summary>
             名称
             </summary>
+        </member>
+        <member name="P:WxTenpay.Template.values">
+             <summary>
+            内容的值
+             </summary>
         </member>
         <member name="T:WxTenpay.ResponseMessage">
             <summary>

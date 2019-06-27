@@ -77,7 +77,8 @@ namespace WxTenpay.WXoperation
         /// </summary>
         public static string GetToken(string appid, string secret)
         {
-            var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", appid, secret), "get");          
+            var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}", appid, secret), "get");
+            Log.WriteLogFile(strJson, "GetToken");
             JavaScriptSerializer json = new JavaScriptSerializer();
             token tk = json.Deserialize<token>(strJson);
             return tk.access_token;

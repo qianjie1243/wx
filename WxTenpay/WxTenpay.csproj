@@ -57,9 +57,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.QRCode">
-      <HintPath>F:\项目=》青豆，EsayUi，支付宝支付\支付宝支付\F2FPay_Demo_DotNet\Projects\Alipay-demo-project\F2FPayDll\bin\Debug\ThoughtWorks.QRCode.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AilPay.cs" />

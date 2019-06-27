@@ -10,7 +10,7 @@ using System.IO;
 using System.Text;
 
 namespace WxTenpay.WXoperation.Common
-{ 
+{
 
     /// <summary>
     /// 记录异常处理
@@ -18,10 +18,10 @@ namespace WxTenpay.WXoperation.Common
     public static class Log
     {
         public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "Logs/" + DateTime.Now.ToString("yyyy-MM-dd");
-     
+
 
         //---------------
-        public  static void WriteLog( string content,string name="")
+        public static void WriteLog(string content, string name = "")
         {
             if (!Directory.Exists(path))//如果日志目录不存在就创建
             {
@@ -29,11 +29,11 @@ namespace WxTenpay.WXoperation.Common
             }
             string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");//获取当前系统时间
             string filename = "";
-            if (name=="")
-             filename = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";//用日期对日志文件命名
+            if (name == "")
+                filename = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";//用日期对日志文件命名
             else
-             filename = path + "/" +name+ DateTime.Now.ToString("yyyy-MM-dd") + ".txt";//用日期对日志文件命名
-                                                                                       //创建或打开日志文件，向日志文件末尾追加记录
+                filename = path + "/" + name + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";//用日期对日志文件命名
+                                                                                            //创建或打开日志文件，向日志文件末尾追加记录
             using (StreamWriter mySw = File.AppendText(filename))
             {
                 //向日志文件写入内容
@@ -53,8 +53,14 @@ namespace WxTenpay.WXoperation.Common
         /// 写入日志文件
         /// </summary>
         /// <param name="input"></param>
-        public static void WriteLogFile(string content, string Name="")
+        public static void WriteLogFile(string content, string Name = "")
         {
+
+
+            if (!Directory.Exists(path))//如果日志目录不存在就创建
+            {
+                Directory.CreateDirectory(path);
+            }
             if (Name != "")
             {
                 //指定日志文件的目录
@@ -64,11 +70,6 @@ namespace WxTenpay.WXoperation.Common
             {
                 Name = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
             }
-            if (!Directory.Exists(path))//如果日志目录不存在就创建
-            {
-                Directory.CreateDirectory(path);
-            }
-           
 
             /**/
             ///判断文件是否存在以及是否大于2K
@@ -95,7 +96,7 @@ namespace WxTenpay.WXoperation.Common
                 log.Write("{0} {1} \n\r", DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());
 
                 //写入日志内容并换行
-                log.Write("\n\r"+content + "\n\r===END===\n\r");
+                log.Write("\n\r" + content + "\n\r===END===\n\r");
 
                 //清空缓冲区
                 log.Flush();
@@ -117,7 +118,8 @@ namespace WxTenpay.WXoperation.Common
                 //指定日志文件的目录
                 LogAddress = path + "/" + LogAddress + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
             }
-            else {
+            else
+            {
                 LogAddress = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
             }
 
@@ -146,5 +148,5 @@ namespace WxTenpay.WXoperation.Common
 }
 
 
-    
+
 

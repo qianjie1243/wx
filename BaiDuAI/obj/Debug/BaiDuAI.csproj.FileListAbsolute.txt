@@ -1,0 +1,13 @@
+E:\MY项目\wx\BaiDuAI\bin\Debug\BaiDuAI.dll
+E:\MY项目\wx\BaiDuAI\bin\Debug\BaiDuAI.pdb
+E:\MY项目\wx\BaiDuAI\bin\Debug\common.dll
+E:\MY项目\wx\BaiDuAI\bin\Debug\Newtonsoft.Json.dll
+E:\MY项目\wx\BaiDuAI\bin\Debug\ThoughtWorks.QRCode.dll
+E:\MY项目\wx\BaiDuAI\bin\Debug\common.pdb
+E:\MY项目\wx\BaiDuAI\bin\Debug\Newtonsoft.Json.pdb
+E:\MY项目\wx\BaiDuAI\bin\Debug\Newtonsoft.Json.xml
+E:\MY项目\wx\BaiDuAI\obj\Debug\BaiDuAI.csprojAssemblyReference.cache
+E:\MY项目\wx\BaiDuAI\obj\Debug\BaiDuAI.csproj.CoreCompileInputs.cache
+E:\MY项目\wx\BaiDuAI\obj\Debug\BaiDuAI.csproj.CopyComplete
+E:\MY项目\wx\BaiDuAI\obj\Debug\BaiDuAI.dll
+E:\MY项目\wx\BaiDuAI\obj\Debug\BaiDuAI.pdb
