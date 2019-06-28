@@ -110,6 +110,16 @@ function downloadImage(serverId) {
     });
     return localId;
 }
+
+//获取本地图片接口
+function getLocalImgData(localId){
+    wx.getLocalImgData({
+        localId: '', // 图片的localID
+        success: function (res) {
+            var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+        }
+    });
+}
 //-------------------END---------------
 
 //支付方法一   -------------------------------------------
