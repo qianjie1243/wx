@@ -1265,6 +1265,14 @@
             <param name="postdata"></param>
             <returns></returns>
         </member>
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.H5PayMent(WxTenpay.WXoperation.UnifiedOrder,System.String)">
+            <summary>
+                 微信H5统一下单接口
+            </summary>
+            <param name="order"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getcode_url(WxTenpay.WXoperation.UnifiedOrder,System.String)">
             <summary>
             获取code_url

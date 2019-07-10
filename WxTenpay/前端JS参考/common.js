@@ -142,6 +142,7 @@ function PreviewFile(file, obj, urlpath) {
             urlpath = evt.target.result;//绑定新的图片
         }
         reader.readAsDataURL(file.files[0]);
+        window.localStorage
     }
     else {
         jQuery(obj).attr("src", urlpath);//使用旧的图片
@@ -308,10 +309,10 @@ function decode_atob(obj) {
 //初始化Form 表单
 //name 赋值
 //formId 表单ID
-function getFormData(formId) {
+$.fn.GetFormData = function () {
     var data = {};
-    $('#' + formId).find('input[type=number],input[type=password],input[type=text],input[type=radio]:checked,input[type=hidden],input[type=date],select,textarea').each(function () {
-        var elName = $(this).attr('name');
+    $(this).find('input[type=number],input[type=password],input[type=text],input[type=radio]:checked,input[type=hidden],input[type=date],select,textarea').each(function () {
+        var elName = $(this).attr('id');
         var elValue = $(this).val();
         if (elName) {
             data[elName] = elValue;
@@ -319,8 +320,8 @@ function getFormData(formId) {
 
     });
 
-    $('#' + formId).find('input[type=checkbox]:checked').each(function () {
-        var elName = $(this).attr('name');
+    $(this).find('input[type=checkbox]:checked').each(function () {
+        var elName = $(this).attr('id');
         var elValue = $(this).val();
 
         if (elName in data) {
@@ -334,228 +335,246 @@ function getFormData(formId) {
     return data;
 }
 
-
-
-//=================END================
-
-//=================对象数组分组==========
-function groupBy(array, f) {
-    const groups = {};
-    array.forEach(function (o) {
-        const group = JSON.stringify(f(o));
-        groups[group] = groups[group] || [];
-        groups[group].push(o);
-    });
-    return Object.keys(groups).map(function (group) {
-        return groups[group];
-    });
-}
-//const sorted = this.groupBy(app.list, function (item) {
-//       return [item.key];
-//  });
-//========================END========================
-
-
-//===============替换字符串数据============
-String.prototype.replaceAll = function (FindText, RepText) {
-
-    regExp = new RegExp(FindText, "g");
-
-    return this.replace(regExp, RepText);
-
-}
-//=========================END================
-
-//获取URl中的参数值
-function GetQueryString(name) {
-    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-    var r = window.location.search.substr(1).match(reg);
-    if (r != null) {
-        return unescape(r[2]);
-    }
-    return null;
-}
-
-
-
-
-
-//===========================工具类函数============================
-
-
-
-
-
-//判断日期类型是否为YYYY-MM-DD格式的类型    
-function IsDate(str) {
-    if (str.length != 0) {
-        var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/;
-        var r = str.match(reg);
-        if (r == null)
-            return false;
-        else
-            return true;
-    }
-    return false;
-}
-
-//判断日期类型是否为YYYY-MM-DD hh:mm:ss格式的类型    
-function IsDateTime(str) {
-    if (str.length != 0) {
-        var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
-        var r = str.match(reg);
-        if (r == null) return false; else return true
-    }
-    return false
-}
-
-
-
-//判断输入的字符是否为英文字母    
-function IsLetter(str) {
-    if (str.length != 0) {
-        reg = /^[a-zA-Z]+$/;
-        if (!reg.test(str)) return fasle; else return true;
-    }
-    return false;
-}
-
-//判断输入的字符是否为整数    
-function IsInteger(str) {
-    if (str.length != 0) {
-        reg = /^[-+]?\d*$/;
-        if (!reg.test(str)) return false; else return true;
-    }
-    return false;
-}
-
-//判断输入的字符是否为双精度    
-function IsDouble(str) {
-    if (str.length != 0) {
-        reg = /^[-\+]?\d+(\.\d+)?$/;
-        if (!reg.test(str)) return false; else return true;
-
-    } 
-        return false;
-}
-
-
-//判断输入的字符是否为:a-z,A-Z,0-9    
-function IsString(str) {
-    if (str.length != 0) {
-        reg = /^[a-zA-Z0-9_]+$/;
-        if (!reg.test(str)) return false; else return true;
-        
-    }
-    return false;
-}
-
-//判断输入的字符是否为中文    
-function IsChinese(str) {
-    if (str.length != 0) {
-        reg = /^[\u0391-\uFFE5]+$/;
-        if (!reg.test(str)) return false; else return true;
-    }
-    return false;
-}
-
-//判断输入的EMAIL格式是否正确    
-function IsEmail(str) { 
-    if (str.length != 0) {
-        reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-        if (!reg.test(str)) return false; else return true;
-    }
-    return false;
-}
-
-//判断输入的邮编(只能为六位)是否正确    
-function IsZIP(str) {
-    if (str.length != 0) {
-        reg = /^\d{6}$/;
-        if (!reg.test(str)) return false; else return true;
-    }
-    return false;
-}
-
-
-
-
-//只允许输入数字
-function checkNumber(e) {
-    var keynum = window.event ? e.keyCode : e.which;
-    if ((48 <= keynum && keynum <= 57) || keynum == 8) {
-        return true;
-    } else {
-        return false;
-    }
-}
-//只允许输入小数
-function checkForFloat(obj, e) {
-    var isOK = false;
-    var key = window.event ? e.keyCode : e.which;
-    if ((key > 95 && key < 106) || //小键盘上的0到9  
-        (key > 47 && key < 60) ||  //大键盘上的0到9  
-        (key == 110 && obj.value.indexOf(".") < 0) || //小键盘上的.而且以前没有输入.  
-        (key == 190 && obj.value.indexOf(".") < 0) || //大键盘上的.而且以前没有输入.  
-        key == 8 || key == 9 || key == 46 || key == 37 || key == 39) {
-        isOK = true;
-    } else {
-        if (window.event) { //IE
-            e.returnValue = false;   //event.returnValue=false 效果相同.    
-        } else { //Firefox 
-            e.preventDefault();
+//form 赋值
+$.fn.SetFormData = function (data) {
+    for (var id in data) {
+        var value = data[id];
+        var $obj = $('#' + id);
+        if ($obj.length == 0 && value != null) {
+            $obj = $('[name="' + id + '"][value="' + value + '"]');
+            if ($obj.length > 0) {
+                if (!$obj.is(":checked")) {
+                    $obj.trigger('click');
+                }
+            }
+        } else {
+            var type = $obj.attr('type');
+            switch (type) {
+                case "checkbox":
+                    var isck = 0;
+                    if ($obj.is(":checked")) {
+                        isck = 1;
+                    } else {
+                        isck = 0;
+                    }
+                    if (isck != parseInt(value)) {
+                        $obj.trigger('click');
+                    }
+                    break;
+                case "radio":
+                    if (!$obj.find('input[value="' + value + '"]').is(":checked")) {
+                        $obj.find('input[value="' + value + '"]').trigger('click');
+                    }
+                    break;
+                default:
+                    $obj.val(value);
+                    break;
+            }
         }
     }
-    return isOK;
 }
-//检查短信字数
-function checktxt(obj, txtId) {
-    var txtCount = $(obj).val().length;
-    if (txtCount < 1) {
+
+
+    //=================END================
+
+    //=================对象数组分组==========
+    function groupBy(array, f) {
+        const groups = {};
+        array.forEach(function (o) {
+            const group = JSON.stringify(f(o));
+            groups[group] = groups[group] || [];
+            groups[group].push(o);
+        });
+        return Object.keys(groups).map(function (group) {
+            return groups[group];
+        });
+    }
+    //const sorted = this.groupBy(app.list, function (item) {
+    //       return [item.key];
+    //  });
+    //========================END========================
+
+
+    //===============替换字符串数据============
+    String.prototype.replaceAll = function (FindText, RepText) {
+
+        regExp = new RegExp(FindText, "g");
+
+        return this.replace(regExp, RepText);
+
+    }
+    //=========================END================
+
+    //获取URl中的参数值
+    function GetQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+
+
+
+
+    //===========================工具类函数============================
+
+
+
+
+
+    //判断日期类型是否为YYYY-MM-DD格式的类型    
+    function IsDate(str) {
+        if (str.length != 0) {
+            var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/;
+            var r = str.match(reg);
+            if (r == null)
+                return false;
+            else
+                return true;
+        }
         return false;
     }
-    var smsLength = Math.ceil(txtCount / 62);
-    $("#" + txtId).html("您已输入<b>" + txtCount + "</b>个字符，将以<b>" + smsLength + "</b>条短信扣取费用。");
-}
 
-//检查邮箱
-function checkEmail(obj) {
-    var reyx = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-    return (reyx.test(obj));
-
-}
-
-//验证是否有字母
-function checkreg(obj) {
-    var regString = /[a-zA-Z]+/;
-    return (regString.test(obj));
-}
-
-
-//四舍五入函数
-function ForDight(Dight, How) {
-    Dight = Math.round(Dight * Math.pow(10, How)) / Math.pow(10, How);
-    return Dight;
-}
-//写Cookie
-function addCookie(objName, objValue, objHours) {
-    var str = objName + "=" + escape(objValue);
-    if (objHours > 0) {//为0时不设定过期时间，浏览器关闭时cookie自动消失
-        var date = new Date();
-        var ms = objHours * 3600 * 1000;
-        date.setTime(date.getTime() + ms);
-        str += "; expires=" + date.toGMTString();
+    //判断日期类型是否为YYYY-MM-DD hh:mm:ss格式的类型    
+    function IsDateTime(str) {
+        if (str.length != 0) {
+            var reg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/;
+            var r = str.match(reg);
+            if (r == null) return false; else return true
+        }
+        return false
     }
-    document.cookie = str;
-}
 
-//读Cookie
-function getCookie(objName) {//获取指定名称的cookie的值
-    var arrStr = document.cookie.split("; ");
-    for (var i = 0; i < arrStr.length; i++) {
-        var temp = arrStr[i].split("=");
-        if (temp[0] == objName) return unescape(temp[1]);
+
+
+    //判断输入的字符是否为英文字母    
+    function IsLetter(str) {
+        if (str.length != 0) {
+            reg = /^[a-zA-Z]+$/;
+            if (!reg.test(str)) return fasle; else return true;
+        }
+        return false;
     }
-    return "";
-}
+
+    //判断输入的字符是否为整数    
+    function IsInteger(str) {
+        if (str.length != 0) {
+            reg = /^[-+]?\d*$/;
+            if (!reg.test(str)) return false; else return true;
+        }
+        return false;
+    }
+
+    //判断输入的字符是否为双精度    
+    function IsDouble(str) {
+        if (str.length != 0) {
+            reg = /^[-\+]?\d+(\.\d+)?$/;
+            if (!reg.test(str)) return false; else return true;
+
+        }
+        return false;
+    }
+
+
+    //判断输入的字符是否为:a-z,A-Z,0-9    
+    function IsString(str) {
+        if (str.length != 0) {
+            reg = /^[a-zA-Z0-9_]+$/;
+            if (!reg.test(str)) return false; else return true;
+
+        }
+        return false;
+    }
+
+    //判断输入的字符是否为中文    
+    function IsChinese(str) {
+        if (str.length != 0) {
+            reg = /^[\u0391-\uFFE5]+$/;
+            if (!reg.test(str)) return false; else return true;
+        }
+        return false;
+    }
+
+    //判断输入的EMAIL格式是否正确    
+    function IsEmail(str) {
+        if (str.length != 0) {
+            reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            if (!reg.test(str)) return false; else return true;
+        }
+        return false;
+    }
+
+    //判断输入的邮编(只能为六位)是否正确    
+    function IsZIP(str) {
+        if (str.length != 0) {
+            reg = /^\d{6}$/;
+            if (!reg.test(str)) return false; else return true;
+        }
+        return false;
+    }
+
+
+
+
+    //只允许输入数字
+    function checkNumber(e) {
+        var keynum = window.event ? e.keyCode : e.which;
+        if ((48 <= keynum && keynum <= 57) || keynum == 8) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    //只允许输入小数
+    function checkForFloat(obj, e) {
+        var isOK = false;
+        var key = window.event ? e.keyCode : e.which;
+        if ((key > 95 && key < 106) || //小键盘上的0到9  
+            (key > 47 && key < 60) ||  //大键盘上的0到9  
+            (key == 110 && obj.value.indexOf(".") < 0) || //小键盘上的.而且以前没有输入.  
+            (key == 190 && obj.value.indexOf(".") < 0) || //大键盘上的.而且以前没有输入.  
+            key == 8 || key == 9 || key == 46 || key == 37 || key == 39) {
+            isOK = true;
+        } else {
+            if (window.event) { //IE
+                e.returnValue = false;   //event.returnValue=false 效果相同.    
+            } else { //Firefox 
+                e.preventDefault();
+            }
+        }
+        return isOK;
+    }
+    //检查短信字数
+    function checktxt(obj, txtId) {
+        var txtCount = $(obj).val().length;
+        if (txtCount < 1) {
+            return false;
+        }
+        var smsLength = Math.ceil(txtCount / 62);
+        $("#" + txtId).html("您已输入<b>" + txtCount + "</b>个字符，将以<b>" + smsLength + "</b>条短信扣取费用。");
+    }
+
+    //检查邮箱
+    function checkEmail(obj) {
+        var reyx = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        return (reyx.test(obj));
+
+    }
+
+    //验证是否有字母
+    function checkreg(obj) {
+        var regString = /[a-zA-Z]+/;
+        return (regString.test(obj));
+    }
+
+
+    //四舍五入函数
+    function ForDight(Dight, How) {
+        Dight = Math.round(Dight * Math.pow(10, How)) / Math.pow(10, How);
+        return Dight;
+    }
+   
     //===================END==============
