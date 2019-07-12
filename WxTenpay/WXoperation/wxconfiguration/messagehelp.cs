@@ -137,6 +137,11 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         #endregion
         //-----------------------
         #region 关注后的推送事件
+        /// <summary>
+        /// 关注后的推送事件
+        /// </summary>
+        /// <param name="xmldoc"></param>
+        /// <returns></returns>
         //关注后的推送事件
         public string GuanZhu(XmlDocument xmldoc)
         {
@@ -159,6 +164,10 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         #endregion
         //-----------------------
         #region 取消关注后的事件
+        /// <summary>
+        ///  取消关注后的事件
+        /// </summary>
+        /// <param name="xmldoc"></param>
         public void deleteGuanZhu(XmlDocument xmldoc)
         {
             //FromUserName 取消关注的openid
@@ -360,7 +369,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// <param name="text">发送的信息</param>
         /// <param name="token">微信的token</param>
         /// <returns></returns>
-        public string FaSongXingXi(string openid, string text, string token)
+        public erroy FaSongXingXi(string openid, string text, string token)
         {
             try
             {
@@ -369,13 +378,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                 var json1 = HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token, menu, "post");
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 Log.WriteLogFile(json1, "微信客户消息");
-                erroy er = js.Deserialize<erroy>(json1);
-                if (er.errcode == "0")
-                {
-                    return "OK";
-                }
-                //45015 返回码，用户48小时内没有和公众号互动
-                return er.errcode;
+                return js.Deserialize<erroy>(json1);
             }
             catch (Exception ex)
             {

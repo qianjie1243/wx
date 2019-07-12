@@ -20,17 +20,10 @@ namespace WxTenpay
         /// <param name="TemplateParam">模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为</param>
         /// TemplateParam如 "{\"code\":\"" + 短信验证码 + "\"}";
         /// <returns> Code=1 成功，0失败， Message 错误提示</returns>
-        public static string sendSms(string PhoneNumbers, string TemplateParam, string SignName, string TemplateCode)
+        public static object sendSms(string PhoneNumbers, string TemplateParam, string SignName, string TemplateCode)
         {
-            var result = SMS.sendSms(PhoneNumbers, TemplateParam, SignName, TemplateCode);
-            if (result.Code == "OK")
-            {
-                return "{\"Code\": \" 1 \", \"Message\": \"  \" }";
-            }
-            else
-            {
-                return "{\"Code\": \" 0 \", \"Message\": \" " + result.Message + " \" }";
-            }
+            return SMS.sendSms(PhoneNumbers, TemplateParam, SignName, TemplateCode);
+          
         }
     }
 }

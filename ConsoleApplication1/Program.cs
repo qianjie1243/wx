@@ -52,9 +52,9 @@ namespace ConsoleApplication1
 
                 #region 百度Ai测试
                 //  BaiDu_CharacterRecognition ce = new BaiDu_CharacterRecognition();
-                //  var result = ce.GetIdNumber(@"E:/新建文件夹/WxTenpay/ConsoleApplication1/111.png");
+                //  var result = ce.GetIdNumber(@"ConsoleApplication1/111.png");
                 //var number = result["words_result"]["number"];
-                // var res= HttpUtility.UrlDecode("cK1ryyENDj3uPBgLy3iQUT4M9LhSjWArGUjMcg8uNK0uiwtMsxvPSlx4FAkCZYujr1rKS0O5Um7r5iyyqcxpIyavMkex1I20F%2B5cQU6XsPrTFMbrswO%2BnxH5s%2FSLc4uJ8TmBgGSzKzTkqhH5hezXPVFLGzx%2Bk3fo%2FVjUUWPuBKE%3D", System.Text.Encoding.GetEncoding("utf-8"));
+                // var res= HttpUtility.UrlDecode("cK1r5ezXPVFLGzxBKE%3D", System.Text.Encoding.GetEncoding("utf-8"));
                 // var rets = RSADecrypt(key, res); 
                 #endregion
 

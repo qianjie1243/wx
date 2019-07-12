@@ -63,6 +63,7 @@
     <Compile Include="AliyunSMS.cs" />
     <Compile Include="Aliyun\Ail_Pay.cs" />
     <Compile Include="Aliyun\SMS.cs" />
+    <Compile Include="Config\Ailconfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeChatPayment.cs" />
     <Compile Include="Config\APP_Aconfig.cs" />
@@ -93,6 +94,7 @@
     <Content Include="前端JS参考\common.js" />
     <Content Include="前端JS参考\Dialog.js" />
     <Content Include="前端JS参考\loader.min.css" />
+    <Content Include="前端JS参考\Storage.js" />
     <Content Include="前端JS参考\wx.common.js" />
   </ItemGroup>
   <ItemGroup>

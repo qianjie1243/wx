@@ -17,6 +17,7 @@ using WxTenpay.WXoperation.Common;
 using WxTenpay.WXoperation;
 using WxTenpay.WXoperation.wxconfigurateion;
 
+
 namespace WxTenpay
 {
 
@@ -68,7 +69,6 @@ namespace WxTenpay
                 if (asscess_token.pandunaccess_token(getopenid.access_token, getopenid.openid).errcode == "0")
                 {
                     xx = asscess_token.gerenxinxi(getopenid.access_token, getopenid.openid);
-
                 }
                 else
                 {
@@ -111,7 +111,7 @@ namespace WxTenpay
         /// </summary>
         /// <returns></returns>
         [Description("获取config")]
-        public string GetWxConfig(string url)
+        public object GetWxConfig(string url)
         {
             try
             {
@@ -120,13 +120,22 @@ namespace WxTenpay
                 string JsapiTicket = GetJsapi_ticket();
                 string string1 = "jsapi_ticket=" + JsapiTicket + "&noncestr=" + nonceStr + "&timestamp=" + timeStamp + "&url=" + url;
                 string signature = MD5Util.sha1(string1);
-                string config = "{";
-                config += "\"appId\":" + "\"" + WXconfig.appid + "\",";
-                config += "\"timeStamp\":" + "\"" + timeStamp + "\",";
-                config += "\"nonceStr\":" + "\"" + nonceStr + "\",";
-                config += "\"signature\":" + "\"" + signature + "\"";
-                config += "}";
-                return config;
+
+                var wxconfig = new
+                {
+                    appId = WXconfig.appid,
+                    timeStamp = timeStamp,
+                    nonceStr = nonceStr,
+                    signature = signature
+                };
+
+                //string config = "{";
+                //config += "\"appId\":" + "\"" + WXconfig.appid + "\",";
+                //config += "\"timeStamp\":" + "\"" + timeStamp + "\",";
+                //config += "\"nonceStr\":" + "\"" + nonceStr + "\",";
+                //config += "\"signature\":" + "\"" + signature + "\"";
+                //config += "}";
+                return wxconfig;
             }
             catch (Exception ex)
             {
@@ -210,13 +219,12 @@ namespace WxTenpay
         /// <param name="text">发送消息内容</param>
         /// <returns></returns>
         [Description("微信客户最基本消息")]
-        public string WeiXinKeFu(string openid, string text)
+        public  object WeiXinKeFu(string openid, string text)
         {
             try
             {
                 messagehelp mp = new messagehelp();
-                string result = mp.FaSongXingXi(openid, text, GetToken());
-                return result;
+                return mp.FaSongXingXi(openid, text, GetToken());
             }
             catch (Exception)
             {
@@ -262,6 +270,10 @@ namespace WxTenpay
 
         #region 微信配置URL对接====(已测试)
 
+        /// <summary>
+        /// 微信配置URL对接
+        /// </summary>
+        /// <param name="token"></param>
         [Description("微信配置URL对接")]
         public void WxDocking(string token)
         {
@@ -353,7 +365,7 @@ namespace WxTenpay
         /// <param name="Name">保存头像图片名称</param>
         /// <returns></returns>
         [Description("serverId微信头像下载")]
-        public string Head_portrait(string serverId, string path, string Name)
+        public object Head_portrait(string serverId, string path, string Name)
         {
 
             try
@@ -365,7 +377,6 @@ namespace WxTenpay
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -380,7 +391,7 @@ namespace WxTenpay
         /// <param name="Name">保存头像图片名称.png  .jpg 结尾</param>
         /// <param name="path">保存头像图片地址已/结尾</param>
         [Description("url=头像地址 下载微信头像")]
-        public string Download_Image(string url, string Name, string path)
+        public object Download_Image(string url, string Name, string path)
         {
             try
             {
@@ -400,11 +411,24 @@ namespace WxTenpay
                 reader.Close();
                 reader.Dispose();
                 response.Close();
-                return ToJson(new ResponseMessage { Code = 1, Data = (path + Name) });
+
+                var data = new
+                {
+                    Code = 1,
+                    Data = (path + Name)
+
+                };
+                return data;
             }
             catch (Exception ex)
             {
-                return ToJson(new ResponseMessage { Code = 2, Message = ex.Message });
+                var data = new
+                {
+                    Code = 2,
+                    Message = ex.Message,
+
+                };
+                return data;
                 //return ex.Message;
             }
         }
@@ -440,7 +464,7 @@ namespace WxTenpay
 
         /// <returns></returns>
         [Description("根据openid头像下载")]
-        public string OpenidGetHead(string openid, string path, string Name)
+        public object OpenidGetHead(string openid, string path, string Name)
         {
             try
             {
@@ -455,7 +479,13 @@ namespace WxTenpay
                 }
                 else
                 {
-                    return ToJson(new ResponseMessage { Code = 2, Message = "异常" });
+                    var data = new
+                    {
+                        Code = 2,
+                        Message = "headimgurl异常！",
+
+                    };
+                    return data;
                 }
             }
             catch (Exception)
@@ -500,7 +530,7 @@ namespace WxTenpay
         /// <returns></returns>
         public string GetBaiduMap(string lon, string lat, int type = 1)
         {
-            var url = $"http://api.map.baidu.com/geoconv/v1/?coords={lon },{lat}&from=1&to=5&ak=" + BaiduMap.ak;
+            var url = $"http://api.map.baidu.com/geoconv/v1/?coords={lon},{lat}&from=1&to=5&ak=" + BaiduMap.ak;
             try
             {
                 var result = HttpRequestutil.RequestUrl(url, "Post");
@@ -531,6 +561,11 @@ namespace WxTenpay
         #endregion
 
         #region obj=>json
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public string ToJson(object obj)
         {
             JavaScriptSerializer json = new JavaScriptSerializer();
@@ -554,7 +589,7 @@ namespace WxTenpay
         /// <summary>
         /// 字体颜色
         /// </summary>
-        public string color { set; get; } = "#FF0000";
+        public string color { set; get; } = "#F5F5F5";
 
     }
 

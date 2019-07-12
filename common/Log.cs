@@ -13,19 +13,32 @@ namespace Common
         public static string path = System.AppDomain.CurrentDomain.BaseDirectory + "Logs/" + DateTime.Now.ToString("yyyy-MM-dd");
 
         //---------------
-        public static void WriteLog(string content, string name = "")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="content">内容</param>
+        /// <param name="name">文件名</param>
+        /// <param name="filename">文件夹名称</param>
+        public static void WriteLog(string content, string name = "", string filename = "")
         {
+            if (!string.IsNullOrWhiteSpace(filename))
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory + filename + "/" + DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
             if (!Directory.Exists(path))//如果日志目录不存在就创建
             {
                 Directory.CreateDirectory(path);
             }
             string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");//获取当前系统时间
-            string filename = "";
-            if (name == "")
-                filename = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";//用日期对日志文件命名
+            string pathname = "";
+
+
+            if (string.IsNullOrWhiteSpace(name))
+                pathname = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";//用日期对日志文件命名
             else
-                filename = path + "/" + name + DateTime.Now.ToString("yyyy-MM-dd") + ".txt";//用日期对日志文件命名
-                                                                                            //创建或打开日志文件，向日志文件末尾追加记录
+                pathname = path + "/" + name + ".log";//用日期对日志文件命名
+                                                      //创建或打开日志文件，向日志文件末尾追加记录
             using (StreamWriter mySw = File.AppendText(filename))
             {
                 //向日志文件写入内容
@@ -44,10 +57,33 @@ namespace Common
         /// <summary>
         /// 写入日志文件
         /// </summary>
-        /// <param name="content"></param>
-        public static void WriteLogFile(string content, string Name = "")
+        /// <param name="obj"></param>
+        /// <param name="Name"></param>
+        /// <param name="filename"></param>
+        public static void WriteLogFileObject(object obj, string Name = "", string filename = "")
         {
-            if (Name != "")
+            var json = JsonHelper.ObjectToJSON(obj);
+            WriteLogFile(json, Name, filename);
+        }
+
+        /// <summary>
+        /// 写入日志文件
+        /// </summary>
+        /// <param name="content"></param>
+        public static void WriteLogFile(string content, string Name = "", string filename = "")
+        {
+
+            if (!string.IsNullOrWhiteSpace(filename))
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory + filename + "/" + DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
+            if (!Directory.Exists(path))//如果日志目录不存在就创建
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            if (!string.IsNullOrWhiteSpace(Name))
             {
                 //指定日志文件的目录
                 Name = path + "/" + Name + ".log";
@@ -102,18 +138,32 @@ namespace Common
         /// </summary>
         /// <param name="ex">异常</param>
         /// <param name="LogAddress">日志文件名称</param>
-        public static void WriteLogTxt(Exception ex, string LogAddress = "")
+        /// <param name="filename">文件夹名称</param>
+        /// <param name="ip">访问IP地址</param>
+        public static void WriteLogTxt(Exception ex, string LogAddress = "", string filename = "", string ip = "")
         {
+
+            if (!string.IsNullOrWhiteSpace(filename))
+            {
+                path = System.AppDomain.CurrentDomain.BaseDirectory + filename + "/" + DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
+            if (!Directory.Exists(path))//如果日志目录不存在就创建
+            {
+                Directory.CreateDirectory(path);
+            }
             //如果日志文件为空，则默认在Debug目录下新建 YYYY-mm-dd_Log.log文件
-            if (LogAddress != "")
+            if (!string.IsNullOrWhiteSpace(LogAddress))
             {
                 //指定日志文件的目录
-                LogAddress = path + "/" + LogAddress + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
+                LogAddress = path + "/" + LogAddress + ".log";
             }
             else
             {
                 LogAddress = path + "/" + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
             }
+
+
 
             FileInfo finfo = new FileInfo(LogAddress);
 
@@ -132,6 +182,7 @@ namespace Common
             sw.WriteLine("异常对象：" + ex.Source);
             sw.WriteLine("调用堆栈：\n" + ex.StackTrace.Trim());
             sw.WriteLine("触发方法：" + ex.TargetSite);
+            sw.WriteLine("访问IP地址：" + ip);
             sw.WriteLine();
             sw.Close();
         }
