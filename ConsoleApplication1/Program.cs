@@ -16,6 +16,14 @@ namespace ConsoleApplication1
     {
 
 
+        /*
+         * WxTenpay项目中主要3个类
+         * 1.Wechat_Menu类 用户操作菜单，上传材料，修改。
+         * 2.WeChatPayment类 用于发起微信支付
+         * 3.WechatPublic类  用于前端JSSDK 所需wx.config,获取个人信息，下载个人头像，获取access_token，发送模板消息，客户消息
+         * 
+         * 以微信公众号为基础的微信操作类，满足于现有微信公众号开发功能需求。
+         */
         /// <summary>
         /// 测试自定义菜单
         /// </summary>
@@ -26,7 +34,11 @@ namespace ConsoleApplication1
             {
                 #region  微信公众号菜单测试
                 Wechat_Menu wx = new Wechat_Menu();
-                List<MenuModel> list = new List<MenuModel> { new MenuModel { name = "菜单1", url = "https://baidu.com", type = "view" }, new MenuModel { name = "菜单2", url = "https://baidu.com", type = "view" } };
+                List<MenuModel> list = new List<MenuModel>
+                {
+                    new MenuModel { name = "菜单1", url = "https://baidu.com", type = "view" },
+                    new MenuModel { name = "菜单2", url = "https://baidu.com", type = "view" }
+                };
                 List<MenuModel> _MenuParameter = new List<MenuModel>();//多按钮列表
                 MenuModel model = new MenuModel();//
                 model.name = "菜单3-1";
