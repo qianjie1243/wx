@@ -150,6 +150,21 @@ function PreviewFile(file, obj, urlpath) {
 }
 
 
+//文件上传方法
+function upload(obj) {
+    var file = obj.files[0];
+    //判断是否pdf 类型
+    if (file.type != "application/pdf") {
+        alert("请选择pdf文件！");
+        return false;
+    }
+    $(obj).next().text(file.name);
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function (e) {
+        $(obj).attr("data-base", this.result);
+    }
+}
 
 
 //===========================日期处理============================

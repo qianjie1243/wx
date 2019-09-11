@@ -593,8 +593,6 @@ namespace WxTenpay
 
     }
 
-
-
     /// <summary>
     /// 模板消息的实体类
     /// </summary>

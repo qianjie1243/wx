@@ -93,6 +93,7 @@ namespace WxTenpay.WXoperation
         {
             var strJson = HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token={0}&type=jsapi", Asscess), "get");        
             JavaScriptSerializer json = new JavaScriptSerializer();
+            Log.WriteLogFile(strJson, "jsapi_ticket");
             token tk = json.Deserialize<token>(strJson);
             return tk.ticket;
         }

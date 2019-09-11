@@ -285,7 +285,7 @@ namespace WxTenpay.WXoperation.wxtenpay
             try
             {
                 string code_url = "";
-                order.body = MD5Util.get_uft8(order.body);//进行uft-8编码，针对中文出现签名失败原因，
+               // order.body = MD5Util.get_uft8(order.body);//进行uft-8编码，针对中文出现签名失败原因，
                 string post_data = getUnifiedOrderXml(order, key);
                 string request_data = PostXmlToUrl(UnifiedPayUrl, post_data);
                 Log.WriteLogFile(request_data,"二维码支付");//记录
@@ -696,14 +696,14 @@ namespace WxTenpay.WXoperation.wxtenpay
                 }
                 else
                 {
-                    sbPay.Append("<" + k.Key + ">" + k.Value + "</" + k.Key + ">");
+                    sbPay.Append("<" + k.Key + ">" + k.Value.ToString() + "</" + k.Key + ">");
                 }
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
             return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
-            Byte[] temp = Encoding.UTF8.GetBytes(return_string);
-            string dataGBK = Encoding.GetEncoding("utf-8").GetString(temp);
+            //Byte[] temp = Encoding.UTF8.GetBytes(return_string);
+            //string dataGBK = Encoding.GetEncoding("utf-8").GetString(temp);
             return return_string;
             //  GBK
         }

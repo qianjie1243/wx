@@ -95,7 +95,12 @@
     <Content Include="前端JS参考\Dialog.js" />
     <Content Include="前端JS参考\loader.min.css" />
     <Content Include="前端JS参考\Storage.js" />
+    <Content Include="前端JS参考\Table.js" />
     <Content Include="前端JS参考\wx.common.js" />
+    <Content Include="前端辅助JS\echarts.js" />
+    <Content Include="前端辅助JS\jquery.qrcode.min.js" />
+    <Content Include="前端辅助JS\linq.min.js" />
+    <Content Include="前端辅助JS\vue.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
