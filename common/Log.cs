@@ -57,9 +57,9 @@ namespace Common
         /// <summary>
         /// 写入日志文件
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="Name"></param>
-        /// <param name="filename"></param>
+        /// <param name="obj">内容</param>
+        /// <param name="Name">文件名</param>
+        /// <param name="filename">文件夹名称</param>
         public static void WriteLogFileObject(object obj, string Name = "", string filename = "")
         {
             var json = JsonHelper.ObjectToJSON(obj);
@@ -69,7 +69,9 @@ namespace Common
         /// <summary>
         /// 写入日志文件
         /// </summary>
-        /// <param name="content"></param>
+        /// <param name="content">内容</param>
+        /// <param name="Name">文件名</param>
+        /// <param name="filename">文件夹名称</param>
         public static void WriteLogFile(string content, string Name = "", string filename = "")
         {
 
