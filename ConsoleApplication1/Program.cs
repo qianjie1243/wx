@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,8 +43,7 @@ namespace ConsoleApplication1
                 //Wechat_Menu wx = new Wechat_Menu();
                 //List<MenuModel> list = new List<MenuModel>
                 //{
-                //    new MenuModel { name = "高层次人才", url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a6b1941be8f3853&redirect_uri=http://www.gccrc.rcsz.gov.cn/Front/Frontwx/webindex.html&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect", type = "view" },
-                //    new MenuModel { name = "工作人员", url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a6b1941be8f3853&redirect_uri=http://www.gccrc.rcsz.gov.cn/Front/Frontwx/_index.html&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect", type = "view" }
+            
                 //};
                 //List<MenuModel> _MenuParameter = new List<MenuModel>();//多按钮列表
                 //MenuModel model = new MenuModel();//
@@ -94,8 +93,7 @@ namespace ConsoleApplication1
                 //Console.Write(result);
                 #endregion
 
-                //var data = new { UserName = "Szrc", PassWord = "SZRC567", Time = "" };
-                //var rs = DESEncrypt.MD5Encrypt(JsonConvert.SerializeObject(data), "SZRC_YCK");
+          
               
                 Console.WriteLine("");
             }
