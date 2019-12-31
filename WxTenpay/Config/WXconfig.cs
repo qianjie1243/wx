@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,12 +15,12 @@ namespace WxTenpay
         /// <summary>
         ///   公众号ID
         /// </summary>  
-        public static string appid = "wx4a6b1941be8f3853";//
+        public static string appid = "";//
         /// <summary>
         ///      微信公众号的secret
         /// </summary>
         [Description("微信公众号的secret")]
-        public static string secret = "f77cf8b8bad003a166c64f76e98b9b05";//
+        public static string secret = "";//
         /// <summary>
         ///       回调url
         /// </summary>
