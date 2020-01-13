@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,13 +32,18 @@ namespace ConsoleApplication1
         static void Main(string[] args)
         {
             try
-            {              
+            {
+
+                DateTime.Parse("2018-08");
+                DateTime.Parse("9999-12");
+
+
+
                 #region  微信公众号菜单测试
                 //Wechat_Menu wx = new Wechat_Menu();
                 //List<MenuModel> list = new List<MenuModel>
                 //{
-                //    new MenuModel { name = "测试", url = "", type = "view" },
-                //    new MenuModel { name = "测试", url = "", type = "view" }
+            
                 //};
                 //List<MenuModel> _MenuParameter = new List<MenuModel>();//多按钮列表
                 //MenuModel model = new MenuModel();//
@@ -86,10 +91,11 @@ namespace ConsoleApplication1
 
                 //45015用户未交互
                 //Console.Write(result);
-                #endregion           
+                #endregion
 
-
-                Console.WriteLine();
+          
+              
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
