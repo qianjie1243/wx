@@ -91,7 +91,8 @@ namespace WxTenpay.WXoperation.wxtenpay
             SortedDictionary<string, object> sd = GetInfoFromXml(xmlstring);
             string result_code = "";
             string out_trade_no = "";
-            switch (type) {
+            switch (type)
+            {
                 case 0:
                     foreach (KeyValuePair<string, object> s in sd)
                     {
@@ -104,11 +105,11 @@ namespace WxTenpay.WXoperation.wxtenpay
                             out_trade_no = s.Value.ToString();
                         }
                     }
-                    return new { result_code = result_code, out_trade_no = out_trade_no };                             
+                    return new { result_code = result_code, out_trade_no = out_trade_no };
                 default:
-                   return sd;
+                    return sd;
             }
-           
+
         }
         #endregion
 
@@ -147,20 +148,13 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <summary>
         /// post数据到指定接口并返回数据
         /// </summary>
-        public string PostXmlToUrl(string url, string postData, string type = "")
+        public string PostXmlToUrl(string url, byte[] postData)
         {
             string returnmsg = "";
             using (System.Net.WebClient wc = new System.Net.WebClient())
             {
-                if (type != "")
-                {
-                    Encoding encoding = Encoding.UTF8;
-                    wc.Encoding = System.Text.Encoding.GetEncoding("GB2312");
-                    byte[] data = encoding.GetBytes(postData);
-                    returnmsg = Encoding.UTF8.GetString(wc.UploadData(url, "POST", data));
-                }
-                else
-                    returnmsg = wc.UploadString(url, "POST", postData);
+                byte[] result = wc.UploadData(url, "POST", postData);
+                returnmsg = Encoding.UTF8.GetString(result);
             }
             return returnmsg;
         }
@@ -245,9 +239,9 @@ namespace WxTenpay.WXoperation.wxtenpay
             string msg = string.Empty;
             string mweb_url = string.Empty;
             string prepay_id = string.Empty;
-            string post_data = getH5UnifiedOrderXml(order, key);
+            var post_data = getH5UnifiedOrderXml(order, key);
             string request_data = PostXmlToUrl(H5PayMentUrl, post_data);
-            Log.WriteLogFile(request_data,"H5支付");  //记录
+            Log.WriteLogFile(request_data, "H5支付");  //记录
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
             foreach (KeyValuePair<string, object> k in requestXML)
             {
@@ -285,10 +279,10 @@ namespace WxTenpay.WXoperation.wxtenpay
             try
             {
                 string code_url = "";
-               // order.body = MD5Util.get_uft8(order.body);//进行uft-8编码，针对中文出现签名失败原因，
-                string post_data = getUnifiedOrderXml(order, key);
+                // order.body = MD5Util.get_uft8(order.body);//进行uft-8编码，针对中文出现签名失败原因，
+                var post_data = getUnifiedOrderXml(order, key);
                 string request_data = PostXmlToUrl(UnifiedPayUrl, post_data);
-                Log.WriteLogFile(request_data,"二维码支付");//记录
+                Log.WriteLogFile(request_data, "二维码支付");//记录
                 SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
 
                 foreach (KeyValuePair<string, object> k in requestXML)
@@ -319,9 +313,9 @@ namespace WxTenpay.WXoperation.wxtenpay
         public string getPrepay_id(UnifiedOrder order, string key)
         {
             string prepay_id = "";
-            string post_data = getUnifiedOrderXml(order, key);
+            var post_data = getUnifiedOrderXml(order, key);
             string request_data = PostXmlToUrl(UnifiedPayUrl, post_data);
-            Log.WriteLogFile(request_data,"公众号支付");
+            Log.WriteLogFile(request_data, "公众号支付");
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
             foreach (KeyValuePair<string, object> k in requestXML)
             {
@@ -391,8 +385,8 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <returns></returns>
         public OrderDetail getOrderDetail(string out_trade_no)
         {
-            string post_data = getQueryOrderXml(out_trade_no);
-            string request_data = PostXmlToUrl(OrderQueryUrl, post_data, "1");
+            var post_data = getQueryOrderXml(out_trade_no);
+            string request_data = PostXmlToUrl(OrderQueryUrl, post_data);
             OrderDetail orderdetail = new OrderDetail();
             SortedDictionary<string, object> requestXML = GetInfoFromXml(request_data);
             foreach (KeyValuePair<string, object> k in requestXML)
@@ -483,9 +477,9 @@ namespace WxTenpay.WXoperation.wxtenpay
         {
             string return_msg = "";//异常
             int Code = 0;
-            string return_string = string.Empty;
-            return_string = GetRefundOrderXml(order);
-            string request_data = PostXmlToUrl(refund_Url, return_string, "1");
+            //string return_string = string.Empty;
+            byte[] return_string = GetRefundOrderXml(order);
+            string request_data = PostXmlToUrl(refund_Url, return_string);
             Log.WriteLogFile(request_data, "微信退款");
 
             #region 解析返回结果
@@ -599,7 +593,7 @@ namespace WxTenpay.WXoperation.wxtenpay
             {
                 throw;
             }
-           
+
         }
 
         #endregion
@@ -611,7 +605,7 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <param name="order">微信支付参数实例</param>
         /// <param name="key">密钥</param>
         /// <returns></returns>
-        private string getH5UnifiedOrderXml(UnifiedOrder order, string key)
+        private byte[] getH5UnifiedOrderXml(UnifiedOrder order, string key)
         {
             string return_string = string.Empty;
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
@@ -642,10 +636,8 @@ namespace WxTenpay.WXoperation.wxtenpay
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
-            return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
-            Byte[] temp = Encoding.UTF8.GetBytes(return_string);
-            string dataGBK = Encoding.GetEncoding("utf-8").GetString(temp);
-            return return_string;
+
+            return byteArray;
             //  GBK
         }
 
@@ -658,7 +650,7 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <param name="order">微信支付参数实例</param>
         /// <param name="key">密钥</param>
         /// <returns></returns>
-        private string getUnifiedOrderXml(UnifiedOrder order, string key)
+        private byte[] getUnifiedOrderXml(UnifiedOrder order, string key)
         {
             string return_string = string.Empty;
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
@@ -701,10 +693,8 @@ namespace WxTenpay.WXoperation.wxtenpay
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
-            return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
-            //Byte[] temp = Encoding.UTF8.GetBytes(return_string);
-            //string dataGBK = Encoding.GetEncoding("utf-8").GetString(temp);
-            return return_string;
+
+            return byteArray;
             //  GBK
         }
 
@@ -717,7 +707,7 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <param name="queryorder">微信订单查询参数实例</param>
         /// <param name="key">密钥</param>
         /// <returns></returns>
-        private string getQueryOrderXml(string out_trade_no)
+        private byte[] getQueryOrderXml(string out_trade_no)
         {
             string return_string = string.Empty;
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
@@ -743,7 +733,9 @@ namespace WxTenpay.WXoperation.wxtenpay
                 }
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString().TrimEnd(','));
-            return return_string;
+
+            byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
+            return byteArray;
         }
         #endregion
 
@@ -754,7 +746,7 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <param name="order">微信退款参数实例</param>
         /// <param name="key">密钥</param>
         /// <returns></returns>
-        private string GetRefundOrderXml(refund order)
+        private byte[] GetRefundOrderXml(refund order)
         {
             string return_string = string.Empty;
             SortedDictionary<string, object> sParams = new SortedDictionary<string, object>();
@@ -776,10 +768,7 @@ namespace WxTenpay.WXoperation.wxtenpay
             }
             return_string = string.Format("<xml>{0}</xml>", sbPay.ToString());
             byte[] byteArray = Encoding.UTF8.GetBytes(return_string);
-            return_string = Encoding.GetEncoding("GBK").GetString(byteArray);
-            Byte[] temp = Encoding.UTF8.GetBytes(return_string);
-            string dataGBK = Encoding.GetEncoding("utf-8").GetString(temp);
-            return return_string;
+            return byteArray;
             //  GBK
         }
 
