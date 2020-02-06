@@ -6,6 +6,7 @@ using System.Text;
 namespace WxTenpay
 {
 
+    #region 阿里云配置
     /// <summary>
     /// 阿里云短信配置
     /// </summary>
@@ -21,7 +22,9 @@ namespace WxTenpay
         public static string accessKeySecret = "";
 
     }
+    #endregion
 
+    #region  支付宝配置
     /// <summary>
     /// 支付宝配置
     /// </summary>
@@ -48,6 +51,9 @@ namespace WxTenpay
         /// </summary>
         public static string ReturnUrl = "";
     }
+    #endregion 
+
+    #region  百度map配置
 
     /// <summary>
     /// 百度map   ak 参数
@@ -60,5 +66,6 @@ namespace WxTenpay
         public static string ak { set; get; } = "";
 
     }
+    #endregion
 }
 

@@ -596,7 +596,7 @@ namespace Common
         /// <summary>
         /// 获取Excel文件指定数据表的数据列表
         /// </summary>
-        /// <param name="ExcelFileName">Excel文件名</param>
+        /// <param name="ExcelFileName"> Excel   文件名</param>
         /// <param name="TableName">数据表名</param>
         public static ArrayList GetExcelTableColumns(string ExcelFileName, string TableName)
         {
