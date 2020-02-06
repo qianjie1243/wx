@@ -81,7 +81,7 @@ namespace WxTenpay
 
         #endregion
 
-        #region 修改素材=============================（新增接口）
+        #region 修改素材==========================（新增接口）
         /// <summary>
         /// 修改素材
         /// </summary>

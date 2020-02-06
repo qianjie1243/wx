@@ -34,11 +34,6 @@ namespace ConsoleApplication1
             try
             {
 
-                DateTime.Parse("2018-08");
-                DateTime.Parse("9999-12");
-
-
-
                 #region  微信公众号菜单测试
                 //Wechat_Menu wx = new Wechat_Menu();
                 //List<MenuModel> list = new List<MenuModel>

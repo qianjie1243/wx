@@ -5,21 +5,23 @@
 //url==>请求地址，
 //data==>参数
 //method==>请求格式
-//fun==>执行方法
+//callback==>执行回调方法
 //默认post请求
-$.ajaxSettings.async = false;//设置同步请求
-function Jajax(url, data, method, fun) {
+
+//$.ajaxSettings.async = false;//设置同步请求
+
+function Jajax(url, data, method, callback) {
     url = host + url;
     //Get请求
     if (method == "get") {
         $.get(url, data, function (result) {
-            if (fun)
-                fun(result);
+            if (callback)
+                callback(result);
         })
     } else {  //post
         $.post(url, data, function (result) {
-            if (fun)
-                fun(result);
+            if (callback)
+                callback(result);
         })
     }
 
@@ -30,26 +32,59 @@ function Jajax(url, data, method, fun) {
 //url==>请求地址，
 //data==>参数
 //type==>请求格式
-//fun==>执行方法
+//callback==>执行回调方法
 //dataType==>返回数据格式
-function Dajax(url, data, dataType, type, async, fun) {
-
+//
+function Dajax(url, data, callback, dataType, type, async,  beforeSend,complete, error) {
+    let defaults = {
+        url: "",
+        data: "",
+        dataType: "json",
+        type: "post",
+        async: true,
+        beforeSend: null,
+        success: null,
+        complete: null,
+        error: null
+    };
+    let op = {
+        url: url,
+        data: data,
+        dataType: dataType,
+        type: type,
+        async: async,
+        beforeSend: beforeSend,
+        success: callback,
+        complete: complete,
+        error: error
+    };
+    var options = $.extend(defaults, op);//合并方法体
     if (!async) {
         async = false;
     }
     $.ajax({
-        type: type,
-        url: host + url,
-        async: async,
-        data: data,
-        dataType: dataType,
+        type: options.type,
+        url: host + options.urlurl,
+        async: options.async,
+        data: options.data,
+        dataType: options.dataType,
+        beforeSend: function () {//请求前的操作
+            if (!!options.beforeSend)
+                options.beforeSend();                    
+        },
         success: function (data) {
-            if (data)
-                fun(data);
+            if (!!options.callback)
+                options.callback(data);
+        },
+        complete: function () {//请求完成的操作
+            if (!!options.complete)
+                options.complete();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if (!!options.error)
+                options.error(XMLHttpRequest, textStatus, errorThrown);          
             //通常情况下textStatus和errorThrown只有其中一个包含信息
-            this;   //调用本次ajax请求时传递的options参数
+              //调用本次ajax请求时传递的options参数
         }
     });
 
@@ -59,7 +94,7 @@ function Dajax(url, data, dataType, type, async, fun) {
 //url请求地址
 //data数据源 类型formdata格式 
 //返回res对象，res.responseText属性为接口返回数据
-function DajaxPostformdata(url, data, async, fun) {
+function DajaxPostformdata(url, data, async, callback) {
 
     if (!async) {
         async = false;
@@ -75,9 +110,9 @@ function DajaxPostformdata(url, data, async, fun) {
         processData: false,//用于对data参数进行序列化处理 这里必须false
         contentType: false, //必须
     }).done(function (res) {//完成
-        fun(res);
+        callback(res);
     }).fail(function (res) {//失败
-        fun(res);
+        callback(res);
     });
 }
 
