@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\WxTenpay.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,24 +31,32 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="aliyun-net-sdk-core">
-      <HintPath>F:\项目_EsayUi，支付宝支付\aliyun-net-sdk\aliyun-net-sdk-core.dll</HintPath>
+    <Reference Include="aliyun-net-sdk-core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\aliyun-net-sdk-core.dll</HintPath>
     </Reference>
-    <Reference Include="aliyun-net-sdk-dysmsapi">
-      <HintPath>F:\项目_EsayUi，支付宝支付\aliyun-net-sdk\aliyun-net-sdk-dysmsapi.dll</HintPath>
+    <Reference Include="aliyun-net-sdk-dysmsapi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\aliyun-net-sdk-dysmsapi.dll</HintPath>
     </Reference>
-    <Reference Include="AopSdk">
-      <HintPath>F:\项目_EsayUi，支付宝支付\alipay-sdk-NET-3.2.0\bin\Debug\AopSdk.dll</HintPath>
+    <Reference Include="AopSdk, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\AopSdk.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Entity.Design" />
     <Reference Include="System.Web.Extensions" />
@@ -55,7 +64,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -91,11 +99,13 @@
     <Compile Include="WXoperation\TModel\Wx_pay.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dll\aliyun-net-sdk-core.dll" />
+    <Content Include="dll\aliyun-net-sdk-dysmsapi.dll" />
+    <Content Include="dll\AopSdk.dll" />
     <Content Include="前端JS参考\common.js" />
     <Content Include="前端JS参考\Dialog.js" />
     <Content Include="前端JS参考\loader.min.css" />
     <Content Include="前端JS参考\Storage.js" />
-    <Content Include="前端JS参考\Table.js" />
     <Content Include="前端JS参考\wx.common.js" />
     <Content Include="前端辅助JS\echarts.js" />
     <Content Include="前端辅助JS\jquery.qrcode.min.js" />
@@ -103,7 +113,6 @@
     <Content Include="前端辅助JS\vue.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="前端JS参考\微信支付DLL文档.docx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
