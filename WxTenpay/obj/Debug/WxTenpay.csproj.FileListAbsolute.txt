@@ -11,3 +11,4 @@ E:\MY项目\wx\WxTenpay\obj\Debug\WxTenpay.csproj.CoreCompileInputs.cache
 E:\MY项目\wx\WxTenpay\obj\Debug\WxTenpay.csproj.CopyComplete
 E:\MY项目\wx\WxTenpay\obj\Debug\WxTenpay.dll
 E:\MY项目\wx\WxTenpay\obj\Debug\WxTenpay.pdb
+E:\MY项目\wx\WxTenpay\obj\Debug\WxTenpay.csprojAssemblyReference.cache

@@ -5,3 +5,4 @@ E:\MY项目\wx\common\bin\Debug\ThoughtWorks.QRCode.dll
 E:\MY项目\wx\common\obj\Debug\Common.csproj.CopyComplete
 E:\MY项目\wx\common\obj\Debug\common.dll
 E:\MY项目\wx\common\obj\Debug\common.pdb
+E:\MY项目\wx\common\obj\Debug\Common.csprojAssemblyReference.cache

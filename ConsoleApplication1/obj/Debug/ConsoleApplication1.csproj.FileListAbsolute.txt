@@ -36,7 +36,6 @@ E:\MY项目\wx\ConsoleApplication1\bin\Debug\WxTenpay.pdb
 E:\MY项目\wx\ConsoleApplication1\bin\Debug\WxTenpay.xml
 E:\MY项目\wx\ConsoleApplication1\bin\Debug\Newtonsoft.Json.pdb
 E:\MY项目\wx\ConsoleApplication1\bin\Debug\Newtonsoft.Json.xml
-E:\MY项目\wx\ConsoleApplication1\bin\Debug\AopSdk.pdb
 E:\MY项目\wx\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojAssemblyReference.cache
 E:\MY项目\wx\ConsoleApplication1\obj\Debug\ConsoleApplication1.csproj.CoreCompileInputs.cache
 E:\MY项目\wx\ConsoleApplication1\obj\Debug\ConsoleApplication1.csproj.CopyComplete

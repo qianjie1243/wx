@@ -1320,7 +1320,7 @@
             <param name="sParams"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.PostXmlToUrl(System.String,System.String,System.String)">
+        <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.PostXmlToUrl(System.String,System.Byte[])">
             <summary>
             post数据到指定接口并返回数据
             </summary>

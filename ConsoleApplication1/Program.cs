@@ -38,7 +38,7 @@ namespace ConsoleApplication1
                 //Wechat_Menu wx = new Wechat_Menu();
                 //List<MenuModel> list = new List<MenuModel>
                 //{
-            
+
                 //};
                 //List<MenuModel> _MenuParameter = new List<MenuModel>();//多按钮列表
                 //MenuModel model = new MenuModel();//
@@ -88,9 +88,8 @@ namespace ConsoleApplication1
                 //Console.Write(result);
                 #endregion
 
-          
-              
-                Console.WriteLine("");
+            
+                Console.WriteLine();
             }
             catch (Exception ex)
             {
