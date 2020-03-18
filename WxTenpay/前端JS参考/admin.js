@@ -213,7 +213,7 @@ var $frame = {
             for (var index in keys) {
                 if (index == "0") {
                     for (var itm in data) {
-                        if (fuzzy[index]) {
+                        if (fuzzy[index] && typeof data[itm][keys[index]] == "string") {
                             if (data[itm][keys[index]].indexOf(values[index]) > -1) { //1
                                 lisnewdata[(parseInt(index) + 1)].push(data[itm]);
                             }
@@ -226,7 +226,7 @@ var $frame = {
                 } else {
                     lisnewdata[(parseInt(index) + 1)] = [];
                     for (var itm in lisnewdata[index]) {
-                        if (fuzzy[index]) {
+                        if (fuzzy[index] && typeof lisnewdata[index][itm][keys[index]] == "string") {
                             if (lisnewdata[index][itm][keys[index]].indexOf(values[index]) > -1) { //2
                                 lisnewdata[(parseInt(index) + 1)].push(lisnewdata[index][itm]);
                             }
@@ -253,6 +253,47 @@ var $frame = {
             }
         }
         //layer.close(index);
+        return newdata;
+    },
+
+    //数据排序
+    //_sort true 正序  false 倒序
+    sorting: function (data, key, _sort) {
+        function keysrt(key) {
+            return function (object1, object2) {
+                var val1 = object1[key];
+                var val2 = object2[key];
+                if (val1 < val2) {
+                    return -1;
+                } else if (val1 > val2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        let newdata = [];
+        switch (typeof data[0][key]) {
+            case "string":
+                if (_sort)
+                    newdata = data.reverse(keysrt(key));
+                else
+                    newdata = data.sort(keysrt(key))
+
+                break;
+            case "number":
+                if (_sort) {
+                    newdata = data.sort(function (a, b) {
+                        return a[key] - b[key];
+                    })
+                } else {
+                    newdata = data.sort(function (a, b) {
+                        return b[key] - a[key];
+                    })
+                }
+                break;
+        }
+
         return newdata;
     },
     //时间类型
