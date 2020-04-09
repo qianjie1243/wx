@@ -167,7 +167,7 @@ var $frame = {
             btn: ['确认', '取消'],
             title: "提示",
             icon: 0,
-            skin: 'lr-layer',
+            skin: 'demo-class',
         }, function (index) {
             callback(true, index);
             layer.close(index); //再执行关闭
