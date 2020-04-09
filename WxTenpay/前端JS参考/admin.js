@@ -222,7 +222,7 @@ var $frame = {
                 }
             },
             end: function () {//关闭
-                iframeNames['layer_' + dfop.id] = null;
+                iframeNames['iframe_' + dfop.id] = null;
                 if (!!dfop.end) {
                     dfop.end();
                 }
