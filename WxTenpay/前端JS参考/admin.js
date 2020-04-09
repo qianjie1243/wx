@@ -5,12 +5,12 @@
 */
 var Empty = [null, "", "null", undefined, "undefined"];
 var ROOT_PATH = "/";
-
+var iframeNames = [];
 
 var $frame = {
     //上传文件请求formdata模式
     RequestPostformdata: function (url, data, yes, error) {
-        let index = BDframe.loading();
+        let index = $frame.loading("正在提交数据，请稍候……");
         $.ajax({
             type: "post",
             url: ROOT_PATH + url,
@@ -31,7 +31,7 @@ var $frame = {
     },
     //post请求
     RequestPost: function (url, data, yes, error) {
-        let index = BDframe.loading();
+        let index = $frame.loading("正在提交数据，请稍候……");
         $.ajax({
             type: "post",
             url: ROOT_PATH + url,
@@ -50,7 +50,7 @@ var $frame = {
     },
     //get请求
     RequestGet: function (url, data, yes, error) {
-        let index = BDframe.loading();
+        let index = $frame.loading();
         $.ajax({
             type: "get",
             url: ROOT_PATH + url,
@@ -141,6 +141,7 @@ var $frame = {
             , yes: function (index, layero) {
                 if (fun)
                     fun();
+
                 layer.close(index);
             }
             , btn2: function (index, layero) {
@@ -157,6 +158,74 @@ var $frame = {
                 //右上角关闭回调
 
                 //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    },
+    // 询问框
+    confirm: function (msg, callback) {
+        layer.confirm(msg, {
+            btn: ['确认', '取消'],
+            title: "提示",
+            icon: 0,
+            skin: 'lr-layer',
+        }, function (index) {
+            callback(true, index);
+            layer.close(index); //再执行关闭
+        }, function (index) {
+            callback(false, index);
+            layer.close(index); //再执行关闭  
+        });
+    },
+    // 自定义表单弹层
+    layerForm: function (obj) {
+        var dfop = {
+            id: null,
+            title: '信息',
+            width: 550,
+            height: 400,
+            url: 'error',
+            btn: ['确认', '关闭'],
+            callBack: false,
+            maxmin: false,
+            end: false,
+        };
+        $.extend(dfop, obj || {});
+        /*适应窗口大小*/
+        dfop.width = dfop.width > $(window).width() ? $(window).width() - 10 : dfop.width;
+        dfop.height = dfop.height > $(window).height() ? $(window).height() - 10 : dfop.height;
+        var r = layer.open({
+            id: dfop.id,
+            maxmin: dfop.maxmin,
+            type: 2,//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+            title: dfop.title,
+            area: [dfop.width + 'px', dfop.height + 'px'],
+            btn: dfop.btn,
+            content: dfop.url,
+            skin: 'demo-class',
+            success: function (layero, index) {
+                //if ($frame.IsEmpty(iframeNames['iframe_' + dfop.id]))//为空保存对象
+                //    iframeNames['iframe_' + dfop.id] = $frame.IsEmpty(iframeNames['iframe_' + dfop.id]) ? iframeNames['iframe_' + dfop.id] : iframeNames['iframe_' + dfop.id].contentWindow;//保存窗体对象
+                //else {
+                //    if (!$frame.IsEmpty(iframeNames['iframe_' + dfop.id].contentWindow))
+                //        iframeNames['iframe_' + dfop.id] = iframeNames['iframe_' + dfop.id].contentWindow;
+                //    else
+                //        iframeNames['iframe_' + dfop.id] = iframeNames['iframe_' + dfop.id]
+                //}
+            },
+            yes: function (index) {//确认
+                var flag = true;
+                if (!!dfop.callBack) {
+                    flag = dfop.callBack('iframe_' + dfop.id);
+                }
+                if (!!flag) {
+                    layer.close('',index);
+                }
+            },
+            end: function () {//关闭
+                iframeNames['layer_' + dfop.id] = null;
+                if (!!dfop.end) {
+                    dfop.end();
+                }
             }
         });
     },
@@ -202,7 +271,7 @@ var $frame = {
      * filter(data,["age","name","sex"],[20,"1111",0])
      * filter(data,"name","1111",true)
      * filter(data,"name","1111")
-     */   
+     */
     filter: function (data, keys, values, fuzzy) {
         //let index =  $frame.loading("数据处理中...");
         let newdata = [];
