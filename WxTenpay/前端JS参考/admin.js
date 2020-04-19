@@ -131,9 +131,11 @@ var $frame = {
         }
     },
     //提示框
-    alert: function (content, btns, fun, fun2, fun3) {
+    alert: function (title,content, btns, fun, fun2, fun3) {
         content = content || ["确定"];
+        title = title || "信息";
         layer.open({
+            title: title,
             offset: '80px',
             btnAlign: 'c',
             content: content
@@ -162,10 +164,11 @@ var $frame = {
         });
     },
     // 询问框
-    confirm: function (msg, callback) {
+    confirm: function (title, msg, callback) {
+        title = title || "提示";
         layer.confirm(msg, {
             btn: ['确认', '取消'],
-            title: "提示",
+            title: title,
             icon: 0,
             skin: 'demo-class',
         }, function (index) {
@@ -639,6 +642,7 @@ var $frame = {
     },
     //导出网页excel
     tableToExcel: function (tableid, sheetName, backgroundcolor) {
+        backgroundcolor = backgroundcolor ||  "#4f891e";
         var uri = 'data:application/vnd.ms-excel;base64,';
         var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"' +
             'xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>'
@@ -650,8 +654,8 @@ var $frame = {
             'width: 200px;' +
             'height: 30px;' +
             ' text-align: center;' +
-            'background-color: #4f891e;' +
-            'color: #ffffff;' +
+            'background-color:' + backgroundcolor+";"
+            'color:#ffffff'+
             ' }' +
             '</style>' +
             '</head><body ><table class="excelTable">{table}</table></body></html>';
