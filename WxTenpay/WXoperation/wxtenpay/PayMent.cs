@@ -131,7 +131,7 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <param name="GetInfoFromXml"></param>
         /// <param name="type">微信回调数据返回的结果, 0：result_code的值,客户订单号</param>
         /// <returns></returns>
-        public object PayMent_result(string xmlstring,int type)
+        public dynamic PayMent_result(string xmlstring,int type)
         {
             TenpayUtil tenpay = new TenpayUtil();
             return tenpay.GetXml(xmlstring, type);

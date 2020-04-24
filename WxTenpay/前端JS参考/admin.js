@@ -131,7 +131,7 @@ var $frame = {
         }
     },
     //提示框
-    alert: function (title,content, btns, fun, fun2, fun3) {
+    alert: function (title, content, btns, fun, fun2, fun3) {
         content = content || ["确定"];
         title = title || "信息";
         layer.open({
@@ -221,14 +221,15 @@ var $frame = {
                     flag = dfop.callBack('iframe_' + dfop.id);
                 }
                 if (!!flag) {
-                    layer.close('',index);
+                    layer.close('', index);
                 }
             },
             end: function () {//关闭
-                iframeNames['iframe_' + dfop.id] = null;
+                //iframeNames['iframe_' + dfop.id] = null;
                 if (!!dfop.end) {
-                    dfop.end();
-                }
+                    dfop.end(r);
+                } else
+                    layer.close(r);
             }
         });
     },
@@ -636,13 +637,52 @@ var $frame = {
     sessionRemove: function (key) {
         window.sessionStorage.removeItem(key);
     },
+    //添加cookie
+    setCookie: function (name, value, time) {
+        let strsec = "";
+        if (!$frame.IsEmpty(time)) {
+            let str1 = time.substring(1, time.length) * 1;
+            let str2 = time.substring(0, 1);
+            if (str2 == "s") {
+                strsec = str1 * 1000;
+            }
+            else if (str2 == "h") {
+                strsec = str1 * 60 * 60 * 1000;
+            }
+            else if (str2 == "d") {
+                strsec = str1 * 24 * 60 * 60 * 1000;
+            }
+        }
+        strsec = strsec || (30 * 24 * 60 * 60 * 1000);//默认30天
+        let exp = new Date();
+        exp.setTime(exp.getTime() + strsec * 1);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+    },
+    //读取cookies
+    getCookie: function (name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+
+        if (arr = document.cookie.match(reg))
+
+            return unescape(arr[2]);
+        else
+            return null;
+    },
+    //删除cookies
+    delCookie: function (name) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval = getCookie(name);
+        if (cval != null)
+            document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+    },
     //打开url
     openurl: function (str) {
         window.open(str);
     },
     //导出网页excel
     tableToExcel: function (tableid, sheetName, backgroundcolor) {
-        backgroundcolor = backgroundcolor ||  "#4f891e";
+        backgroundcolor = backgroundcolor || "#4f891e";
         var uri = 'data:application/vnd.ms-excel;base64,';
         var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"' +
             'xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>'
@@ -654,8 +694,8 @@ var $frame = {
             'width: 200px;' +
             'height: 30px;' +
             ' text-align: center;' +
-            'background-color:' + backgroundcolor+";"
-            'color:#ffffff'+
+            'background-color:' + backgroundcolor + ";"
+        'color:#ffffff' +
             ' }' +
             '</style>' +
             '</head><body ><table class="excelTable">{table}</table></body></html>';

@@ -111,7 +111,7 @@ namespace WxTenpay
         /// </summary>
         /// <returns></returns>
         [Description("获取config")]
-        public object GetWxConfig(string url)
+        public dynamic GetWxConfig(string url)
         {
             try
             {
@@ -219,7 +219,7 @@ namespace WxTenpay
         /// <param name="text">发送消息内容</param>
         /// <returns></returns>
         [Description("微信客户最基本消息")]
-        public  object WeiXinKeFu(string openid, string text)
+        public  dynamic WeiXinKeFu(string openid, string text)
         {
             try
             {

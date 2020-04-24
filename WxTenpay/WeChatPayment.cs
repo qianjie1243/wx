@@ -85,7 +85,7 @@ namespace WxTenpay
         /// <param name="out_trade_no">商户订单号</param> 
         /// <returns></returns>
         [Description("微信公众号支付")]
-        public String JSAPIPayMent(string boby, string attach, string openid, string spbill_create_ip, Double total_fee, string out_trade_no)
+        public string JSAPIPayMent(string boby, string attach, string openid, string spbill_create_ip, Double total_fee, string out_trade_no)
         {
             try
             {
@@ -265,7 +265,7 @@ namespace WxTenpay
         /// <param name="type">微信回调数据返回的结果, 0：result_code的值 ,客户订单号</param>
         /// <returns></returns>
         [Description("获取支付订单状态（微信回调）")]
-        public object PayMent_result(string xmlstring, int type = 0)
+        public dynamic PayMent_result(string xmlstring, int type = 0)
         {
             try
             {

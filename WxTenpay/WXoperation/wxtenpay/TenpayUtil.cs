@@ -85,7 +85,7 @@ namespace WxTenpay.WXoperation.wxtenpay
         /// <param name="xmlstring"></param>
         /// <param name="type">微信回调数据返回的结果, 0：result_code的值,客户订单号</param>
         /// <returns></returns>
-        public object GetXml(string xmlstring, int type)
+        public dynamic GetXml(string xmlstring, int type)
         {
             Log.WriteLogFile(xmlstring, "微信回调");
             SortedDictionary<string, object> sd = GetInfoFromXml(xmlstring);
