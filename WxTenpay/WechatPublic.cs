@@ -164,6 +164,8 @@ namespace WxTenpay
                 if (Asscess == null)
                 {
                     string token = asscess_token.GetToken(WXconfig.appid, WXconfig.secret);
+                    if (string.IsNullOrWhiteSpace(token))
+                        throw new Exception("获取token异常,请查看异常文件logs");
                     Asscess = token;
                     Asscess_Time = DateTime.Now;
                 }
@@ -174,6 +176,8 @@ namespace WxTenpay
                     if ((time - Asscess_Time).TotalSeconds > 7000)
                     {
                         string token = asscess_token.GetToken(WXconfig.appid, WXconfig.secret);
+                        if (string.IsNullOrWhiteSpace(token))
+                            throw new Exception("获取token异常,请查看异常文件logs");
                         Asscess = token;
                         Asscess_Time = DateTime.Now;
                     }
