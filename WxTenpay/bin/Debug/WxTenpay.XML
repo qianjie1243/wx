@@ -34,6 +34,11 @@
             阿里云短信
             </summary>
         </member>
+        <member name="M:WxTenpay.AliyunSMS.#ctor">
+            <summary>
+             加载配置文件
+            </summary>
+        </member>
         <member name="M:WxTenpay.AliyunSMS.sendSms(System.String,System.String,System.String,System.String)">
             <summary>
             发送阿里云短信
@@ -140,9 +145,32 @@
             百度地图的ak参数
             </summary>
         </member>
+        <member name="T:WxTenpay.GetConfig">
+            <summary>
+            获取配置文件配置
+            </summary>
+        </member>
+        <member name="M:WxTenpay.GetConfig.GetIndexConfigValue(System.String)">
+            <summary>
+            获取配置文件
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.GetConfig.ResetConfig">
+            <summary>
+            重置配置文件
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:WxTenpay.WeChatPayment">
             <summary>
             微信支付类
+            </summary>
+        </member>
+        <member name="M:WxTenpay.WeChatPayment.#ctor">
+            <summary>
+            加载配置文件
             </summary>
         </member>
         <member name="M:WxTenpay.WeChatPayment.NATIVEPayMent(System.String,System.String,System.String,System.Double,System.String,System.String)">
@@ -278,6 +306,26 @@
             APP安卓支付配置
             </summary>
         </member>
+        <member name="F:WxTenpay.APP_Aconfig.url">
+            <summary>
+              回调ur
+            </summary>
+        </member>
+        <member name="F:WxTenpay.APP_Aconfig.mch_id">
+            <summary>
+                 商户号
+            </summary>
+        </member>
+        <member name="F:WxTenpay.APP_Aconfig.appid">
+            <summary>
+              APPID
+            </summary>
+        </member>
+        <member name="F:WxTenpay.APP_Aconfig.paysignkey">
+            <summary>
+               证书密匙
+            </summary>
+        </member>
         <member name="T:WxTenpay.APP_Iconfig">
             <summary>
             APPios 支付配置
@@ -288,9 +336,29 @@
             回调url
             </summary>
         </member>
+        <member name="F:WxTenpay.APP_Iconfig.mch_id">
+            <summary>
+                商户号
+            </summary>
+        </member>
+        <member name="F:WxTenpay.APP_Iconfig.appid">
+            <summary>
+            应用的ID
+            </summary>
+        </member>
+        <member name="F:WxTenpay.APP_Iconfig.paysignkey">
+            <summary>
+              证书密匙
+            </summary>
+        </member>
         <member name="T:WxTenpay.Wechat_Menu">
             <summary>
             微信菜单配置，上传视频，图片功能
+            </summary>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.#ctor">
+            <summary>
+            加载配置文件
             </summary>
         </member>
         <member name="M:WxTenpay.Wechat_Menu.graphic(System.String)">
@@ -344,7 +412,68 @@
             </summary>
             <param name="_menu">自定义菜单对象</param>
             <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
-            
+            实例
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.Getuserlis(System.String)">
+            <summary>
+             获取关注用户数量
+            </summary>
+            <param name="next_openid">默认第一个拉取</param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.CreateLabel(System.String)">
+            <summary>
+            创建用户标签
+            </summary>
+            <param name="name">标签名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.GetLabels">
+            <summary>
+             获取公众号已创建的标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.UpdateLabel(System.Int32,System.String)">
+            <summary>
+            编辑公众号已创建的标签
+            </summary>
+            <param name="Label_id">标签id</param>
+            <param name="name">新的名称</param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.DeleteLabel(System.Int32)">
+            <summary>
+             删除公众号已创建的标签
+            </summary>
+            <param name="Label_id">标签id</param>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.GetLabelUsers(System.Int32,System.String)">
+            <summary>
+             获取标签下粉丝列表
+            </summary>
+            <param name="Label_id">标签id</param>
+            <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.CreateUserLabel(System.Int32,System.String[])">
+            <summary>
+             批量为用户打标签
+            </summary>
+            <param name="Label_id">标签id</param>
+            <param name="openid_list">粉丝列表openid</param>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.DeteteUserLabel(System.Int32,System.String[])">
+            <summary>
+             批量为用户取消标签
+            </summary>
+            <param name="Label_id">标签id</param>
+            <param name="openid_list">粉丝列表openid</param>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.GetUserLabels(System.String)">
+            <summary>
+             获取用户身上的标签列表
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:WxTenpay.WXoperation.asscess_token">
             <summary>
@@ -1001,6 +1130,60 @@
             <param name="menu">自定义菜单字符串</param>
             <param name="access_token">access_token字符串</param>
             <param name="type">类型 1:添加菜单 2:删除菜单 3:查询菜单</param>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Getuserlis(System.String,System.String)">
+            <summary>
+               获取用户关注列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.CreateLabel(System.String,System.String)">
+            <summary>
+               创建公众号标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.GetLabels(System.String)">
+            <summary>
+             获取公众号已创建的标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.UpdateLabel(System.String,System.String)">
+            <summary>
+             编辑公众号已创建的标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.DeleteLabel(System.String,System.String)">
+            <summary>
+             删除公众号已创建的标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.GetLabelUsers(System.String,System.String)">
+            <summary>
+             获取标签下粉丝列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.CreateUserLabel(System.String,System.String)">
+            <summary>
+             批量为用户打标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.DeteteUserLabel(System.String,System.String)">
+            <summary>
+             批量为用户取消标签
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.GetUserLabels(System.String,System.String)">
+            <summary>
+             获取用户身上的标签列表
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:WxTenpay.WXoperation.OrderDetail">
             <summary>
@@ -1823,12 +2006,12 @@
         </member>
         <member name="F:WxTenpay.WXconfig.secret">
             <summary>
-                 微信公众号的secret
+            微信公众号的secret
             </summary>
         </member>
         <member name="F:WxTenpay.WXconfig.url">
             <summary>
-                  回调url
+            回调url
             </summary>
         </member>
         <member name="F:WxTenpay.WXconfig.mch_id">
@@ -1856,7 +2039,42 @@
             微信支付--小程序基本配置
             </summary>
         </member>
+        <member name="F:WxTenpay.SmallProgram.appid">
+            <summary>
+                小程序appid
+            </summary>
+        </member>
+        <member name="F:WxTenpay.SmallProgram.url">
+            <summary>
+            小程序u回调rl
+            </summary>
+        </member>
+        <member name="F:WxTenpay.SmallProgram.mch_id">
+            <summary>
+               商户号
+            </summary>
+        </member>
+        <member name="F:WxTenpay.SmallProgram.paysignkey">
+            <summary>
+             证书密匙
+            </summary>
+        </member>
+        <member name="F:WxTenpay.SmallProgram.SSLCERT_PATH">
+            <summary>
+               证书路径
+            </summary>
+        </member>
+        <member name="F:WxTenpay.SmallProgram.SSLCERT_PASSWORD">
+            <summary>
+               证书的密码
+            </summary>
+        </member>
         <!-- 对于成员“T:WxTenpay.WechatPublic”忽略有格式错误的 XML 注释 -->
+        <member name="M:WxTenpay.WechatPublic.#ctor">
+            <summary>
+            加载配置文件
+            </summary>
+        </member>
         <member name="P:WxTenpay.WechatPublic.Asscess">
             <summary>
             保存凭证

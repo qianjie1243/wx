@@ -54,6 +54,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="WxTenpay.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaiDuAI\BaiDuAI.csproj">

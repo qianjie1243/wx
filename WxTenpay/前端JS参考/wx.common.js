@@ -1,4 +1,7 @@
-﻿
+﻿//微信公众号开发文件地址 https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html
+
+
+
 //全局微信JS引用
 document.write("<script src='https://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>");
 
