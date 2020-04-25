@@ -17,7 +17,9 @@ using WxTenpay.WXoperation.Common;
 using WxTenpay.WXoperation;
 using WxTenpay.WXoperation.wxconfigurateion;
 
-
+/// <summary>
+/// 微信操作基础SDK
+/// </summary>
 namespace WxTenpay
 {
 
