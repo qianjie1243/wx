@@ -19,7 +19,7 @@ namespace WxTenpay
         /// <param name="TotalAmount">金额</param>
         /// <param name="OutTradeNo">商家唯一订单，填写你项目里生成的唯一订单号</param>
         /// <returns></returns>
-        public static string H5Alipay(string Body, string Subject, string TotalAmount, string OutTradeNo)
+        public  string H5Alipay(string Body, string Subject, string TotalAmount, string OutTradeNo)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace WxTenpay
         /// <param name="TotalAmount">金额</param>
         /// <param name="OutTradeNo">商家唯一订单，填写你项目里生成的唯一订单号</param>
         /// <returns></returns>
-        public static string APPAlipay(string Body, string Subject, string TotalAmount, string OutTradeNo)
+        public  string APPAlipay(string Body, string Subject, string TotalAmount, string OutTradeNo)
         {
             try
             {

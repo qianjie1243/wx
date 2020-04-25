@@ -128,5 +128,90 @@ namespace WxTenpay.WXoperation.wxconfiguration
             return result;
         }
         #endregion
+
+        #region  获取用户关注列表
+        /// <summary>
+        ///    获取用户关注列表
+        /// </summary>
+        /// <returns></returns>
+        public string Getuserlis( string access_token, string next_openid)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/user/get?access_token={0}&next_openid={1}", access_token, next_openid), "GET");
+        }
+        #endregion
+
+        #region 用户标签管理
+        /// <summary>
+        ///    创建公众号标签
+        /// </summary>
+        /// <returns></returns>
+        public string CreateLabel(string access_token, string data)
+        {       
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/tags/create?access_token={0}", access_token),data, "post");
+        }
+
+        /// <summary>
+        ///  获取公众号已创建的标签
+        /// </summary>
+        /// <returns></returns>
+        public string GetLabels(string access_token)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/tags/get?access_token={0}", access_token), "Get");
+        }
+
+        /// <summary>
+        ///  编辑公众号已创建的标签
+        /// </summary>
+        /// <returns></returns>
+        public string UpdateLabel(string access_token,string data)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/tags/update?access_token={0}", access_token), data,"post");
+        }
+
+        /// <summary>
+        ///  删除公众号已创建的标签
+        /// </summary>
+        /// <returns></returns>
+        public string DeleteLabel(string access_token, string data)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/tags/delete?access_token={0}", access_token), data, "post");
+        }
+
+        /// <summary>
+        ///  获取标签下粉丝列表
+        /// </summary>
+        /// <returns></returns>
+        public string GetLabelUsers(string access_token, string data)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token={0}", access_token), data, "GET");
+        }
+
+        /// <summary>
+        ///  批量为用户打标签
+        /// </summary>
+        /// <returns></returns>
+        public string CreateUserLabel(string access_token, string data)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token={0}", access_token), data, "post");
+        }
+
+        /// <summary>
+        ///  批量为用户取消标签
+        /// </summary>
+        /// <returns></returns>
+        public string DeteteUserLabel(string access_token, string data)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token={0}", access_token), data, "post");
+        }
+
+        /// <summary>
+        ///  获取用户身上的标签列表
+        /// </summary>
+        /// <returns></returns>
+        public string GetUserLabels(string access_token, string data)
+        {
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token={0}", access_token), data, "post");
+        }
+        #endregion
     }
 }

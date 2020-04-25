@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WxTenpay.WXoperation.wxconfiguration;
@@ -14,6 +13,14 @@ namespace WxTenpay
     /// </summary>
     public class Wechat_Menu
     {
+        /// <summary>
+        /// 加载配置文件
+        /// </summary>
+        public Wechat_Menu()
+        {
+            GetConfig.ResetConfig();
+        }
+
         wxmenu menu = new wxmenu();
         WechatPublic Wechat = new WechatPublic();//获取access_token  
 
@@ -25,13 +32,14 @@ namespace WxTenpay
         /// </summary>
         /// <param name="content">上传的图文JSON字符串</param>
         /// <returns></returns>
-        public string graphic( string content)
+        public string graphic(string content)
         {
             try
             {
                 return menu.graphic(Wechat.GetToken(), content);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw;
             }
         }
@@ -53,7 +61,7 @@ namespace WxTenpay
             {
                 throw;
             }
-           
+
         }
         #endregion
 
@@ -75,7 +83,7 @@ namespace WxTenpay
             {
                 throw;
             }
-           
+
         }
         #endregion
 
@@ -96,7 +104,7 @@ namespace WxTenpay
             {
                 throw;
             }
-          
+
         }
         #endregion
 
@@ -116,7 +124,7 @@ namespace WxTenpay
             {
                 throw;
             }
-           
+
         }
         #endregion
 
@@ -135,7 +143,7 @@ namespace WxTenpay
             {
                 throw;
             }
-            
+
         }
         #endregion
 
@@ -156,7 +164,7 @@ namespace WxTenpay
             {
                 throw;
             }
-           
+
         }
         #endregion
 
@@ -192,21 +200,220 @@ namespace WxTenpay
 
         //Dictionary<string, object> diy = new Dictionary<string, object>();
         //diy.Add("button", list);
-        //var result = wx.Menu(diy, 1);
-    
+        //var result = wx.Menu(diy, 1);   
         public string Menu(object _menu, int type)
         {
             try
             {
-                var Json= new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };//设定过滤null的
+                var Json = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };//设定过滤null的
                 return menu.Add_Menu(JsonConvert.SerializeObject(_menu, Formatting.Indented, Json), Wechat.GetToken(), type);
             }
             catch (Exception ex)
             {
                 throw;
             }
-           
+
         }
+        #endregion
+
+        #region 获取关注用户数量
+        /// <summary>
+        ///  获取关注用户数量
+        /// </summary>
+        /// <param name="next_openid">默认第一个拉取</param>
+        /// <returns></returns>
+        public string Getuserlis(string next_openid = "")
+        {
+            try
+            {
+                return menu.Getuserlis(Wechat.GetToken(), next_openid);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
+        #region  用户标签管理
+        /// <summary>
+        /// 创建用户标签
+        /// </summary>
+        /// <param name="name">标签名称</param>
+        /// <returns></returns>
+        public string CreateLabel(string name)
+        {
+            try
+            {
+                var data = new
+                {
+                    tag = new { name },
+                };
+                return menu.CreateLabel(Wechat.GetToken(), JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        /// <summary>
+        ///  获取公众号已创建的标签
+        /// </summary>
+        /// <returns></returns>
+        public string GetLabels()
+        {
+            try
+            {
+                return menu.GetLabels(Wechat.GetToken());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        /// <summary>
+        /// 编辑公众号已创建的标签
+        /// </summary>
+        /// <param name="Label_id">标签id</param>
+        /// <param name="name">新的名称</param>
+        /// <returns></returns>
+        public string UpdateLabel(int Label_id, string name)
+        {
+            try
+            {
+                var data = new
+                {
+                    tag = new { id = Label_id, name },
+                };
+                return menu.UpdateLabel(Wechat.GetToken(), JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        /// <summary>
+        ///  删除公众号已创建的标签
+        /// </summary>
+        /// <param name="Label_id">标签id</param>
+        public string DeleteLabel(int Label_id)
+        {
+            try
+            {
+                var data = new
+                {
+                    tag = new { id = Label_id },
+                };
+                return menu.DeleteLabel(Wechat.GetToken(), JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        ///  获取标签下粉丝列表
+        /// </summary>
+        /// <param name="Label_id">标签id</param>
+        /// <param name="next_openid">第一个拉取的OPENID，不填默认从头开始拉取</param>
+        public string GetLabelUsers(int Label_id, string next_openid = "")
+        {
+            try
+            {
+                var data = new
+                {
+                    tagid = Label_id,
+                    next_openid,
+                };
+                return menu.GetLabelUsers(Wechat.GetToken(), JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        ///  批量为用户打标签
+        /// </summary>
+        /// <param name="Label_id">标签id</param>
+        /// <param name="openid_list">粉丝列表openid</param>
+        public string CreateUserLabel(int Label_id, string[] openid_list)
+        {
+            try
+            {
+                var data = new
+                {
+                    openid_list,
+                    tagid = Label_id,
+                };
+                return menu.CreateUserLabel(Wechat.GetToken(), JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        ///  批量为用户取消标签
+        /// </summary>
+        /// <param name="Label_id">标签id</param>
+        /// <param name="openid_list">粉丝列表openid</param>
+        public string DeteteUserLabel(int Label_id, string[] openid_list)
+        {
+            try
+            {
+                var data = new
+                {
+                    openid_list,
+                    tagid = Label_id,
+                };
+                return menu.DeteteUserLabel(Wechat.GetToken(), JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        ///  获取用户身上的标签列表
+        /// </summary>
+        /// <returns></returns>
+        public string GetUserLabels(string openid)
+        {
+            try
+            {
+                var data = new
+                {
+                    openid,
+                };
+                return menu.GetUserLabels(Wechat.GetToken(), JsonConvert.SerializeObject(data));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         #endregion
     }
 }

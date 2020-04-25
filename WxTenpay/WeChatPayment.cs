@@ -13,9 +13,16 @@ namespace WxTenpay
     /// <summary>
     /// 微信支付类
     /// </summary>
-    [Description("微信支付类")]
     public class WeChatPayment
     {
+        /// <summary>
+        /// 加载配置文件
+        /// </summary>
+        public WeChatPayment()
+        {
+            GetConfig.ResetConfig();
+        }
+
         PayMent pm = new PayMent();
 
         #region 微信扫码支付====(已测试)

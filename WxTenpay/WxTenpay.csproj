@@ -72,6 +72,7 @@
     <Compile Include="Aliyun\Ail_Pay.cs" />
     <Compile Include="Aliyun\SMS.cs" />
     <Compile Include="Config\Ailconfig.cs" />
+    <Compile Include="Config\GetConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeChatPayment.cs" />
     <Compile Include="Config\APP_Aconfig.cs" />
@@ -233,6 +234,7 @@
     <Content Include="前端辅助JS\vue.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="WxTenpay.config" />
     <None Include="前端JS参考\微信支付DLL文档.docx" />
     <None Include="前端辅助JS\layui\font\iconfont.eot" />
     <None Include="前端辅助JS\layui\font\iconfont.ttf" />

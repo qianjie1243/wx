@@ -11,14 +11,25 @@ namespace WxTenpay
     /// </summary>
     public class APP_Aconfig
     {
-        public static string url = "";//回调ur
+
 
         #region
-        [Description("商户号")]
-        public static string mch_id = "";//商户号
-        public static string appid = "";//APPID
-        public static string partnerid = "";//商户号
-        public static string paysignkey = "";//证书密匙  
+        /// <summary>
+        ///   回调ur
+        /// </summary>
+        public static string url = "";//
+        /// <summary>
+        ///      商户号
+        /// </summary>
+        public static string mch_id = "";//
+        /// <summary>
+        ///   APPID
+        /// </summary>
+        public static string appid = "";//
+        /// <summary>
+        ///    证书密匙
+        /// </summary>
+        public static string paysignkey = "";//  
 
 
         #endregion     

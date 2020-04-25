@@ -9,8 +9,15 @@ namespace WxTenpay
     /// <summary>
     /// 阿里云短信
     /// </summary>
-    public  class AliyunSMS
+    public class AliyunSMS
     {
+        /// <summary>
+        ///  加载配置文件
+        /// </summary>
+        public AliyunSMS()
+        {
+            GetConfig.ResetConfig();
+        }
         /// <summary>
         /// 发送阿里云短信
         /// </summary>
@@ -20,10 +27,10 @@ namespace WxTenpay
         /// <param name="TemplateParam">模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为</param>
         /// TemplateParam如 "{\"code\":\"" + 短信验证码 + "\"}";
         /// <returns> Code=1 成功，0失败， Message 错误提示</returns>
-        public static object sendSms(string PhoneNumbers, string TemplateParam, string SignName, string TemplateCode)
+        public object sendSms(string PhoneNumbers, string TemplateParam, string SignName, string TemplateCode)
         {
             return SMS.sendSms(PhoneNumbers, TemplateParam, SignName, TemplateCode);
-          
+
         }
     }
 }

@@ -26,9 +26,14 @@ namespace WxTenpay
     /// 关于微信公众号出现10秒后再次请求问题解决方法：授权URL最后添加&connect_redirect=1  
     /// 说明：connect_redirect=1  腾讯(微信)服务器配置的动态参数， 意为只触发一次请求， 超时也不重发
     /// </summary>
-    [Description("微信基本操作类")]
     public class WechatPublic
     {
+         /// <summary>
+         /// 加载配置文件
+         /// </summary>
+        public WechatPublic() {
+            GetConfig.ResetConfig();
+        }
 
         #region  ==保存凭证=
         /// <summary>
@@ -146,7 +151,7 @@ namespace WxTenpay
 
         #endregion
 
-        #region  GetToken
+        #region  获取access_token
         /// <summary>
         /// 获取access_token
         /// </summary>

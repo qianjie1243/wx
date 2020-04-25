@@ -31,12 +31,12 @@ namespace WxTenpay.WXoperation.wxtenpay
             if (type == 1)
             {
                 order.appid = APP_Aconfig.appid;
-                order.mch_id = APP_Aconfig.partnerid;
+                order.mch_id = APP_Aconfig.mch_id;
             }
             else
             {
                 order.appid = APP_Iconfig.appid;
-                order.mch_id = APP_Iconfig.partnerid;
+                order.mch_id = APP_Iconfig.mch_id;
             }
             order.attach = attach;
             order.body = boby;

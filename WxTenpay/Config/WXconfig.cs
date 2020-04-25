@@ -9,7 +9,6 @@ namespace WxTenpay
     /// <summary>
     /// 微信公众号配置
     /// </summary>
-    [Description("微信基本配置类")]
     public static class WXconfig
     {
         /// <summary>
@@ -17,11 +16,11 @@ namespace WxTenpay
         /// </summary>  
         public static string appid = "";//
         /// <summary>
-        ///      微信公众号的secret
+        /// 微信公众号的secret
         /// </summary>
         public static string secret = "";//
         /// <summary>
-        ///       回调url
+        /// 回调url
         /// </summary>
         public static string url = "";//
         /// <summary>
