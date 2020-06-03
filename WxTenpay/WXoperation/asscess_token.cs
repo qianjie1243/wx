@@ -70,6 +70,25 @@ namespace WxTenpay.WXoperation
         }
         #endregion
 
+
+        #region  根据openid 获取信息和网页版授权有所区别
+
+        /// <summary>
+        /// 根据openid 获取信息和网页版授权有所区别
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <returns></returns>
+        /// 
+        public static dynamic GetPerson( string openid)
+        {
+            var url = $"https://api.weixin.qq.com/cgi-bin/user/info?access_token={GetToken(WXconfig.appid, WXconfig.secret)}&openid={openid}&lang=zh_CN";
+            var json1 = HttpRequestutil.RequestUrlget(url);
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            var  geren = js.Deserialize<dynamic>(json1);
+            return geren;
+        }
+        #endregion
+
         #region 微信公众号的Token
         #region 获取Token
         /// <summary>

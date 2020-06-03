@@ -510,6 +510,14 @@
             <param name="openid"></param>
             <returns></returns>
         </member>
+        <member name="M:WxTenpay.WXoperation.asscess_token.GetPerson(System.String)">
+            <summary>
+            根据openid 获取信息和网页版授权有所区别
+            </summary>
+            <param name="openid"></param>
+            <returns></returns>
+            
+        </member>
         <member name="M:WxTenpay.WXoperation.asscess_token.GetToken(System.String,System.String)">
             <summary>
             获取Token
@@ -2107,6 +2115,13 @@
             返回openid
             </summary>
             <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WechatPublic.GetPerson(System.String)">
+            <summary>
+            根据openid 获取信息和网页版授权有所区别
+            </summary>
+            <param name="openid"></param>
             <returns></returns>
         </member>
         <member name="M:WxTenpay.WechatPublic.GetWxConfig(System.String)">

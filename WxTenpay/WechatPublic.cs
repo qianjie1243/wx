@@ -8,8 +8,6 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
-
-
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WxTenpay.WXoperation.wxtenpay;
@@ -28,10 +26,11 @@ namespace WxTenpay
     /// </summary>
     public class WechatPublic
     {
-         /// <summary>
-         /// 加载配置文件
-         /// </summary>
-        public WechatPublic() {
+        /// <summary>
+        /// 加载配置文件
+        /// </summary>
+        public WechatPublic()
+        {
             GetConfig.ResetConfig();
         }
 
@@ -106,6 +105,26 @@ namespace WxTenpay
             {
                 throw;
             }
+        }
+
+
+        /// <summary>
+        /// 根据openid 获取信息和网页版授权有所区别
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <returns></returns>
+        public dynamic GetPerson(string openid)
+        {
+            try
+            {
+                return asscess_token.GetPerson(openid);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         #endregion
@@ -228,7 +247,7 @@ namespace WxTenpay
         /// <param name="text">发送消息内容</param>
         /// <returns></returns>
         [Description("微信客户最基本消息")]
-        public  dynamic WeiXinKeFu(string openid, string text)
+        public dynamic WeiXinKeFu(string openid, string text)
         {
             try
             {
