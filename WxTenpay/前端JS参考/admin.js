@@ -262,7 +262,7 @@ var $frame = {
             callBack: function (res, fun) {
                 if (!!res) {
                     fun(res.Count);//传入数据总数
-                },
+                }},
             url: "Chart/Getboard",
         })
      **/
