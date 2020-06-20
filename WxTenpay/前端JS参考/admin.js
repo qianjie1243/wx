@@ -6,7 +6,7 @@
 var Empty = [null, "", "null", undefined, "undefined"];
 var ROOT_PATH = "/";
 var iframeNames = [];
-var $frame = {   
+var $frame = {
     //上传文件请求formdata模式
     RequestPostformdata: function (url, data, yes, error) {
         let index = $frame.loading("正在提交数据，请稍候……");
@@ -23,6 +23,7 @@ var $frame = {
                 if (yes) yes(res);
             },
             error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown);
                 layer.close(index);
                 if (error) error(jqXHR, textStatus, errorThrown);
             }
@@ -41,6 +42,7 @@ var $frame = {
                     yes(res);
             },
             error: function (res) {
+                console.log(res);
                 layer.close(index);
                 if (error)
                     error(res);
@@ -60,6 +62,7 @@ var $frame = {
                     yes(res);
             },
             error: function (res) {
+                console.log(res);
                 layer.close(index);
                 if (error)
                     error(res);
@@ -176,7 +179,8 @@ var $frame = {
         }, function (index) {
             callback(false, index);
             layer.close(index); //再执行关闭  
-        });
+        }
+        );
     },
     // 自定义表单弹层
     layerForm: function (obj) {
@@ -242,6 +246,72 @@ var $frame = {
         content = content || "操作成功！";
         return layer.msg(content);
     },
+    //分页
+    /***
+     * d 对象   rows： 每页数据
+     *      page：页码
+     *      sidx：排序字段
+     *      sord：排序类型
+     *      callBack：成功回调，
+     *      url：请求url
+     * 
+     * pageindex 页码默认 1
+     * 
+     * 调用方法：
+     * $frame.laypaging(1,{
+            callBack: function (res, fun) {
+                if (!!res) {
+                    fun(res.Count);//传入数据总数
+                },
+            url: "Chart/Getboard",
+        })
+     **/
+    laypaging: function (d, pageindex) {
+        pageindex = pageindex || 1;
+        let data = {
+            rows: 12,
+            page: pageindex,
+            sidx: "id",
+            sord: "asc",
+            records: "",
+            //选择每页显示的数据条数
+            callBack: false,
+            url: "",
+        }
+        $.extend(data, d || {});
+        $frame.RequestGet(data.url, data, function (res) {
+            if (data.callBack) {
+                data.callBack(res, function (Count) {
+                    let dataLength = Count;
+                    layui.use(['laypage', 'layer'], function () {
+                        var laypage = layui.laypage,
+                            layer = layui.layer;
+                        laypage.render({
+                            elem: 'paging',
+                            count: dataLength,
+                            limit: data.rows,
+                            first: '首页',
+                            last: '尾页',
+                            layout: ['count', 'prev', 'page', 'next', 'skip'],
+                            curr: pageindex,
+                            theme: '#00A0E9',
+                            jump: function (obj, first) {
+                                if (!first) {
+                                    //第一次不执行,一定要记住,这个必须有,要不然就是死循环
+                                    var curr = obj.curr;
+                                    //回调该展示数据的方法,数据展示
+                                    $frame.laypaging(d, curr);
+                                }
+                            }
+                        });
+                    });
+                })
+            };
+        });
+    },
+
+
+
     //获取url参数
     GetQueryString: function (name) {
         var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
