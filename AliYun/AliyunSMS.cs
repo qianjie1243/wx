@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AliYun.AliYun;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WxTenpay.Aliyun;
 
-namespace WxTenpay
+namespace AliYun
 {
     /// <summary>
     /// 阿里云短信
@@ -14,10 +14,10 @@ namespace WxTenpay
         /// <summary>
         ///  加载配置文件
         /// </summary>
-        public AliyunSMS()
-        {
-            GetConfig.ResetConfig();
-        }
+        //public AliyunSMS()
+        //{
+        //    GetConfig.ResetConfig();
+        //}
         /// <summary>
         /// 发送阿里云短信
         /// </summary>

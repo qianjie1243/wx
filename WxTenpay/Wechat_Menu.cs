@@ -38,7 +38,7 @@ namespace WxTenpay
             {
                 return menu.graphic(Wechat.GetToken(), content);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -57,7 +57,7 @@ namespace WxTenpay
             {
                 return menu.material(path, Wechat.GetToken(), type);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -79,7 +79,7 @@ namespace WxTenpay
             {
                 return menu.video(Wechat.GetToken(), path, title, introduction);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -100,7 +100,7 @@ namespace WxTenpay
             {
                 return menu.Update_graphic(Wechat.GetToken(), content);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -120,7 +120,7 @@ namespace WxTenpay
             {
                 return menu.Get_list(Wechat.GetToken());
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -139,7 +139,7 @@ namespace WxTenpay
             {
                 return menu.Get_count(Wechat.GetToken());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -160,7 +160,7 @@ namespace WxTenpay
             {
                 return menu.Get_graphic(media_id, Wechat.GetToken());
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -208,7 +208,7 @@ namespace WxTenpay
                 var Json = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };//设定过滤null的
                 return menu.Add_Menu(JsonConvert.SerializeObject(_menu, Formatting.Indented, Json), Wechat.GetToken(), type);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }

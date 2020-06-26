@@ -101,7 +101,7 @@ namespace BaiDuAI.SERVICE
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }

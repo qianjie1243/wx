@@ -255,7 +255,7 @@ namespace BaiDuAI.SERVICE
                 return jo;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

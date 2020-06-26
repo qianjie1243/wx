@@ -9,7 +9,7 @@ using System.Web;
 namespace Common
 {
     /// <summary>
-    /// Thumbnail µÄÕªÒªËµÃ÷¡£
+    /// Thumbnail ï¿½ï¿½ÕªÒªËµï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public class Thumbnail
     {
@@ -17,9 +17,9 @@ namespace Common
         private string srcFileName;
 
         /// <summary>
-        /// ´´½¨
+        /// ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="FileName">Ô­Ê¼Í¼Æ¬Â·¾¶</param>
+        /// <param name="FileName">Ô­Ê¼Í¼Æ¬Â·ï¿½ï¿½</param>
         public bool SetImage(string FileName)
         {
             srcFileName = Utils.GetMapPath(FileName);
@@ -36,7 +36,7 @@ namespace Common
         }
 
         /// <summary>
-        /// »Øµ÷
+        /// ï¿½Øµï¿½
         /// </summary>
         /// <returns></returns>
         public bool ThumbnailCallback()
@@ -45,11 +45,11 @@ namespace Common
         }
 
         /// <summary>
-        /// Éú³ÉËõÂÔÍ¼,·µ»ØËõÂÔÍ¼µÄImage¶ÔÏó
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Imageï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="Width">ËõÂÔÍ¼¿í¶È</param>
-        /// <param name="Height">ËõÂÔÍ¼¸ß¶È</param>
-        /// <returns>ËõÂÔÍ¼µÄImage¶ÔÏó</returns>
+        /// <param name="Width">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="Height">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ß¶ï¿½</param>
+        /// <returns>ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Imageï¿½ï¿½ï¿½ï¿½</returns>
         public Image GetImage(int Width, int Height)
         {
             Image img;
@@ -59,7 +59,7 @@ namespace Common
         }
 
         /// <summary>
-        /// ±£´æËõÂÔÍ¼
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
         /// </summary>
         /// <param name="Width"></param>
         /// <param name="Height"></param>
@@ -80,12 +80,12 @@ namespace Common
         }
 
         /// <summary>
-        /// Éú³ÉËõÂÔÍ¼²¢±£´æ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="Width">ËõÂÔÍ¼µÄ¿í¶È</param>
-        /// <param name="Height">ËõÂÔÍ¼µÄ¸ß¶È</param>
-        /// <param name="imgformat">±£´æµÄÍ¼Ïñ¸ñÊ½</param>
-        /// <returns>ËõÂÔÍ¼µÄImage¶ÔÏó</returns>
+        /// <param name="Width">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ä¿ï¿½ï¿½ï¿½</param>
+        /// <param name="Height">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ä¸ß¶ï¿½</param>
+        /// <param name="imgformat">ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ê½</param>
+        /// <returns>ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Imageï¿½ï¿½ï¿½ï¿½</returns>
         public void SaveImage(int Width, int Height, ImageFormat imgformat)
         {
             if (imgformat != ImageFormat.Gif && (srcImage.Width > Width) || (srcImage.Height > Height))
@@ -102,14 +102,14 @@ namespace Common
         #region Helper
 
         /// <summary>
-        /// ±£´æÍ¼Æ¬
+        /// ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
         /// </summary>
-        /// <param name="image">Image ¶ÔÏó</param>
-        /// <param name="savePath">±£´æÂ·¾¶</param>
-        /// <param name="ici">Ö¸¶¨¸ñÊ½µÄ±à½âÂë²ÎÊý</param>
+        /// <param name="image">Image ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="savePath">ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½</param>
+        /// <param name="ici">Ö¸ï¿½ï¿½ï¿½ï¿½Ê½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
         private static void SaveImage(Image image, string savePath, ImageCodecInfo ici)
         {
-            //ÉèÖÃ Ô­Í¼Æ¬ ¶ÔÏóµÄ EncoderParameters ¶ÔÏó
+            //ï¿½ï¿½ï¿½ï¿½ Ô­Í¼Æ¬ ï¿½ï¿½ï¿½ï¿½ï¿½ EncoderParameters ï¿½ï¿½ï¿½ï¿½
             EncoderParameters parameters = new EncoderParameters(1);
             parameters.Param[0] = new EncoderParameter(Encoder.Quality, ((long)100));
             image.Save(savePath, ici, parameters);
@@ -117,10 +117,10 @@ namespace Common
         }
 
         /// <summary>
-        /// »ñÈ¡Í¼Ïñ±àÂë½âÂëÆ÷µÄËùÓÐÏà¹ØÐÅÏ¢
+        /// ï¿½ï¿½È¡Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
         /// </summary>
-        /// <param name="mimeType">°üº¬±àÂë½âÂëÆ÷µÄ¶àÓÃÍ¾Íø¼ÊÓÊ¼þÀ©³äÐ­Òé (MIME) ÀàÐÍµÄ×Ö·û´®</param>
-        /// <returns>·µ»ØÍ¼Ïñ±àÂë½âÂëÆ÷µÄËùÓÐÏà¹ØÐÅÏ¢</returns>
+        /// <param name="mimeType">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½Í¾ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ð­ï¿½ï¿½ (MIME) ï¿½ï¿½ï¿½Íµï¿½ï¿½Ö·ï¿½ï¿½ï¿½</param>
+        /// <returns>ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢</returns>
         private static ImageCodecInfo GetCodecInfo(string mimeType)
         {
             ImageCodecInfo[] CodecInfo = ImageCodecInfo.GetImageEncoders();
@@ -133,21 +133,21 @@ namespace Common
         }
 
         /// <summary>
-        /// ¼ÆËãÐÂ³ß´ç
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½Â³ß´ï¿½
         /// </summary>
-        /// <param name="width">Ô­Ê¼¿í¶È</param>
-        /// <param name="height">Ô­Ê¼¸ß¶È</param>
-        /// <param name="maxWidth">×î´óÐÂ¿í¶È</param>
-        /// <param name="maxHeight">×î´óÐÂ¸ß¶È</param>
+        /// <param name="width">Ô­Ê¼ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="height">Ô­Ê¼ï¿½ß¶ï¿½</param>
+        /// <param name="maxWidth">ï¿½ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½</param>
+        /// <param name="maxHeight">ï¿½ï¿½ï¿½ï¿½Â¸ß¶ï¿½</param>
         /// <returns></returns>
         private static Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
         {
-            //´Ë´Î2012-02-05ÐÞ¸Ä¹ý=================
+            //ï¿½Ë´ï¿½2012-02-05ï¿½Þ¸Ä¹ï¿½=================
             if (maxWidth <= 0)
                 maxWidth = width;
             if (maxHeight <= 0)
                 maxHeight = height;
-            //ÒÔÉÏ2012-02-05ÐÞ¸Ä¹ý=================
+            //ï¿½ï¿½ï¿½ï¿½2012-02-05ï¿½Þ¸Ä¹ï¿½=================
             decimal MAX_WIDTH = (decimal)maxWidth;
             decimal MAX_HEIGHT = (decimal)maxHeight;
             decimal ASPECT_RATIO = MAX_WIDTH / MAX_HEIGHT;
@@ -182,9 +182,9 @@ namespace Common
         }
 
         /// <summary>
-        /// µÃµ½Í¼Æ¬¸ñÊ½
+        /// ï¿½Ãµï¿½Í¼Æ¬ï¿½ï¿½Ê½
         /// </summary>
-        /// <param name="name">ÎÄ¼þÃû³Æ</param>
+        /// <param name="name">ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½</param>
         /// <returns></returns>
         public static ImageFormat GetFormat(string name)
         {
@@ -207,11 +207,11 @@ namespace Common
         #endregion
 
         /// <summary>
-        /// ÖÆ×÷Ð¡Õý·½ÐÎ
+        /// ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="image">Í¼Æ¬¶ÔÏó</param>
-        /// <param name="newFileName">ÐÂµØÖ·</param>
-        /// <param name="newSize">³¤¶È»ò¿í¶È</param>
+        /// <param name="image">Í¼Æ¬ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="newFileName">ï¿½Âµï¿½Ö·</param>
+        /// <param name="newSize">ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½</param>
         public static void MakeSquareImage(Image image, string newFileName, int newSize)
         {
             int i = 0;
@@ -227,12 +227,12 @@ namespace Common
             try
             {
                 Graphics g = Graphics.FromImage(b);
-                //ÉèÖÃ¸ßÖÊÁ¿²åÖµ·¨
+                //ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                //ÉèÖÃ¸ßÖÊÁ¿,µÍËÙ¶È³ÊÏÖÆ½»¬³Ì¶È
+                //ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Ù¶È³ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Ì¶ï¿½
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                //Çå³ýÕû¸ö»æÍ¼Ãæ²¢ÒÔÍ¸Ã÷±³¾°É«Ìî³ä
+                //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½æ²¢ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½
                 g.Clear(Color.Transparent);
                 if (width < height)
                     g.DrawImage(image, new Rectangle(0, 0, newSize, newSize), new Rectangle(0, (height - width) / 2, width, width), GraphicsUnit.Pixel);
@@ -249,22 +249,22 @@ namespace Common
         }
 
         /// <summary>
-        /// ÖÆ×÷Ð¡Õý·½ÐÎ
+        /// ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="fileName">Í¼Æ¬ÎÄ¼þÃû</param>
-        /// <param name="newFileName">ÐÂµØÖ·</param>
-        /// <param name="newSize">³¤¶È»ò¿í¶È</param>
+        /// <param name="fileName">Í¼Æ¬ï¿½Ä¼ï¿½ï¿½ï¿½</param>
+        /// <param name="newFileName">ï¿½Âµï¿½Ö·</param>
+        /// <param name="newSize">ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½</param>
         public static void MakeSquareImage(string fileName, string newFileName, int newSize)
         {
             MakeSquareImage(Image.FromFile(fileName), newFileName, newSize);
         }
 
         /// <summary>
-        /// ÖÆ×÷Ô¶³ÌÐ¡Õý·½ÐÎ
+        /// ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		/// </summary>
 		/// <param name="url">Í¼Æ¬url</param>
-		/// <param name="newFileName">ÐÂµØÖ·</param>
-		/// <param name="newSize">³¤¶È»ò¿í¶È</param>
+		/// <param name="newFileName">ï¿½Âµï¿½Ö·</param>
+		/// <param name="newSize">ï¿½ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½</param>
         public static void MakeRemoteSquareImage(string url, string newFileName, int newSize)
         {
             Stream stream = GetRemoteImage(url);
@@ -276,12 +276,12 @@ namespace Common
         }
 
         /// <summary>
-        /// ÖÆ×÷ËõÂÔÍ¼
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
         /// </summary>
-        /// <param name="original">Í¼Æ¬¶ÔÏó</param>
-        /// <param name="newFileName">ÐÂÍ¼Â·¾¶</param>
-        /// <param name="maxWidth">×î´ó¿í¶È</param>
-        /// <param name="maxHeight">×î´ó¸ß¶È</param>
+        /// <param name="original">Í¼Æ¬ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="newFileName">ï¿½ï¿½Í¼Â·ï¿½ï¿½</param>
+        /// <param name="maxWidth">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="maxHeight">ï¿½ï¿½ï¿½ß¶ï¿½</param>
         public static void MakeThumbnailImage(Image original, string newFileName, int maxWidth, int maxHeight)
         {
             Size _newSize = ResizeImage(original.Width, original.Height, maxWidth, maxHeight);
@@ -300,31 +300,31 @@ namespace Common
         }
 
         /// <summary>
-        /// ÖÆ×÷ËõÂÔÍ¼
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
         /// </summary>
-        /// <param name="fileName">ÎÄ¼þÃû</param>
-        /// <param name="newFileName">ÐÂÍ¼Â·¾¶</param>
-        /// <param name="maxWidth">×î´ó¿í¶È</param>
-        /// <param name="maxHeight">×î´ó¸ß¶È</param>
+        /// <param name="fileName">ï¿½Ä¼ï¿½ï¿½ï¿½</param>
+        /// <param name="newFileName">ï¿½ï¿½Í¼Â·ï¿½ï¿½</param>
+        /// <param name="maxWidth">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="maxHeight">ï¿½ï¿½ï¿½ß¶ï¿½</param>
         public static void MakeThumbnailImage(string fileName, string newFileName, int maxWidth, int maxHeight)
         {
-            //2012-02-05ÐÞ¸Ä¹ý£¬Ö§³ÖÌæ»»
+            //2012-02-05ï¿½Þ¸Ä¹ï¿½ï¿½ï¿½Ö§ï¿½ï¿½ï¿½æ»»
             byte[] imageBytes = File.ReadAllBytes(fileName);
             Image img = Image.FromStream(new System.IO.MemoryStream(imageBytes));
             MakeThumbnailImage(img, newFileName, maxWidth, maxHeight);
-            //Ô­ÎÄ
+            //Ô­ï¿½ï¿½
             //MakeThumbnailImage(Image.FromFile(fileName), newFileName, maxWidth, maxHeight);
         }
 
-        #region 2012-2-19 ÐÂÔöÉú³ÉÍ¼Æ¬ËõÂÔÍ¼·½·¨
+        #region 2012-2-19 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
         /// <summary>
-        /// Éú³ÉËõÂÔÍ¼
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
         /// </summary>
-        /// <param name="fileName">Ô´Í¼Â·¾¶£¨¾ø¶ÔÂ·¾¶£©</param>
-        /// <param name="newFileName">ËõÂÔÍ¼Â·¾¶£¨¾ø¶ÔÂ·¾¶£©</param>
-        /// <param name="width">ËõÂÔÍ¼¿í¶È</param>
-        /// <param name="height">ËõÂÔÍ¼¸ß¶È</param>
-        /// <param name="mode">Éú³ÉËõÂÔÍ¼µÄ·½Ê½</param>    
+        /// <param name="fileName">Ô´Í¼Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="newFileName">ï¿½ï¿½ï¿½ï¿½Í¼Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="width">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="height">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ß¶ï¿½</param>
+        /// <param name="mode">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½Ä·ï¿½Ê½</param>    
         public static void MakeThumbnailImage(string fileName, string newFileName, int width, int height, string mode)
         {
             Image originalImage = Image.FromFile(fileName);
@@ -338,7 +338,7 @@ namespace Common
 
             switch (mode)
             {
-                case "HW"://Ö¸¶¨¸ß¿íËõ·Å£¨²¹°×£©
+                case "HW"://Ö¸ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ï¿½Å£ï¿½ï¿½ï¿½ï¿½×£ï¿½
                     if ((double)originalImage.Width / (double)originalImage.Height > (double)towidth / (double)toheight)
                     {
                         ow = originalImage.Width;
@@ -354,13 +354,13 @@ namespace Common
                         x = (originalImage.Width - ow) / 2;
                     }
                     break;
-                case "W"://Ö¸¶¨¿í£¬¸ß°´±ÈÀý                    
+                case "W"://Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½                    
                     toheight = originalImage.Height * width / originalImage.Width;
                     break;
-                case "H"://Ö¸¶¨¸ß£¬¿í°´±ÈÀý
+                case "H"://Ö¸ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     towidth = originalImage.Width * height / originalImage.Height;
                     break;
-                case "Cut"://Ö¸¶¨¸ß¿í²Ã¼õ£¨²»±äÐÎ£©                
+                case "Cut"://Ö¸ï¿½ï¿½ï¿½ß¿ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î£ï¿½                
                     if ((double)originalImage.Width / (double)originalImage.Height > (double)towidth / (double)toheight)
                     {
                         oh = originalImage.Height;
@@ -380,21 +380,21 @@ namespace Common
                     break;
             }
 
-            //ÐÂ½¨Ò»¸öbmpÍ¼Æ¬
+            //ï¿½Â½ï¿½Ò»ï¿½ï¿½bmpÍ¼Æ¬
             Bitmap b = new Bitmap(towidth, toheight);
             try
             {
-                //ÐÂ½¨Ò»¸ö»­°å
+                //ï¿½Â½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 Graphics g = Graphics.FromImage(b);
-                //ÉèÖÃ¸ßÖÊÁ¿²åÖµ·¨
+                //ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                //ÉèÖÃ¸ßÖÊÁ¿,µÍËÙ¶È³ÊÏÖÆ½»¬³Ì¶È
+                //ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Ù¶È³ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Ì¶ï¿½
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                //Çå¿Õ»­²¼²¢ÒÔÍ¸Ã÷±³¾°É«Ìî³ä
+                //ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½
                 g.Clear(Color.White);
                 //g.Clear(Color.Transparent);
-                //ÔÚÖ¸¶¨Î»ÖÃ²¢ÇÒ°´Ö¸¶¨´óÐ¡»æÖÆÔ­Í¼Æ¬µÄÖ¸¶¨²¿·Ö
+                //ï¿½ï¿½Ö¸ï¿½ï¿½Î»ï¿½Ã²ï¿½ï¿½Ò°ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Ô­Í¼Æ¬ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 g.DrawImage(originalImage, new Rectangle(0, 0, towidth, toheight), new Rectangle(x, y, ow, oh), GraphicsUnit.Pixel);
 
                 SaveImage(b, newFileName, GetCodecInfo("image/" + GetFormat(newFileName).ToString().ToLower()));
@@ -411,18 +411,18 @@ namespace Common
         }
         #endregion
 
-        #region 2012-10-30 ÐÂÔöÍ¼Æ¬²Ã¼ô·½·¨
+        #region 2012-10-30 ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½
         /// <summary>
-        /// ²Ã¼ôÍ¼Æ¬²¢±£´æ
+        /// ï¿½Ã¼ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <param name="fileName">Ô´Í¼Â·¾¶£¨¾ø¶ÔÂ·¾¶£©</param>
-        /// <param name="newFileName">ËõÂÔÍ¼Â·¾¶£¨¾ø¶ÔÂ·¾¶£©</param>
-        /// <param name="maxWidth">ËõÂÔÍ¼¿í¶È</param>
-        /// <param name="maxHeight">ËõÂÔÍ¼¸ß¶È</param>
-        /// <param name="cropWidth">²Ã¼ô¿í¶È</param>
-        /// <param name="cropHeight">²Ã¼ô¸ß¶È</param>
-        /// <param name="X">XÖá</param>
-        /// <param name="Y">YÖá</param>
+        /// <param name="fileName">Ô´Í¼Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="newFileName">ï¿½ï¿½ï¿½ï¿½Í¼Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="maxWidth">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="maxHeight">ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ß¶ï¿½</param>
+        /// <param name="cropWidth">ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="cropHeight">ï¿½Ã¼ï¿½ï¿½ß¶ï¿½</param>
+        /// <param name="X">Xï¿½ï¿½</param>
+        /// <param name="Y">Yï¿½ï¿½</param>
         public static bool MakeThumbnailImage(string fileName, string newFileName, int maxWidth, int maxHeight, int cropWidth, int cropHeight, int X, int Y)
         {
             byte[] imageBytes = File.ReadAllBytes(fileName);
@@ -432,14 +432,14 @@ namespace Common
             {
                 using (Graphics g = Graphics.FromImage(b))
                 {
-                    //ÉèÖÃ¸ßÖÊÁ¿²åÖµ·¨
+                    //ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    //ÉèÖÃ¸ßÖÊÁ¿,µÍËÙ¶È³ÊÏÖÆ½»¬³Ì¶È
+                    //ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Ù¶È³ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Ì¶ï¿½
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    //Çå¿Õ»­²¼²¢ÒÔÍ¸Ã÷±³¾°É«Ìî³ä
+                    //ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½
                     g.Clear(Color.Transparent);
-                    //ÔÚÖ¸¶¨Î»ÖÃ²¢ÇÒ°´Ö¸¶¨´óÐ¡»æÖÆÔ­Í¼Æ¬µÄÖ¸¶¨²¿·Ö
+                    //ï¿½ï¿½Ö¸ï¿½ï¿½Î»ï¿½Ã²ï¿½ï¿½Ò°ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Ô­Í¼Æ¬ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     g.DrawImage(originalImage, new Rectangle(0, 0, cropWidth, cropHeight), X, Y, cropWidth, cropHeight, GraphicsUnit.Pixel);
                     Image displayImage = new Bitmap(b, maxWidth, maxHeight);
                     SaveImage(displayImage, newFileName, GetCodecInfo("image/" + GetFormat(newFileName).ToString().ToLower()));
@@ -459,12 +459,12 @@ namespace Common
         #endregion
 
         /// <summary>
-        /// ÖÆ×÷Ô¶³ÌËõÂÔÍ¼
+        /// ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
         /// </summary>
         /// <param name="url">Í¼Æ¬URL</param>
-        /// <param name="newFileName">ÐÂÍ¼Â·¾¶</param>
-        /// <param name="maxWidth">×î´ó¿í¶È</param>
-        /// <param name="maxHeight">×î´ó¸ß¶È</param>
+        /// <param name="newFileName">ï¿½ï¿½Í¼Â·ï¿½ï¿½</param>
+        /// <param name="maxWidth">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+        /// <param name="maxHeight">ï¿½ï¿½ï¿½ß¶ï¿½</param>
         public static void MakeRemoteThumbnailImage(string url, string newFileName, int maxWidth, int maxHeight)
         {
             Stream stream = GetRemoteImage(url);
@@ -476,7 +476,7 @@ namespace Common
         }
 
         /// <summary>
-        /// »ñÈ¡Í¼Æ¬Á÷
+        /// ï¿½ï¿½È¡Í¼Æ¬ï¿½ï¿½
         /// </summary>
         /// <param name="url">Í¼Æ¬URL</param>
         /// <returns></returns>
@@ -503,7 +503,7 @@ namespace Common
         /// <summary>
         /// Í¼Æ¬×ªBase64
         /// </summary>
-        /// <param name="Imagefilename">Í¼Æ¬Â·¾¢</param>
+        /// <param name="Imagefilename">Í¼Æ¬Â·ï¿½ï¿½</param>
         /// <returns></returns>
         public static string ImgToBase64String(string Imagefilename)
         {
@@ -523,7 +523,7 @@ namespace Common
                 ms.Close();
                 return Convert.ToBase64String(arr);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -533,8 +533,8 @@ namespace Common
         /// Base64×ªÍ¼Æ¬
         /// </summary>
         /// <param name="strbase64">strbase64</param>
-        /// <param name="path">±£´æÍ¼Æ¬Â·¾¢</param>
-        /// <param name="Name">Í¼Æ¬Ãû³Æ</param>
+        /// <param name="path">ï¿½ï¿½ï¿½ï¿½Í¼Æ¬Â·ï¿½ï¿½</param>
+        /// <param name="Name">Í¼Æ¬ï¿½ï¿½ï¿½ï¿½</param>
         /// <returns></returns>
         public static string Base64StringToImage(string strbase64, string path, string Name)
         {
@@ -558,14 +558,14 @@ namespace Common
                 img.Save(ls_path, System.Drawing.Imaging.ImageFormat.Jpeg);
                 return ls_path;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
         }
         /// <summary>
-        /// »ñÈ¡µ±Ç°Ä¿Â¼
-        /// £¨ÍøÕ¾ÎªÍøÕ¾¸ùÄ¿Â¼£¬²âÊÔÊ±ÎªdllËùÔÚÄ¿Â¼£©
+        /// ï¿½ï¿½È¡ï¿½ï¿½Ç°Ä¿Â¼
+        /// ï¿½ï¿½ï¿½ï¿½Õ¾Îªï¿½ï¿½Õ¾ï¿½ï¿½Ä¿Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Îªdllï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½ï¿½
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>

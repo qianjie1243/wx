@@ -27,7 +27,7 @@ namespace WxTenpay
                 Configuration config = ConfigurationManager.OpenMappedExeConfiguration(ecf, ConfigurationUserLevel.None);
                 return config.AppSettings.Settings[key].Value;
             }
-            catch (Exception ex) { //没有文件，读取异常不做处理
+            catch (Exception ) { //没有文件，读取异常不做处理
                 return null;
             }
         }
@@ -80,13 +80,7 @@ namespace WxTenpay
             if (!string.IsNullOrWhiteSpace(SSLCERTPASSWORD))
                 WXconfig.SSLCERT_PASSWORD = SSLCERTPASSWORD;
 
-            if (!string.IsNullOrWhiteSpace(AILACCESSKEYID))
-                Aliconfig.accessKeyId = AILACCESSKEYID;
-            if (!string.IsNullOrWhiteSpace(AILACCESSKEYSECRET))
-                Aliconfig.accessKeySecret = AILACCESSKEYSECRET;
-
-            if (!string.IsNullOrWhiteSpace(BAIDUMAPAK))
-                BaiduMap.ak = BAIDUMAPAK;
+           
 
             if (!string.IsNullOrWhiteSpace(IAppID))
                 APP_Iconfig.appid = AAppID;

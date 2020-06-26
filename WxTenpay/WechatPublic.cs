@@ -546,7 +546,7 @@ namespace WxTenpay
                 throw;
             }
         }
-        #endregion 
+        #endregion
 
         #region  根据坐标获取地理位置========(根据腾讯地图的坐标获取百度地图的信息)
         /// <summary>
@@ -554,11 +554,12 @@ namespace WxTenpay
         /// </summary>
         /// <param name="lon"></param>
         /// <param name="lat"></param>
+        /// <param name="BaiduMap_ak">百度地图的ak</param>
         /// <param name="type">类型1：返回经纬度，2：返回地址名称</param>
         /// <returns></returns>
-        public string GetBaiduMap(string lon, string lat, int type = 1)
+        public string GetBaiduMap(string lon, string lat, string BaiduMap_ak, int type = 1)
         {
-            var url = $"http://api.map.baidu.com/geoconv/v1/?coords={lon},{lat}&from=1&to=5&ak=" + BaiduMap.ak;
+            var url = $"http://api.map.baidu.com/geoconv/v1/?coords={lon},{lat}&from=1&to=5&ak=" + BaiduMap_ak;
             try
             {
                 var result = HttpRequestutil.RequestUrl(url, "Post");
@@ -572,7 +573,7 @@ namespace WxTenpay
                     if (obj["status"].ToString() == "0")
                     {
                         JArray obj1 = (JArray)JsonConvert.DeserializeObject(obj["result"].ToString());
-                        var apiurl = $"http://api.map.baidu.com/geocoder/v2/?ak={ BaiduMap.ak}&callback=renderReverse&location={obj1[0]["y"].ToString()},{obj1[0]["x"].ToString()}&output=json&pois=1";
+                        var apiurl = $"http://api.map.baidu.com/geocoder/v2/?ak={ BaiduMap_ak}&callback=renderReverse&location={obj1[0]["y"].ToString()},{obj1[0]["x"].ToString()}&output=json&pois=1";
                         return HttpRequestutil.RequestUrl(apiurl, "Post");
                     }
                     else

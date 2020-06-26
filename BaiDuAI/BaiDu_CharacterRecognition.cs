@@ -36,7 +36,7 @@ namespace BaiDuAI
                 return _cr.GetGeneral_basic(type, path, language_type, detect_direction, probability);
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }

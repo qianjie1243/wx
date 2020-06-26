@@ -4,7 +4,7 @@ using Aliyun.Acs.Dysmsapi.Model.V20170525;
 using System;
 
 
-namespace WxTenpay.Aliyun
+namespace AliYun.AliYun
 {
     /// <summary>
     /// 发送短信验证码
@@ -49,7 +49,7 @@ namespace WxTenpay.Aliyun
                 response = acsClient.GetAcsResponse(request);
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
             }

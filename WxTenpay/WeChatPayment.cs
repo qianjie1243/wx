@@ -29,9 +29,7 @@ namespace WxTenpay
         /// <summary>
         /// 微信扫码支付
         /// </summary>
-        /// <param name="appid">公众号ID</param>
         /// <param name="boby">商品描述</param>
-        /// <param name="mch_id">商户号</param>
         /// <param name="spbill_create_ip">终端IP</param>
         /// <param name="total_fee">金额</param>
         /// <param name="out_trade_no">商户订单号</param>
@@ -45,7 +43,7 @@ namespace WxTenpay
             {
                 return pm.NATIVEPayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, product_id);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -57,8 +55,6 @@ namespace WxTenpay
         /// 微信APP支付
         /// </summary>
         /// <param name="boby">商品描述</param>
-        /// <param name="mch_id">商户号</param>
-        /// <param name="openid">用户openid</param>
         /// <param name="spbill_create_ip">终端IP</param>
         /// <param name="total_fee">金额</param>
         /// <param name="out_trade_no">商户订单号</param>
@@ -72,7 +68,7 @@ namespace WxTenpay
             {
                 return pm.APP_PayMent(boby, attach, spbill_create_ip, total_fee, out_trade_no, type);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }
@@ -83,9 +79,8 @@ namespace WxTenpay
         /// <summary>
         /// 微信支付
         /// </summary>
-        /// <param name="appid">公众号ID</param>
         /// <param name="boby">商品描述</param>
-        /// <param name="mch_id">商户号</param>
+          /// <param name="attach"></param>
         /// <param name="openid">用户openid</param>
         /// <param name="spbill_create_ip">终端IP</param>
         /// <param name="total_fee">金额</param>
@@ -98,7 +93,7 @@ namespace WxTenpay
             {
                 return pm.JSAPIPayMent(boby, attach, openid, spbill_create_ip, total_fee, out_trade_no);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 throw;
             }

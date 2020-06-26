@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WxTenpay
+
+/// <summary>
+/// 阿里配置文件
+/// </summary>
+namespace AliYun
 {
 
     #region 阿里云配置

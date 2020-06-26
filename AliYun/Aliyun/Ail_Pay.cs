@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace WxTenpay.Aliyun
+namespace AliYun.AliYun
 {
     /// <summary>
     /// 支付宝支付
@@ -46,7 +46,7 @@ namespace WxTenpay.Aliyun
                 AlipayTradeWapPayResponse response = client.pageExecute(request);
                 return HttpUtility.HtmlEncode(response.Body);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -85,7 +85,7 @@ namespace WxTenpay.Aliyun
                 return HttpUtility.HtmlEncode(response.Body);
                 //页面输出的response.Body就是orderString 可以直接给客户端请求，无需再做处理。
             }
-            catch (Exception ex) {
+            catch (Exception ) {
                 throw;
             }
         }

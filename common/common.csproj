@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.Crypto.dll.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\ICSharpCode.SharpZipLib.dll.0.85.4.369\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -63,10 +69,13 @@
     <Compile Include="QRCode.cs" />
     <Compile Include="RegexHelper.cs" />
     <Compile Include="SerializationHelper.cs" />
+    <Compile Include="SM3.cs" />
+    <Compile Include="SM4.cs" />
     <Compile Include="Thumbnail.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="WaterMark.cs" />
     <Compile Include="XmlHelper.cs" />
+    <Compile Include="ZipHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

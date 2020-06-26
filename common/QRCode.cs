@@ -120,7 +120,7 @@ namespace  Common
                 {
                     decodedString = decoder.decode(new QRCodeBitmapImage(new Bitmap(bmp)));
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     return "";
                 }

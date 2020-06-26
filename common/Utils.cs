@@ -1171,7 +1171,7 @@ namespace Common
                 stream.Close();
                 stream.Dispose();
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 //ErrLog(e.Message + e.StackTrace);
                 return false;
@@ -1224,7 +1224,7 @@ namespace Common
                 FtpWebResponse response = (FtpWebResponse)req.GetResponse();
                 response.Close();
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 req.Abort();
                 return false;
@@ -1578,7 +1578,7 @@ namespace Common
 
                 return returnmsg;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
                 throw;
@@ -1606,7 +1606,7 @@ namespace Common
                         strResult.Append((char)charCode);
                     }
                 }
-                catch (FormatException ex)
+                catch (FormatException )
                 {
                     return Regex.Unescape(str);
                 }
