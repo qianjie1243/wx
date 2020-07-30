@@ -30,6 +30,10 @@ namespace webFront.API
                 {
                     pathname = System.AppDomain.CurrentDomain.BaseDirectory + "Logs";
                 }
+                if (!Directory.Exists(pathname))//如果日志目录不存在就创建
+                {
+                    Directory.CreateDirectory(pathname);
+                }
                 DirectoryInfo root = new DirectoryInfo(pathname);
                 FileInfo[] files = root.GetFiles();
              
