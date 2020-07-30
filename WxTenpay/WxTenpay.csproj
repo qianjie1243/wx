@@ -214,7 +214,6 @@
     <Content Include="前端JS参考\前端辅助JS\vue.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="WxTenpay.config" />
     <None Include="前端JS参考\微信支付DLL文档.docx" />
     <None Include="前端JS参考\前端辅助JS\layui\font\iconfont.eot" />
     <None Include="前端JS参考\前端辅助JS\layui\font\iconfont.ttf" />

@@ -9,7 +9,7 @@ using System.Web;
 namespace Common
 {
     /// <summary>
-    /// Thumbnail ��ժҪ˵����
+    /// Thumbnail 的摘要说明。
     /// </summary>
     public class Thumbnail
     {
@@ -17,9 +17,9 @@ namespace Common
         private string srcFileName;
 
         /// <summary>
-        /// ����
+        /// 创建
         /// </summary>
-        /// <param name="FileName">ԭʼͼƬ·��</param>
+        /// <param name="FileName">原始图片路径</param>
         public bool SetImage(string FileName)
         {
             srcFileName = Utils.GetMapPath(FileName);
@@ -34,9 +34,8 @@ namespace Common
             return true;
 
         }
-
         /// <summary>
-        /// �ص�
+        /// 回调
         /// </summary>
         /// <returns></returns>
         public bool ThumbnailCallback()
@@ -45,11 +44,11 @@ namespace Common
         }
 
         /// <summary>
-        /// ��������ͼ,��������ͼ��Image����
+        /// 生成缩略图,返回缩略图的Image对象
         /// </summary>
-        /// <param name="Width">����ͼ����</param>
-        /// <param name="Height">����ͼ�߶�</param>
-        /// <returns>����ͼ��Image����</returns>
+        /// <param name="Width">缩略图宽度</param>
+        /// <param name="Height">缩略图高度</param>
+        /// <returns>缩略图的Image对象</returns>
         public Image GetImage(int Width, int Height)
         {
             Image img;
@@ -59,7 +58,7 @@ namespace Common
         }
 
         /// <summary>
-        /// ��������ͼ
+        /// 保存缩略图
         /// </summary>
         /// <param name="Width"></param>
         /// <param name="Height"></param>
@@ -80,12 +79,12 @@ namespace Common
         }
 
         /// <summary>
-        /// ��������ͼ������
+        /// 生成缩略图并保存
         /// </summary>
-        /// <param name="Width">����ͼ�Ŀ���</param>
-        /// <param name="Height">����ͼ�ĸ߶�</param>
-        /// <param name="imgformat">�����ͼ���ʽ</param>
-        /// <returns>����ͼ��Image����</returns>
+        /// <param name="Width">缩略图的宽度</param>
+        /// <param name="Height">缩略图的高度</param>
+        /// <param name="imgformat">保存的图像格式</param>
+        /// <returns>缩略图的Image对象</returns>
         public void SaveImage(int Width, int Height, ImageFormat imgformat)
         {
             if (imgformat != ImageFormat.Gif && (srcImage.Width > Width) || (srcImage.Height > Height))
@@ -102,25 +101,26 @@ namespace Common
         #region Helper
 
         /// <summary>
-        /// ����ͼƬ
+        /// 保存图片
         /// </summary>
-        /// <param name="image">Image ����</param>
-        /// <param name="savePath">����·��</param>
-        /// <param name="ici">ָ����ʽ�ı�������</param>
+        /// <param name="image">Image 对象</param>
+        /// <param name="savePath">保存路径</param>
+        /// <param name="ici">指定格式的编解码参数</param>
         private static void SaveImage(Image image, string savePath, ImageCodecInfo ici)
         {
-            //���� ԭͼƬ ����� EncoderParameters ����
+            //设置 原图片 对象的 EncoderParameters 对象
             EncoderParameters parameters = new EncoderParameters(1);
             parameters.Param[0] = new EncoderParameter(Encoder.Quality, ((long)100));
             image.Save(savePath, ici, parameters);
             parameters.Dispose();
         }
 
+
         /// <summary>
-        /// ��ȡͼ���������������������Ϣ
+        /// 获取图像编码解码器的所有相关信息
         /// </summary>
-        /// <param name="mimeType">��������������Ķ���;�����ʼ�����Э�� (MIME) ���͵��ַ���</param>
-        /// <returns>����ͼ���������������������Ϣ</returns>
+        /// <param name="mimeType">包含编码解码器的多用途网际邮件扩充协议 (MIME) 类型的字符串</param>
+        /// <returns>返回图像编码解码器的所有相关信息</returns>
         private static ImageCodecInfo GetCodecInfo(string mimeType)
         {
             ImageCodecInfo[] CodecInfo = ImageCodecInfo.GetImageEncoders();
@@ -133,13 +133,12 @@ namespace Common
         }
 
         /// <summary>
-        /// �����³ߴ�
+        /// 计算新尺寸
         /// </summary>
-        /// <param name="width">ԭʼ����</param>
-        /// <param name="height">ԭʼ�߶�</param>
-        /// <param name="maxWidth">����¿���</param>
-        /// <param name="maxHeight">����¸߶�</param>
-        /// <returns></returns>
+        /// <param name="width">原始宽度</param>
+        /// <param name="height">原始高度</param>
+        /// <param name="maxWidth">最大新宽度</param>
+        /// <param name="maxHeight">最大新高度</param>
         private static Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
         {
             //�˴�2012-02-05�޸Ĺ�=================
@@ -182,9 +181,9 @@ namespace Common
         }
 
         /// <summary>
-        /// �õ�ͼƬ��ʽ
+        /// 得到图片格式
         /// </summary>
-        /// <param name="name">�ļ�����</param>
+        /// <param name="name">文件名称</param>
         /// <returns></returns>
         public static ImageFormat GetFormat(string name)
         {
@@ -207,11 +206,11 @@ namespace Common
         #endregion
 
         /// <summary>
-        /// ����С������
+        /// 制作小正方形
         /// </summary>
-        /// <param name="image">ͼƬ����</param>
-        /// <param name="newFileName">�µ�ַ</param>
-        /// <param name="newSize">���Ȼ����</param>
+        /// <param name="image">图片对象</param>
+        /// <param name="newFileName">新地址</param>
+        /// <param name="newSize">长度或宽度</param>
         public static void MakeSquareImage(Image image, string newFileName, int newSize)
         {
             int i = 0;
@@ -227,12 +226,12 @@ namespace Common
             try
             {
                 Graphics g = Graphics.FromImage(b);
-                //���ø�������ֵ��
+                //设置高质量插值法
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                //���ø�����,���ٶȳ���ƽ���̶�
+                //设置高质量,低速度呈现平滑程度
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                //���������ͼ�沢��͸������ɫ���
+                //清除整个绘图面并以透明背景色填充
                 g.Clear(Color.Transparent);
                 if (width < height)
                     g.DrawImage(image, new Rectangle(0, 0, newSize, newSize), new Rectangle(0, (height - width) / 2, width, width), GraphicsUnit.Pixel);
@@ -249,22 +248,22 @@ namespace Common
         }
 
         /// <summary>
-        /// ����С������
+        /// 制作小正方形
         /// </summary>
-        /// <param name="fileName">ͼƬ�ļ���</param>
-        /// <param name="newFileName">�µ�ַ</param>
-        /// <param name="newSize">���Ȼ����</param>
+        /// <param name="fileName">图片文件名</param>
+        /// <param name="newFileName">新地址</param>
+        /// <param name="newSize">长度或宽度</param>
         public static void MakeSquareImage(string fileName, string newFileName, int newSize)
         {
             MakeSquareImage(Image.FromFile(fileName), newFileName, newSize);
         }
 
         /// <summary>
-        /// ����Զ��С������
+        /// 制作远程小正方形
 		/// </summary>
-		/// <param name="url">ͼƬurl</param>
-		/// <param name="newFileName">�µ�ַ</param>
-		/// <param name="newSize">���Ȼ����</param>
+		/// <param name="url">图片url</param>
+		/// <param name="newFileName">新地址</param>
+		/// <param name="newSize">长度或宽度</param>
         public static void MakeRemoteSquareImage(string url, string newFileName, int newSize)
         {
             Stream stream = GetRemoteImage(url);
@@ -276,12 +275,12 @@ namespace Common
         }
 
         /// <summary>
-        /// ��������ͼ
+        /// 制作缩略图
         /// </summary>
-        /// <param name="original">ͼƬ����</param>
-        /// <param name="newFileName">��ͼ·��</param>
-        /// <param name="maxWidth">������</param>
-        /// <param name="maxHeight">���߶�</param>
+        /// <param name="original">图片对象</param>
+        /// <param name="newFileName">新图路径</param>
+        /// <param name="maxWidth">最大宽度</param>
+        /// <param name="maxHeight">最大高度</param>
         public static void MakeThumbnailImage(Image original, string newFileName, int maxWidth, int maxHeight)
         {
             Size _newSize = ResizeImage(original.Width, original.Height, maxWidth, maxHeight);
@@ -298,14 +297,13 @@ namespace Common
                 }
             }
         }
-
         /// <summary>
-        /// ��������ͼ
+        /// 制作缩略图
         /// </summary>
-        /// <param name="fileName">�ļ���</param>
-        /// <param name="newFileName">��ͼ·��</param>
-        /// <param name="maxWidth">������</param>
-        /// <param name="maxHeight">���߶�</param>
+        /// <param name="fileName">文件名</param>
+        /// <param name="newFileName">新图路径</param>
+        /// <param name="maxWidth">最大宽度</param>
+        /// <param name="maxHeight">最大高度</param>
         public static void MakeThumbnailImage(string fileName, string newFileName, int maxWidth, int maxHeight)
         {
             //2012-02-05�޸Ĺ���֧���滻
@@ -316,15 +314,15 @@ namespace Common
             //MakeThumbnailImage(Image.FromFile(fileName), newFileName, maxWidth, maxHeight);
         }
 
-        #region 2012-2-19 ��������ͼƬ����ͼ����
+        #region 2012-2-19新增生成图片缩略图方法
         /// <summary>
-        /// ��������ͼ
+        /// 生成缩略图
         /// </summary>
-        /// <param name="fileName">Դͼ·��������·����</param>
-        /// <param name="newFileName">����ͼ·��������·����</param>
-        /// <param name="width">����ͼ����</param>
-        /// <param name="height">����ͼ�߶�</param>
-        /// <param name="mode">��������ͼ�ķ�ʽ</param>    
+        /// <param name="fileName">源图路径（绝对路径）</param>
+        /// <param name="newFileName">缩略图路径（绝对路径）</param>
+        /// <param name="width">缩略图宽度</param>
+        /// <param name="height">缩略图高度</param>
+        /// <param name="mode">生成缩略图的方式</param>    
         public static void MakeThumbnailImage(string fileName, string newFileName, int width, int height, string mode)
         {
             Image originalImage = Image.FromFile(fileName);
@@ -338,7 +336,7 @@ namespace Common
 
             switch (mode)
             {
-                case "HW"://ָ���߿����ţ����ף�
+                case "HW"://指定高宽缩放（补白）
                     if ((double)originalImage.Width / (double)originalImage.Height > (double)towidth / (double)toheight)
                     {
                         ow = originalImage.Width;
@@ -354,13 +352,13 @@ namespace Common
                         x = (originalImage.Width - ow) / 2;
                     }
                     break;
-                case "W"://ָ�������߰�����                    
+                case "W"://指定宽，高按比例                        
                     toheight = originalImage.Height * width / originalImage.Width;
                     break;
-                case "H"://ָ���ߣ���������
+                case "H"://指定高，宽按比例
                     towidth = originalImage.Width * height / originalImage.Height;
                     break;
-                case "Cut"://ָ���߿��ü��������Σ�                
+                case "Cut"://指定高宽裁减（不变形）                      
                     if ((double)originalImage.Width / (double)originalImage.Height > (double)towidth / (double)toheight)
                     {
                         oh = originalImage.Height;
@@ -380,21 +378,21 @@ namespace Common
                     break;
             }
 
-            //�½�һ��bmpͼƬ
+            //新建一个bmp图片
             Bitmap b = new Bitmap(towidth, toheight);
             try
             {
-                //�½�һ������
+                //新建一个画板
                 Graphics g = Graphics.FromImage(b);
-                //���ø�������ֵ��
+                //设置高质量插值法
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                //���ø�����,���ٶȳ���ƽ���̶�
+                //设置高质量,低速度呈现平滑程度
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                //��ջ�������͸������ɫ���
+                //清空画布并以透明背景色填充
                 g.Clear(Color.White);
                 //g.Clear(Color.Transparent);
-                //��ָ��λ�ò��Ұ�ָ����С����ԭͼƬ��ָ������
+                //在指定位置并且按指定大小绘制原图片的指定部分
                 g.DrawImage(originalImage, new Rectangle(0, 0, towidth, toheight), new Rectangle(x, y, ow, oh), GraphicsUnit.Pixel);
 
                 SaveImage(b, newFileName, GetCodecInfo("image/" + GetFormat(newFileName).ToString().ToLower()));
@@ -410,19 +408,18 @@ namespace Common
             }
         }
         #endregion
-
-        #region 2012-10-30 ����ͼƬ�ü�����
+        #region 2012-10-30 新增图片裁剪方法
         /// <summary>
-        /// �ü�ͼƬ������
+        /// 裁剪图片并保存
         /// </summary>
-        /// <param name="fileName">Դͼ·��������·����</param>
-        /// <param name="newFileName">����ͼ·��������·����</param>
-        /// <param name="maxWidth">����ͼ����</param>
-        /// <param name="maxHeight">����ͼ�߶�</param>
-        /// <param name="cropWidth">�ü�����</param>
-        /// <param name="cropHeight">�ü��߶�</param>
-        /// <param name="X">X��</param>
-        /// <param name="Y">Y��</param>
+        /// <param name="fileName">源图路径（绝对路径）</param>
+        /// <param name="newFileName">缩略图路径（绝对路径）</param>
+        /// <param name="maxWidth">缩略图宽度</param>
+        /// <param name="maxHeight">缩略图高度</param>
+        /// <param name="cropWidth">裁剪宽度</param>
+        /// <param name="cropHeight">裁剪高度</param>
+        /// <param name="X">X轴</param>
+        /// <param name="Y">Y轴</param>
         public static bool MakeThumbnailImage(string fileName, string newFileName, int maxWidth, int maxHeight, int cropWidth, int cropHeight, int X, int Y)
         {
             byte[] imageBytes = File.ReadAllBytes(fileName);
@@ -432,14 +429,14 @@ namespace Common
             {
                 using (Graphics g = Graphics.FromImage(b))
                 {
-                    //���ø�������ֵ��
+                    //设置高质量插值法
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    //���ø�����,���ٶȳ���ƽ���̶�
+                    //设置高质量,低速度呈现平滑程度
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    //��ջ�������͸������ɫ���
+                    //清空画布并以透明背景色填充
                     g.Clear(Color.Transparent);
-                    //��ָ��λ�ò��Ұ�ָ����С����ԭͼƬ��ָ������
+                    //在指定位置并且按指定大小绘制原图片的指定部分
                     g.DrawImage(originalImage, new Rectangle(0, 0, cropWidth, cropHeight), X, Y, cropWidth, cropHeight, GraphicsUnit.Pixel);
                     Image displayImage = new Bitmap(b, maxWidth, maxHeight);
                     SaveImage(displayImage, newFileName, GetCodecInfo("image/" + GetFormat(newFileName).ToString().ToLower()));
@@ -459,12 +456,12 @@ namespace Common
         #endregion
 
         /// <summary>
-        /// ����Զ������ͼ
+        /// 制作远程缩略图
         /// </summary>
-        /// <param name="url">ͼƬURL</param>
-        /// <param name="newFileName">��ͼ·��</param>
-        /// <param name="maxWidth">������</param>
-        /// <param name="maxHeight">���߶�</param>
+        /// <param name="url">图片URL</param>
+        /// <param name="newFileName">新图路径</param>
+        /// <param name="maxWidth">最大宽度</param>
+        /// <param name="maxHeight">最大高度</param>
         public static void MakeRemoteThumbnailImage(string url, string newFileName, int maxWidth, int maxHeight)
         {
             Stream stream = GetRemoteImage(url);
@@ -476,9 +473,9 @@ namespace Common
         }
 
         /// <summary>
-        /// ��ȡͼƬ��
+        /// 获取图片流
         /// </summary>
-        /// <param name="url">ͼƬURL</param>
+        /// <param name="url">图片URL</param>
         /// <returns></returns>
         private static Stream GetRemoteImage(string url)
         {
@@ -501,9 +498,9 @@ namespace Common
 
 
         /// <summary>
-        /// ͼƬתBase64
+        /// 图片转Base64
         /// </summary>
-        /// <param name="Imagefilename">ͼƬ·��</param>
+        /// <param name="Imagefilename">文件名</param>
         /// <returns></returns>
         public static string ImgToBase64String(string Imagefilename)
         {
@@ -530,11 +527,11 @@ namespace Common
         }
 
         /// <summary>
-        /// Base64תͼƬ
+        /// Base64转图片
         /// </summary>
         /// <param name="strbase64">strbase64</param>
-        /// <param name="path">����ͼƬ·��</param>
-        /// <param name="Name">ͼƬ����</param>
+        /// <param name="path">文件地址</param>
+        /// <param name="Name">文件名</param>
         /// <returns></returns>
         public static string Base64StringToImage(string strbase64, string path, string Name)
         {
@@ -564,8 +561,8 @@ namespace Common
             }
         }
         /// <summary>
-        /// ��ȡ��ǰĿ¼
-        /// ����վΪ��վ��Ŀ¼������ʱΪdll����Ŀ¼��
+        /// 获取路径
+        /// 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>

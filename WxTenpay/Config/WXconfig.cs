@@ -72,9 +72,4 @@ namespace WxTenpay
         /// </summary>
         public static string SSLCERT_PASSWORD = "";
     }
-
-
-
-
-
 }

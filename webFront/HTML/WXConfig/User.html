@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信基本配置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="../layui/css/layui.css" rel="stylesheet" />
+    <script src="../JS/jquery-3.3.1.min.js"></script>
+    <script src="../JS/vue.min.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+        <div class="head" style="height:20%;display:flex">
+            <div class="layui-form-item" style="float:left;">
+                <div style="display:flex">
+                    <input class="layui-input" type="text" placeholder="微信昵称" v-model="searchdata.name" :value="searchdata.name" />
+                    <select style="margin-left:5px" class="layui-select" v-model="searchdata.sex" :value="searchdata.sex">
+                        <option value="">--请选择性别--</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="margin-right:5px">
+                <div class="layui-input-block">
+                    <input class="layui-btn" type="button" value="查询" style="width:80px;" @click="search()" />
+                </div>
+            </div>
+        </div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th>微信昵称</th>
+                    <th>所在地址</th>
+                    <th>微信头像</th>
+                    <th>性别</th>
+                    <th>关注时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                    <td>{{item.nickname}}</td>
+                    <td>{{item.country}}-{{item.province}}-{{item.city}}</td>
+                    <td><img :src="item.headimgurl" style="height:50px;width:50px;"  /></td>
+                    <td>{{(item.sex==1?'男':item.sex==2?'女':'未知')}}</td>
+                    <td>{{$frame.getLocalTime(item.subscribe_time)}}</td>
+                </tr>
+                <tr v-if="pagingdata.length==0" align="center">
+                    <td colspan="5">暂无数据</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            datalis: [],
+            pagingdata: [],
+            searchdata: {name:'',sex:''},
+        },
+        created: function () {
+        },
+        computed: {
+
+
+        },
+        methods: {
+            search() {
+                let keys = [];
+                let values = [];
+                let fuzzy = [];
+                if ($frame.IsEmpty(vm.searchdata.name) && $frame.IsEmpty(vm.searchdata.sex)) {
+                    o.page(vm.datalis);
+
+                } else {
+                    if (!$frame.IsEmpty(vm.searchdata.name)) {
+                        keys.push("name");
+                        values.push(vm.searchdata.name);
+                        fuzzy.push(true);
+                    }
+                    if (!$frame.IsEmpty(vm.searchdata.sex)) {
+                        keys.push("sex");
+                        values.push(Number(vm.searchdata.sex));
+                    }
+                    o.page($frame.filter(vm.datalis, keys, values, fuzzy));
+                }
+
+            },
+           
+        }
+
+
+    });
+
+    var o = {
+        load() {
+            vm.btnimg('http://t.cn/RCzsdCq')
+            o.GetUser();
+        },
+        bind() {
+
+
+        },
+        GetUser() {
+            $frame.RequestGet('WXData/GetUser', '', (x) => {
+                if (x.Success) {
+                    vm.datalis = x.Data;
+                    o.page(vm.datalis);
+                } else {
+                    console.log(x.Data);
+                    $frame.alert(x.Data);
+                }
+
+            });
+
+        },
+        page(data, pageindex) {
+            pageindex = pageindex || 1;
+            let sta = (pageindex * 20 - 20);
+            let end = (pageindex * 20);
+            vm.pagingdata = data.slice(sta, end);
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage,
+                    layer = layui.layer;
+                laypage.render({
+                    elem: 'page',
+                    count: data.length,
+                    limit: 20,
+                    first: '首页',
+                    last: '尾页',
+                    layout: ['count', 'prev', 'page', 'next', 'skip'],
+                    curr: pageindex,
+                    theme: '#00A0E9',
+                    jump: function (obj, first) {
+                        if (!first) {
+                            //第一次不执行,一定要记住,这个必须有,要不然就是死循环
+                            let curr = obj.curr;
+                            //回调该展示数据的方法,数据展示
+                            o.laypaging(data, curr);
+                        }
+                    }
+                });
+            });
+        }
+
+    };
+
+    o.load();
+</script>

@@ -11,7 +11,7 @@ using System.Collections.Specialized;
 
 namespace Common
 {
-    public class Utils
+    public static class Utils
     {
 
         #region MD5加密
@@ -1171,7 +1171,7 @@ namespace Common
                 stream.Close();
                 stream.Dispose();
             }
-            catch (Exception )
+            catch (Exception)
             {
                 //ErrLog(e.Message + e.StackTrace);
                 return false;
@@ -1224,7 +1224,7 @@ namespace Common
                 FtpWebResponse response = (FtpWebResponse)req.GetResponse();
                 response.Close();
             }
-            catch (Exception )
+            catch (Exception)
             {
                 req.Abort();
                 return false;
@@ -1529,7 +1529,9 @@ namespace Common
             request.Accept = "*/*";
             request.Timeout = 15000;
             request.AllowAutoRedirect = false;
-
+            //request.Headers.Add("User-Agent","MoZilla/5.0");
+            request.UserAgent = "MoZilla/5.0";
+            //request.Connection = "keep-alive";
             WebResponse response = null;
             string responseStr = null;
 
@@ -1578,7 +1580,7 @@ namespace Common
 
                 return returnmsg;
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 throw;
@@ -1606,7 +1608,7 @@ namespace Common
                         strResult.Append((char)charCode);
                     }
                 }
-                catch (FormatException )
+                catch (FormatException)
                 {
                     return Regex.Unescape(str);
                 }
@@ -1641,7 +1643,285 @@ namespace Common
         }
         #endregion
 
+        #region 判断是否为空
+        /// <summary>
+        /// 是否为空
+        /// </summary>
+        /// <param name="value">值</param>
+        public static bool IsEmpty(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value);
+        }
 
+        /// <summary>
+        /// 是否为空
+        /// </summary>
+        /// <param name="value">值</param>
+        public static bool IsEmpty(this Guid? value)
+        {
+            if (value == null)
+                return true;
+            return IsEmpty(value.Value);
+        }
+
+        /// <summary>
+        /// 是否为空
+        /// </summary>
+        /// <param name="value">值</param>
+        public static bool IsEmpty(this Guid value)
+        {
+            if (value == Guid.Empty)
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 是否为空
+        /// </summary>
+        /// <param name="value">值</param>
+        public static bool IsEmpty(this object value)
+        {
+            if (value != null && !string.IsNullOrEmpty(value.ToString()))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        #endregion
+
+
+        #region 数值转换
+        /// <summary>
+        /// 转换为整型
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static int ToInt(this object data)
+        {
+            if (data == null)
+                return 0;
+            int result;
+            var success = int.TryParse(data.ToString(), out result);
+            if (success)
+                return result;
+            try
+            {
+                return Convert.ToInt32(ToDouble(data, 0));
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 转换为可空整型
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static int? ToIntOrNull(this object data)
+        {
+            if (data == null)
+                return null;
+            int result;
+            bool isValid = int.TryParse(data.ToString(), out result);
+            if (isValid)
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 转换为双精度浮点数
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static double ToDouble(this object data)
+        {
+            if (data == null)
+                return 0;
+            double result;
+            return double.TryParse(data.ToString(), out result) ? result : 0;
+        }
+
+        /// <summary>
+        /// 转换为双精度浮点数,并按指定的小数位4舍5入
+        /// </summary>
+        /// <param name="data">数据</param>
+        /// <param name="digits">小数位数</param>
+        public static double ToDouble(this object data, int digits)
+        {
+            return Math.Round(ToDouble(data), digits);
+        }
+
+        /// <summary>
+        /// 转换为可空双精度浮点数
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static double? ToDoubleOrNull(this object data)
+        {
+            if (data == null)
+                return null;
+            double result;
+            bool isValid = double.TryParse(data.ToString(), out result);
+            if (isValid)
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 转换为高精度浮点数
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static decimal ToDecimal(this object data)
+        {
+            if (data == null)
+                return 0;
+            decimal result;
+            return decimal.TryParse(data.ToString(), out result) ? result : 0;
+        }
+
+        /// <summary>
+        /// 转换为高精度浮点数,并按指定的小数位4舍5入
+        /// </summary>
+        /// <param name="data">数据</param>
+        /// <param name="digits">小数位数</param>
+        public static decimal ToDecimal(this object data, int digits)
+        {
+            return Math.Round(ToDecimal(data), digits);
+        }
+
+        /// <summary>
+        /// 转换为可空高精度浮点数
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static decimal? ToDecimalOrNull(this object data)
+        {
+            if (data == null)
+                return null;
+            decimal result;
+            bool isValid = decimal.TryParse(data.ToString(), out result);
+            if (isValid)
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 转换为可空高精度浮点数,并按指定的小数位4舍5入
+        /// </summary>
+        /// <param name="data">数据</param>
+        /// <param name="digits">小数位数</param>
+        public static decimal? ToDecimalOrNull(this object data, int digits)
+        {
+            var result = ToDecimalOrNull(data);
+            if (result == null)
+                return null;
+            return Math.Round(result.Value, digits);
+        }
+
+        #endregion
+
+        #region 日期转换
+        /// <summary>
+        /// 转换为日期
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static DateTime ToDate(this object data)
+        {
+            if (data == null)
+                return DateTime.MinValue;
+            DateTime result;
+            return DateTime.TryParse(data.ToString(), out result) ? result : DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// 转换为可空日期
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static DateTime? ToDateOrNull(this object data)
+        {
+            if (data == null)
+                return null;
+            DateTime result;
+            bool isValid = DateTime.TryParse(data.ToString(), out result);
+            if (isValid)
+                return result;
+            return null;
+        }
+
+        #endregion
+
+        #region 布尔转换
+        /// <summary>
+        /// 转换为布尔值
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static bool ToBool(this object data)
+        {
+            if (data == null)
+                return false;
+            bool? value = GetBool(data);
+            if (value != null)
+                return value.Value;
+            bool result;
+            return bool.TryParse(data.ToString(), out result) && result;
+        }
+
+        /// <summary>
+        /// 获取布尔值
+        /// </summary>
+        /// <param name="data">数据</param>
+        /// <returns></returns>
+        private static bool? GetBool(this object data)
+        {
+            switch (data.ToString().Trim().ToLower())
+            {
+                case "0":
+                    return false;
+                case "1":
+                    return true;
+                case "是":
+                    return true;
+                case "否":
+                    return false;
+                case "yes":
+                    return true;
+                case "no":
+                    return false;
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 转换为可空布尔值
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static bool? ToBoolOrNull(this object data)
+        {
+            if (data == null)
+                return null;
+            bool? value = GetBool(data);
+            if (value != null)
+                return value.Value;
+            bool result;
+            bool isValid = bool.TryParse(data.ToString(), out result);
+            if (isValid)
+                return result;
+            return null;
+        }
+
+        #endregion
+
+        #region 字符串转换
+        /// <summary>
+        /// 转换为字符串
+        /// </summary>
+        /// <param name="data">数据</param>
+        public static string ToString(this object data)
+        {
+            return data == null ? string.Empty : data.ToString().Trim();
+        }
+        #endregion
 
     }
 }

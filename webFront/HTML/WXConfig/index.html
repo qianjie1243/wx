@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信基本配置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="../layui/css/layui.css" rel="stylesheet" />
+    <script src="../JS/jquery-3.3.1.min.js"></script>
+    <script src="../JS/vue.min.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/admin.js"></script>
+   <style>
+       .layui-form-label {
+       width:150px;
+       
+       }
+   </style>
+</head>
+<body>
+    <div id="app"  style="margin:10px;">
+        <form class="layui-form">
+          
+            <div class="layui-form-item">
+                <label class="layui-form-label">微信AppId：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" style="width:300px;" placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.appid" :value="model.appid">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">微信Secret：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title"style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.secret" :value="model.secret">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">微信回调url：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.url" :value="model.url">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">商户号：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title"style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.mch_id" :value="model.mch_id">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">证书密匙：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.paysignkey" :value="model.paysignkey">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">证书路径：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title"  style="width:300px;" placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.SSLCERT_PATH" :value="model.SSLCERT_PATH">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">证书的密码：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title"style="width:300px;"   placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.SSLCERT_PASSWORD" :value="model.SSLCERT_PASSWORD">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn" v-on:click="btnsave">立即提交</button>
+                    <button type="button" class="layui-btn layui-btn-primary" v-on:click="btnreset()" >重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: {
+                appid: '',
+                secret: '',
+                url: '',
+                mch_id: '',
+                paysignkey: '',
+                SSLCERT_PATH: '',
+                SSLCERT_PASSWORD: '',
+            },
+
+        },
+        created: function () {
+            $frame.RequestGet('WXData/GainConfig', '', (x) => {
+                if (x.Success) {
+                    this.model = x.Data;
+                } else
+                    console.log(x.Data);
+
+            });
+
+        },
+        methods: {
+            btnsave(event) {
+                if ($frame.IsEmpty(vm.model.appid)) {
+                    $frame.alert("微信AppId不能为空！");
+                    return false
+                }
+                if ($frame.IsEmpty(vm.model.secret)) {
+                    $frame.alert("微信Secret不能为空！");
+                    return false
+                }
+
+                $(event.target).prop("disabled", true);
+                $frame.RequestPost('WXData/Config', { model: JSON.stringify(vm.model) }, (res) => {
+                    $(event.target).prop("disabled", false);
+                    if (res.Success) {
+                        $frame.alert_msg("操作成功！");
+                    } else
+                        console.log(res.Data);
+
+                });
+            },
+            btnreset() {
+                vm.model = {
+                    appid: '',
+                    secret: '',
+                    url: '',
+                    mch_id: '',
+                    paysignkey: '',
+                    SSLCERT_PATH: '',
+                    SSLCERT_PASSWORD: '',
+                };
+            }
+        },
+
+    })
+</script>

@@ -79,12 +79,12 @@ namespace WxTenpay.WXoperation
         /// <param name="openid"></param>
         /// <returns></returns>
         /// 
-        public static dynamic GetPerson( string openid)
+        public static gerenxinxi GetPerson( string openid,string access_token)
         {
-            var url = $"https://api.weixin.qq.com/cgi-bin/user/info?access_token={GetToken(WXconfig.appid, WXconfig.secret)}&openid={openid}&lang=zh_CN";
+            var url = $"https://api.weixin.qq.com/cgi-bin/user/info?access_token={access_token}&openid={openid}&lang=zh_CN";
             var json1 = HttpRequestutil.RequestUrlget(url);
             JavaScriptSerializer js = new JavaScriptSerializer();
-            var  geren = js.Deserialize<dynamic>(json1);
+            var  geren = js.Deserialize<gerenxinxi>(json1);
             return geren;
         }
         #endregion

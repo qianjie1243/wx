@@ -117,7 +117,7 @@ namespace WxTenpay
         {
             try
             {
-                return asscess_token.GetPerson(openid);
+                return asscess_token.GetPerson(openid,GetToken());
             }
             catch (Exception)
             {

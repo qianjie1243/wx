@@ -27,7 +27,7 @@ namespace WxTenpay
                 Configuration config = ConfigurationManager.OpenMappedExeConfiguration(ecf, ConfigurationUserLevel.None);
                 return config.AppSettings.Settings[key].Value;
             }
-            catch (Exception ) { //没有文件，读取异常不做处理
+            catch (Exception  ex) { //没有文件，读取异常不做处理
                 return null;
             }
         }
@@ -38,6 +38,7 @@ namespace WxTenpay
         /// <returns></returns>
         public static void ResetConfig()
         {
+
             string appid = GetIndexConfigValue("AppID");
             string Secret = GetIndexConfigValue("Secret");
             string MchId = GetIndexConfigValue("MchId");
@@ -46,23 +47,45 @@ namespace WxTenpay
 
             string SSLCERTPATH = GetIndexConfigValue("SSLCERTPATH");
             string SSLCERTPASSWORD = GetIndexConfigValue("SSLCERTPASSWORD");
-
             string AILACCESSKEYID = GetIndexConfigValue("AILACCESSKEYID");
             string AILACCESSKEYSECRET = GetIndexConfigValue("AILACCESSKEYSECRET");
 
-            string BAIDUMAPAK = GetIndexConfigValue("BAIDUMAPAK");
 
+            string BAIDUMAPAK = GetIndexConfigValue("BAIDUMAPAK");
             string AAppID = GetIndexConfigValue("AAppID");
             string AMchId = GetIndexConfigValue("AMchId");
             string ATenPayKey = GetIndexConfigValue("ATenPayKey");
             string AURL = GetIndexConfigValue("AURL");
-
-         
-
             string IAppID = GetIndexConfigValue("IAppID");
             string IMchId = GetIndexConfigValue("IMchId");
             string ITenPayKey = GetIndexConfigValue("ITenPayKey");
             string IURL = GetIndexConfigValue("IURL");
+
+
+            //string appid =  ConfigurationManager.AppSettings["AppID"];
+            //string Secret = ConfigurationManager.AppSettings["Secret"];
+            //string MchId = ConfigurationManager.AppSettings["MchId"];
+            //string TenPayKey = ConfigurationManager.AppSettings["TenPayKey"];
+            //string URL = ConfigurationManager.AppSettings["URL"];
+            //string SSLCERTPATH = ConfigurationManager.AppSettings["SSLCERTPATH"];
+            //string SSLCERTPASSWORD = ConfigurationManager.AppSettings["SSLCERTPASSWORD"];
+            //string AILACCESSKEYID = ConfigurationManager.AppSettings["AILACCESSKEYID"];
+            //string AILACCESSKEYSECRET = ConfigurationManager.AppSettings["AILACCESSKEYSECRET"];
+
+
+            //string BAIDUMAPAK = ConfigurationManager.AppSettings["BAIDUMAPAK"];
+            //string AAppID = ConfigurationManager.AppSettings["AAppID"];
+            //string AMchId = ConfigurationManager.AppSettings["AMchId"];
+            //string ATenPayKey = ConfigurationManager.AppSettings["ATenPayKey"];
+            //string AURL = ConfigurationManager.AppSettings["AURL"];
+
+
+            //string IAppID = ConfigurationManager.AppSettings["IAppID"];
+            //string IMchId = ConfigurationManager.AppSettings["IMchId"];
+            //string ITenPayKey = ConfigurationManager.AppSettings["ITenPayKey"];
+            //string IURL = ConfigurationManager.AppSettings["IURL"];
+
+       
         
 
             if (!string.IsNullOrWhiteSpace(appid))

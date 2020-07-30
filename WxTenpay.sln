@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AliYun", "AliYun\AliYun.csproj", "{0C664C11-3D35-45F6-882C-765A58C57999}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFront", "webFront\WebFront.csproj", "{99F514C7-9B89-49BF-840F-2DA40A29EC7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0C664C11-3D35-45F6-882C-765A58C57999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C664C11-3D35-45F6-882C-765A58C57999}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C664C11-3D35-45F6-882C-765A58C57999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F514C7-9B89-49BF-840F-2DA40A29EC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F514C7-9B89-49BF-840F-2DA40A29EC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F514C7-9B89-49BF-840F-2DA40A29EC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F514C7-9B89-49BF-840F-2DA40A29EC7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

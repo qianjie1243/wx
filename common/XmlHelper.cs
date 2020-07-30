@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Web;
 using System.Xml;
 
 namespace  Common
@@ -138,5 +139,28 @@ namespace  Common
         }
 
         #endregion 扩展方法
+
+
+        public static void Upxml(string path, string addkeyname, string strNew)
+        {
+            XmlDocument webconfigDoc = new XmlDocument();
+
+            string filePath = HttpContext.Current.Request.PhysicalApplicationPath + path;
+
+            //设置节的xml路径                          
+            string xPath = "/configuration/appSettings/add[@key='?']";
+
+            //加载web.config文件  
+            webconfigDoc.Load(filePath);
+
+            //找到要修改的节点  
+            XmlNode passkey = webconfigDoc.SelectSingleNode(xPath.Replace("?", addkeyname));
+
+            //设置节点的值  
+            passkey.Attributes["value"].InnerText = strNew;
+
+            //保存设置  
+            webconfigDoc.Save(filePath);
+        }
     }
 }
