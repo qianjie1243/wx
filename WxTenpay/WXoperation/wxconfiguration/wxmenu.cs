@@ -78,9 +78,9 @@ namespace WxTenpay.WXoperation.wxconfiguration
         /// 获取素材列表
         /// </summary>
         /// <param name="access_token"></param>
-        public string Get_list(string access_token)
+        public string Get_list(string access_token,string data)
         {
-            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}", access_token), "post");
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={0}", access_token), data, "post");
         }
         #endregion
 

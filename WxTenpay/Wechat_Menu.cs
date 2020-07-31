@@ -113,12 +113,17 @@ namespace WxTenpay
         #region 获取素材列表=================（新增接口）
         /// <summary>
         /// 获取素材列表
+        /// data {
+        /// "type":TYPE,
+        ///"offset":OFFSET,
+        /// "count":COUNT
+        /// }
         /// </summary>
-        public string Get_list()
+        public string Get_list(string data)
         {
             try
             {
-                return menu.Get_list(Wechat.GetToken());
+                return menu.Get_list(Wechat.GetToken(),data);
             }
             catch (Exception )
             {
@@ -200,13 +205,19 @@ namespace WxTenpay
 
         //Dictionary<string, object> diy = new Dictionary<string, object>();
         //diy.Add("button", list);
-        //var result = wx.Menu(diy, 1);   
-        public string Menu(object _menu, int type)
+        //var result = wx.Menu(diy, 1);  
+        //pamtype=1  对象需要序列化   其他 已序列化
+        public string Menu(object _menu, int type,int pamtype=1)
         {
             try
             {
-                var Json = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };//设定过滤null的
-                return menu.Add_Menu(JsonConvert.SerializeObject(_menu, Formatting.Indented, Json), Wechat.GetToken(), type);
+
+                if (pamtype == 1)
+                {
+                    var Json = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };//设定过滤null的
+                    return menu.Add_Menu(JsonConvert.SerializeObject(_menu, Formatting.Indented, Json), Wechat.GetToken(), type);
+                }else
+                    return menu.Add_Menu(_menu.ToString(), Wechat.GetToken(), type);
             }
             catch (Exception )
             {

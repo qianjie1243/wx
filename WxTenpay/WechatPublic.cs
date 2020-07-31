@@ -117,7 +117,7 @@ namespace WxTenpay
         {
             try
             {
-                return asscess_token.GetPerson(openid,GetToken());
+                return asscess_token.GetPerson(openid, GetToken());
             }
             catch (Exception)
             {
@@ -180,7 +180,7 @@ namespace WxTenpay
         {
             try
             {
-                if (Asscess == null)
+                if (string.IsNullOrWhiteSpace(Asscess))
                 {
                     string token = asscess_token.GetToken(WXconfig.appid, WXconfig.secret);
                     if (string.IsNullOrWhiteSpace(token))
@@ -210,6 +210,15 @@ namespace WxTenpay
             }
         }
 
+        /// <summary>
+        /// 清空Token
+        /// </summary>
+        public void EmptyToken()
+        {
+            Asscess = null;
+            jsapi_ticket = null;
+        }
+
         #endregion 
 
         #region 获取Asscess,jsapi_ticket
@@ -220,7 +229,7 @@ namespace WxTenpay
         [Description("jsapi_ticket")]
         public string GetJsapi_ticket()
         {
-            if (jsapi_ticket == null)
+            if (string.IsNullOrWhiteSpace(jsapi_ticket))
             {
                 jsapi_ticket = asscess_token.getjsapi_ticket(GetToken());
                 Jsp_Api_Time = DateTime.Now;
