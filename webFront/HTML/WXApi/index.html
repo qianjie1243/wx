@@ -14,6 +14,12 @@
 </head>
 <body>
     <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item" style="margin-right:5px">
+            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
+                <i class="layui-icon layui-icon-refresh"></i>刷新
+            </button>
+        </div>
         <table class="layui-table">
             <thead>
                 <tr>
@@ -34,7 +40,7 @@
             </tbody>
         </table>
         <div id="page"></div>
-      
+
     </div>
 
 </body>
@@ -68,7 +74,10 @@
                 }
                 $frame.layerForm(obj);
 
-            }
+            },
+            refresh() {
+                window.location.reload();
+            },
         }
 
 

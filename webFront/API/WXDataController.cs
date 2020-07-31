@@ -18,6 +18,13 @@ namespace webFront.API
     /// </summary>
     public class WXDataController : BaseController
     {
+        #region 业务
+        private WeChatPayment wpm = new WeChatPayment();
+        private Wechat_Menu wm = new Wechat_Menu();
+        private WechatPublic wp = new WechatPublic();
+        #endregion  
+
+
         #region wx配置
         /// <summary>
         /// 修改配置文件
@@ -34,10 +41,12 @@ namespace webFront.API
 
                 if (WXconfig.appid != _entity["appid"].ToString())
                 {
+                    wp.EmptyToken();//清空token
                     XmlHelper.Upxml("WxTenpay.config", "AppID", _entity["appid"].ToString());
                 }
                 if (WXconfig.secret != _entity["secret"].ToString())
                 {
+                    wp.EmptyToken();//清空token
                     XmlHelper.Upxml("WxTenpay.config", "Secret", _entity["secret"].ToString());
                 }
                 if (WXconfig.mch_id != _entity["mch_id"].ToString())
@@ -70,7 +79,7 @@ namespace webFront.API
             }
             catch (Exception ex)
             {
-                return Error(ex.ToString());
+                return Error(ex.Message);
             }
 
         }
@@ -101,13 +110,13 @@ namespace webFront.API
             }
             catch (Exception ex)
             {
-                return Error(ex.ToString());
+                return Error(ex.Message);
             }
 
         }
         #endregion
 
-        #region 
+        #region  关注用户
         /// <summary>
         /// 获取关注用户
         /// </summary>
@@ -118,11 +127,12 @@ namespace webFront.API
             try
             {
                 GetConfig.ResetConfig();
-                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty()) {
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
                     return Error("请先完善微信配置文件！");
                 }
                 List<WxTenpay.WXoperation.gerenxinxi> use = new List<WxTenpay.WXoperation.gerenxinxi>();
-                if (use.Count==0)
+                if (use.Count == 0)
                 {
                     use = getWxUserLis(new List<WxTenpay.WXoperation.gerenxinxi>());
                 }
@@ -131,7 +141,7 @@ namespace webFront.API
             }
             catch (Exception ex)
             {
-                return Error(ex.ToString());
+                return Error(ex.Message);
             }
 
         }
@@ -143,11 +153,10 @@ namespace webFront.API
         private List<WxTenpay.WXoperation.gerenxinxi> getWxUserLis(List<WxTenpay.WXoperation.gerenxinxi> Glist, string next_openid = "")
         {
 
-            WechatPublic wp = new WechatPublic();
             try
             {
 
-                var lis = new Wechat_Menu().Getuserlis(next_openid);
+                var lis = wm.Getuserlis(next_openid);
                 JObject li = (JObject)JsonConvert.DeserializeObject(lis);
                 if (!li["errcode"].IsEmpty())
                 {
@@ -183,8 +192,92 @@ namespace webFront.API
             }
 
         }
-        #endregion 
+        #endregion
+
+        #region  微信菜单
+        /// <summary>
+        /// 获取微信菜单
+        /// </summary>   
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetWMenu()
+        {
+            try
+            {
+                var munlis = wm.Menu("", 3);
+                return Success(munlis);
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
 
 
+        }
+
+        /// <summary>
+        /// 保存微信菜单
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public object AddWMenu(string menu)
+        {
+            try
+            {
+                var munlis = wm.Menu(menu, 1, 2);
+                return Success(munlis);
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+        #endregion
+
+
+        #region 获取token
+
+        /// <summary>
+        ///    获取token
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetToken()
+        {
+            try
+            {
+                return Success(wp.GetToken());
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+
+
+        /// <summary>
+        ///获取素材列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetSCList(string data)
+        {
+            try
+            {
+                return Success(wm.Get_list(data));
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+
+        #endregion
     }
 }

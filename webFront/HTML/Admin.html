@@ -65,14 +65,14 @@
                         <a href="javascript:;">微信管理</a>
                         <dl class="layui-nav-child">
                             <dd><a onclick="openiframe('WXConfig','WXConfig/index.html','基本配置')">基本配置</a></dd>
-                            <dd><a onclick="openiframe('_WXConfig','WXConfig/index.html','微信菜单配置')">微信菜单配置</a></dd>
-                            <dd><a onclick="openiframe('WX_User','WXConfig/User.html','微信关注用户')">微信关注用户</a></dd>
-                            <dd><a onclick="openiframe('WX_Config','WXConfig/index.html','微信基本操作类')">微信基本操作类</a></dd>
+                            <dd><a onclick="openiframe('WMenu','WXConfig/Menu.html','微信菜单配置')">微信菜单配置</a></dd>
+                            <dd><a onclick="openiframe('WUser','WXConfig/User.html','微信关注用户')">微信关注用户</a></dd>
+                            <dd><a onclick="openiframe('WApiLis','WXConfig/WXApiLis.html','微信基本操作类')">微信基本操作类</a></dd>
                         </dl>
                     </li>
 
                     <li class="layui-nav-item">
-                        <a onclick="openiframe('WXlog','WXApi/index.html','日志管理')">日志管理</a>
+                        <a onclick="openiframe('Log','WXApi/index.html','日志管理')">日志管理</a>
                     </li>
 
                 </ul>
@@ -99,7 +99,7 @@
         el: ".layui-layout-admin",
         data: {
             iframes: [{
-                Name: "WXlog",
+                Name: "Log",
                 Url: "WXApi/index.html",
                 navName: "日志管理",
                 check: true,

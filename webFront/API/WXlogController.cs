@@ -54,7 +54,7 @@ namespace webFront.API
             }
             catch (Exception ex)
             {
-                return Error(ex.ToString());
+                return Error(ex.Message);
             }
 
         }
@@ -80,7 +80,7 @@ namespace webFront.API
             }
             catch (Exception ex)
             {
-                return Error(ex.ToString());
+                return Error(ex.Message);
             }
 
         }
