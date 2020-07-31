@@ -205,6 +205,11 @@ namespace webFront.API
         {
             try
             {
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
                 var munlis = wm.Menu("", 3);
                 return Success(munlis);
             }
