@@ -210,8 +210,29 @@ namespace WxTenpay
             }
         }
 
+
         /// <summary>
-        /// 清空Token
+        /// 获取access_token获取时间
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetTokenTime() {
+            try
+            {
+                return Asscess_Time;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+
+
+
+        /// <summary>
+        /// 清空Token、jsapi_ticket
         /// </summary>
         public void EmptyToken()
         {
@@ -245,6 +266,25 @@ namespace WxTenpay
 
             }
             return jsapi_ticket;
+        }
+
+
+        /// <summary>
+        /// 获取jsapi_ticket获取时间
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetJsapiTicketTime()
+        {
+            try
+            {
+                return Jsp_Api_Time;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
         #endregion
 

@@ -10,6 +10,7 @@
     <script src="../JS/jquery-3.3.1.min.js"></script>
     <script src="../JS/vue.min.js"></script>
     <script src="../layui/layui.all.js"></script>
+    <!--<script src="../JS/colResizable.js"></script>-->
     <style>
         .layui-form-label {
             width: 150px;
@@ -35,16 +36,20 @@
                     <button class="layui-btn" type="button" style="width:80px;" @click="search">
                         <i class="layui-icon layui-icon-search"></i>查询
                     </button>
-                    <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
-                        <i class="layui-icon layui-icon-refresh"></i>刷新
+                    <button class="layui-btn layui-btn-normal" type="button" style="width:120px;" @click="getdata">
+                        <i class="layui-icon layui-icon-refresh"></i>拉取数据
                     </button>
+                    <!--<button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="getdata">
+                        <i class="layui-icon layui-icon-refresh"></i>刷新
+                    </button>-->
                 </div>
             </div>
-            <label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未加载数据库保存操作！</label>
+            <label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>
         </div>
         <table class="layui-table">
             <thead>
                 <tr>
+                    <th>openid</th>
                     <th>微信昵称</th>
                     <th>所在地址</th>
                     <th>微信头像</th>
@@ -54,6 +59,7 @@
             </thead>
             <tbody>
                 <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                    <td>{{item.openid}}</td>
                     <td>{{item.nickname}}</td>
                     <td>{{item.country}}-{{item.province}}-{{item.city}}</td>
                     <td><img :src="item.headimgurl" style="height:50px;width:50px;" /></td>
@@ -61,7 +67,7 @@
                     <td>{{$frame.getLocalTime(item.subscribe_time)}}</td>
                 </tr>
                 <tr v-if="pagingdata.length==0" align="center">
-                    <td colspan="5">暂无数据</td>
+                    <td colspan="6">暂无数据</td>
                 </tr>
             </tbody>
         </table>
@@ -113,6 +119,9 @@
             refresh() {
                 window.location.reload();
             },
+            getdata() {
+                o.load();
+            },
 
         }
 
@@ -124,8 +133,11 @@
             o.GetUser();
         },
         bind() {
-
-
+            //$('table').colResizable({
+            //    liveDrag: true, //实时显示滑动位置
+            //    gripInnerHtml: "<div class='grip'></div>",
+            //    postbackSafe: true, //刷新后保留之前的拖拽宽度
+            //});
         },
         GetUser() {
             $frame.RequestGet('WXData/GetUser', '', (x) => {
@@ -170,6 +182,6 @@
         }
 
     };
-
-    o.load();
+    o.bind();
+  
 </script>

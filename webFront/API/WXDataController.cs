@@ -232,6 +232,11 @@ namespace webFront.API
         {
             try
             {
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
                 var munlis = wm.Menu(menu, 1, 2);
                 return Success(munlis);
             }
@@ -244,7 +249,7 @@ namespace webFront.API
         #endregion
 
 
-        #region 获取token
+        #region 获取token/jsapi_ticket
 
         /// <summary>
         ///    获取token
@@ -255,7 +260,19 @@ namespace webFront.API
         {
             try
             {
-                return Success(wp.GetToken());
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
+                var data = new
+                {
+                    Token = wp.GetToken(),
+                    JsapiTicket = wp.GetJsapi_ticket(),
+                    JTime = wp.GetJsapiTicketTime().ToString("yyyy-MM-dd HH:mm:ss"),
+                    Time = wp.GetTokenTime().ToString("yyyy-MM-dd HH:mm:ss")
+                };
+                return Success(data);
             }
             catch (Exception ex)
             {
@@ -266,6 +283,39 @@ namespace webFront.API
 
 
         /// <summary>
+        ///    获取GetJsapi_ticket
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetJsapi_ticket()
+        {
+            try
+            {
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
+                var data = new
+                {
+                    JsapiTicket = wp.GetJsapi_ticket(),
+                    Time = wp.GetJsapiTicketTime().ToString("yyyy-MM-dd HH:mm:ss")
+                };
+                return Success(data);
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+
+
+
+        #endregion
+
+        #region 获取素材
+        /// <summary>
         ///获取素材列表
         /// </summary>
         /// <returns></returns>
@@ -274,6 +324,11 @@ namespace webFront.API
         {
             try
             {
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
                 return Success(wm.Get_list(data));
             }
             catch (Exception ex)
@@ -283,6 +338,28 @@ namespace webFront.API
 
         }
 
-        #endregion
+        /// <summary>
+        ///获取素材总数
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetSCCount()
+        {
+            try
+            {
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
+                return Success(wm.Get_count());
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+        #endregion 
     }
 }

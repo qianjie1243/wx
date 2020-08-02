@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信基本接口</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="../layui/css/layui.css" rel="stylesheet" />
+    <script src="../JS/jquery-3.3.1.min.js"></script>
+    <script src="../JS/vue.min.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script src="../JS/echarts.min.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">Token：</label>
+            <div class="layui-input-block" style="display:flex">
+                <!--<button class="layui-btn" type="button" style="width:80px;margin-right:10px" @click="gettoken">
+                <i class="layui-icon layui-icon-search"></i>查询
+            </button>-->
+                <textarea name="desc" placeholder="token" class="layui-textarea" v-model="model.Token" :value="model.Token"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">JsapiTicket：</label>
+            <div class="layui-input-block" style="display:flex">
+                <!--<button class="layui-btn" type="button" style="width:80px;margin-right:10px" @click="gettoken">
+                <i class="layui-icon layui-icon-search"></i>查询
+            </button>-->
+                <textarea name="desc" placeholder="token" class="layui-textarea" v-model="model.JsapiTicket" :value="model.JsapiTicket"></textarea>
+            </div>
+        </div>
+        <div style="display:flex">
+            <div id="container" style="height: 500px ;width:680px;"></div>
+            <div id="Jcontainer" style="height: 500px ;width:680px;margin-left:5px;"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    option = {
+        backgroundColor: '#1b1b1b',
+        tooltip: {
+            formatter: '{a} <br/>{c} {b}'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                //mark: { show: true },
+                //restore: { show: true },
+                //saveAsImage: { show: true }
+            }
+        },
+        series: [
+            {
+                name: 'Token有效时间',
+                type: 'gauge',
+                min: 0,
+                max: 7200,
+                splitNumber: 8,
+                radius: '50%',
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: [[0.09, '#ff4500 '], [0.82, '#1e90ff '], [1, 'lime']],
+                        width: 3,
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                axisLabel: {            // 坐标轴小标记
+                    fontWeight: 'bolder',
+                    color: '#fff',
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 10
+                },
+                axisTick: {            // 坐标轴小标记
+                    length: 15,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto',
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length: 25,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        width: 3,
+                        color: '#fff',
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                pointer: {           // 分隔线
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 5
+                },
+                title: {
+                    textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        fontWeight: 'bolder',
+                        fontSize: 14,
+                        fontStyle: 'italic',
+                        color: '#fff',
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                detail: {
+                    backgroundColor: 'rgba(30,144,255,0.8)',
+                    borderWidth: 1,
+                    borderColor: '#fff',
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 5,
+                    offsetCenter: [0, '50%'],       // x, y，单位px
+                    textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        fontWeight: 'bolder',
+                        color: '#fff',
+                        fontSize: 14,
+                    },
+                    formatter: '{value}/秒',
+                },
+
+                data: [{ value: 7200, name: '有效时间' }]
+            },
+
+        ]
+    };
+    option1 = {
+        backgroundColor: '#1b1b1b',
+        tooltip: {
+            formatter: '{a} <br/>{c} {b}'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                //restore: { show: true },
+                //saveAsImage: { show: true }
+            }
+            , textStyle: {                // 提示框浮层的文本样式。...
+                color: '#fff'
+                // color ,fontStyle ,fontWeight ,fontFamily ,fontSize ,lineHeight ,.......
+            },
+        },
+        series: [
+            {
+                name: 'JsapiTicket有效时间',
+                type: 'gauge',
+                min: 0,
+                max: 7200,
+                splitNumber: 8,
+                radius: '50%',
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: [[0.09, '#ff4500 '], [0.82, '#1e90ff '], [1, 'lime']],
+                        width: 3,
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                axisLabel: {            // 坐标轴小标记
+                    fontWeight: 'bolder',
+                    color: '#fff',
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 10
+                },
+                axisTick: {            // 坐标轴小标记
+                    length: 15,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto',
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length: 25,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        width: 3,
+                        color: '#fff',
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                pointer: {           // 分隔线
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 5
+                },
+                title: {
+                    textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        fontWeight: 'bolder',
+                        fontSize: 14,
+                        fontStyle: 'italic',
+                        color: '#fff',
+                        shadowColor: '#fff', //默认透明
+                        shadowBlur: 10
+                    }
+                },
+                detail: {
+                    backgroundColor: 'rgba(30,144,255,0.8)',
+                    borderWidth: 1,
+                    borderColor: '#fff',
+                    shadowColor: '#fff', //默认透明
+                    shadowBlur: 5,
+                    offsetCenter: [0, '50%'],       // x, y，单位px
+                    textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                        fontWeight: 'bolder',
+                        color: '#fff',
+                        fontSize: 14,
+                    },
+                    formatter: '{value}/秒',
+                },
+
+                data: [{ value: 7200, name: '有效时间' }]
+            },
+
+        ]
+    };
+
+    var o = {
+        load() {
+
+
+        },
+        bind() {
+
+        },
+        gettoken() {
+            $frame.RequestGet('WXData/GetToken', '', (x) => {
+                if (x.Success) {
+                    vm.model = x.Data;
+                    option.series[0].data[0].value = (7200 - ((new Date().getTime() - new Date(vm.model.Time).getTime()) / 1000)).toFixed(0);
+                    option1.series[0].data[0].value = (7200 - ((new Date().getTime() - new Date(vm.model.JTime).getTime()) / 1000)).toFixed(0);
+                }
+                else
+                    $frame.alert(x.Data);
+            });
+        },
+    }
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: { Token: '', Time: '',JsapiTicket:'',JTime:'' },          
+        },
+        created: function () {
+            o.gettoken();
+        },
+        computed: {
+           
+
+        },
+        methods: {         
+        }
+    });
+
+
+
+
+
+    var dom = document.getElementById("container");
+    var dom1 = document.getElementById("Jcontainer");
+    var myChart = echarts.init(dom);
+    var myChart1 = echarts.init(dom1);
+    var app = {};
+
+ 
+
+    setInterval(function () {
+        if (option.series[0].data[0].value < 5) {
+            o.gettoken();
+        }
+        if (option1.series[0].data[0].value < 5) {
+            o.gettoken();
+        }
+        option.series[0].data[0].value = (option.series[0].data[0].value - 1);
+        option1.series[0].data[0].value = (option1.series[0].data[0].value - 1);
+        myChart.setOption(option);
+        myChart1.setOption(option1);
+
+    }, 1000);
+
+</script>

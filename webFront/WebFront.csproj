@@ -153,6 +153,8 @@
     <Content Include="HTML\Admin.html" />
     <Content Include="HTML\JS\admin.js" />
     <Content Include="HTML\JS\echarts.js" />
+    <Content Include="HTML\JS\echarts.min.js" />
+    <Content Include="HTML\JS\colResizable.js" />
     <Content Include="HTML\JS\jquery-3.3.1.min.js" />
     <Content Include="HTML\JS\jquery.qrcode.min.js" />
     <Content Include="HTML\JS\linq.min.js" />
@@ -266,7 +268,11 @@
     <Content Include="HTML\WXApi\Form.html" />
     <Content Include="HTML\WXApi\index.html" />
     <Content Include="HTML\WXConfig\index.html" />
+    <Content Include="HTML\WXConfig\Material.html" />
+    <Content Include="HTML\WXConfig\Menu.html" />
+    <Content Include="HTML\WXConfig\Token.html" />
     <Content Include="HTML\WXConfig\User.html" />
+    <Content Include="HTML\WXConfig\WXApiLis.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="HTML\layui\font\iconfont.eot" />
