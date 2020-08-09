@@ -11,4 +11,6 @@
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0731/145140_a486a0b3_1689037.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0802/171137_a8a7915e_1689037.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0809/142817_a241e124_1689037.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0809/142853_832aa2a7_1689037.png "屏幕截图.png")
 后期待完善功能
