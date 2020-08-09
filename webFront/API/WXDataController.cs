@@ -360,6 +360,35 @@ namespace webFront.API
             }
 
         }
+
+        /// <summary>
+        ///获取移素材
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object DeleteSC(string mid)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(mid)) {
+                    return Error("参数异常！");
+                }
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
+                return Success(wm.Del_graphic(mid));
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+
+
+
         #endregion 
     }
 }

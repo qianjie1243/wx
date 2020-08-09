@@ -152,8 +152,6 @@ namespace WxTenpay
         }
         #endregion
 
-        #endregion
-
         #region 获取永久素材=====================（新增接口）
         /// <summary>
         /// 获取永久素材
@@ -165,13 +163,40 @@ namespace WxTenpay
             {
                 return menu.Get_graphic(media_id, Wechat.GetToken());
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw;
             }
 
         }
         #endregion
+
+        #region 移除永久素材=====================（新增接口）
+        /// <summary>
+        /// 获取永久素材
+        /// </summary>
+        /// <param name="media_id">要获取的素材的media_id</param>
+        public string Del_graphic(string media_id)
+        {
+            try
+            {
+                var data = new
+                {
+                    media_id
+                };
+                return menu.Del_graphic(JsonConvert.SerializeObject(data), Wechat.GetToken());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        #endregion
+
+        #endregion
+
+
 
         #region 自定义菜单========================（新增接口）
         /// <summary>

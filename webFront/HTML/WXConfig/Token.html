@@ -19,12 +19,22 @@
 </head>
 <body>
     <div id="app" style="margin:10px;">
+        <div class="head" style="height:20%;display:flex">
+
+            <div class="layui-form-item" style="margin-right:5px">
+                <button class="layui-btn layui-btn-normal" type="button" style="width:120px;" @click="getdata">
+                    <i class="layui-icon layui-icon-refresh"></i>拉取数据
+                </button>
+            </div>
+
+          
+        </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">Token：</label>
             <div class="layui-input-block" style="display:flex">
                 <!--<button class="layui-btn" type="button" style="width:80px;margin-right:10px" @click="gettoken">
-                <i class="layui-icon layui-icon-search"></i>查询
-            </button>-->
+                    <i class="layui-icon layui-icon-search"></i>查询
+                </button>-->
                 <textarea name="desc" placeholder="token" class="layui-textarea" v-model="model.Token" :value="model.Token"></textarea>
             </div>
         </div>
@@ -32,22 +42,70 @@
             <label class="layui-form-label">JsapiTicket：</label>
             <div class="layui-input-block" style="display:flex">
                 <!--<button class="layui-btn" type="button" style="width:80px;margin-right:10px" @click="gettoken">
-                <i class="layui-icon layui-icon-search"></i>查询
-            </button>-->
-                <textarea name="desc" placeholder="token" class="layui-textarea" v-model="model.JsapiTicket" :value="model.JsapiTicket"></textarea>
+                    <i class="layui-icon layui-icon-search"></i>查询
+                </button>-->
+                <textarea name="desc" placeholder="JsapiTicket" class="layui-textarea" v-model="model.JsapiTicket" :value="model.JsapiTicket"></textarea>
             </div>
         </div>
         <div style="display:flex">
             <div id="container" style="height: 500px ;width:680px;"></div>
             <div id="Jcontainer" style="height: 500px ;width:680px;margin-left:5px;"></div>
         </div>
-
     </div>
 
 </body>
 </html>
 <script>
     let $frame = top.$frame;
+    var o = {
+        load() {
+
+
+        },
+        bind() {
+
+        },
+        gettoken() {
+            $frame.RequestGet('WXData/GetToken', '', (x) => {
+                if (x.Success) {
+                    vm.model = x.Data;
+                    option.series[0].data[0].value = (7200 - ((new Date().getTime() - new Date(vm.model.Time).getTime()) / 1000)).toFixed(0);
+                    option1.series[0].data[0].value = (7200 - ((new Date().getTime() - new Date(vm.model.JTime).getTime()) / 1000)).toFixed(0);
+                  
+                }
+                else
+                    $frame.alert(x.Data);
+            });
+        },
+    }
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: { Token: '', Time: '', JsapiTicket: '', JTime: '' },
+        },
+        created: function () {
+
+        },
+        computed: {
+
+
+        },
+        methods: {
+            getdata() {
+                o.gettoken();
+            }
+        }
+    });
+
+
+    var dom = document.getElementById("container");
+    var dom1 = document.getElementById("Jcontainer");
+    var myChart = echarts.init(dom);
+    var myChart1 = echarts.init(dom1);
+    var app = {};
+
     option = {
         backgroundColor: '#1b1b1b',
         tooltip: {
@@ -225,68 +283,19 @@
         ]
     };
 
-    var o = {
-        load() {
-
-
-        },
-        bind() {
-
-        },
-        gettoken() {
-            $frame.RequestGet('WXData/GetToken', '', (x) => {
-                if (x.Success) {
-                    vm.model = x.Data;
-                    option.series[0].data[0].value = (7200 - ((new Date().getTime() - new Date(vm.model.Time).getTime()) / 1000)).toFixed(0);
-                    option1.series[0].data[0].value = (7200 - ((new Date().getTime() - new Date(vm.model.JTime).getTime()) / 1000)).toFixed(0);
-                }
-                else
-                    $frame.alert(x.Data);
-            });
-        },
-    }
-
-
-    var vm = new Vue({
-        el: '#app',
-        data: {
-            model: { Token: '', Time: '',JsapiTicket:'',JTime:'' },          
-        },
-        created: function () {
-            o.gettoken();
-        },
-        computed: {
-           
-
-        },
-        methods: {         
-        }
-    });
-
-
-
-
-
-    var dom = document.getElementById("container");
-    var dom1 = document.getElementById("Jcontainer");
-    var myChart = echarts.init(dom);
-    var myChart1 = echarts.init(dom1);
-    var app = {};
-
- 
-
     setInterval(function () {
-        if (option.series[0].data[0].value < 5) {
-            o.gettoken();
+        if (!!vm.model.Token) {
+            if (option.series[0].data[0].value < 5) {
+                o.gettoken();
+            }
+            if (option1.series[0].data[0].value < 5) {
+                o.gettoken();
+            }
+            option.series[0].data[0].value = (option.series[0].data[0].value - 1);
+            option1.series[0].data[0].value = (option1.series[0].data[0].value - 1);
+            myChart.setOption(option);
+            myChart1.setOption(option1);
         }
-        if (option1.series[0].data[0].value < 5) {
-            o.gettoken();
-        }
-        option.series[0].data[0].value = (option.series[0].data[0].value - 1);
-        option1.series[0].data[0].value = (option1.series[0].data[0].value - 1);
-        myChart.setOption(option);
-        myChart1.setOption(option1);
-
     }, 1000);
 
 </script>

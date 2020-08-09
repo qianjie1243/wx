@@ -73,8 +73,9 @@
                                 <dl class="layui-nav-child">
                                     <dd><a onclick="openiframe('WToken','WXConfig/Token.html','Token/JsapiTicket')">获取Token/JsapiTicket</a></dd>
                                     <dd><a onclick="openiframe('WMaterial','WXConfig/Material.html','素材总数')">获取素材总数</a></dd>
-                                    <dd><a >获取永久素材</a></dd>
-                                    <dd><a >上传素材</a></dd>
+                                    <dd><a onclick="openiframe('WMaterialList','WXConfig/MaterialList.html','获取永久素材')">获取永久素材</a></dd>
+                                    <dd><a>上传素材</a></dd>
+                                    <dd><a>微信推送</a></dd>
                                 </dl>
                             </dd>
 
@@ -158,7 +159,7 @@
             index.check = true;
             vm.iframes[_i] = index;
         } else {
-            if (vm.iframes.length >= 6) {
+            if (vm.iframes.length >= 7) {
                 $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
                 return false;
             }

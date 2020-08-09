@@ -95,19 +95,32 @@ namespace WxTenpay.WXoperation.wxconfiguration
         }
         #endregion
 
-        #endregion
-
         #region 获取永久素材=====================（新增接口）
         /// <summary>
         /// 获取永久素材
         /// </summary>
         /// <param name="access_token"></param>
         /// <param name="media_id">要获取的素材的media_id</param>
-        public string Get_graphic(string media_id,string access_token)
+        public string Get_graphic(string media_id, string access_token)
         {
-          return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/material/get_material?access_token={0}&media_id={1}", access_token, media_id), "post");
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/material/get_material?access_token={0}&media_id={1}", access_token, media_id), "post");
         }
         #endregion
+
+        #region 获取永久素材=====================（新增接口）
+        /// <summary>
+        ///移除素材
+        /// </summary>
+        /// <param name="access_token"></param>
+        /// <param name="media_id">素材的media_id</param>
+        public string Del_graphic(string media_id, string access_token)
+        {           
+            return HttpRequestutil.RequestUrl(string.Format("https://api.weixin.qq.com/cgi-bin/material/del_material?access_token={0}", access_token), media_id, "POST");
+        }
+        #endregion
+        #endregion
+
+
 
         #region 自定义菜单========================（新增接口）
         /// <summary>
