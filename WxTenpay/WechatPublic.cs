@@ -323,7 +323,7 @@ namespace WxTenpay
         /// <returns></returns>
         /// 
         [Description("发送微信模板消息")]
-        public string WeiXinTemplate(string openid, string template_id, List<Template> test, string url)
+        public dynamic WeiXinTemplate(string openid, string template_id, List<Template> test, string url)
         {
             try
             {

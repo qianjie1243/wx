@@ -6,11 +6,11 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href="../layui/css/layui.css" rel="stylesheet" />
-    <script src="../JS/jquery-3.3.1.min.js"></script>
-    <script src="../layui/layui.all.js"></script>
-    <script src="../JS/vue.min.js"></script>
-    <script src="../JS/admin.js"></script>
+    <link href="/HTML/layui/css/layui.css" rel="stylesheet" />
+    <script src="/HTML/JS/jquery-3.3.1.min.js"></script>
+    <script src="/HTML/JS/vue.min.js"></script>
+    <script src="/HTML/layui/layui.all.js"></script>
+
 </head>
 <body>
     <div id="app" style="margin:20px;">
@@ -85,7 +85,7 @@
 </html>
 <script>
     let data = top.vm.iframedata;
-
+    let $frame = top.$frame;
     var vm = new Vue({
         el: '#app',
         data: {

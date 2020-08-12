@@ -389,6 +389,33 @@ namespace webFront.API
 
 
 
+        #endregion
+
+        #region  发送微信推送消息
+        /// <summary>
+        ///发送微信推送消息
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public object SaveSms(List<Template> temp,string openid,string content,string temid, int type,string openurl)
+        {
+            try
+            {
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
+                if (type == 0) return Success(wp.WeiXinKeFu(openid.Trim(), content));
+                
+                else   return Success(wp.WeiXinTemplate(openid.Trim(), temid.Trim(), temp, openurl));
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
         #endregion 
     }
 }

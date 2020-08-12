@@ -399,14 +399,16 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// <param name="token">微信的token</param>
         /// <param name="url">点击的url</param>
         /// <returns></returns>
-        public string Template(string openid, string template_id, string shuju_data, string token, string url)
+        public erroy Template(string openid, string template_id, string shuju_data, string token, string url)
         {
             try
             {
                 string menu = "{\"touser\":\"openid\",\"template_id\":\"tem_id_name\",\"url\":\"to_url\",\"data\":shuju_data}";
                 menu = menu.Replace("openid", openid).Replace("tem_id_name", template_id).Replace("shuju_data", shuju_data).Replace("to_url", url);
-                return HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + token, menu, "post");
-
+                var json1 = HttpRequestutil.RequestUrl("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + token, menu, "post");
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                Log.WriteLogFile(json1, "微信模板消息");
+                return js.Deserialize<erroy>(json1);
             }
             catch (Exception ex)
             {
