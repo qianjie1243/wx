@@ -17,7 +17,6 @@ namespace WxTenpay.WXoperation.wxconfigurateion
     /// </summary>
     public class messagehelp
     {
-
         #region 接受来自微信端的信息
         /// <summary>
         /// 接受来自微信端的信息，根据信息内容返回信息
@@ -104,35 +103,34 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         {
 
 
-            // string responsecontent = "";
+            string responsecontent = "";
             XmlNode ToUserName = xmldoc.SelectSingleNode("/xml/ToUserName");
             XmlNode FromUserName = xmldoc.SelectSingleNode("/xml/FromUserName");
             XmlNode Content = xmldoc.SelectSingleNode("/xml/Content");
-            //if (Content != null)
-            //{
-            //    if (Content.InnerText == "qq")
-            //    {
-            //        responsecontent = string.Format(
-            //   ReplyType.Message_Text,
-            //    FromUserName.InnerText,
-            //   ToUserName.InnerText,
-            //   DateTime.Now.Ticks,
-            //    "你好！："
-            //   );
-            //    }
-            //    else
-            //    {
-            //    responsecontent = string.Format(
-            //             ReplyType.Message_Text,
-            //                FromUserName.InnerText,
-            //                ToUserName.InnerText,
-            //                DateTime.Now.Ticks,
-            //                "success"
-            //                 ); 
-            return "success";
-            //}
-            // }
-            //return responsecontent;
+            if (Content != null)
+            {
+                if (Content.InnerText == "qq")
+                {
+                    responsecontent = string.Format(
+               ReplyType.Message_Text,
+                FromUserName.InnerText,
+               ToUserName.InnerText,
+               DateTime.Now.Ticks,
+                "你好！："
+               );
+                }
+                else
+                {
+                    responsecontent = string.Format(
+                             ReplyType.Message_Text,
+                                FromUserName.InnerText,
+                                ToUserName.InnerText,
+                                DateTime.Now.Ticks,
+                                "success"
+                                 );
+                }
+            }
+            return responsecontent;
         }
         #endregion
         //-----------------------
