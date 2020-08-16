@@ -203,13 +203,13 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                 }
                 else//默认数据为空数据
                 {
-                    responsecontent = string.Format(
-                             ReplyType.Message_Text,
-                                FromUserName.InnerText,
-                                ToUserName.InnerText,
-                                DateTime.Now.Ticks,
-                                ""
-                                 );
+                    //responsecontent = string.Format(
+                    //         ReplyType.Message_Text,
+                    //            FromUserName.InnerText,
+                    //            ToUserName.InnerText,
+                    //            DateTime.Now.Ticks,
+                    //            ""
+                     //            );
                 }
             }
             return responsecontent;
