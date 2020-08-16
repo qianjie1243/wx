@@ -28,7 +28,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// <returns></returns>
         public string ReturnMessage(string postStr, List<Message> lis)
         {
-            Log.WriteLog(postStr, "微信接收信息"); //记录微信接收信息
+            Log.WriteLogFile(postStr, "微信接收信息"); //记录微信接收信息
             string responseContent = "";
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.Load(new System.IO.MemoryStream(System.Text.Encoding.GetEncoding("utf-8").GetBytes(postStr)));
@@ -201,14 +201,14 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                             break;
                     }
                 }
-                else//默认数据
+                else//默认数据为空数据
                 {
                     responsecontent = string.Format(
                              ReplyType.Message_Text,
                                 FromUserName.InnerText,
                                 ToUserName.InnerText,
                                 DateTime.Now.Ticks,
-                                "success"
+                                ""
                                  );
                 }
             }
