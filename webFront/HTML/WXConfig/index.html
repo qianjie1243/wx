@@ -20,53 +20,60 @@
 <body>
     <div id="app"  style="margin:10px;">
         <form class="layui-form">
-          
+
             <div class="layui-form-item">
                 <label class="layui-form-label">微信AppId：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" style="width:300px;" placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.appid" :value="model.appid">
+                    <input type="text" name="title" style="width:300px;" placeholder="AppId" autocomplete="off" class="layui-input" v-model="model.appid" :value="model.appid">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">微信Secret：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title"style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.secret" :value="model.secret">
+                    <input type="text" name="title" style="width:300px;" placeholder="Secret" autocomplete="off" class="layui-input" v-model="model.secret" :value="model.secret">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">微信回调url：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.url" :value="model.url">
+                    <input type="text" name="title" style="width:300px;" placeholder="微信回调" autocomplete="off" class="layui-input" v-model="model.url" :value="model.url">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">商户号：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title"style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.mch_id" :value="model.mch_id">
+                    <input type="text" name="title" style="width:300px;" placeholder="商户号" autocomplete="off" class="layui-input" v-model="model.mch_id" :value="model.mch_id">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">证书密匙：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" style="width:300px;"  placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.paysignkey" :value="model.paysignkey">
+                    <input type="text" name="title" style="width:300px;" placeholder="证书密匙" autocomplete="off" class="layui-input" v-model="model.paysignkey" :value="model.paysignkey">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">证书路径：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title"  style="width:300px;" placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.SSLCERT_PATH" :value="model.SSLCERT_PATH">
+                    <input type="text" name="title" style="width:300px;" placeholder="证书路径" autocomplete="off" class="layui-input" v-model="model.SSLCERT_PATH" :value="model.SSLCERT_PATH">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">证书的密码：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title"style="width:300px;"   placeholder="请输入标题" autocomplete="off" class="layui-input" v-model="model.SSLCERT_PASSWORD" :value="model.SSLCERT_PASSWORD">
+                    <input type="text" name="title" style="width:300px;" placeholder="证书的密码" autocomplete="off" class="layui-input" v-model="model.SSLCERT_PASSWORD" :value="model.SSLCERT_PASSWORD">
+                </div>
+            </div>
+            <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3 />
+            <div class="layui-form-item">
+                <label class="layui-form-label">微信URL对接Token：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" style="width:300px;" placeholder="微信URL对接Token" autocomplete="off" class="layui-input" v-model="model.Token" :value="model.Token">
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button type="button" class="layui-btn" v-on:click="btnsave">立即提交</button>
-                    <button type="button" class="layui-btn layui-btn-primary" v-on:click="btnreset()" >重置</button>
+                    <button type="button" class="layui-btn layui-btn-primary" v-on:click="btnreset()">重置</button>
                 </div>
             </div>
         </form>
@@ -86,6 +93,7 @@
                 paysignkey: '',
                 SSLCERT_PATH: '',
                 SSLCERT_PASSWORD: '',
+                Token:'',
             },
 
         },
@@ -129,6 +137,7 @@
                     paysignkey: '',
                     SSLCERT_PATH: '',
                     SSLCERT_PASSWORD: '',
+                    Token: '',
                 };
             }
         },

@@ -9,6 +9,9 @@ using System.IO;
 using System.Web.Security;
 using System.Web.Script.Serialization;
 using WxTenpay.WXoperation.Common;
+using WxTenpay.WXoperation.TModel;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace WxTenpay.WXoperation.wxconfigurateion
 {
@@ -23,8 +26,9 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// </summary>
         /// <param name="postStr"></param>
         /// <returns></returns>
-        public string ReturnMessage(string postStr)
+        public string ReturnMessage(string postStr, List<Message> lis)
         {
+            Log.WriteLog(postStr, "微信接收信息"); //记录微信接收信息
             string responseContent = "";
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.Load(new System.IO.MemoryStream(System.Text.Encoding.GetEncoding("utf-8").GetBytes(postStr)));
@@ -39,7 +43,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                 if (MsgType.InnerText == "event" && Event.InnerText == "subscribe")
                 {
 
-                    responseContent = GuanZhu(xmldoc);
+                    responseContent = GuanZhu(xmldoc, lis);
                     return responseContent;
                 }
                 //取消订阅
@@ -54,11 +58,11 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                 {
                     case "event":
                         //return responseContent;
-                        responseContent = EventHandle(xmldoc);//事件处理
+                        responseContent = EventHandle(xmldoc, lis);//事件处理
                         break;
                     case "text":
                         //return "success";
-                        responseContent = TextHandle(xmldoc);//接受文本消息处理
+                        responseContent = TextHandle(xmldoc, lis);//接受文本消息处理
                         break;
                     default:
                         break;
@@ -75,7 +79,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// </summary>
         /// <param name="xmldoc"></param>
         /// <returns></returns>
-        public string EventHandle(XmlDocument xmldoc)
+        public string EventHandle(XmlDocument xmldoc, List<Message> lis)
         {
             string responseContent = "";
             //事件类型，Event     subscribe(订阅)、unsubscribe(取消订阅)
@@ -99,7 +103,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// </summary>
         /// <param name="xmldoc"></param>
         /// <returns></returns>
-        public string TextHandle(XmlDocument xmldoc)
+        public string TextHandle(XmlDocument xmldoc, List<Message> lis)
         {
 
 
@@ -109,17 +113,95 @@ namespace WxTenpay.WXoperation.wxconfigurateion
             XmlNode Content = xmldoc.SelectSingleNode("/xml/Content");
             if (Content != null)
             {
-                if (Content.InnerText == "qq")
+                var meslis = lis.Where(x => x.Type == 1 && Content.InnerText.Contains(x.Name) && x.MatchingWay == 0).ToList();//模糊
+                meslis.AddRange(lis.Where(x => x.Type == 1 && x.Name == Content.InnerText && x.MatchingWay == 1));//全部匹配
+
+                if (meslis.Count> 0)
                 {
-                    responsecontent = string.Format(
-               ReplyType.Message_Text,
-                FromUserName.InnerText,
-               ToUserName.InnerText,
-               DateTime.Now.Ticks,
-                "你好！："
-               );
+                    var model = meslis.FirstOrDefault();//获取满足条件第一条
+                    var ja = (JArray)JsonConvert.DeserializeObject(model.Content);
+                
+                    switch (model.Key)
+                    {
+                        case 1://文本
+
+                            responsecontent = string.Format(
+                         ReplyType.Message_Text,
+                         FromUserName.InnerText,
+                         ToUserName.InnerText,
+                         DateTime.Now.Ticks,
+                         ja[0]["Content"]
+                         );
+                            break;
+                        case 2://图文
+                            var item = "";
+                            foreach (var itm in ja)
+                            {
+                                item += string.Format(
+                                     ReplyType.Message_News_Item,
+                                    itm["Title"],
+                                    itm["Description"],
+                                    itm["PicUrl"],
+                                    itm["Url"]
+                                    );
+                            }
+                            responsecontent = string.Format(
+                                 ReplyType.Message_News_Main,
+                                 FromUserName.InnerText,
+                                 ToUserName.InnerText,
+                                 DateTime.Now.Ticks,
+                                 ja.Count,
+                                 item
+                                );
+                            break;
+                        case 3://图片
+                            responsecontent = string.Format(
+                              ReplyType.Message_image,
+                              FromUserName.InnerText,
+                              ToUserName.InnerText,
+                              DateTime.Now.Ticks,
+                               ja[0]["MediaId"]
+                             );
+                            break;
+                        case 4://语音
+                            responsecontent = string.Format(
+                            ReplyType.Message_voice,
+                            FromUserName.InnerText,
+                            ToUserName.InnerText,
+                            DateTime.Now.Ticks,
+                             ja[0]["MediaId"]
+                           );
+                            break;
+                        case 5://音乐
+                            responsecontent = string.Format(
+                          ReplyType.Message_music,
+                          FromUserName.InnerText,
+                          ToUserName.InnerText,
+                          DateTime.Now.Ticks,
+                          ja[0]["Title"],
+                          ja[0]["Description"],
+                          ja[0]["MusicUrl"],
+                          ja[0]["HQMusicUrl"],
+                          ja[0]["ThumbMediaId"]
+                         );
+                            break;
+                        case 6://视频
+                            var jo = (JObject)JsonConvert.DeserializeObject(model.Content);
+                            responsecontent = string.Format(
+                            ReplyType.Message_Video,
+                            FromUserName.InnerText,
+                            ToUserName.InnerText,
+                            DateTime.Now.Ticks,
+                             ja[0]["MediaId"],
+                             ja[0]["Title"],
+                             ja[0]["Description"]
+                            );
+                            break;
+                        default:
+                            break;
+                    }
                 }
-                else
+                else//默认数据
                 {
                     responsecontent = string.Format(
                              ReplyType.Message_Text,
@@ -141,7 +223,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// <param name="xmldoc"></param>
         /// <returns></returns>
         //关注后的推送事件
-        public string GuanZhu(XmlDocument xmldoc)
+        public string GuanZhu(XmlDocument xmldoc, List<Message> lis)
         {
 
             string responsecontent = "";
@@ -149,14 +231,102 @@ namespace WxTenpay.WXoperation.wxconfigurateion
             XmlNode ToUserName = xmldoc.SelectSingleNode("/xml/ToUserName");
             //openid
             XmlNode FromUserName = xmldoc.SelectSingleNode("/xml/FromUserName");
-            responsecontent = string.Format(
-                  ReplyType.Message_Text,
-                   FromUserName.InnerText,
-                  ToUserName.InnerText,
-                  DateTime.Now.Ticks,
-                  "你好!谢谢你的关注!\r\n(●'◡'●)ﾉ♥~(●'◡'●)ﾉ♥~"
-                  );
 
+            var model = lis.Where(x => x.Type == 2).FirstOrDefault();//定义数据
+          
+            if (model != null)
+            {
+                var ja = (JArray)JsonConvert.DeserializeObject(model.Content);
+                switch (model.Key)
+                {
+                    case 1://文本
+                        responsecontent = string.Format(
+                     ReplyType.Message_Text,
+                     FromUserName.InnerText,
+                     ToUserName.InnerText,
+                     DateTime.Now.Ticks,
+                     ja[0]["Content"]
+                     );
+                        break;
+                    case 2://图文
+                        var item = "";
+                        foreach (var itm in ja)
+                        {
+                            item += string.Format(
+                                 ReplyType.Message_News_Item,
+                                itm["Title"],
+                                itm["Description"],
+                                itm["PicUrl"],
+                                itm["Url"]
+                                );
+                        }
+                        responsecontent = string.Format(
+                             ReplyType.Message_News_Main,
+                             FromUserName.InnerText,
+                             ToUserName.InnerText,
+                             DateTime.Now.Ticks,
+                             ja.Count,
+                             item
+                            );
+                        break;
+                    case 3://图片
+                        responsecontent = string.Format(
+                          ReplyType.Message_image,
+                          FromUserName.InnerText,
+                          ToUserName.InnerText,
+                          DateTime.Now.Ticks,
+                          ja[0]["MediaId"]
+                         );
+                        break;
+                    case 4://语音
+                        responsecontent = string.Format(
+                        ReplyType.Message_voice,
+                        FromUserName.InnerText,
+                        ToUserName.InnerText,
+                        DateTime.Now.Ticks,
+                        ja[0]["MediaId"]
+                       );
+                        break;
+                    case 5://音乐
+
+
+                        responsecontent = string.Format(
+                      ReplyType.Message_music,
+                      FromUserName.InnerText,
+                      ToUserName.InnerText,
+                      DateTime.Now.Ticks,
+                      ja[0]["Title"],
+                      ja[0]["Description"],
+                      ja[0]["MusicUrl"],
+                      ja[0]["HQMusicUrl"],
+                      ja[0]["ThumbMediaId"]
+                     );
+                        break;
+                    case 6://视频
+                        responsecontent = string.Format(
+                        ReplyType.Message_Video,
+                        FromUserName.InnerText,
+                        ToUserName.InnerText,
+                        DateTime.Now.Ticks,
+                        ja[0]["MediaId"],
+                        ja[0]["Title"],
+                        ja[0]["Description"]
+                        );
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else //默认
+            {
+                responsecontent = string.Format(
+                      ReplyType.Message_Text,
+                       FromUserName.InnerText,
+                      ToUserName.InnerText,
+                      DateTime.Now.Ticks,
+                      "你好!谢谢你的关注!\r\n(●'◡'●)ﾉ♥~(●'◡'●)ﾉ♥~"
+                      );
+            }
             return responsecontent;
         }
         #endregion
@@ -219,12 +389,11 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                             <CreateTime>{2}</CreateTime>
                             <MsgType><![CDATA[news]]></MsgType>
                             <ArticleCount>{3}</ArticleCount>
-                            <Articles>
-                            {4}
-                            </Articles>
+                            <Articles>{4}</Articles>
                             </xml> ";
                 }
             }
+
             /// <summary>
             /// 图片消息
             /// ToUserName	是	接收方帐号（收到的OpenID）

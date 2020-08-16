@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信基本配置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/HTML/layui/css/layui.css" rel="stylesheet" />
+    <script src="/HTML/JS/jquery-3.3.1.min.js"></script>
+    <script src="/HTML/JS/vue.min.js"></script>
+    <script src="/HTML/layui/layui.all.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+        <button type="button" class="layui-btn" v-on:click="btnsave"> <i class="layui-icon layui-icon-file-b"></i>保存</button>
+        <label class="layui-label" style="color:#ff0000;margin-left:50px;">未使用数据库，缓存功能,每次重启项目清空！</label>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">微信关注回复</label>
+            <div class="layui-input-block">
+
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th>回复类型</th>
+                            <th width="50%">消息体</th>
+                            <th>
+                                操作 <button class="layui-btn layui-btn-xs" @click="addmodel" >
+                                    <i class="layui-icon">&#xe608;</i>新增
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in model" v-if="!!model">
+                            <td>
+                                <select :value="model[index].Key" v-model="model[index].Key" class="layui-select" @change="btnsel(model[index])">
+                                    <option value="">请选择</option>
+                                    <option v-for="itm in typelis" :value="itm.Key">{{itm.Name}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <fieldset v-for="(v,i) in model[index].Temp " v-if="model[index].Temp.length>0" style="margin-bottom:3px;">
+                                    <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" @click="dellis(model[index],i)" v-if="model[index].Key==2">移除</button></legend>
+                                    <div>
+                                        <template v-for="vitem in  getkey(v)">
+                                            <label v-if="typebool(vitem)" style="line-height:35px">{{model[index].Temp[i][vitem]}}：</label>
+                                            <input v-else class="layui-input" :value="model[index].Temp[i][vitem]" type="text" v-model="model[index].Temp[i][vitem]" :placeholder="v[vitem]" style="width:400px;margin-top:3px;">
+                                        </template>
+                                    </div>
+                                </fieldset>
+                            </td>
+                            <td>
+                                <button class="layui-btn" v-if="model[index].Key==2" @click="addlis(model[index])">新增图文列表</button>
+                                <button class="layui-btn layui-btn-danger" @click="delmodel(index)">移除</button>
+                            </td>
+                        </tr>
+                        <tr align="center" v-if="model.length==0">
+                            <td colspan="3">暂无数据</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3 />
+        <div class="layui-form-item">
+            <label class="layui-form-label">微信关键字回复</label>
+
+            <div class="layui-input-block">
+
+                <input type="text" class="layui-input" placeholder="关键字" style="width:200px;float:left" id="search_name" />
+                <button class="layui-btn" type="button" style="width:80px;float:left;margin-left:10px;" @click="search">
+                    <i class="layui-icon layui-icon-search"></i>查询
+                </button>
+                <div id="page" style="float:right"></div>
+
+
+
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th>关键字</th>
+                            <th>匹配类型</th>
+                            <th>回复类型</th>
+                            <th>消息体</th>
+                            <th>
+                                操作  <button class="layui-btn layui-btn-xs" @click="add_list" >
+                                    <i class="layui-icon">&#xe608;</i>新增
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in pagingdata" v-if="pagingdata.length>0">
+                            <td>
+                                <input type="text" class="layui-input" :value="pagingdata[index].Name" v-model="pagingdata[index].Name" :placeholder="pagingdata[index].Name">
+                            </td>
+                            <td>
+                                <select :value="pagingdata[index].MatchingWay" v-model="pagingdata[index].MatchingWay" class="layui-select">
+                                    <option value="0">模糊匹配</option>
+                                    <option value="1">完全匹配</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select :value="pagingdata[index].Key" v-model="pagingdata[index].Key" class="layui-select" @change="btnsel(pagingdata[index])">
+                                    <option value="">请选择</option>
+                                    <option v-for="itm in typelis" :value="itm.Key">{{itm.Name}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <fieldset v-for="(v,i) in pagingdata[index].Temp " v-if="pagingdata[index].Temp.length>0" style="margin-bottom:3px;">
+                                    <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" v-if="pagingdata[index].Key==2" @click="dellis(pagingdata[index],i)">移除</button></legend>
+                                    <div>
+                                        <template v-for="vitem in  getkey(v)">
+                                            <label v-if="typebool(vitem)" style="line-height:35px">{{pagingdata[index].Temp[i][vitem]}}：</label>
+                                            <input v-else class="layui-input" :value="pagingdata[index].Temp[i][vitem]" type="text" v-model="pagingdata[index].Temp[i][vitem]" :placeholder="v[vitem]" style="width:400px;margin-top:3px;">
+                                        </template>
+                                    </div>
+                                </fieldset>
+                            </td>
+                            <td>
+                                <button class="layui-btn" v-if="pagingdata[index].Key==2" @click="addlis(pagingdata[index])">新增图文列表</button>
+                                <button class="layui-btn layui-btn-danger" @click="del_lis(pagingdata[index])">移除</button>
+                            </td>
+                        </tr>
+                        <tr align="center" v-if="list.length==0">
+                            <td colspan="5">暂无数据</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <!--<div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" v-on:click="btnsave">立即提交</button>
+            </div>
+        </div>-->
+
+    </div>
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            list: [],
+            model: [],
+            pagingdata: [],
+            typelis: [
+                { Key: 1, Name: '文本消息类型', lis: [{ Title: "详情", Name: "Content" }] },
+                { Key: 2, Name: '图文消息主体', lis: [{ Title: "图片链接", Name: "PicUrl" }, { Title: "标题", Name: "Title" }, { Title: "摘要", Name: "Description" }, { Title: "跳转链接", Name: "Url" }] },
+                { Key: 3, Name: '图片消息', lis: [{ Title: "多媒体id", Name: "MediaId" }] },
+                { Key: 4, Name: '语音消息', lis: [{ Title: "多媒体id", Name: "MediaId" }] },
+                { Key: 5, Name: '音乐消息', lis: [{ Title: "多媒体id", Name: "ThumbMediaId" }, { Title: "标题", Name: "Title" }, { Title: "描述", Name: "Description" }, { Title: "链接", Name: "MusicUrl" }, { Title: "高质量音乐链接", Name: "HQMusicUrl" }] },
+                { Key: 6, Name: '视频消息', lis: [{ Title: "多媒体id", Name: "MediaId" }, { Title: "标题", Name: "Title" }, { Title: "描述", Name: "Description" }] },
+            ]
+        },
+        created: function () {
+            $frame.RequestGet('WXData/GetMess', '', (x) => {
+                if (x.Success) {
+                    $.each(x.Data, (i, v) => {
+                        x.Data[$.inArray(v, x.Data)].Temp = JSON.parse(x.Data[$.inArray(v, x.Data)].Content);
+
+                    })
+                    this.list = $frame.filter(x.Data, "Type", 1).length > 0 ? $frame.filter(x.Data, "Type", 1) : [];
+
+                    o.page(this.list);
+                    this.model = $frame.filter(x.Data, "Type", 2).length > 0 ? $frame.filter(x.Data, "Type", 2) : [];
+                } else
+                    console.log(x.Data);
+
+            });
+
+        },
+        methods: {
+            btnsave(event) {
+                if (vm.model.length > 0)
+                    vm.list.push(vm.model[0]);
+
+                $.each(vm.list, (i, v) => {
+                    vm.list[$.inArray(v, vm.list)].Content = JSON.stringify(vm.list[$.inArray(v, vm.list)].Temp);
+                })
+
+                $(event.target).prop("disabled", true);
+                $frame.RequestPost('WXData/SaveMess', { lis: vm.list }, (res) => {
+                    $(event.target).prop("disabled", false);
+                    if (res.Success) {
+                        $frame.alert_msg("操作成功！");
+                    } else
+                        console.log(res.Data);
+
+                });
+            },
+            btnsel(item) {
+                item.Temp = [];
+                if (!!item.Key) {
+                    let a = $frame.filter(vm.typelis, "Key", item.Key)[0].lis;//获取类型字段
+                    let ob = {};
+                    $.each(a, (i, v) => {
+
+                        ob[v.Name + '_Title'] = v.Title;
+                        ob[v.Name] = v.Name;
+                    });
+                    item.Temp.push(ob);
+                }
+            },
+            getkey(obj) {
+                return Object.keys(obj);
+            },
+            typebool(v) {
+                if (v.indexOf("_Title") > -1)
+                    return true;
+                else
+                    return false;
+            },
+            addlis(item) {
+                let a = $frame.filter(vm.typelis, "Key", item.Key)[0].lis;//获取类型字段
+                if (item.Temp.length == 5) {
+                    $frame.alert_msg("列表已达到上限！");
+                    return false;
+                }
+                let ob = {};
+                $.each(a, (i, v) => {
+
+                    ob[v.Name + '_Title'] = v.Title;
+                    ob[v.Name] = v.Name;
+                });
+                item.Temp.push(ob);
+
+            },
+            dellis(item, index) {//图文移除
+                item.Temp.splice(index, 1);
+            },
+            add_list() {//添加自动回复列表
+                let model = {
+                    Name: '',
+                    Type: 1,//消息类型 1:自动回复  2：关注 3：取消关注
+                    Key: '',//消息模板 1:文本消息类型  2：图文消息主体 3：图片消息  4：语音消息  5：音乐消息  6：视频消息
+                    Name: '',//匹配的内容
+                    Content: '',//发送具体内容
+                    MatchingWay: 0,//匹配方式0：模糊匹配  1：全部匹配
+                    Temp: [],//原始数据体
+                    GuId: o.guid(),
+                };
+                vm.list.splice(0, 0, model);
+                o.page(vm.list);
+            },
+            addmodel() {
+                if (vm.model.length > 0) {
+                    $frame.alert_msg("列表已达到上限！");
+                    return false;
+                }
+
+                let model = {
+                    Type: 2,//消息类型 1:自动回复  2：关注 3：取消关注
+                    Key: '',//消息模板 1:文本消息类型  2：图文消息主体 3：图片消息  4：语音消息  5：音乐消息  6：视频消息
+                    Name: '',//匹配的内容
+                    Content: '',//发送具体内容
+                    MatchingWay: 0,//匹配方式0：模糊匹配  1：全部匹配
+                    Temp: [],//原始数据体
+                    GuId: o.guid(),
+                };
+
+                vm.model.push(model);
+            },
+            del_lis(item) {//移除自动回复
+
+                vm.list.splice($.inArray(item, vm.list), 1);
+                o.page(vm.list);
+            },
+            search() {//查询
+                let datalist = vm.list;
+                let seaname = $("#search_name").val();
+                if (!$frame.IsEmpty(seaname)) {
+                    datalist = $frame.filter(datalist, "Name", seaname, true);
+                    o.page(datalist);
+                } else
+                    o.page(vm.list);
+            },
+            delmodel(index) {
+                vm.model.splice(index, 1);
+
+            }
+        },
+
+    })
+
+    let o = {
+        page(data, pageindex) {
+            pageindex = pageindex || 1;
+            let sta = (pageindex * 5 - 5);
+            let end = (pageindex * 5);
+            vm.pagingdata = data.slice(sta, end);
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage,
+                    layer = layui.layer;
+                laypage.render({
+                    elem: 'page',
+                    count: data.length,
+                    limit: 5,
+                    first: '首页',
+                    last: '尾页',
+                    layout: ['count', 'prev', 'page', 'next', 'skip'],
+                    curr: pageindex,
+                    theme: '#00A0E9',
+                    jump: function (obj, first) {
+                        if (!first) {
+                            //第一次不执行,一定要记住,这个必须有,要不然就是死循环
+                            let curr = obj.curr;
+                            //回调该展示数据的方法,数据展示
+                            o.page(data, curr);
+                        }
+                    }
+                });
+            });
+        },
+        guid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+    };
+</script>

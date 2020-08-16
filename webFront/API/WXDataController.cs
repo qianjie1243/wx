@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using webFront.Models;
 using Common;
 using WxTenpay;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using WxTenpay.WXoperation.TModel;
 
 namespace webFront.API
 {
@@ -69,6 +67,10 @@ namespace webFront.API
                 {
                     XmlHelper.Upxml("WxTenpay.config", "SSLCERTPATH", _entity["SSLCERT_PATH"].ToString());
                 }
+                if (WXconfig.Token != _entity["Token"].ToString())
+                {
+                    XmlHelper.Upxml("WxTenpay.config", "Token", _entity["Token"].ToString());
+                }
                 GetConfig.ResetConfig();
                 var data = new
                 {
@@ -104,6 +106,7 @@ namespace webFront.API
                     WXconfig.SSLCERT_PASSWORD,
                     WXconfig.SSLCERT_PATH,
                     WXconfig.url,
+                    WXconfig.Token
                 };
                 return Success(data);
 
@@ -409,6 +412,45 @@ namespace webFront.API
                 if (type == 0) return Success(wp.WeiXinKeFu(openid.Trim(), content));
                 
                 else   return Success(wp.WeiXinTemplate(openid.Trim(), temid.Trim(), temp, openurl));
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+        #endregion
+
+        #region 微信自动回复
+        /// <summary>
+        ///微信自动回复
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public object SaveMess(List<Message> lis)
+        {
+            try
+            {
+                wp.SaveMesslis(lis);
+                return Success("操作成功！");
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        ///获取微信自动回复
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetMess()
+        {
+            try
+            {
+                return Success(wp.GetMesslis());
             }
             catch (Exception ex)
             {

@@ -39,7 +39,10 @@ namespace WxTenpay
         ///  证书的密码
         /// </summary>
         public static string SSLCERT_PASSWORD = "";//
-
+        /// <summary>
+        /// 微信url对接token
+        /// </summary>
+        public static string Token = "";//  
     }
 
     /// <summary>

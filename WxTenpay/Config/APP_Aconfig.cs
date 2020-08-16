@@ -30,7 +30,7 @@ namespace WxTenpay
         ///    证书密匙
         /// </summary>
         public static string paysignkey = "";//  
-
+      
 
         #endregion     
 

@@ -61,7 +61,7 @@ namespace WxTenpay
             string ITenPayKey = GetIndexConfigValue("ITenPayKey");
             string IURL = GetIndexConfigValue("IURL");
 
-
+            string Token = GetIndexConfigValue("Token");
             //string appid =  ConfigurationManager.AppSettings["AppID"];
             //string Secret = ConfigurationManager.AppSettings["Secret"];
             //string MchId = ConfigurationManager.AppSettings["MchId"];
@@ -85,8 +85,8 @@ namespace WxTenpay
             //string ITenPayKey = ConfigurationManager.AppSettings["ITenPayKey"];
             //string IURL = ConfigurationManager.AppSettings["IURL"];
 
-       
-        
+
+
 
             if (!string.IsNullOrWhiteSpace(appid))
                 WXconfig.appid = appid;
@@ -102,8 +102,9 @@ namespace WxTenpay
                 WXconfig.SSLCERT_PATH = SSLCERTPATH;
             if (!string.IsNullOrWhiteSpace(SSLCERTPASSWORD))
                 WXconfig.SSLCERT_PASSWORD = SSLCERTPASSWORD;
+            if (!string.IsNullOrWhiteSpace(Token))
+                WXconfig.Token = Token;
 
-           
 
             if (!string.IsNullOrWhiteSpace(IAppID))
                 APP_Iconfig.appid = AAppID;
@@ -123,6 +124,8 @@ namespace WxTenpay
                 APP_Aconfig.mch_id = AMchId;
             if (!string.IsNullOrWhiteSpace(ATenPayKey))
                 APP_Aconfig.paysignkey = ATenPayKey;
+
+         
 
         }
 

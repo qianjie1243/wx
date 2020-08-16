@@ -14,7 +14,7 @@ using WxTenpay.WXoperation.wxtenpay;
 using WxTenpay.WXoperation.Common;
 using WxTenpay.WXoperation;
 using WxTenpay.WXoperation.wxconfigurateion;
-
+using WxTenpay.WXoperation.TModel;
 
 namespace WxTenpay
 {
@@ -53,6 +53,11 @@ namespace WxTenpay
         /// 保存jsp_api时间
         /// </summary>
         private static DateTime Jsp_Api_Time { set; get; }
+
+        /// <summary>
+        /// 发送消息回复定义类型
+        /// </summary>
+        private static List<Message> Messlis { set; get; } = new List<Message>();
 
         #endregion
 
@@ -345,6 +350,44 @@ namespace WxTenpay
         }
         #endregion
 
+        #region 编辑发送消息回复定义类型
+        /// <summary>
+        /// 编辑发送消息回复定义类型
+        /// </summary>
+        /// <param name="lis">数据源</param>
+        /// <returns></returns>
+        public void SaveMesslis(List<Message> lis) {
+            try
+            {              
+                    Messlis = lis;//保存数据             
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        
+        }
+
+        /// <summary>
+        /// 获取发送消息回复定义类型
+        /// </summary>
+        /// <returns></returns>
+        public dynamic GetMesslis()
+        {
+            try
+            {
+                return Messlis;//获取数据
+             
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        #endregion
+
+
         #region 微信配置URL对接====(已测试)
 
         /// <summary>
@@ -367,7 +410,7 @@ namespace WxTenpay
                         byte[] postbyte = new byte[stream.Length];
                         stream.Read(postbyte, 0, (Int32)stream.Length);
                         poststring = Encoding.UTF8.GetString(postbyte);
-                        Handle(poststring);
+                        Handle(poststring, Messlis);
                     }
                 }
             }
@@ -413,12 +456,12 @@ namespace WxTenpay
         /// </summary>
         /// <param name="poststr"></param>
         [Description("处理信息并应答")]
-        private void Handle(string poststr)
+        private void Handle(string poststr,List<Message> lis)
         {
             try
             {
                 messagehelp help = new messagehelp();
-                string responseContent = help.ReturnMessage(poststr);
+                string responseContent = help.ReturnMessage(poststr, lis);
                 //System.Web.HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
                 System.Web.HttpContext.Current.Response.Write(responseContent);
                 System.Web.HttpContext.Current.Response.End();

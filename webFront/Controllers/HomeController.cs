@@ -10,7 +10,7 @@ namespace webFront.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return Redirect("/html/admin.html");
         }
 
         public ActionResult About()
