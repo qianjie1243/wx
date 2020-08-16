@@ -431,6 +431,11 @@ namespace webFront.API
         {
             try
             {
+                lis.ForEach(x =>
+                {
+                    x.Content = Common.Base64.DecodeBase64(x.Content);
+
+                });
                 wp.SaveMesslis(lis);
                 return Success("操作成功！");
             }

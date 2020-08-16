@@ -188,7 +188,7 @@
                     vm.list.push(vm.model[0]);
 
                 $.each(vm.list, (i, v) => {
-                    vm.list[$.inArray(v, vm.list)].Content = JSON.stringify(vm.list[$.inArray(v, vm.list)].Temp);
+                    vm.list[$.inArray(v, vm.list)].Content = $frame.encrypt(unescape(encodeURIComponent(JSON.stringify(vm.list[$.inArray(v, vm.list)].Temp))));
                 })
 
                 $(event.target).prop("disabled", true);
