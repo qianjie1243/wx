@@ -59,6 +59,8 @@ namespace WxTenpay
         /// </summary>
         private static List<Message> Messlis { set; get; } = new List<Message>();
 
+        private static List<EvenMessage> Eventlis { set; get; } = new List<EvenMessage>();//按钮事件
+
         #endregion
 
         #region code获取个人信息,openid====(已测试)
@@ -220,7 +222,8 @@ namespace WxTenpay
         /// 获取access_token获取时间
         /// </summary>
         /// <returns></returns>
-        public DateTime GetTokenTime() {
+        public DateTime GetTokenTime()
+        {
             try
             {
                 return Asscess_Time;
@@ -356,16 +359,18 @@ namespace WxTenpay
         /// </summary>
         /// <param name="lis">数据源</param>
         /// <returns></returns>
-        public void SaveMesslis(List<Message> lis) {
+        public void SaveMesslis(List<Message> lis, List<EvenMessage> eventlis)
+        {
             try
-            {              
-                    Messlis = lis;//保存数据             
+            {
+                Eventlis = eventlis;
+                Messlis = lis;//保存数据             
             }
             catch (Exception)
             {
                 throw;
             }
-        
+
         }
 
         /// <summary>
@@ -376,8 +381,14 @@ namespace WxTenpay
         {
             try
             {
-                return Messlis;//获取数据
-             
+
+                var date = new
+                {
+                    Messlis,
+                    Eventlis
+                };
+                return date;//获取数据
+
             }
             catch (Exception)
             {
@@ -410,7 +421,7 @@ namespace WxTenpay
                         byte[] postbyte = new byte[stream.Length];
                         stream.Read(postbyte, 0, (Int32)stream.Length);
                         poststring = Encoding.UTF8.GetString(postbyte);
-                        Handle(poststring, Messlis);
+                        Handle(poststring, Messlis, Eventlis);
                     }
                 }
             }
@@ -456,12 +467,12 @@ namespace WxTenpay
         /// </summary>
         /// <param name="poststr"></param>
         [Description("处理信息并应答")]
-        private void Handle(string poststr,List<Message> lis)
+        private void Handle(string poststr, List<Message> lis,List<EvenMessage> Eventlis)
         {
             try
             {
                 messagehelp help = new messagehelp();
-                string responseContent = help.ReturnMessage(poststr, lis);
+                string responseContent = help.ReturnMessage(poststr, lis, Eventlis);
                 //System.Web.HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
                 System.Web.HttpContext.Current.Response.Write(responseContent);
                 System.Web.HttpContext.Current.Response.End();
