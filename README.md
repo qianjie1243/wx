@@ -20,4 +20,6 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0816/122755_fb629b76_1689037.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0816/122824_a45dd410_1689037.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0816/154255_4f147938_1689037.png "屏幕截图.png")
+![微信url配置路径](https://images.gitee.com/uploads/images/2020/0822/180457_0804f53d_1689037.png "屏幕截图.png")
+![测试扫码按钮事件、地理位置事件](https://images.gitee.com/uploads/images/2020/0822/180603_414fecee_1689037.png "屏幕截图.png")
 后期待完善功能
