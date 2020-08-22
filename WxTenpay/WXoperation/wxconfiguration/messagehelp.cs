@@ -123,34 +123,50 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                         XmlNode Location_X = xmldoc.SelectSingleNode("/xml/SendLocationInfo/Location_X");
                         XmlNode Location_Y = xmldoc.SelectSingleNode("/xml/SendLocationInfo/Location_Y");
                         XmlNode Label = xmldoc.SelectSingleNode("/xml/SendLocationInfo/Label");
-                        responseContent = string.Format(
-                     ReplyType.Message_Text,
-                     FromUserName.InnerText,
-                     ToUserName.InnerText,
-                     DateTime.Now.Ticks,
-                     $"您的位置=>X坐标：{Location_X.InnerText},Y坐标：{Location_Y.InnerText}。您的详情地址为：{Label.InnerText}" 
-                     );
+                        #region 自动回复功能无效
+                        //   responseContent = string.Format(
+                        //ReplyType.Message_Text,
+                        //FromUserName.InnerText,
+                        //ToUserName.InnerText,
+                        //DateTime.Now.Ticks,
+                        //$"您的位置=>X坐标：{Location_X.InnerText},Y坐标：{Location_Y.InnerText}。您的详情地址为：{Label.InnerText}" 
+                        //);
+                        #endregion
+
+                        //调用客服消息模式推送
+                        FaSongXingXi(FromUserName.InnerText, $"您的位置=>X坐标：{Location_X.InnerText},Y坐标：{Location_Y.InnerText}。您的详情地址为：{Label.InnerText}", new WechatPublic().GetToken());
+
                         break;
                     case "4"://系统拍照
                         XmlNode Count = xmldoc.SelectSingleNode("/xml/SendPicsInfo/Count");
-                        responseContent = string.Format(
-                     ReplyType.Message_Text,
-                     FromUserName.InnerText,
-                     ToUserName.InnerText,
-                     DateTime.Now.Ticks,
-                     $"一共发了：{Count.InnerText}张照片！"
-                     );
+                        #region 自动回复功能无效
+                        //   responseContent = string.Format(
+                        //ReplyType.Message_Text,
+                        //FromUserName.InnerText,
+                        //ToUserName.InnerText,
+                        //DateTime.Now.Ticks,
+                        //$"一共发了：{Count.InnerText}张照片！"
+                        //);
+                        #endregion
+
+                        //调用客服消息模式推送
+                        FaSongXingXi(FromUserName.InnerText, $"一共发了：{Count.InnerText}张照片！", new WechatPublic().GetToken());
+
                         break;
                     case "5"://“拍照”或者“从手机相册选择”
 
                         XmlNode _Count = xmldoc.SelectSingleNode("/xml/SendPicsInfo/Count");
-                        responseContent = string.Format(
-                     ReplyType.Message_Text,
-                     FromUserName.InnerText,
-                     ToUserName.InnerText,
-                     DateTime.Now.Ticks,
-                     $"一共发了：{_Count.InnerText}张照片！"
-                     );
+                        #region 自动回复功能无效
+                        //   responseContent = string.Format(
+                        //ReplyType.Message_Text,
+                        //FromUserName.InnerText,
+                        //ToUserName.InnerText,
+                        //DateTime.Now.Ticks,
+                        //$"一共发了：{_Count.InnerText}张照片！"
+                        //);
+                        #endregion
+                        //调用客服消息模式推送
+                        FaSongXingXi(FromUserName.InnerText, $"一共发了：{_Count.InnerText}张照片！", new WechatPublic().GetToken());
                         break;
                 }
             }
