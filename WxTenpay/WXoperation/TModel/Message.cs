@@ -38,4 +38,25 @@ namespace WxTenpay.WXoperation.TModel
       
 
     }
+    /// <summary>
+    /// 按钮事件自动回复消息类型
+    /// </summary>
+    public class EvenMessage
+    {
+
+        public string GuId { set; get; } = "";
+        /// <summary>
+        /// 按钮事件的KEY
+        /// </summary>
+        public string EventKey{ set; get; } = "";
+
+        /// <summary>
+        /// 按钮事件的类型
+        /// </summary>
+        public string EventType { set; get; } = "";
+
+
+    }
+
+
 }

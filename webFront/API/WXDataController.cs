@@ -427,16 +427,19 @@ namespace webFront.API
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public object SaveMess(List<Message> lis)
+        public object SaveMess(List<Message> lis,List<EvenMessage> eventlis)
         {
             try
             {
-                lis.ForEach(x =>
+                if (lis != null)
                 {
-                    x.Content = Common.Base64.DecodeBase64(x.Content);
+                    lis.ForEach(x =>
+                    {
+                        x.Content = Common.Base64.DecodeBase64(x.Content);
 
-                });
-                wp.SaveMesslis(lis);
+                    });
+                }
+                wp.SaveMesslis(lis, eventlis);
                 return Success("操作成功！");
             }
             catch (Exception ex)

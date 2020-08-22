@@ -32,7 +32,7 @@
                             <th>回复类型</th>
                             <th width="50%">消息体</th>
                             <th>
-                                操作 <button class="layui-btn layui-btn-xs" @click="addmodel" >
+                                操作 <button class="layui-btn layui-btn-xs" @click="reply_addmodel">
                                     <i class="layui-icon">&#xe608;</i>新增
                                 </button>
                             </th>
@@ -41,14 +41,14 @@
                     <tbody>
                         <tr v-for="(item,index) in model" v-if="!!model">
                             <td>
-                                <select :value="model[index].Key" v-model="model[index].Key" class="layui-select" @change="btnsel(model[index])">
+                                <select :value="model[index].Key" v-model="model[index].Key" class="layui-select" @change="reply_btnsel(model[index])">
                                     <option value="">请选择</option>
                                     <option v-for="itm in typelis" :value="itm.Key">{{itm.Name}}</option>
                                 </select>
                             </td>
                             <td>
                                 <fieldset v-for="(v,i) in model[index].Temp " v-if="model[index].Temp.length>0" style="margin-bottom:3px;">
-                                    <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" @click="dellis(model[index],i)" v-if="model[index].Key==2">移除</button></legend>
+                                    <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" @click="reply_dellis(model[index],i)" v-if="model[index].Key==2">移除</button></legend>
                                     <div>
                                         <template v-for="vitem in  getkey(v)">
                                             <label v-if="typebool(vitem)" style="line-height:35px">{{model[index].Temp[i][vitem]}}：</label>
@@ -58,8 +58,8 @@
                                 </fieldset>
                             </td>
                             <td>
-                                <button class="layui-btn" v-if="model[index].Key==2" @click="addlis(model[index])">新增图文列表</button>
-                                <button class="layui-btn layui-btn-danger" @click="delmodel(index)">移除</button>
+                                <button class="layui-btn" v-if="model[index].Key==2" @click="reply_addlis(model[index])">新增图文列表</button>
+                                <button class="layui-btn layui-btn-danger" @click="reply_delmodel(index)">移除</button>
                             </td>
                         </tr>
                         <tr align="center" v-if="model.length==0">
@@ -72,12 +72,54 @@
         </div>
         <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3 />
         <div class="layui-form-item">
+            <label class="layui-form-label">按钮点击事件</label>
+
+            <div class="layui-input-block">
+
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th>事件类型</th>
+                            <th>事件KEY</th>
+                            <th>
+                                操作  <button class="layui-btn layui-btn-xs" @click="event_add_list">
+                                    <i class="layui-icon">&#xe608;</i>新增
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,index) in Eventlist" v-if="Eventlist.length>0">
+                            <td>
+                                <select v-model="Eventlist[index].EventType" :value="Eventlist[index].EventType"  class="layui-select">
+                                    <option v-for="itm in Eventtype" :value="itm.Id">{{itm.Name}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="layui-input" :value="Eventlist[index].EventKey" v-model="Eventlist[index].EventKey" placeholder="按钮事件自定义KEY">
+                            </td>
+
+                            <td>
+                                <button class="layui-btn layui-btn-danger" @click="event_del_lis(Eventlist[index])">移除</button>
+                            </td>
+                        </tr>
+                        <tr align="center" v-if="Eventlist.length==0">
+                            <td colspan="3">暂无数据</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <HR style="FILTER:alpha(opacity=100,finishopacity=0,style=1)" width="100%" color=#987cb9 SIZE=3 />
+        <div class="layui-form-item">
             <label class="layui-form-label">微信关键字回复</label>
 
             <div class="layui-input-block">
 
                 <input type="text" class="layui-input" placeholder="关键字" style="width:200px;float:left" id="search_name" />
-                <button class="layui-btn" type="button" style="width:80px;float:left;margin-left:10px;" @click="search">
+                <button class="layui-btn" type="button" style="width:80px;float:left;margin-left:10px;" @click="reply_search">
                     <i class="layui-icon layui-icon-search"></i>查询
                 </button>
                 <div id="page" style="float:right"></div>
@@ -92,7 +134,7 @@
                             <th>回复类型</th>
                             <th>消息体</th>
                             <th>
-                                操作  <button class="layui-btn layui-btn-xs" @click="add_list" >
+                                操作  <button class="layui-btn layui-btn-xs" @click="reply_add_list">
                                     <i class="layui-icon">&#xe608;</i>新增
                                 </button>
                             </th>
@@ -110,14 +152,14 @@
                                 </select>
                             </td>
                             <td>
-                                <select :value="pagingdata[index].Key" v-model="pagingdata[index].Key" class="layui-select" @change="btnsel(pagingdata[index])">
+                                <select :value="pagingdata[index].Key" v-model="pagingdata[index].Key" class="layui-select" @change="reply_btnsel(pagingdata[index])">
                                     <option value="">请选择</option>
                                     <option v-for="itm in typelis" :value="itm.Key">{{itm.Name}}</option>
                                 </select>
                             </td>
                             <td>
                                 <fieldset v-for="(v,i) in pagingdata[index].Temp " v-if="pagingdata[index].Temp.length>0" style="margin-bottom:3px;">
-                                    <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" v-if="pagingdata[index].Key==2" @click="dellis(pagingdata[index],i)">移除</button></legend>
+                                    <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" v-if="pagingdata[index].Key==2" @click="reply_dellis(pagingdata[index],i)">移除</button></legend>
                                     <div>
                                         <template v-for="vitem in  getkey(v)">
                                             <label v-if="typebool(vitem)" style="line-height:35px">{{pagingdata[index].Temp[i][vitem]}}：</label>
@@ -127,8 +169,8 @@
                                 </fieldset>
                             </td>
                             <td>
-                                <button class="layui-btn" v-if="pagingdata[index].Key==2" @click="addlis(pagingdata[index])">新增图文列表</button>
-                                <button class="layui-btn layui-btn-danger" @click="del_lis(pagingdata[index])">移除</button>
+                                <button class="layui-btn" v-if="pagingdata[index].Key==2" @click="reply_addlis(pagingdata[index])">新增图文列表</button>
+                                <button class="layui-btn layui-btn-danger" @click="reply_del_lis(pagingdata[index])">移除</button>
                             </td>
                         </tr>
                         <tr align="center" v-if="list.length==0">
@@ -139,11 +181,6 @@
 
             </div>
         </div>
-        <!--<div class="layui-form-item">
-            <div class="layui-input-block">
-                <button type="button" class="layui-btn" v-on:click="btnsave">立即提交</button>
-            </div>
-        </div>-->
 
     </div>
 </body>
@@ -153,7 +190,8 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            list: [],
+            list: [],//自动回复列表
+            Eventlist: [],//事件列表
             model: [],
             pagingdata: [],
             typelis: [
@@ -163,21 +201,32 @@
                 { Key: 4, Name: '语音消息', lis: [{ Title: "多媒体id", Name: "MediaId" }] },
                 { Key: 5, Name: '音乐消息', lis: [{ Title: "多媒体id", Name: "ThumbMediaId" }, { Title: "标题", Name: "Title" }, { Title: "描述", Name: "Description" }, { Title: "链接", Name: "MusicUrl" }, { Title: "高质量音乐链接", Name: "HQMusicUrl" }] },
                 { Key: 6, Name: '视频消息', lis: [{ Title: "多媒体id", Name: "MediaId" }, { Title: "标题", Name: "Title" }, { Title: "描述", Name: "Description" }] },
+            ],
+            Eventtype: [//Id  后台对应事件
+                { Name: "扫码推事件", Id: "1" },
+                { Name: "扫码推事件且弹出", Id: "2" },
+                { Name: "地理位置", Id: "3" },
+                { Name: "系统拍照", Id: "4" },
+                { Name: "“拍照”或者“从手机相册选择”", Id: "5" },
             ]
         },
         created: function () {
             $frame.RequestGet('WXData/GetMess', '', (x) => {
                 if (x.Success) {
-                    $.each(x.Data, (i, v) => {
-                        x.Data[$.inArray(v, x.Data)].Temp = JSON.parse(x.Data[$.inArray(v, x.Data)].Content);
+                    let list = x.Data.Messlis;
+                    this.Eventlist = x.Data.Eventlis;
+
+                  
+                    $.each(list, (i, v) => {
+                        x.Data[$.inArray(v, list)].Temp = JSON.parse(list[$.inArray(v, list)].Content);
 
                     })
-                    this.list = $frame.filter(x.Data, "Type", 1).length > 0 ? $frame.filter(x.Data, "Type", 1) : [];
+                    this.list = $frame.filter(list, "Type", 1).length > 0 ? $frame.filter(list, "Type", 1) : [];
 
                     o.page(this.list);
-                    this.model = $frame.filter(x.Data, "Type", 2).length > 0 ? $frame.filter(x.Data, "Type", 2) : [];
+                    this.model = $frame.filter(list, "Type", 2).length > 0 ? $frame.filter(list, "Type", 2) : [];
                 } else
-                    console.log(x.Data);
+                    console.log(list);
 
             });
 
@@ -192,7 +241,7 @@
                 })
 
                 $(event.target).prop("disabled", true);
-                $frame.RequestPost('WXData/SaveMess', { lis: vm.list }, (res) => {
+                $frame.RequestPost('WXData/SaveMess', { lis: vm.list, eventlis: vm.Eventlist }, (res) => {
                     $(event.target).prop("disabled", false);
                     if (res.Success) {
                         $frame.alert_msg("操作成功！");
@@ -201,7 +250,8 @@
 
                 });
             },
-            btnsel(item) {
+            //自动回复
+            reply_btnsel(item) {//回复类型
                 item.Temp = [];
                 if (!!item.Key) {
                     let a = $frame.filter(vm.typelis, "Key", item.Key)[0].lis;//获取类型字段
@@ -223,7 +273,7 @@
                 else
                     return false;
             },
-            addlis(item) {
+            reply_addlis(item) {//添加图文列表
                 let a = $frame.filter(vm.typelis, "Key", item.Key)[0].lis;//获取类型字段
                 if (item.Temp.length == 5) {
                     $frame.alert_msg("列表已达到上限！");
@@ -238,10 +288,10 @@
                 item.Temp.push(ob);
 
             },
-            dellis(item, index) {//图文移除
+            reply_dellis(item, index) {//图文移除
                 item.Temp.splice(index, 1);
             },
-            add_list() {//添加自动回复列表
+            reply_add_list() {//添加自动回复列表
                 let model = {
                     Name: '',
                     Type: 1,//消息类型 1:自动回复  2：关注 3：取消关注
@@ -255,7 +305,7 @@
                 vm.list.splice(0, 0, model);
                 o.page(vm.list);
             },
-            addmodel() {
+            reply_addmodel() {
                 if (vm.model.length > 0) {
                     $frame.alert_msg("列表已达到上限！");
                     return false;
@@ -273,12 +323,12 @@
 
                 vm.model.push(model);
             },
-            del_lis(item) {//移除自动回复
+            reply_del_lis(item) {//移除自动回复
 
                 vm.list.splice($.inArray(item, vm.list), 1);
                 o.page(vm.list);
             },
-            search() {//查询
+            reply_search() {//查询
                 let datalist = vm.list;
                 let seaname = $("#search_name").val();
                 if (!$frame.IsEmpty(seaname)) {
@@ -287,10 +337,31 @@
                 } else
                     o.page(vm.list);
             },
-            delmodel(index) {
+            reply_delmodel(index) {
                 vm.model.splice(index, 1);
 
-            }
+            },
+            //----------------END
+
+            //==========按钮事件
+            event_del_lis(item) {//移除数据
+                vm.Eventlist.splice($.inArray(item, vm.Eventlist), 1);
+            },
+            event_add_list() {//添加数据
+
+                let model = {
+                    EventType: 1,
+                    EventKey: '',//自定义事件key                 
+                    GuId: o.guid(),
+                };
+                vm.Eventlist.splice(0, 0, model);
+
+            },
+
+
+            //=========END======
+
+
         },
 
     })

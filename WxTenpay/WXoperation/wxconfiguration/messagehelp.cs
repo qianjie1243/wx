@@ -26,7 +26,9 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// </summary>
         /// <param name="postStr"></param>
         /// <returns></returns>
-        public string ReturnMessage(string postStr, List<Message> lis)
+        /// 
+
+        public string ReturnMessage(string postStr, List<Message> lis, List<EvenMessage> Eventlis)
         {
             Log.WriteLogFile(postStr, "微信接收信息"); //记录微信接收信息
             string responseContent = "";
@@ -58,7 +60,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                 {
                     case "event":
                         //return responseContent;
-                        responseContent = EventHandle(xmldoc, lis);//事件处理
+                        responseContent = EventHandle(xmldoc, Eventlis);//事件处理
                         break;
                     case "text":
                         //return "success";
@@ -79,7 +81,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
         /// </summary>
         /// <param name="xmldoc"></param>
         /// <returns></returns>
-        public string EventHandle(XmlDocument xmldoc, List<Message> lis)
+        public string EventHandle(XmlDocument xmldoc, List<EvenMessage> lis)
         {
             string responseContent = "";
             //事件类型，Event     subscribe(订阅)、unsubscribe(取消订阅)
@@ -91,6 +93,68 @@ namespace WxTenpay.WXoperation.wxconfigurateion
             //发送方帐号（一个OpenID）
             XmlNode FromUserName = xmldoc.SelectSingleNode("/xml/FromUserName");
             #region 菜单单击事件
+            var model = lis.Where(x => x.EventKey.Trim().ToLower() == EventKey.InnerText.Trim().ToLower()).FirstOrDefault();
+            if (model != null)
+            {
+                switch (model.EventType)
+                {
+                    case "1"://扫码推事件
+                        XmlNode ScanResult = xmldoc.SelectSingleNode("/xml/ScanCodeInfo/ScanResult");
+                        responseContent = string.Format(
+                     ReplyType.Message_Text,
+                     FromUserName.InnerText,
+                     ToUserName.InnerText,
+                     DateTime.Now.Ticks,
+                     $"扫码的结果：{ScanResult.InnerText}"
+                     );
+
+                        break;
+                    case "2"://扫码推事件且弹出
+                        XmlNode _ScanResult = xmldoc.SelectSingleNode("/xml/ScanCodeInfo/ScanResult");
+                        responseContent = string.Format(
+                     ReplyType.Message_Text,
+                     FromUserName.InnerText,
+                     ToUserName.InnerText,
+                     DateTime.Now.Ticks,
+                     $"扫码的结果：{_ScanResult.InnerText}"
+                     );
+                        break;
+                    case "3"://地理位置
+                        XmlNode Location_X = xmldoc.SelectSingleNode("/xml/SendLocationInfo/Location_X");
+                        XmlNode Location_Y = xmldoc.SelectSingleNode("/xml/SendLocationInfo/Location_Y");
+                        XmlNode Label = xmldoc.SelectSingleNode("/xml/SendLocationInfo/Label");
+                        responseContent = string.Format(
+                     ReplyType.Message_Text,
+                     FromUserName.InnerText,
+                     ToUserName.InnerText,
+                     DateTime.Now.Ticks,
+                     $"您的位置=>X坐标：{Location_X.InnerText},Y坐标：{Location_Y.InnerText}。您的详情地址为：{Label.InnerText}" 
+                     );
+                        break;
+                    case "4"://系统拍照
+                        XmlNode Count = xmldoc.SelectSingleNode("/xml/SendPicsInfo/Count");
+                        responseContent = string.Format(
+                     ReplyType.Message_Text,
+                     FromUserName.InnerText,
+                     ToUserName.InnerText,
+                     DateTime.Now.Ticks,
+                     $"一共发了：{Count.InnerText}张照片！"
+                     );
+                        break;
+                    case "5"://“拍照”或者“从手机相册选择”
+
+                        XmlNode _Count = xmldoc.SelectSingleNode("/xml/SendPicsInfo/Count");
+                        responseContent = string.Format(
+                     ReplyType.Message_Text,
+                     FromUserName.InnerText,
+                     ToUserName.InnerText,
+                     DateTime.Now.Ticks,
+                     $"一共发了：{_Count.InnerText}张照片！"
+                     );
+                        break;
+                }
+            }
+
 
             #endregion
             return responseContent;
@@ -116,11 +180,11 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                 var meslis = lis.Where(x => x.Type == 1 && Content.InnerText.Contains(x.Name) && x.MatchingWay == 0).ToList();//模糊
                 meslis.AddRange(lis.Where(x => x.Type == 1 && x.Name == Content.InnerText && x.MatchingWay == 1));//全部匹配
 
-                if (meslis.Count> 0)
+                if (meslis.Count > 0)
                 {
                     var model = meslis.FirstOrDefault();//获取满足条件第一条
                     var ja = (JArray)JsonConvert.DeserializeObject(model.Content);
-                
+
                     switch (model.Key)
                     {
                         case 1://文本
@@ -209,7 +273,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
                     //            ToUserName.InnerText,
                     //            DateTime.Now.Ticks,
                     //            ""
-                     //            );
+                    //            );
                 }
             }
             return responsecontent;
@@ -233,7 +297,7 @@ namespace WxTenpay.WXoperation.wxconfigurateion
             XmlNode FromUserName = xmldoc.SelectSingleNode("/xml/FromUserName");
 
             var model = lis.Where(x => x.Type == 2).FirstOrDefault();//定义数据
-          
+
             if (model != null)
             {
                 var ja = (JArray)JsonConvert.DeserializeObject(model.Content);

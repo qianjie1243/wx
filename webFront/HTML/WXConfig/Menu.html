@@ -80,7 +80,7 @@
                                 <input type="text" v-model="Menulis.button[index].appid" :title="Menulis.button[index].appid" :value="Menulis.button[index].appid" class="layui-input" v-if="Menulis.button[index].type=='miniprogram'" placeholder="小程序appid" style="width:150px;" />
                                 <input type="text" v-model="Menulis.button[index].pagepath" :title="Menulis.button[index].pagepath" :value="Menulis.button[index].pagepath" class="layui-input" v-if="Menulis.button[index].type=='miniprogram'" style="margin-left:3px;width:150px;" placeholder="小程序页面地址" />
                                 <input type="text" v-model="Menulis.button[index].url" :title="Menulis.button[index].url" :value="Menulis.button[index].url" class="layui-input" v-if="Menulis.button[index].type=='view'" placeholder="跳转url地址" style="width:150px;" />
-                                <input type="text" v-model="Menulis.button[index].Key" :title="Menulis.button[index].Key" :value="Menulis.button[index].Key" class="layui-input" v-if="(Menulis.button[index].type=='click'||Menulis.button[index].type=='location_select'|| Menulis.button[index].type=='scancode_push'||Menulis.button[index].type=='pic_sysphoto'||Menulis.button[index].type=='pic_photo_or_album'||Menulis.button[index].type=='scancode_waitmsg')" placeholder="菜单KEY值，用于消息接口推送" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].key" :title="Menulis.button[index].key" :value="Menulis.button[index].key" class="layui-input" v-if="(Menulis.button[index].type=='click'||Menulis.button[index].type=='location_select'|| Menulis.button[index].type=='scancode_push'||Menulis.button[index].type=='pic_sysphoto'||Menulis.button[index].type=='pic_photo_or_album'||Menulis.button[index].type=='scancode_waitmsg')" placeholder="菜单KEY值，用于消息接口推送" style="width:150px;" />
                                 <input type="text" v-model="Menulis.button[index].media_id" :title="Menulis.button[index].media_id" :value="Menulis.button[index].media_id" class="layui-input" v-if="(Menulis.button[index].type=='media_id'||Menulis.button[index].type=='view_limited')" style="width:150px;" placeholder="永久素材接口返回的合法media_id" />
                             </div>
 
@@ -89,7 +89,7 @@
                                 <input type="text" v-model="Menulis.button[index].sub_button[i].appid" :title="Menulis.button[index].sub_button[i].appid" :value="Menulis.button[index].sub_button[i].appid" class="layui-input" v-if="Menulis.button[index].sub_button[i].type=='miniprogram'" placeholder="小程序appid" style="width:150px;" />
                                 <input type="text" v-model="Menulis.button[index].sub_button[i].pagepath" :title="Menulis.button[index].sub_button[i].pagepath" :value="Menulis.button[index].sub_button[i].pagepath" class="layui-input" v-if="Menulis.button[index].sub_button[i].type=='miniprogram'" style="margin-left:3px;width:150px;" placeholder="小程序页面地址" />
                                 <input type="text" v-model="Menulis.button[index].sub_button[i].url" :title="Menulis.button[index].sub_button[i].url" :value="Menulis.button[index].sub_button[i].url" class="layui-input" v-if="Menulis.button[index].sub_button[i].type=='view'" placeholder="跳转url地址" style="width:150px;" />
-                                <input type="text" v-model="Menulis.button[index].sub_button[i].Key" :title="Menulis.button[index].sub_button[i].Key" :value="Menulis.button[index].sub_button[i].Key" class="layui-input" v-if="(Menulis.button[index].sub_button[i].type=='click'||Menulis.button[index].sub_button[i].type=='location_select'|| Menulis.button[index].sub_button[i].type=='scancode_push'||Menulis.button[index].sub_button[i].type=='pic_sysphoto'||Menulis.button[index].sub_button[i].type=='pic_photo_or_album'||Menulis.button[index].sub_button[i].type=='scancode_waitmsg')" placeholder="菜单KEY值，用于消息接口推送" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].sub_button[i].key" :title="Menulis.button[index].sub_button[i].key" :value="Menulis.button[index].sub_button[i].key" class="layui-input" v-if="(Menulis.button[index].sub_button[i].type=='click'||Menulis.button[index].sub_button[i].type=='location_select'|| Menulis.button[index].sub_button[i].type=='scancode_push'||Menulis.button[index].sub_button[i].type=='pic_sysphoto'||Menulis.button[index].sub_button[i].type=='pic_photo_or_album'||Menulis.button[index].sub_button[i].type=='scancode_waitmsg')" placeholder="菜单KEY值，用于消息接口推送" style="width:150px;" />
                                 <input type="text" v-model="Menulis.button[index].sub_button[i].media_id" :title="Menulis.button[index].sub_button[i].media_id" :value="Menulis.button[index].sub_button[i].media_id" class="layui-input" style="width:150px;" v-if="(Menulis.button[index].sub_button[i].type=='media_id'||Menulis.button[index].sub_button[i].type=='view_limited')" placeholder="永久素材接口返回的合法media_id" />
                             </div>
                         </td>
@@ -125,7 +125,7 @@
         data: {
             Menulis: { button: [] },
             btntype: [
-                { name: '按钮', type: 'click', param: ['Key'] },
+                { name: '按钮', type: 'click', param: ['key'] },
                 { name: '跳转URL', type: 'view', param: ['url'] },
                 { name: '跳转小程序', type: 'miniprogram', param: ['appid', 'pagepath'] },
                 { name: '扫码推事件', type: 'scancode_push' },
@@ -158,7 +158,7 @@
                     $frame.alert_msg("主菜单已达到上限！");
                     return false;
                 }
-                vm.Menulis.button.push({ name: '', type: '', appid: '', pagepath: '', url: '', Key: '', media_id: '', sub_button: [] })
+                vm.Menulis.button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] })
             },
             fadd(index) {
                 vm.Menulis.button[index].type = '';
@@ -167,7 +167,7 @@
                     return false;
                 }
 
-                vm.Menulis.button[index].sub_button.push({ name: '', type: '', appid: '', pagepath: '', url: '', Key: '', media_id: '', sub_button: [] });
+                vm.Menulis.button[index].sub_button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] });
             },
             del(index) {
                 vm.Menulis.button.splice(index, 1);
@@ -180,7 +180,7 @@
                     vm.Menulis.button[index].appid = '';
                     vm.Menulis.button[index].pagepath = '';
                     vm.Menulis.button[index].url = '';
-                    vm.Menulis.button[index].Key = '';
+                    vm.Menulis.button[index].key = '';
                     vm.Menulis.button[index].media_id = '';
                     vm.Menulis.button[index].sub_button = [];
                 }
@@ -189,7 +189,7 @@
                 vm.Menulis.button[index].sub_button[i].appid = '';
                 vm.Menulis.button[index].sub_button[i].pagepath = '';
                 vm.Menulis.button[index].sub_button[i].url = '';
-                vm.Menulis.button[index].sub_button[i].Key = '';
+                vm.Menulis.button[index].sub_button[i].key = '';
                 vm.Menulis.button[index].sub_button[i].media_id = '';
 
             }
@@ -244,8 +244,8 @@
                         m["pagepath"] = v.pagepath;
                     if (!$frame.IsEmpty(v.url))
                         m["url"] = v.url;
-                    if (!$frame.IsEmpty(v.Key))
-                        m["Key"] = v.Key;
+                    if (!$frame.IsEmpty(v.key))
+                        m["key"] = v.key;
                     if (!$frame.IsEmpty(v.media_id))
                         m["media_id"] = v.media_id;
                 }
@@ -262,8 +262,8 @@
                             fm["pagepath"] = value.pagepath;
                         if (!$frame.IsEmpty(value.url))
                             fm["url"] = value.url;
-                        if (!$frame.IsEmpty(value.Key))
-                            fm["Key"] = value.Key;
+                        if (!$frame.IsEmpty(value.key))
+                            fm["key"] = value.key;
                         if (!$frame.IsEmpty(value.media_id))
                             fm["media_id"] = value.media_id;
                 
