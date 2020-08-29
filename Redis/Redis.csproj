@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{66E963BB-2DD2-497B-AB0B-9F8B0D6A5316}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Redis</RootNamespace>
+    <AssemblyName>Redis</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ServiceStack.Common, Version=3.9.70.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Common.3.9.70\lib\net35\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Common.3.9.70\lib\net35\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Redis.3.9.71\lib\net35\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=3.9.71.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.3.9.71\lib\net35\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CacheBase\CacheFactory.cs" />
+    <Compile Include="CacheBase\Cacheld.cs" />
+    <Compile Include="CacheBase\ICache.cs" />
+    <Compile Include="CacheByRedis.cs" />
+    <Compile Include="RedisConfigInfo.cs" />
+    <Compile Include="RedisCache.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Redis安装包\redis-3.0.1\dump.rdb" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\logs\myeasylog.log" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\Blend.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\BrightnessContrast.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\Colorize.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\ColorOverlay.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\ConicalGradient.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\Desaturate.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\DirectionalBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\Displace.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\DropShadow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\FastBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\GammaAdjust.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\GaussianBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\Glow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\HueSaturation.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\InnerShadow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\LevelAdjust.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\LinearGradient.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\MaskedBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\OpacityMask.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\FastGlow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\FastInnerShadow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\FastMaskedBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\GaussianDirectionalBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\GaussianGlow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\GaussianInnerShadow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\GaussianMaskedBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\private\SourceProxy.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\RadialBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\RadialGradient.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\RectangularGlow.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\RecursiveBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\ThresholdMask.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtGraphicalEffects\ZoomBlur.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQml\Models.2\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQml\Models.2\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick.2\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick.2\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Controls\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Controls\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Controls\Styles\Flat\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Controls\Styles\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Dialogs\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Dialogs\Private\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Dialogs\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\CircularGaugeSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\DelayButtonSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\DialSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\GaugeSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\PictureSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\PieMenuSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\StatusIndicatorSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\ToggleButtonSpecifics.qml" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Layouts\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Layouts\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\PrivateWidgets\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\PrivateWidgets\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Window.2\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Window.2\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt\labs\folderlistmodel\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt\labs\folderlistmodel\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt\labs\settings\plugins.qmltypes" />
+    <None Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt\labs\settings\qmldir" />
+    <None Include="Redis安装包\redis-3.0.1\windows安装redis教程.docx" />
+    <None Include="Redis安装包\Redis-x64-3.2.100\dump.rdb" />
+    <None Include="Redis安装包\Redis-x64-3.2.100\Redis on Windows Release Notes.docx" />
+    <None Include="Redis安装包\Redis-x64-3.2.100\Redis on Windows.docx" />
+    <None Include="Redis安装包\Redis-x64-3.2.100\redis.windows-service.conf" />
+    <None Include="Redis安装包\Redis-x64-3.2.100\redis.windows.conf" />
+    <None Include="Redis安装包\Redis-x64-3.2.100\Windows Service Documentation.docx" />
+    <None Include="Redis安装包\Redis-x64-3.2.100\windows安装redis教程.docx" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Redis安装包\redis-3.0.1\cygwin1.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\redis-benchmark.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\redis-check-aof.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\redis-check-dump.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\redis-cli.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\redis-sentinel.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\redis-server.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\bearer\qgenericbearer.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\bearer\qnativewifibearer.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\crashreporter.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\D3Dcompiler_43.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\iconengines\qsvgicon.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qdds.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qgif.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qicns.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qico.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qjp2.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qjpeg.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qmng.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qsvg.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qtga.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qtiff.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qwbmp.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\imageformats\qwebp.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\libeay32.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\libEGL.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\libgcc_s_dw2-1.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\libGLESV2.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\libssh2-1.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\libstdc++-6.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\libwinpthread-1.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\opengl32sw.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\platforms\qwindows.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\qmltooling\qmldbg_qtquick2.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\qmltooling\qmldbg_tcp.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5Core.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5Gui.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5Network.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5Qml.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5Quick.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5QuickWidgets.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5Svg.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt5Widgets.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQml\Models.2\modelsplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick.2\qtquick2plugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Controls\qtquickcontrolsplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Controls\Styles\Flat\qtquickextrasflatplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Dialogs\dialogplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Dialogs\Private\dialogsprivateplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\circulargauge-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\circulargauge-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\delaybutton-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\delaybutton-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\dial-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\dial-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\gauge-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\gauge-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\picture-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\picture-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\piemenu-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\piemenu-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\statusindicator-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\statusindicator-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\togglebutton-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\togglebutton-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\tumbler-icon.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\designer\images\tumbler-icon16.png" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Extras\qtquickextrasplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Layouts\qquicklayoutsplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\PrivateWidgets\widgetsplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\QtQuick\Window.2\windowplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt\labs\folderlistmodel\qmlfolderlistmodelplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\Qt\labs\settings\qmlsettingsplugin.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\rdm.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\ssleay32.dll" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\uninstall.exe" />
+    <Content Include="Redis安装包\redis-3.0.1\RedisDesktopManager\zlib1.dll" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\EventLog.dll" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-benchmark.exe" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-benchmark.pdb" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-check-aof.exe" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-check-aof.pdb" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-cli.exe" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-cli.pdb" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-server.exe" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\redis-server.pdb" />
+    <Content Include="Redis安装包\Redis-x64-3.2.100\server_log.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

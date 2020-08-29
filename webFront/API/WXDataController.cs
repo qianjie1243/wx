@@ -7,6 +7,9 @@ using WxTenpay;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WxTenpay.WXoperation.TModel;
+using Redis.CacheBase;
+using System.Configuration;
+using Redis;
 
 namespace webFront.API
 {
@@ -20,8 +23,12 @@ namespace webFront.API
         private WeChatPayment wpm = new WeChatPayment();
         private Wechat_Menu wm = new Wechat_Menu();
         private WechatPublic wp = new WechatPublic();
-        #endregion  
+        #endregion
 
+        #region 缓存定义
+        private ICache cache = CacheFactory.CaChe();
+        private string cacheKey = "wxuser";
+        #endregion
 
         #region wx配置
         /// <summary>
@@ -129,6 +136,8 @@ namespace webFront.API
         {
             try
             {
+
+
                 GetConfig.ResetConfig();
                 if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
                 {
@@ -139,7 +148,6 @@ namespace webFront.API
                 {
                     use = getWxUserLis(new List<WxTenpay.WXoperation.gerenxinxi>());
                 }
-
                 return Success(use);
             }
             catch (Exception ex)
@@ -373,7 +381,8 @@ namespace webFront.API
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(mid)) {
+                if (string.IsNullOrWhiteSpace(mid))
+                {
                     return Error("参数异常！");
                 }
                 GetConfig.ResetConfig();
@@ -400,7 +409,7 @@ namespace webFront.API
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public object SaveSms(List<Template> temp,string openid,string content,string temid, int type,string openurl)
+        public object SaveSms(List<Template> temp, string openid, string content, string temid, int type, string openurl)
         {
             try
             {
@@ -410,8 +419,8 @@ namespace webFront.API
                     return Error("请先完善微信配置文件！");
                 }
                 if (type == 0) return Success(wp.WeiXinKeFu(openid.Trim(), content));
-                
-                else   return Success(wp.WeiXinTemplate(openid.Trim(), temid.Trim(), temp, openurl));
+
+                else return Success(wp.WeiXinTemplate(openid.Trim(), temid.Trim(), temp, openurl));
             }
             catch (Exception ex)
             {
@@ -427,7 +436,7 @@ namespace webFront.API
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public object SaveMess(List<Message> lis,List<EvenMessage> eventlis)
+        public object SaveMess(List<Message> lis, List<EvenMessage> eventlis)
         {
             try
             {
