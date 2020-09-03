@@ -257,13 +257,13 @@ var $frame = {
      * pageindex 页码默认 1
      * 
      * 调用方法：
-     * $frame.laypaging(1,{
+     * $frame.laypaging({
             callBack: function (res, fun) {
                 if (!!res) {
                     fun(res.Count);//传入数据总数
                 }},
             url: "Chart/Getboard",
-        })
+        },1)
      **/
     laypaging: function (d, pageindex) {
         pageindex = pageindex || 1;
@@ -276,6 +276,7 @@ var $frame = {
             //选择每页显示的数据条数
             callBack: false,
             url: "",
+            elem: 'paging'
         }
         $.extend(data, d || {});
         $frame.RequestGet(data.url, data, function (res) {
@@ -286,7 +287,7 @@ var $frame = {
                         var laypage = layui.laypage,
                             layer = layui.layer;
                         laypage.render({
-                            elem: 'paging',
+                            elem: d.elem,
                             count: dataLength,
                             limit: data.rows,
                             first: '首页',
@@ -309,7 +310,56 @@ var $frame = {
         });
     },
 
+    //页面分页处调用layui插件
+    /***
+     * d 对象   rows： 每页数据
+     *      page：页码
+     *      event：绑定事件，
+     *      items：数据源
+     *
+     * pageindex 页码默认 1
+     *
+     * 调用方法：
+     * $frame.layPagepaging({
+            event: function (data) {
+               //调用数据绑定事件
+        })
+     **/
+    layPagepaging: function (d) {
+        let data = {
+            rows: 12,
+            page: 1,
+            elem: 'paging',
+            items: [],
+            event: false,//方法
+        }
+        $.extend(data, d || {});
 
+        if (data.event) data.event(data.items);
+
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage;
+            laypage.render({
+                elem: data.elem,
+                count: data.items.length,
+                limit: data.rows,
+                first: '首页',
+                last: '尾页',
+                layout: ['count', 'prev', 'page', 'next', 'skip'],
+                curr: data.page,
+                theme: '#00A0E9',
+                jump: function (obj, first) {
+                    if (!first) {
+                        //第一次不执行,一定要记住,这个必须有,要不然就是死循环
+                        let curr = obj.curr;
+                        //回调该展示数据的方法,数据展示
+                        data.page = curr;
+                        $frame.layPagepaging(data);
+                    }
+                }
+            });
+        });
+    },
 
     //获取url参数
     GetQueryString: function (name) {
@@ -377,7 +427,7 @@ var $frame = {
                             }
                         }
                     }
-                   
+
                 }
                 if (keys.length == (parseInt(index) + 1))
                     newdata = lisnewdata[(parseInt(index) + 1)];
