@@ -198,7 +198,7 @@ namespace WxTenpay.WXoperation.Common
                 int pos = path.LastIndexOf("\\") + 1;
                 string fileName = path.Substring(pos);
                 //请求头部信息
-                StringBuilder sbHeader = new StringBuilder(string.Format("Content-Disposition:form-data;  name=\"file\";filename=\"{0}\"\r\nContent-Type:application/octet-stream\r\n\r\n", fileheaderName, fileName));
+                StringBuilder sbHeader = new StringBuilder(string.Format("Content-Disposition:form-data;  name=\"{0}\";filename=\"{1}\"\r\nContent-Type:application/octet-stream\r\n\r\n", fileheaderName, fileName));
                 byte[] postHeaderBytes = Encoding.UTF8.GetBytes(sbHeader.ToString());
 
                 FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);

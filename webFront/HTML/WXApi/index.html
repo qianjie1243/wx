@@ -95,7 +95,11 @@
         GetUser() {
             $frame.RequestGet('WXlog/GetLog', '', (x) => {
                 if (x.Success) {
-                    vm.datalis = x.Data;
+                    $.each(x.Data, (i, v) => {//使用文件夹时间生成时间戳，根据时间戳排序
+                        v['time'] = new Date(v.name).getTime();
+                    });
+                    vm.datalis = $frame.sorting(x.Data, "time", false);  
+                    
                     o.page(vm.datalis);
                 } else {
                     console.log(x.Data);

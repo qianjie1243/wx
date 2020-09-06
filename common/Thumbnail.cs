@@ -587,5 +587,34 @@ namespace Common
         }
 
 
+        #region  保存图片
+
+        public static string UploadFile(HttpPostedFile file, string path, string name)
+        {
+            try
+            {
+                Random rd = new Random();
+                var number = rd.Next(1, 10000);
+                // string exName = Path.GetExtension(file.FileName); //得到扩展名
+                var fileName = name + number + file.FileName.Replace("&", "").Replace("\\", "").Replace("<", "").Replace("%", "").Replace("\"", "").Replace(">", "").Replace(":", "").Replace("+", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace("[", "").Replace("]", "").Replace("{", "").Replace("}", "").Replace(",", "").Replace("'", "").Replace("'", "");
+                string result = path + "/" + fileName;
+                var filePath = System.Web.HttpContext.Current.Server.MapPath(path);
+
+                //检查上传的物理路径是否存在，不存在则创建
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+                file.SaveAs(Path.Combine(filePath, fileName));
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion 
+
+
     }
 }

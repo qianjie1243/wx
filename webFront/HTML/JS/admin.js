@@ -188,11 +188,13 @@ var $frame = {
             title: '信息',
             width: 550,
             height: 400,
+            type: 2,
             url: 'error',
             btn: ['确认', '关闭'],
             callBack: false,
             maxmin: false,
             end: false,
+            cancel: false,
         };
         $.extend(dfop, obj || {});
         /*适应窗口大小*/
@@ -201,21 +203,14 @@ var $frame = {
         var r = layer.open({
             id: dfop.id,
             maxmin: dfop.maxmin,
-            type: 2,//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+            type: dfop.type,//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
             title: dfop.title,
             area: [dfop.width + 'px', dfop.height + 'px'],
             btn: dfop.btn,
             content: dfop.url,
             skin: 'demo-class',
             success: function (layero, index) {
-                //if ($frame.IsEmpty(iframeNames['iframe_' + dfop.id]))//为空保存对象
-                //    iframeNames['iframe_' + dfop.id] = $frame.IsEmpty(iframeNames['iframe_' + dfop.id]) ? iframeNames['iframe_' + dfop.id] : iframeNames['iframe_' + dfop.id].contentWindow;//保存窗体对象
-                //else {
-                //    if (!$frame.IsEmpty(iframeNames['iframe_' + dfop.id].contentWindow))
-                //        iframeNames['iframe_' + dfop.id] = iframeNames['iframe_' + dfop.id].contentWindow;
-                //    else
-                //        iframeNames['iframe_' + dfop.id] = iframeNames['iframe_' + dfop.id]
-                //}
+
             },
             yes: function (index) {//确认
                 var flag = true;
@@ -228,12 +223,46 @@ var $frame = {
             },
             end: function () {//关闭
                 //iframeNames['iframe_' + dfop.id] = null;
-                if (!!dfop.end) {
+                if (!!dfop.end)
                     dfop.end(r);
-                } else
-                    layer.close(r);
+                layer.close(r);
+            },
+            cancel: function () {
+                //右上角关闭回调
+                if (!!dfop.cancel)
+                    dfop.cancel(r);
+                layer.close(r);
+
             }
         });
+    },
+
+    layerForm_id: function (obj) {
+
+        var dfop = {
+            title: '信息',
+            width: 550,
+            height: 400,
+            content: '',
+            cancel: false,
+        };
+        $.extend(dfop, obj || {});
+        /*适应窗口大小*/
+        dfop.width = dfop.width > $(window).width() ? $(window).width() - 10 : dfop.width;
+        dfop.height = dfop.height > $(window).height() ? $(window).height() - 10 : dfop.height;
+        var opindex = layer.open({
+            type: 1,
+            area: [dfop.width + 'px', dfop.height + 'px'],
+            title: dfop.title,
+            content: dfop.content,
+            cancel: function () {
+                if (dfop.cancel)
+                    dfop.cancel(opindex);
+                layer.close(opindex);
+            },
+ 
+        });
+
     },
     //加载框
     loading: function (msg) {
@@ -808,6 +837,13 @@ var $frame = {
     //打开url
     openurl: function (str) {
         window.open(str);
+    },
+    //获取File文件名 obj  事件对象  显示文件名对象
+    getfileName: function (obj) {
+        let filePath = $(obj).val();
+        let arr = filePath.split('\\');
+        let fileName = arr[arr.length - 1];
+        return fileName;
     },
     //导出网页excel
     tableToExcel: function (tableid, sheetName, backgroundcolor) {

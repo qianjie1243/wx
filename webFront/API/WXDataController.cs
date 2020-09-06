@@ -10,6 +10,7 @@ using WxTenpay.WXoperation.TModel;
 using Redis.CacheBase;
 using System.Configuration;
 using Redis;
+using System.Drawing;
 
 namespace webFront.API
 {
@@ -23,6 +24,7 @@ namespace webFront.API
         private WeChatPayment wpm = new WeChatPayment();
         private Wechat_Menu wm = new Wechat_Menu();
         private WechatPublic wp = new WechatPublic();
+        private string personpath = "/file/media";
         #endregion
 
         #region 缓存定义
@@ -398,7 +400,115 @@ namespace webFront.API
             }
 
         }
+        /// <summary>
+        /// 上传素材功能
+        /// </summary>
+        /// <returns></returns>
+        public object AddMaterialList(string lis, string type)
+        {
+            List<string> result = new List<string>();
+            try
+            {
+              
 
+                GetConfig.ResetConfig();
+                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                {
+                    return Error("请先完善微信配置文件！");
+                }
+
+                switch (type)
+                {
+                    case "1"://图文素材
+                        result.Add(wm.graphic(lis));
+                        break;
+                    case "2"://图片素材
+                        #region 保存文件
+                        var files = System.Web.HttpContext.Current.Request.Files;
+                        if (files != null && files.Count > 0)
+                        {
+                            string[] names = files.AllKeys;
+                            for (int i = 0; i < names.Length; i++)
+                            {
+                                if (files[i].ContentLength > 0)
+                                {
+                                    var pathfile = Common.Thumbnail.UploadFile(files[i], personpath + "/images/" + DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                                    if (string.IsNullOrWhiteSpace(pathfile))
+                                    {
+                                        return Error("文件异常，请重新上传文件！");
+                                    }
+                                    result.Add( wm.material(Thumbnail.GetMapPath(pathfile), "image"));
+                                }
+
+                            }
+                        }
+                        #endregion                     
+                        break;
+                    case "3"://语音素材
+                        #region 保存文件
+                        var mp3files = System.Web.HttpContext.Current.Request.Files;
+                        if (mp3files != null && mp3files.Count > 0)
+                        {
+                            string[] names = mp3files.AllKeys;
+                            for (int i = 0; i < names.Length; i++)
+                            {
+                                if (mp3files[i].ContentLength > 0)
+                                {
+                                    var pathfile = Common.Thumbnail.UploadFile(mp3files[i], personpath + "/voice/" + DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                                    if (string.IsNullOrWhiteSpace(pathfile))
+                                    {
+                                        return Error("文件异常，请重新上传文件！");
+                                    }
+                                    result.Add( wm.material(Thumbnail.GetMapPath(pathfile), "voice"));
+                                }
+
+                            }
+                        }
+                        #endregion
+                        break;
+                    case "4"://视频素材
+                        JArray ja = (JArray)JsonConvert.DeserializeObject(lis);
+                        foreach (var item in ja)
+                        {
+                            #region 保存文件
+                            var voidfiles = System.Web.HttpContext.Current.Request.Files;
+                            if (voidfiles != null && voidfiles.Count > 0)
+                            {
+                                string[] names = voidfiles.AllKeys;
+                                for (int i = 0; i < names.Length; i++)
+                                {
+                                    if (voidfiles[i].ContentLength > 0)
+                                    {
+                                        var pathfile = Common.Thumbnail.UploadFile(voidfiles[i], personpath + "/video/" + DateTime.Now.ToString("yyyyMMdd"), DateTime.Now.ToString("yyyyMMddHHmmss"));
+                                        if (string.IsNullOrWhiteSpace(pathfile))
+                                        {
+                                            return Error("文件异常，请重新上传文件！");
+                                        }
+                                        result.Add(wm.video(Thumbnail.GetMapPath(pathfile), item["title"].ToString(), item["introduction"].ToString()));
+                                    }
+
+                                }
+                            }
+                            #endregion
+
+
+                        }
+                        break;
+                    case "5":
+                        break;
+
+
+                }
+
+
+
+                return Success(result);
+            }
+            catch (Exception ex)
+            {
+                return Error(ex.Message);
+            }
+        }
 
 
         #endregion
@@ -475,6 +585,10 @@ namespace webFront.API
             }
 
         }
-        #endregion 
+        #endregion
+
+        #region 
+
+        #endregion
     }
 }

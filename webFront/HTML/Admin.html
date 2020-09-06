@@ -75,9 +75,9 @@
                                 <a>微信基本操作类</a>
                                 <dl class="layui-nav-child">
                                     <dd><a onclick="openiframe('WToken','WXConfig/Token.html','Token/JsapiTicket')">获取Token/JsapiTicket</a></dd>
-                                    <dd><a onclick="openiframe('WMaterial','WXConfig/Material.html','素材总数')">获取素材总数</a></dd>
-                                    <dd><a onclick="openiframe('WMaterialList','WXConfig/MaterialList.html','获取永久素材')">获取永久素材</a></dd>
-                                    <dd><a>上传素材</a></dd>
+                                    <dd><a onclick="openiframe('WMaterial','WXMaterial/Material.html','素材总数')">获取素材总数</a></dd>
+                                    <dd><a onclick="openiframe('WMaterialList','WXMaterial/MaterialList.html','获取永久素材')">获取永久素材</a></dd>
+                                    <dd><a onclick="openiframe('WAddMaterial','WXMaterial/AddMaterial.html','上传素材')">上传素材</a></dd>
                                     <dd><a onclick="openiframe('WPush','WXConfig/WXPush.html','微信推送')">微信推送</a></dd>
                                 </dl>
                             </dd>
@@ -180,5 +180,21 @@
     layui.use('element', function () {
         var element = layui.element;
     });
+
+    var parent_obj = {
+        layerForm_id(obj) {
+            let iframename = this.getopeniframename();//获取当前打开页面
+
+            let content = window.document.getElementById(iframename.Name).contentWindow.document.getElementById(obj.content);
+            obj["content"] = content;
+            $frame.layerForm_id(obj);
+        },
+        getopeniframename() {//获取当前打开页面
+            return vm.iframes.filter(x => { return x.check == true })[0];
+        },
+        geto_iframe_current() {//获取当前打开页面对象
+            return window.document.getElementById(this.getopeniframename().Name).contentWindow;
+        }
+    }
 
 </script>
