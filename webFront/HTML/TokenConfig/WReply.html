@@ -89,21 +89,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item,index) in Eventlist" v-if="Eventlist.length>0">
-                            <td>
+                        <tr v-for="(item,index) in Eventlist" v-if="!!Eventlist&&Eventlist.length>0">
+                            <td  v-if="!!item">
                                 <select v-model="Eventlist[index].EventType" :value="Eventlist[index].EventType"  class="layui-select">
                                     <option v-for="itm in Eventtype" :value="itm.Id">{{itm.Name}}</option>
                                 </select>
                             </td>
-                            <td>
+                            <td  v-if="!!item">
                                 <input type="text" class="layui-input" :value="Eventlist[index].EventKey" v-model="Eventlist[index].EventKey" placeholder="按钮事件自定义KEY">
                             </td>
 
-                            <td>
+                            <td  v-if="!!item">
                                 <button class="layui-btn layui-btn-danger" @click="event_del_lis(Eventlist[index])">移除</button>
                             </td>
                         </tr>
-                        <tr align="center" v-if="Eventlist.length==0">
+                        <tr align="center" v-if="!Eventlist||Eventlist.length==0">
                             <td colspan="3">暂无数据</td>
                         </tr>
                     </tbody>
@@ -214,11 +214,11 @@
             $frame.RequestGet('WXData/GetMess', '', (x) => {
                 if (x.Success) {
                     let list = x.Data.Messlis;
-                    this.Eventlist = x.Data.Eventlis;
+                    this.Eventlist = x.Data.Eventlis || [];
 
                   
                     $.each(list, (i, v) => {
-                        x.Data[$.inArray(v, list)].Temp = JSON.parse(list[$.inArray(v, list)].Content);
+                        list[$.inArray(v, list)].Temp = JSON.parse(list[$.inArray(v, list)].Content);
 
                     })
                     this.list = $frame.filter(list, "Type", 1).length > 0 ? $frame.filter(list, "Type", 1) : [];
