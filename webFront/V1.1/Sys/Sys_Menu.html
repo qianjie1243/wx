@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>菜单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item" style="margin-right:5px">
+            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" >
+                <i class="layui-icon layui-icon-refresh"></i>刷新
+            </button>
+        </div>
+        <table class="layui-hide" id="menu" lay-filter="menu"></table>
+
+    </div>
+
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+
+    layui.config({
+        base: '/HTML/layui/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    }).use(['treetable', 'table', 'layer'], function () {
+        var table = layui.table;
+        var treetable = layui.treetable;
+        var layer = layui.layer;
+        //渲染表格
+        var renderTable = function () {
+            layer.load(2);
+            treetable.render({
+                height: 'full-0',
+                id: 'menu',
+                treeColIndex: 0,	//树形图标显示在第几列
+                treeSpid: '0',		//最上级的父级id
+                treeIdName: 'Id',	//id字段的名称
+                treePidName: 'parentId',	//父级节点字段
+                treeDefaultClose: false,	//是否默认折叠
+                treeLinkage: false,		//父级展开时是否自动展开所有子级
+                elem: '#menu',	//表格id
+                url: '/Sys_Menu/GetList',
+                //toolbar: '#toolbarDemo',
+                page: false,
+                cols: [[
+                    //{ type: 'radio' },
+                    { field: 'name', title: '菜单名称' },
+                    { field: 'Number',  title: '编号' },
+                    { field: 'url', title: '地址' },
+                    //{ field: 'icon', hide: true, title: '图标' },
+                    { field: 'idx', title: '排序' }
+                ]],
+                //数据渲染完的回调
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            })
+        };
+        renderTable();
+    });
+
+</script>

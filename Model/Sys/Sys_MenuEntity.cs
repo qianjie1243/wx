@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Model
 {
+    /// <summary>
+    /// 菜单名称管理数据
+    /// </summary>
     public class Sys_MenuEntity
     {
         public int Id { set; get; }
@@ -44,7 +47,7 @@ namespace Model
         public int Sort { set; get; } = 0;
 
         /// <summary>
-        ///类型iframe   expand 
+        ///类型 iframe   expand 
         /// </summary>
         public string Type { set; get; } = "";
 
@@ -53,8 +56,16 @@ namespace Model
         /// </summary>
         public string CreateTime { set; get; } = "";
 
-
+        /// <summary>
+        /// 权限按钮列表
+        /// </summary>
         [SugarColumn(IsIgnore = true)]
         public List<Sys_ButtonEntity> buttons { set; get; }
+
+        /// <summary>
+        /// 子集菜单
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public List<Sys_MenuEntity> PSysMenu { set; get; } = new List<Sys_MenuEntity>();
     }
 }

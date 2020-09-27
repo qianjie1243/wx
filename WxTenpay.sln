@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.705
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30014.187
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxTenpay", "WxTenpay\WxTenpay.csproj", "{0A25AF62-395F-41B9-84A5-714258EE70AE}"
 EndProject
@@ -14,6 +14,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AliYun", "AliYun\AliYun.csproj", "{0C664C11-3D35-45F6-882C-765A58C57999}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFront", "webFront\WebFront.csproj", "{99F514C7-9B89-49BF-840F-2DA40A29EC7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis", "Redis\Redis.csproj", "{66E963BB-2DD2-497B-AB0B-9F8B0D6A5316}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{8B45180E-F502-41B4-8806-C1DFCC010189}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{CC4954C4-07B3-4C2C-8249-C3FF681AC005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB", "DB\DB.csproj", "{A3FF085E-BC65-4DB6-888D-884F0407510E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{F98817C3-A83A-4CD7-B90E-98F71C160719}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +55,30 @@ Global
 		{99F514C7-9B89-49BF-840F-2DA40A29EC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99F514C7-9B89-49BF-840F-2DA40A29EC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99F514C7-9B89-49BF-840F-2DA40A29EC7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E963BB-2DD2-497B-AB0B-9F8B0D6A5316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E963BB-2DD2-497B-AB0B-9F8B0D6A5316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E963BB-2DD2-497B-AB0B-9F8B0D6A5316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E963BB-2DD2-497B-AB0B-9F8B0D6A5316}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC4954C4-07B3-4C2C-8249-C3FF681AC005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4954C4-07B3-4C2C-8249-C3FF681AC005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4954C4-07B3-4C2C-8249-C3FF681AC005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4954C4-07B3-4C2C-8249-C3FF681AC005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3FF085E-BC65-4DB6-888D-884F0407510E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3FF085E-BC65-4DB6-888D-884F0407510E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3FF085E-BC65-4DB6-888D-884F0407510E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3FF085E-BC65-4DB6-888D-884F0407510E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F98817C3-A83A-4CD7-B90E-98F71C160719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F98817C3-A83A-4CD7-B90E-98F71C160719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F98817C3-A83A-4CD7-B90E-98F71C160719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F98817C3-A83A-4CD7-B90E-98F71C160719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CC4954C4-07B3-4C2C-8249-C3FF681AC005} = {8B45180E-F502-41B4-8806-C1DFCC010189}
+		{A3FF085E-BC65-4DB6-888D-884F0407510E} = {8B45180E-F502-41B4-8806-C1DFCC010189}
+		{F98817C3-A83A-4CD7-B90E-98F71C160719} = {8B45180E-F502-41B4-8806-C1DFCC010189}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B809DB93-5FD3-4E92-906D-DCB14B9F78F3}

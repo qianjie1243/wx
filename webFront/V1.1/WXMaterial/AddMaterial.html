@@ -1,0 +1,457 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>新增素材</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/echarts.min.js"></script>
+    <script src="/wwwroot/JS/colResizable.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="margin:10px;" >
+        <div class="head" style="height:20%;display:flex">
+            <button type="button" class="layui-btn" @click="save($event)">
+                <i class="layui-icon layui-icon-upload-circle"></i> 上传保存
+            </button>
+
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">素材类型：</label>
+            <div class="layui-input-block" style="display:flex">
+
+                <select class="layui-select" v-model="model.Type" :value="model.Type" @change="typechange()">
+                    <option value="1">图文素材</option>
+                    <option value="2">图片素材</option>
+                    <option value="3">语音素材</option>
+                    <option value="4">视频素材</option>
+                </select>
+
+            </div>
+        </div>
+        <fieldset v-if="model.Type==1">
+
+            <legend>图文列表</legend>
+
+            <table class="layui-table" style="overflow:scroll;">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+
+                        <th width="10%">标题</th>
+                        <th>是否显示封面</th>
+                        <th>作者</th>
+                        <th>摘要</th>
+                        <th width="10%">封面图片media_id</th>
+                        <th width="10%">原文地址</th>
+                        <th width="10%">
+                            操作  <button type="button" class="layui-btn layui-btn-xs" @click="addlis()">
+                                <i class="layui-icon">&#xe608;</i> 添加
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index)  in model.articles" v-if="(!!model.articles&&model.articles.length>0)">
+
+                        <td :title="item.title">
+                            {{index+1}}
+
+                        </td>
+                        <td :title="item.title">
+                            {{item.title}}
+
+                        </td>
+                        <td>
+                            <select class="layui-select" :value="item.show_cover_pic" v-model="item.show_cover_pic" :title="item.show_cover_pic">
+                                <option value="0">不显示</option>
+                                <option value="1">已显示</option>
+                            </select>
+
+                        <td :title="item.author">
+
+                            {{((!!item.author&&item.author.length>20)?item.author.substr(0,20)+'...':!item?'':item.author)}}
+                        </td>
+                        <td :title="item.digest">
+
+                            {{((!!item.digest&&item.digest.length>20)?item.digest.substr(0,20)+'...':!item?'':item.digest)}}
+                        </td>
+                        <td :title="item.thumb_media_id">
+                            {{((!!item.thumb_media_id&&item.thumb_media_id.length>20)?item.thumb_media_id.substr(0,30)+'...':!item?'':item.thumb_media_id)}}
+
+                        </td>
+
+
+                        <td :title="item.thumb_url">
+
+                            {{((!!item.thumb_url&&item.thumb_url.length>20)?item.thumb_url.substr(0,50)+'...':!item?'':item.thumb_url)}}
+                        </td>
+
+                        <td>
+                            <div style="display:flex">
+                                <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" @click="dellis(index,2)">
+                                    <i class="layui-icon layui-icon-delete"></i> 移除
+                                </button>
+                                <button type="button" class="layui-btn layui-btn-xs" @click="addlis(index)" style="margin-left:5px;">
+                                    <i class="layui-icon">&#xe608;</i> 编辑
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr v-if="(!model.articles||model.articles.length==0)"><td colspan="9" align="center">暂无数据</td></tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset v-show="model.Type!=1">
+
+            <legend>{{getTypename(model.Type)}}</legend>
+
+            <table class="layui-table" style="overflow:scroll;">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>素材的标题</th>
+                        <th>素材的描述</th>
+                        <th>素材文件</th>
+                        <th width="10%">
+                            操作  <button type="button" class="layui-btn layui-btn-xs" @click="addlis()">
+                                <i class="layui-icon">&#xe608;</i> 添加
+                            </button>
+                        </th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index)  in model.list" v-if="model.list.length>0">
+                        <td>{{index+1}}</td>
+                        <td>
+                            <input class="layui-input" :value="item.title" v-model="item.title" :title="item.title" />
+                        </td>
+                        <td>
+                            <input class="layui-input" :value="item.introduction" v-model="item.introduction" :title="item.introduction" />
+                        </td>
+                        <td>
+                            {{((!!item&&item.filename.length>30)?item.filename.substr(0,30)+'...':!item?'':item.filename)}}
+                        </td>
+                        <td>
+                            <label class="layui-btn layui-btn-normal layui-btn-xs" :for="('upfile_'+index)">
+                                上传
+                            </label>
+                            <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" @click="dellis(index)">
+                                <i class="layui-icon layui-icon-delete"></i> 移除
+                            </button>
+                            <input type="file" :id="('upfile_'+index)" style="position: absolute; clip: rect(0 0 0 0);" @change="getfilename(index)" />
+
+
+
+                        </td>
+                    </tr>
+                    <tr v-if="model.list.length==0"><td colspan="5" align="center">暂无数据</td></tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset>
+
+            <legend>执行结果</legend>
+
+            <textarea class="layui-textarea"></textarea>
+        </fieldset>
+
+
+        <div style="display:none;margin-top:10px;" id="formdes">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">标题：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <input class="layui-input" :value="Items.title" v-model="Items.title" :title="Items.title" style="width:300px" />
+
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">图文消息的封面图片素材id：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <input class="layui-input" :value="Items.thumb_media_id" v-model="Items.thumb_media_id" :title="Items.thumb_media_id" style="width:500px" />
+
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">作者：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <input class="layui-input" :value="Items.author" v-model="Items.author" :title="Items.author" style="width:300px" />
+
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">图文消息的摘要：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <textarea class="layui-textarea" :value="Items.digest" v-model="Items.digest" rows="5" style="width:90%"></textarea>
+                </div>
+            </div>
+            <div style="display:flex">
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">是否显示封面：</label>
+                    <div class="layui-input-block" style="display:flex">
+                        <select :value="Items.show_cover_pic" v-model="Items.show_cover_pic" class="layui-select">
+                            <option value="0">不显示</option>
+                            <option value="1">显示</option>
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">是否打开评论：</label>
+                    <div class="layui-input-block" style="display:flex">
+
+                        <select :value="Items.need_open_comment" v-model="Items.need_open_comment" class="layui-select">
+                            <option value="0">不打开</option>
+                            <option value="1">打开</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">是否粉丝才可评论：</label>
+                    <div class="layui-input-block" style="display:flex">
+                        <select :value="Items.only_fans_can_comment" v-model="Items.only_fans_can_comment" class="layui-select">
+                            <option value="0">所有人</option>
+                            <option value="1">粉丝</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">原文地址：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <input class="layui-input" :value="Items.content_source_url" v-model="Items.content_source_url" :title="Items.content_source_url" style="width:300px" />
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">图文消息的具体内容：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <textarea class="layui-textarea" :value="Items.content" v-model="Items.content" rows="10" style="width:90%"></textarea>
+                </div>
+            </div>
+            <div style="display:flex;padding:20px;">
+                <button type="button"class="layui-btn layui-btn-normal"style="margin-left:30%" @click="addmodel()" >
+                    保存
+                </button>
+                <button type="button" 	class="layui-btn layui-btn-danger" style="margin-left:20%"  @click="close()">
+                    取消
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: { Type: 1, list: [], articles:[] },
+            Items: {},
+            type:'',//操作类型 ''新增  其他 编辑
+        },
+        created: function () {
+        },
+        computed: {
+
+        },
+        methods: {
+            refresh() {
+                window.location.reload();
+            },
+            getTypename(type) {
+                switch (type) {
+                    case "1":
+                        return "图文素材";
+                        break;
+                    case "2":
+                        return "图片素材";
+                        break;
+                    case "3":
+                        return "语音素材";
+                        break;
+                    case "4":
+                        return "视频素材";
+                        break;
+                    case "5":
+                        return "";
+                        break;
+                }
+            },
+            addlis(index) {
+                if (vm.model.Type != "1") {//添加媒体类型素材
+                    let m = {
+                        title: '',
+                        introduction: '',
+                        filename: '',
+                        filevalue: '',
+                    };
+                    vm.model.list.push(m)
+                } else {//添加图文类型素材
+                    if (!$frame.IsEmpty(index)) {
+                        vm.Items = vm.model.articles[index];
+                        vm.type = index;
+                    } else {
+
+                        let Itemsmodel = {
+                            "title": "",
+                            "thumb_media_id": "",
+                            "author": "",
+                            "digest": "",
+                            "show_cover_pic": 0,
+                            "content": "",
+                            "content_source_url": "",
+                            "need_open_comment": 0,
+                            "only_fans_can_comment": 1
+
+                        };
+                        vm.Items = Itemsmodel;
+                    }
+
+
+                   // let iframename = top.parent_obj.geto_iframe_current()["o"].GetUser();//获取打开页面的对象
+
+
+                    oindex = layer.open({
+                        type: 1,
+                        area: ['1000px', '90%'],
+                        title: false,
+                        content: $("#formdes"),
+                        cancel: function () {
+                            vm.type = '';
+                            let Itemmodel = {
+                                "title": "",
+                                "thumb_media_id": "",
+                                "author": "",
+                                "digest": "",
+                                "show_cover_pic": 0,
+                                "content": "",
+                                "content_source_url": "",
+                                "need_open_comment": 0,
+                                "only_fans_can_comment": 1
+
+                            };
+                            vm.Items = Itemmodel;
+                            layer.close(oindex);
+                        }
+                    });
+
+                    
+
+                }
+            },
+            dellis(index, type) {
+                if (type == 2) 
+                    vm.model.articles.splice(index, 1);
+                else
+                vm.model.list.splice(index, 1);
+            },
+            getfilename(i) {
+                let fileo = $("#upfile_" + i);
+                let filePath = fileo.val();
+                let arr = filePath.split('\\');
+                let fileName = arr[arr.length - 1];
+                vm.model.list[i].filename = fileName;
+                vm.model.list[i].filevalue = fileo[0].files[0];
+
+            },
+            typechange() {
+                vm.model.articles = [];
+                vm.model.list = [];
+            },
+            save(event) {
+                let foat = true;
+                let data = new FormData();
+
+                if (vm.model.Type == 1) {
+                    if (vm.model.articles.length == 0) {
+                        $frame.alert_msg("需要上传的素材不能为空！");
+                        foat = false;
+                        return false;
+                    }
+                } else {
+                    if (vm.model.list.length == 0) {
+                        $frame.alert_msg("需要上传的素材不能为空！");
+                        foat = false;
+                        return false;
+                    }
+                }
+
+                if (vm.model.Type != 1) {
+                    $.each(vm.model.list, (index, v) => {
+                        if (!$frame.IsEmpty(v.filename))
+                            data.append("file_" + index, v.filevalue);
+                    })
+                    data.append("lis", JSON.stringify(vm.model.list));
+
+                } else {
+                    data.append("lis", JSON.stringify({ articles: vm.model.articles }));
+                }
+                data.append("type", vm.model.Type);
+                $(event.target).hide();
+                if (foat) {
+                    $frame.RequestPostformdata("WXData/AddMaterialList", data, (res) => {
+                        $(event.target).show();
+                        if (res.Success) {
+                            $frame.alert_msg("操作成功！");
+                            $(".layui-textarea").val(res.Data);
+                        } else {
+                            $frame.alert_msg(res.Data);
+                        }
+
+                    });
+                }
+
+            },
+            addmodel() {
+                if (!$frame.IsEmpty(vm.type)) {//编辑
+                    vm.model.articles[vm.type] = vm.Items;
+                } else//新增操作
+                    vm.model.articles.push(vm.Items);
+
+                layer.close(oindex);
+            },
+            close() {
+                layer.close(oindex);
+            }
+        }
+
+
+    });
+
+    var o = {
+        load() {
+
+
+        },
+        bind() {
+
+        },
+        GetUser() {
+            return "123213213213";
+
+        },
+
+    };
+
+
+</script>

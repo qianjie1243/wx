@@ -473,11 +473,12 @@ namespace WxTenpay
             {
                 messagehelp help = new messagehelp();
                 string responseContent = help.ReturnMessage(poststr, lis, Eventlis);
-                //System.Web.HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
+                Log.WriteLogFile(responseContent, "微信自动推送文件");
+                System.Web.HttpContext.Current.Response.ContentEncoding = Encoding.UTF8;
                 System.Web.HttpContext.Current.Response.Write(responseContent);
                 System.Web.HttpContext.Current.Response.End();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

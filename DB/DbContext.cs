@@ -15,7 +15,7 @@ namespace DB
         {
             Db = new SqlSugarClient(new ConnectionConfig()
             {
-                ConnectionString = ConfigurationManager.AppSettings["connectionstring"],
+                ConnectionString = ConfigurationManager.ConnectionStrings["connectionstring"].ToString(),
                 DbType = DbType.SqlServer,
                 IsAutoCloseConnection = true
             });
@@ -33,8 +33,9 @@ namespace DB
         //系统设置
         public SimpleClient<Sys_ButtonEntity> SysButtonDb => new SimpleClient<Sys_ButtonEntity>(Db);
         public SimpleClient<Sys_MenuEntity> SysMenuDB => new SimpleClient<Sys_MenuEntity>(Db);
-
         public SimpleClient<Sys_UserEntity> SysUserDB => new SimpleClient<Sys_UserEntity>(Db);
+        public SimpleClient<Sys_logEntity> SyslogDB => new SimpleClient<Sys_logEntity>(Db);
+
 
     }
 }

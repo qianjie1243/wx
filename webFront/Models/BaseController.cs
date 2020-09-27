@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Business.Business;
+using Common;
+using Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,7 +12,7 @@ namespace webFront.Models
 {
     public class BaseController : Controller
     {
-
+        private Sys_log logbll = new Sys_log();
         /// <summary>
         ///  请求成功
         /// </summary>
@@ -42,9 +45,11 @@ namespace webFront.Models
         /// <param name="Data"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public object Error(object Data, string fileName)
+        public object ErrorLog(object Data, string Name)
         {
-            return Json(new { Success = false, Data = Data }, JsonRequestBehavior.AllowGet);
+            logbll.Add(new Sys_logEntity { Content= JsonHelper.ObjectToJSON(Data), Name= Name });
+
+            return Json(new { Success = false, Data = "系统异常" }, JsonRequestBehavior.AllowGet);
         }
     }
 }

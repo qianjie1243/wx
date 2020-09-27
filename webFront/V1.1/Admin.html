@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>微信管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/JS/admin.js"></script>
+
+    <style>
+        .layui-header li:hover {
+            cursor: pointer;
+            color: #0094ff;
+            background-color: #808080;
+        }
+
+        .nav-title {
+            color: #ff6a00;
+            line-height: 60px;
+            width: 200px;
+            text-align: center;
+            border-right: 1px #808080 solid
+        }
+
+        .checked {
+            background-color: #808080;
+        }
+
+        iframe {
+            height: 96%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">应用管理</div>
+            <div style="background-color:white;width:100%;height:60px;margin-left:202px">
+                <ul class="layui-nav layui-layout-left " style="display:flex;padding:0">
+                    <li :class=" item.check?['nav-title','checked']:['nav-title'] " v-for="(item,index)  in  iframes" @click="nav(index,item,$event)">
+                        <a>
+                            {{item.navName}}
+                        </a>
+                        <i style="float:right;margin-right:5px;" v-show="index>0" class="layui-icon layui-icon-close " title="关闭"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item" v-for="item in sysmenu" v-if="sysmenu.length>0">
+                        <a v-if="item.Type=='expand'" href="javascript:;">{{item.Name}}</a>
+                        <a @click="openiframe(item.GuId,item.Address,item.Name)" v-if="item.Type=='iframe'">{{item.Name}}</a><!--一级-->
+                        <dl class="layui-nav-child" v-if="!!item.PSysMenu&&item.PSysMenu.length>0">
+                            <dd v-for="fitem in item.PSysMenu">
+                                <a v-if="fitem.Type=='expand'" href="javascript:;">{{fitem.Name}}</a><!--二级-->
+                                <a @click="openiframe(fitem.GuId,fitem.Address,fitem.Name)" v-if="fitem.Type=='iframe'">{{fitem.Name}}</a>
+                                <dl class="layui-nav-child" v-if="!!fitem.PSysMenu&&fitem.PSysMenu.length>0">
+                                    <dd v-for="f_item in fitem.PSysMenu">
+                                        <a v-if="f_item.Type=='expand'" href="javascript:;">{{f_item.Name}}</a><!--三级-->
+                                        <a @click="openiframe(f_item.GuId,f_item.Address,f_item.Name)"v-if="f_item.Type=='iframe'">{{f_item.Name}}</a>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body" style="bottom:-25px">
+            <iframe :src="item.Url" :data-name="item.Name" :id="item.Name" v-for="(item,index)  in  iframes" v-show="item.check"></iframe>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+<script>
+    var vm = new Vue({
+        el: ".layui-layout-admin",
+        data: {
+            iframes: [],
+            iframedata: [],
+            sysmenu: [],
+        },
+        created: function () {
+            $.ajax({
+                url: "/Sys_Menu/GetAdminList",
+                type: "get",
+                success: (r) => {
+                    if (r.Success) {
+                        this.sysmenu = r.Data.mnue;    
+                        let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0]
+                        this.openiframe(model.GuId, model.Address, model.Name)
+                    }else
+                        console.log(r.Data);
+                }
+
+            })
+        },
+        mounted: function () {//渲染出真实dom
+          
+        },
+        methods: {
+            nav(index, item, event) {
+                if (event.target.localName == "i")
+                    vm.close(index, item);
+                else {
+                    $.each(vm.iframes, (i, v) => { v.check = false })
+                    let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
+                    let _i = vm.iframes.indexOf(_index);
+                    if (_i > -1)
+                        _index.check = true;
+                }
+            },
+            close(index, item) {
+                let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
+                let _i = vm.iframes.indexOf(_index);
+                vm.iframes.splice(_i, 1);
+                //$(".layui-body").find("#" + item.Name).remove();
+                if (vm.iframes.length > 0) {
+                    if (vm.iframes.filter(x => { return x.check == true }).length == 0) {
+                        $.each(vm.iframes, (i, v) => { v.check = false });
+                        vm.iframes[(vm.iframes.length - 1)].check = true;
+                    }
+                }
+            },
+            openiframe(name, url, navName) {
+                if (!!url) {
+                    let index = vm.iframes.filter(x => { return x.Name == name })[0]
+                    if (!!index) {
+                        $.each(vm.iframes, (i, v) => { v.check = false })
+                        let _i = vm.iframes.indexOf(index);
+                        index.check = true;
+                        vm.iframes[_i] = index;
+                    } else {
+                        if (vm.iframes.length >= 7) {
+                            $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
+                            return false;
+                        }
+                        $.each(vm.iframes, (i, v) => { v.check = false })
+                        vm.iframes.push({
+                            Name: name,
+                            Url: url,
+                            navName: navName,
+                            check: true,
+                        });
+                    }
+                }
+
+            },
+
+        },
+
+    });
+
+</script>
+<script src="/wwwroot/layui/layui.all.js"></script>
+<script src="/wwwroot/layui/layui.js"></script>
+
+
+
+<script>
+    var iframes = [];
+    //JavaScript代码区域
+
+  
+
+
+    var parent_obj = {
+        layerForm_id(obj) {
+            let iframename = this.getopeniframename();//获取当前打开页面
+
+            let content = window.document.getElementById(iframename.Name).contentWindow.document.getElementById(obj.content);
+            obj["content"] = content;
+            $frame.layerForm_id(obj);
+        },
+        getopeniframename() {//获取当前打开页面
+            return vm.iframes.filter(x => { return x.check == true })[0];
+        },
+        geto_iframe_current() {//获取当前打开页面对象
+            return window.document.getElementById(this.getopeniframename().Name).contentWindow;
+        },
+        load() {
+            
+            $frame.RequestGet("Sys_Menu/GetAdminList", "", (r) => {
+                if (r.Success)
+                    vm.sysmenu = r.Data;
+                else
+                    console.log(r.Data);
+
+            });
+
+        }
+    }
+
+
+
+
+
+    function getopeniframename() {
+        return vm.iframes.filter(x => { return x.check == true })[0];
+    }
+    function openiframe(name, url, navName) {
+        let index = vm.iframes.filter(x => { return x.Name == name })[0]
+        if (!!index) {
+            $.each(vm.iframes, (i, v) => { v.check = false })
+            let _i = vm.iframes.indexOf(index);
+            index.check = true;
+            vm.iframes[_i] = index;
+        } else {
+            if (vm.iframes.length >= 7) {
+                $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
+                return false;
+            }
+            $.each(vm.iframes, (i, v) => { v.check = false })
+            vm.iframes.push({
+                Name: name,
+                Url: url,
+                navName: navName,
+                check: true,
+            });
+        }
+
+    }
+
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+</script>
+
+
+
