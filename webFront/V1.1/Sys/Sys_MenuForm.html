@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>菜单详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">菜单名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" v-model="model.Name" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">编号</label>
+            <div class="layui-input-block">
+                <input type="text" v-model="model.Number" placeholder="请输入编号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <select class="layui-select" v-model="model.Type">
+                    <option value="iframe">iframe</option>
+                    <option value="expand">expand</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">上级菜单</label>
+            <div class="layui-input-block">
+                <select class="layui-select" v-model="model.SuperiorId">
+                    <option value="0">顶级</option>
+                    <option :value="item.Id" v-for="  item in MenuLis">{{item.Name}}</option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12" v-if="model.Type=='iframe'">
+            <label class="layui-form-label">路劲</label>
+            <div class="layui-input-block">
+                <input type="text" v-model="model.Address" placeholder="请输入路劲" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="number" v-model="model.Sort" placeholder="请输入排序" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" @click="add">立即提交</button>
+                <button class="layui-btn layui-btn-primary" @click="reset">重置</button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+    let guid = top.parent_obj.geto_iframe_current().selectedRow;
+    let $frame = top.$frame;
+
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: {
+                Name: '',
+                SuperiorId: 0,
+                Number: '',
+                Address: '',
+                Sort: 0,
+                GuId: '',
+                Type: 'iframe',
+            },
+            MenuLis: [],
+        },
+        created: function () {
+        },
+        mounted: function () {
+        },
+        updated: function () {
+        },
+        computed: {
+        },
+        methods: {
+
+            add() {
+                obj.add();
+            },
+            reset() {
+                obj.reset();
+                $frame.alert_msg("操作成功！");
+            },
+
+        }
+    })
+
+    var obj = {
+        load() {
+            this.getlis();
+            if (!$frame.IsEmpty(guid)) {
+                $frame.RequestGet("Sys_Menu/GetDes", { Keyvalue: guid }, (r) => {
+                    if (r.Success)
+                        vm.model = r.Data;
+                    else
+                        console.log(r.Data);
+                });
+            }
+
+        },
+        getlis() {
+            $frame.RequestGet("Sys_Menu/GetMenuLis", "", (r) => {
+                if (r.Success)
+                    vm.MenuLis = r.Data;
+                else
+                    console.log(r.Data);
+
+            });
+        },
+        add() {
+            let foat = true;
+            if ($frame.IsEmpty(vm.model.Name)) {
+                $frame.alert("菜单名称不能为空！");
+                foat = false;
+            }
+            if ($frame.IsEmpty(vm.model.Number)) {
+                $frame.alert("编号不能为空！");
+                foat = false;
+            }
+            if (vm.model.Type == "iframe") {
+                if ($frame.IsEmpty(vm.model.Address)) {
+                    $frame.alert("路劲地址不能为空！");
+                    foat = false;
+                }
+            } else {
+                vm.model.Address = "";
+            }
+            if (foat) {
+                $frame.RequestPost("Sys_Menu/SaveFrom", vm.model, (r) => {
+                    if (r.Success) {                   
+                        top.parent_obj.geto_iframe_current().refresh();
+                        top.parent_obj.close("操作成功！");
+                    } else
+                        console.log(r.Data);
+                });
+            }
+
+        },
+        reset() {
+            vm.model.Name = "";
+            vm.model.SuperiorId = 0;
+            vm.model.Number = "";
+            vm.model.Address = "";
+            vm.model.Sort = 0;
+            vm.model.Type = 'iframe';
+        }
+
+    }
+
+    obj.load();
+</script>

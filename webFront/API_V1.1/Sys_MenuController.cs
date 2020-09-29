@@ -27,6 +27,39 @@ namespace webFront.API
 
 
         /// <summary>
+        /// 获取菜单配置
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetAdminList()
+        {
+            try
+            {
+                var lis = Menubll.GetList().Where(x => x.IsDel == 0).ToList();
+                var reslis = new List<Sys_MenuEntity>();
+                foreach (var item in lis.Where(x => x.SuperiorId == "0").ToList())
+                {
+                    item.PSysMenu = Getlis(lis, item);
+                    reslis.Add(item);
+                }
+
+                var res = new
+                {
+                    mnue = reslis.OrderBy(x => x.Sort),
+                    lis
+                };
+                return Success(res);
+
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "菜单列表API");
+            }
+        }
+
+
+        /// <summary>
         /// 获取菜单列表
         /// </summary>
         /// <returns></returns>
@@ -67,35 +100,23 @@ namespace webFront.API
         }
 
 
+     
         /// <summary>
-        /// 获取菜单配置
+        /// 获取菜单所有数据
         /// </summary>
         /// <returns></returns>
-        /// 
         [HttpGet]
-        public object GetAdminList()
-        {
+        public object GetMenuLis() {
             try
             {
                 var lis = Menubll.GetList().Where(x => x.IsDel == 0).ToList();
-                var reslis = new List<Sys_MenuEntity>();
-                foreach (var item in lis.Where(x => x.SuperiorId == "0").ToList()) {
-                    item.PSysMenu=Getlis(lis, item);
-                    reslis.Add(item);
-                }
-
-                var res = new
-                {
-                    mnue = reslis.OrderBy(x => x.Sort),
-                    lis
-                };
-                return Success(res);
-
+                return Success(lis);
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex, "菜单列表API");
+                return ErrorLog(ex, "获取菜单所有数据API");
             }
+        
         }
         /// <summary>
         /// 保存数据
@@ -124,7 +145,10 @@ namespace webFront.API
                         return Error("参数错误");
                 }
                 else
+                {
+                    entity.Create();
                     Menubll.Add(entity);
+                }
 
                 return Success("操作成功！");
 
@@ -136,6 +160,27 @@ namespace webFront.API
         }
 
 
+        /// <summary>
+        /// 获取菜单详情
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetDes(string Keyvalue)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Keyvalue)) return Error("参数错误！");
+                
+                    var model = Menubll.GetModel(x => x.GuId == Keyvalue);                 
+                return Success(model);
+
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "获取菜单详情API");
+            }
+        }
 
         /// <summary>
         /// 移除数据

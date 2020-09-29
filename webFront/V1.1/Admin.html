@@ -85,6 +85,9 @@
 </body>
 </html>
 <script>
+
+  
+
     var vm = new Vue({
         el: ".layui-layout-admin",
         data: {
@@ -200,6 +203,10 @@
 
             });
 
+        },
+        close(msg) {
+            layer.closeAll();
+            $frame.alert_msg(msg);
         }
     }
 

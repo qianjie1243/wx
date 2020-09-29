@@ -235,6 +235,8 @@ var $frame = {
 
             }
         });
+
+        return r;
     },
 
     layerForm_id: function (obj) {

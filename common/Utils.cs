@@ -1472,18 +1472,23 @@ namespace Common
         /// <param name="url">URL.</param>
         /// <param name="param">POST的数据</param>
         /// <returns></returns>
-        public static string HttpPost(string url, string param, string ContentType = "")
+        public static string HttpPost(string url, string param, string ContentType = "",string header="")
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
             request.Method = "POST";
             if (string.IsNullOrEmpty(ContentType))
-                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentType = "multipart/form-data";
             else
                 request.ContentType = ContentType;
+
+            if (!string.IsNullOrWhiteSpace(header)) {
+
+                request.Headers.Add("authid", header);
+            }
             request.Accept = "*/*";
             request.Timeout = 15000;
             request.AllowAutoRedirect = false;
-
+           
             StreamWriter requestStream = null;
             WebResponse response = null;
             string responseStr = null;
@@ -1515,6 +1520,37 @@ namespace Common
 
             return responseStr;
         }
+
+
+        public static string PostFromToUrl(string url, string postData, string header = "")
+        {
+            try
+            {
+                string returnmsg = "";
+                using (System.Net.WebClient wc = new System.Net.WebClient())
+                {
+                    if (!string.IsNullOrWhiteSpace(header))
+                    {
+                        wc.Headers.Add("authid", header);
+                    }
+
+                    byte[] _postData = Encoding.UTF8.GetBytes(postData);
+                    wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    wc.Headers.Add("User-Agen", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36");
+                    Encoding encoding = Encoding.UTF8;
+                    byte[] byRemoteInfo = wc.UploadData(url, "POST", _postData);
+                    returnmsg = System.Text.Encoding.UTF8.GetString(byRemoteInfo);
+                }
+
+                return returnmsg;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         /// <summary>
         /// HTTP GET方式请求数据.
@@ -1566,16 +1602,22 @@ namespace Common
         /// <param name="url">地址</param>
         /// <param name="postData">集合</param>
         /// <returns></returns>
-        public static string PostFromToUrl(string url, NameValueCollection postData)
+        public static string PostFromToUrl(string url, NameValueCollection postData, string header = "")
         {
             try
             {
                 string returnmsg = "";
                 using (System.Net.WebClient wc = new System.Net.WebClient())
                 {
+                    if (!string.IsNullOrWhiteSpace(header))
+                    {
+                        wc.Headers.Add("authid", header);
+                    }
+                    wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    wc.Headers.Add("User-Agen", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36");
                     Encoding encoding = Encoding.UTF8;
                     byte[] byRemoteInfo = wc.UploadValues(url, "POST", postData);
-                    returnmsg = System.Text.Encoding.Default.GetString(byRemoteInfo);
+                    returnmsg = System.Text.Encoding.UTF8.GetString(byRemoteInfo);
                 }
 
                 return returnmsg;
