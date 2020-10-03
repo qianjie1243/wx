@@ -244,10 +244,15 @@
             </summary>
             <param name="content">修改图文JSON字符串</param>
         </member>
-        <member name="M:WxTenpay.Wechat_Menu.Get_list">
-            <summary>
-            获取素材列表
-            </summary>
+        <member name="M:WxTenpay.Wechat_Menu.Get_list(System.String)">
+             <summary>
+             获取素材列表
+             data {
+             "type":TYPE,
+            "offset":OFFSET,
+             "count":COUNT
+             }
+             </summary>
         </member>
         <member name="M:WxTenpay.Wechat_Menu.Get_count">
             <summary>
@@ -260,7 +265,13 @@
             </summary>
             <param name="media_id">要获取的素材的media_id</param>
         </member>
-        <member name="M:WxTenpay.Wechat_Menu.Menu(System.Object,System.Int32)">
+        <member name="M:WxTenpay.Wechat_Menu.Del_graphic(System.String)">
+            <summary>
+            获取永久素材
+            </summary>
+            <param name="media_id">要获取的素材的media_id</param>
+        </member>
+        <member name="M:WxTenpay.Wechat_Menu.Menu(System.Object,System.Int32,System.Int32)">
             <summary>
             自定义菜单
             </summary>
@@ -575,7 +586,7 @@
             <param name="formData"></param>
             <param name="stream"></param>
         </member>
-        <!-- 对于成员“M:WxTenpay.WXoperation.Common.HttpRequestutil.GetQueryString(System.Collections.Generic.Dictionary{System.String,System.String})”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:WxTenpay.WXoperation.Common.HttpRequestutil.GetQueryString(System.Collections.Generic.Dictionary{System.String,System.String})" -->
         <member name="M:WxTenpay.WXoperation.Common.HttpRequestutil.GetFileStream(System.String)">
             <summary>
             根据完整文件路径获取FileStream
@@ -692,33 +703,79 @@
             二级菜单数组，个数应为1~5个
              </summary>
         </member>
+        <member name="T:WxTenpay.WXoperation.TModel.Message">
+            <summary>
+            自动回复消息类型
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.TModel.Message.Type">
+            <summary>
+            消息类型 1:自动回复  2：关注 3：取消关注
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.TModel.Message.Key">
+            <summary>
+            消息模板 1:文本消息类型  2：图文消息主体 3：图片消息  4：语音消息  5：音乐消息  6：视频消息 
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.TModel.Message.Name">
+            <summary>
+            匹配的内容
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.TModel.Message.Content">
+            <summary>
+            发送具体内容
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.TModel.Message.MatchingWay">
+            <summary>
+            匹配方式0：模糊匹配  1：全部匹配
+            </summary>
+        </member>
+        <member name="T:WxTenpay.WXoperation.TModel.EvenMessage">
+            <summary>
+            按钮事件自动回复消息类型
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.TModel.EvenMessage.EventKey">
+            <summary>
+            按钮事件的KEY
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WXoperation.TModel.EvenMessage.EventType">
+            <summary>
+            按钮事件的类型
+            </summary>
+        </member>
         <member name="T:WxTenpay.WXoperation.wxconfigurateion.messagehelp">
             <summary>
             接受微信端的信息，并处理信息，发送信息
             </summary>
         </member>
-        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReturnMessage(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.ReturnMessage(System.String,System.Collections.Generic.List{WxTenpay.WXoperation.TModel.Message},System.Collections.Generic.List{WxTenpay.WXoperation.TModel.EvenMessage})">
             <summary>
             接受来自微信端的信息，根据信息内容返回信息
             </summary>
             <param name="postStr"></param>
             <returns></returns>
+            
         </member>
-        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.EventHandle(System.Xml.XmlDocument)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.EventHandle(System.Xml.XmlDocument,System.Collections.Generic.List{WxTenpay.WXoperation.TModel.EvenMessage})">
             <summary>
             事件
             </summary>
             <param name="xmldoc"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.TextHandle(System.Xml.XmlDocument)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.TextHandle(System.Xml.XmlDocument,System.Collections.Generic.List{WxTenpay.WXoperation.TModel.Message})">
             <summary>
             接受文本消息
             </summary>
             <param name="xmldoc"></param>
             <returns></returns>
         </member>
-        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.GuanZhu(System.Xml.XmlDocument)">
+        <member name="M:WxTenpay.WXoperation.wxconfigurateion.messagehelp.GuanZhu(System.Xml.XmlDocument,System.Collections.Generic.List{WxTenpay.WXoperation.TModel.Message})">
             <summary>
             关注后的推送事件
             </summary>
@@ -966,7 +1023,7 @@
             <param name="access_token"></param>
             <param name="content">修改图文JSON字符串</param>
         </member>
-        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Get_list(System.String)">
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Get_list(System.String,System.String)">
             <summary>
             获取素材列表
             </summary>
@@ -984,6 +1041,13 @@
             </summary>
             <param name="access_token"></param>
             <param name="media_id">要获取的素材的media_id</param>
+        </member>
+        <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Del_graphic(System.String,System.String)">
+             <summary>
+            移除素材
+             </summary>
+             <param name="access_token"></param>
+             <param name="media_id">素材的media_id</param>
         </member>
         <member name="M:WxTenpay.WXoperation.wxconfiguration.wxmenu.Add_Menu(System.String,System.String,System.Int32)">
             <summary>
@@ -1139,7 +1203,7 @@
             订单总金额，单位为分
             </summary>
         </member>
-        <!-- 对于成员“F:WxTenpay.WXoperation.OrderDetail.coupon_fee”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "F:WxTenpay.WXoperation.OrderDetail.coupon_fee" -->
         <member name="F:WxTenpay.WXoperation.OrderDetail.fee_type">
             <summary>
             货币类型，符合ISO 4217标准的三位字母代码，默认人民币：CNY
@@ -1422,7 +1486,7 @@
             <param name="wxpay">实体对象</param>
             <returns></returns>
         </member>
-        <!-- 对于成员“M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.GetInfoFromXml(System.String)”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.GetInfoFromXml(System.String)" -->
         <member name="M:WxTenpay.WXoperation.wxtenpay.TenpayUtil.getH5UnifiedOrderXml(WxTenpay.WXoperation.UnifiedOrder,System.String)">
             <summary>
             微信H5统一下单接口xml参数整理
@@ -1896,6 +1960,11 @@
              证书的密码
             </summary>
         </member>
+        <member name="F:WxTenpay.WXconfig.Token">
+            <summary>
+            微信url对接token
+            </summary>
+        </member>
         <member name="T:WxTenpay.SmallProgram">
             <summary>
             微信支付--小程序基本配置
@@ -1931,7 +2000,7 @@
                证书的密码
             </summary>
         </member>
-        <!-- 对于成员“T:WxTenpay.WechatPublic”忽略有格式错误的 XML 注释 -->
+        <!-- Badly formed XML comment ignored for member "T:WxTenpay.WechatPublic" -->
         <member name="M:WxTenpay.WechatPublic.#ctor">
             <summary>
             加载配置文件
@@ -1955,6 +2024,11 @@
         <member name="P:WxTenpay.WechatPublic.Jsp_Api_Time">
             <summary>
             保存jsp_api时间
+            </summary>
+        </member>
+        <member name="P:WxTenpay.WechatPublic.Messlis">
+            <summary>
+            发送消息回复定义类型
             </summary>
         </member>
         <member name="M:WxTenpay.WechatPublic.GetPersonal(System.String)">
@@ -1990,9 +2064,26 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WxTenpay.WechatPublic.GetTokenTime">
+            <summary>
+            获取access_token获取时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WechatPublic.EmptyToken">
+            <summary>
+            清空Token、jsapi_ticket
+            </summary>
+        </member>
         <member name="M:WxTenpay.WechatPublic.GetJsapi_ticket">
             <summary>
             jsapi_ticket
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WechatPublic.GetJsapiTicketTime">
+            <summary>
+            获取jsapi_ticket获取时间
             </summary>
             <returns></returns>
         </member>
@@ -2016,6 +2107,19 @@
             <returns></returns>
             
         </member>
+        <member name="M:WxTenpay.WechatPublic.SaveMesslis(System.Collections.Generic.List{WxTenpay.WXoperation.TModel.Message},System.Collections.Generic.List{WxTenpay.WXoperation.TModel.EvenMessage})">
+            <summary>
+            编辑发送消息回复定义类型
+            </summary>
+            <param name="lis">数据源</param>
+            <returns></returns>
+        </member>
+        <member name="M:WxTenpay.WechatPublic.GetMesslis">
+            <summary>
+            获取发送消息回复定义类型
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:WxTenpay.WechatPublic.WxDocking(System.String)">
             <summary>
             微信配置URL对接
@@ -2027,7 +2131,7 @@
             微信公众号url对接
             </summary>
         </member>
-        <member name="M:WxTenpay.WechatPublic.Handle(System.String)">
+        <member name="M:WxTenpay.WechatPublic.Handle(System.String,System.Collections.Generic.List{WxTenpay.WXoperation.TModel.Message},System.Collections.Generic.List{WxTenpay.WXoperation.TModel.EvenMessage})">
             <summary>
             处理信息并应答
             </summary>

@@ -9,7 +9,7 @@
     <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
-    <script src="/wwwroot/JS/admin.js"></script>
+
 
     <style>
         .layui-header li:hover {
@@ -65,7 +65,7 @@
                                 <dl class="layui-nav-child" v-if="!!fitem.PSysMenu&&fitem.PSysMenu.length>0">
                                     <dd v-for="f_item in fitem.PSysMenu">
                                         <a v-if="f_item.Type=='expand'" href="javascript:;">{{f_item.Name}}</a><!--三级-->
-                                        <a @click="openiframe(f_item.GuId,f_item.Address,f_item.Name)"v-if="f_item.Type=='iframe'">{{f_item.Name}}</a>
+                                        <a @click="openiframe(f_item.GuId,f_item.Address,f_item.Name)" v-if="f_item.Type=='iframe'">{{f_item.Name}}</a>
                                     </dd>
                                 </dl>
                             </dd>
@@ -86,7 +86,7 @@
 </html>
 <script>
 
-  
+
 
     var vm = new Vue({
         el: ".layui-layout-admin",
@@ -101,17 +101,17 @@
                 type: "get",
                 success: (r) => {
                     if (r.Success) {
-                        this.sysmenu = r.Data.mnue;    
+                        this.sysmenu = r.Data.mnue;
                         let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0]
                         this.openiframe(model.GuId, model.Address, model.Name)
-                    }else
+                    } else
                         console.log(r.Data);
                 }
 
             })
         },
         mounted: function () {//渲染出真实dom
-          
+
         },
         methods: {
             nav(index, item, event) {
@@ -169,24 +169,18 @@
 </script>
 <script src="/wwwroot/layui/layui.all.js"></script>
 <script src="/wwwroot/layui/layui.js"></script>
-
+<script src="/wwwroot/JS/admin.js"></script>
 
 
 <script>
     var iframes = [];
     //JavaScript代码区域
 
-  
+
 
 
     var parent_obj = {
-        layerForm_id(obj) {
-            let iframename = this.getopeniframename();//获取当前打开页面
 
-            let content = window.document.getElementById(iframename.Name).contentWindow.document.getElementById(obj.content);
-            obj["content"] = content;
-            $frame.layerForm_id(obj);
-        },
         getopeniframename() {//获取当前打开页面
             return vm.iframes.filter(x => { return x.check == true })[0];
         },
@@ -194,7 +188,7 @@
             return window.document.getElementById(this.getopeniframename().Name).contentWindow;
         },
         load() {
-            
+
             $frame.RequestGet("Sys_Menu/GetAdminList", "", (r) => {
                 if (r.Success)
                     vm.sysmenu = r.Data;
@@ -204,10 +198,53 @@
             });
 
         },
-        close(msg) {
+        close(msg) {//关闭窗口，提示
             layer.closeAll();
             $frame.alert_msg(msg);
-        }
+        },
+        laypaging(d, pageindex) {//分页功能
+            pageindex = pageindex || 1;
+            let data = {
+                limit: 12,
+                page: pageindex,
+                //选择每页显示的数据条数
+                callBack: false,
+                url: "",
+                elem: 'paging',
+            };
+            $.extend(data, d || {});
+            $frame.RequestGet(data.url, data, (res) => {
+                if (data.callBack) {
+                    data.callBack(res, (Count) => {
+                        let dataLength = Count;
+                        layui.use(['laypage', 'layer'], function () {
+                            var laypage = layui.laypage,
+                                layer = layui.layer;
+                            laypage.render({
+                                elem: parent_obj.geto_iframe_current().document.getElementById(d.elem),
+                                count: dataLength,
+                                limit: data.limit,
+                                first: '首页',
+                                last: '尾页',
+                                layout: ['count', 'prev', 'page', 'next', 'skip'],
+                                curr: pageindex,
+                                theme: '#00A0E9',
+                                jump: function (obj, first) {
+                                    if (!first) {
+                                        //第一次不执行,一定要记住,这个必须有,要不然就是死循环
+                                        var curr = obj.curr;
+                                        //回调该展示数据的方法,数据展示
+                                        $frame.laypaging(d, curr);
+                                    }
+                                }
+                            });
+                        });
+                    })
+                };
+            });
+        },
+
+
     }
 
 

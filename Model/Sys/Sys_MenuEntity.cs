@@ -14,7 +14,7 @@ namespace Model
     {
         public int Id { set; get; }
 
-        public string GuId { set; get; } = "";
+        public string GuId { set; get; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// 菜单名
@@ -67,5 +67,16 @@ namespace Model
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         public List<Sys_MenuEntity> PSysMenu { set; get; } = new List<Sys_MenuEntity>();
+
+        /// <summary>
+        /// 新增方法
+        /// </summary>
+        public void Create()
+        {
+            if (string.IsNullOrWhiteSpace(this.GuId))
+                this.GuId = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(this.CreateTime))
+                this.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
     }
 }

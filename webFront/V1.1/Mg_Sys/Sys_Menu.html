@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>菜单管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item" style="margin-right:5px">
+            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" onclick="refresh()">
+                <i class="layui-icon layui-icon-refresh"></i>刷新
+            </button>
+            <button class="layui-btn" type="button" style="width:80px;" onclick="edit('')">
+                <i class="layui-icon layui-icon-add-1"></i>新增
+            </button>
+        </div>
+        <table class="layui-hide" id="menu" lay-filter="menu"></table>
+
+    </div>
+
+</body>
+</html>
+<script>
+    var selectedRow;
+    let $frame = top.$frame;
+
+    layui.config({
+        base: '/wwwroot/layui/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    });
+    //编辑操作
+    function edit(guid) {
+        selectedRow = guid;
+        let obj = {
+            id: 'form',
+            title: '菜单详情',
+            url: 'Mg_sys/Sys_MenuForm.html',
+            width: 600,
+            height: 500,
+            btn: null,
+
+        }
+        $frame.layerForm(obj);
+    }
+
+
+    //删除操作
+    function del(guid) {
+        if ($frame.IsEmpty(guid)) {
+            $frame.alert("需要删除的数据不能为空！");
+            return false;
+        }
+        $frame.confirm("提示", "确定需要删除吗？", (r) => {
+            if (r) {
+                $frame.RequestPost("Sys_Menu/Delete", { Keyvalue: guid }, (r) => {
+                    if (r.Success) {
+                        $frame.alert_msg("操作成功！");
+                        load();
+                    } else
+                        console.log(r.Data);
+                });
+            }
+        })
+
+
+    }
+
+    load();
+
+    function refresh() {
+        load();
+    }
+
+    function load() {
+        layui.use(['treetable', 'table', 'layer'], function () {
+            var table = layui.table;
+            var treetable = layui.treetable;
+            var layer = layui.layer;
+            //渲染表格
+            var renderTable = function () {
+                layer.load(2);
+                treetable.render({
+                    height: 'full-0',
+                    id: 'menu',
+                    treeColIndex: 0,	//树形图标显示在第几列
+                    treeSpid: '0',		//最上级的父级id
+                    treeIdName: 'Id',	//id字段的名称
+                    treePidName: 'parentId',	//父级节点字段
+                    treeDefaultClose: false,	//是否默认折叠
+                    treeLinkage: false,		//父级展开时是否自动展开所有子级
+                    elem: '#menu',	//表格id
+                    url: '/Sys_Menu/GetList',
+                    //toolbar: '#toolbarDemo',
+                    page: false,
+                    cols: [[
+                        //{ type: 'radio' },
+                        { field: 'name', title: '菜单名称' },
+                        { field: 'Number', title: '编号' },
+                        { field: 'url', title: '地址' },
+                        //{ field: 'icon', hide: true, title: '图标' },
+                        { field: 'idx', title: '排序' },
+                        {
+                            field: 'GuId', title: '操作',
+                            templet: function (d) {
+                                return "<a class='layui-btn layui-btn-xs'   onclick=edit(\"" + d.GuId + "\")>编辑</a>\
+                                        <a class='layui-btn layui-btn-danger layui-btn-xs' onclick=del(\"" + d.GuId + "\")>删除</a>";
+                            }
+                        }
+                    ]],
+                    //数据渲染完的回调
+                    done: function () {
+                        layer.closeAll('loading');
+                    }
+                })
+            };
+            renderTable();
+        });
+    }
+
+
+</script>

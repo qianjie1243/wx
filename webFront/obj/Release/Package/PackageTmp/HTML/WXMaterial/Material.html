@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信基本接口</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/HTML/layui/css/layui.css" rel="stylesheet" />
+    <script src="/HTML/JS/jquery-3.3.1.min.js"></script>
+    <script src="/HTML/JS/vue.min.js"></script>
+    <script src="/HTML/layui/layui.all.js"></script>
+    <script src="/HTML/JS/echarts.min.js"></script>
+    <script src="../JS/colResizable.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+        <div class="head" style="height:20%;display:flex">
+
+            <div class="layui-form-item" style="margin-right:5px">
+                <button class="layui-btn layui-btn-normal" type="button" style="width:120px;" @click="getdata">
+                    <i class="layui-icon layui-icon-refresh"></i>拉取数据
+                </button>
+            </div>
+            
+            <label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>
+        </div>
+        <table class="layui-table">
+            <thead>
+                <tr align="center">
+                    <th>素材类型</th>
+                    <th>素材总数</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr v-if="!!datalis" >
+                    <td>语音总数量</td>
+                    <td>{{datalis.voice_count}}</td>
+                </tr>
+                <tr v-if="!!datalis" >
+                    <td>视频总数量</td>
+                    <td>{{datalis.video_count}}</td>
+                </tr>
+                <tr v-if="!!datalis" >
+                    <td>图片总数量</td>
+                    <td>{{datalis.image_count}}</td>
+                </tr>
+                <tr v-if="!!datalis" >
+                    <td>图文总数量</td>
+                    <td>{{datalis.news_count}}</td>
+                </tr>
+                <tr v-if="!datalis" align="center">
+                    <td colspan="2">暂无数据</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            datalis: {},
+        },
+        created: function () {
+        },
+        computed: {
+
+
+        },
+        methods: {
+            refresh() {
+                window.location.reload();
+            },
+            getdata() {
+                o.load();
+            },
+
+        }
+
+
+    });
+
+    var o = {
+        load() {
+            o.GetUser();
+
+        },
+        bind() {
+            $("table").colResizable({
+                liveDrag: true, //实时显示滑动位置
+                gripInnerHtml: "<div class='grip'></div>",
+                postbackSafe: true, //刷新后保留之前的拖拽宽度
+            });       
+        },
+        GetUser() {
+            $frame.RequestGet('WXData/GetSCCount', '', (x) => {
+                if (x.Success) {
+                    let data = JSON.parse(x.Data);
+                    if (!data["errcode"]) {
+                        vm.datalis = data;
+                    } else
+                        $frame.alert(x.Data);
+                } else {
+                    console.log(x.Data);
+                    $frame.alert(x.Data);
+                }
+
+            });
+
+        },
+
+    };
+
+    o.bind();
+</script>

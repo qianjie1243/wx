@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信素材详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/HTML/layui/css/layui.css" rel="stylesheet" />
+    <script src="/HTML/JS/jquery-3.3.1.min.js"></script>
+    <script src="/HTML/JS/vue.min.js"></script>
+    <script src="/HTML/layui/layui.all.js"></script>
+    <script src="/HTML/JS/echarts.min.js"></script>
+    <script src="../JS/colResizable.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+
+        .layui-label {
+            line-height: 35px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="app" style="margin:10px;">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">media_id：</label>
+            <div class="layui-input-block" style="display:flex">
+                <label class="layui-label">{{lis.media_id}}</label>
+
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">封面图片：</label>
+            <div class="layui-input-block" style="display:flex">
+                <img :src="lis.url" style="height:120px;width:100px;" v-if="!!lis.url" />
+                <!--<label class="layui-label">{{lis.url}}</label>-->
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">最后更新时间：</label>
+            <div class="layui-input-block" style="display:flex">
+                <label class="layui-label">{{lis.update_time}}</label>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">文件名称：</label>
+            <div class="layui-input-block" style="display:flex">
+                <label class="layui-label">{{lis.name}}</label>
+            </div>
+        </div>
+        <fieldset v-if="!!lis.content.news_item" v-show="Status">
+            <!--style="overflow:scroll; width:1200px; height:600px;"-->
+            <legend>图文列表</legend>
+
+            <table class="layui-table" style="overflow:scroll;">
+                <thead>
+                    <tr>
+                        <th width="10%">操作</th>
+                        <th width="10%">标题</th>
+                        <th width="10%">封面图片media_id</th>
+                        <th width="40%">内容</th>
+                        <!--<th width="15%">图文页的URL</th>-->
+                        <th width="10%">原文地址</th>
+                        <!--<th>是否显示封面</th>
+                        <th>作者</th>
+                        <th>摘要</th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index)  in lis.content.news_item" v-if="!!lis.content.news_item">
+                        <td>
+                            <button class="layui-btn layui-btn-normal" type="button" @click="details(item)">编辑</button>
+                        </td>
+                        <td>
+                            {{item.title}}
+                            <!--<input class="layui-input" :value="item.title" v-model="item.title" :title="item.title" />-->
+                        </td>
+                        <td>
+                            {{(item.thumb_media_id.length>20?item.thumb_media_id.substr(0,30)+'...':item.thumb_media_id)}}
+                            <!--<input class="layui-input" :value="item.thumb_media_id" v-model="item.thumb_media_id" :title="item.thumb_media_id" />-->
+                        </td>
+                        <td>
+                            <!--<input class="layui-input" :value="item.content" v-model="item.content" :title="item.content" />-->
+                            {{(item.content.length>20?item.content.substr(0,100)+'...':item.content)}}
+                        </td>
+                        <!--<td>
+                            <img :src="item.url" style="height:80px;width:50px;" v-if="!!item.url" />
+                        </td>-->
+                        <td>
+                            <!--<input class="layui-input" :value="item.thumb_url" v-model="item.thumb_url" :title="item.thumb_url" />-->
+                            {{(item.thumb_url.length>20?item.thumb_url.substr(0,50)+'...':item.thumb_url)}}
+                        </td>
+
+                        <!--<td>
+                            <select class="layui-select" :value="item.show_cover_pic" v-model="item.show_cover_pic"  :title="item.show_cover_pic">
+                                <option value="0">不显示</option>
+                                <option value="1">已显示</option>
+                            </select>
+                        </td>
+                        <td><input class="layui-input" :value="item.author" v-model="item.author"   :title="item.author" /></td>
+                        <td><input class="layui-input" :value="item.digest" v-model="item.digest"  :title="item.digest" /></td>-->
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    let data = top.vm.iframedata;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            Status: true,
+            lis: [],
+        },
+        created: function () {
+            if (!data["content"]) {
+                Status = false;
+                data["content"] = [];
+            }
+            if (!!data["cover_url"]) {
+                data["url"] = data["cover_url"];
+            }
+            this.lis = data;
+
+        },
+        computed: {
+
+
+        },
+        methods: {
+            refresh() {
+                window.location.reload();
+            },
+            getdata() {
+                o.load();
+            },
+
+        }
+
+
+    });
+
+    var o = {
+        load() {
+            o.GetUser();
+
+        },
+        bind() {
+            //$("table").colResizable({
+            //    liveDrag: true, //实时显示滑动位置
+            //    gripInnerHtml: "<div class='grip'></div>",
+            //    postbackSafe: true, //刷新后保留之前的拖拽宽度
+            //});
+        },
+
+
+    };
+
+    o.bind();
+</script>

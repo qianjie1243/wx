@@ -262,7 +262,7 @@ var $frame = {
                     dfop.cancel(opindex);
                 layer.close(opindex);
             },
- 
+
         });
 
     },
@@ -299,18 +299,15 @@ var $frame = {
     laypaging: function (d, pageindex) {
         pageindex = pageindex || 1;
         let data = {
-            rows: 12,
+            limit: 12,
             page: pageindex,
-            sidx: "id",
-            sord: "asc",
-            records: "",
             //选择每页显示的数据条数
             callBack: false,
             url: "",
-            elem: 'paging'
-        }
+            elem: 'paging',
+        };
         $.extend(data, d || {});
-        $frame.RequestGet(data.url, data, function (res) {
+        $frame.RequestGet(data.url, data,  (res)=> {
             if (data.callBack) {
                 data.callBack(res, function (Count) {
                     let dataLength = Count;
@@ -320,7 +317,7 @@ var $frame = {
                         laypage.render({
                             elem: d.elem,
                             count: dataLength,
-                            limit: data.rows,
+                            limit: data.limit,
                             first: '首页',
                             last: '尾页',
                             layout: ['count', 'prev', 'page', 'next', 'skip'],

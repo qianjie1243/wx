@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>微信管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/HTML/layui/css/layui.css" rel="stylesheet" />
+    <script src="/HTML/JS/jquery-3.3.1.min.js"></script>
+
+
+
+    <style>
+        .layui-header li:hover {
+            cursor: pointer;
+            color: #0094ff;
+            background-color: #808080;
+        }
+
+        .nav-title {
+            color: #ff6a00;
+            line-height: 60px;
+            width: 200px;
+            text-align: center;
+            border-right: 1px #808080 solid
+        }
+
+        .checked {
+            background-color: #808080;
+        }
+
+        iframe {
+            height: 96%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo">应用管理</div>
+            <div style="background-color:white;width:100%;height:60px;margin-left:202px">
+                <ul class="layui-nav layui-layout-left" style="display:flex;padding:0">
+                    <li :class=" item.check?['nav-title','checked']:['nav-title'] " v-for="(item,index)  in  iframes" @click="nav(index,item,$event)">
+                        <a>
+                            {{item.navName}}
+                        </a>
+                        <i style="float:right;margin-right:5px;" v-show="index>0" class="layui-icon layui-icon-close " title="关闭"></i>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">百度管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a>基本配置</a></dd>
+                            <dd><a>图像识别</a></dd>
+                            <dd><a>文字识别</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">微信管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a onclick="openiframe('WXConfig','WXConfig/index.html','基本配置')">基本配置</a></dd>
+                            <dd><a onclick="openiframe('WMenu','WXConfig/Menu.html','微信菜单配置')">微信菜单配置</a></dd>
+                            <dd><a onclick="openiframe('WUser','WXConfig/User.html','微信关注用户')">微信关注用户</a></dd>
+                            <dd><a onclick="openiframe('WReply','TokenConfig/WReply.html','自动回复')">自动回复</a></dd>
+                            <dd>
+                                <a>微信基本操作类</a>
+                                <dl class="layui-nav-child">
+                                    <dd><a onclick="openiframe('WToken','WXConfig/Token.html','Token/JsapiTicket')">获取Token/JsapiTicket</a></dd>
+                                    <dd><a onclick="openiframe('WMaterial','WXMaterial/Material.html','素材总数')">获取素材总数</a></dd>
+                                    <dd><a onclick="openiframe('WMaterialList','WXMaterial/MaterialList.html','获取永久素材')">获取永久素材</a></dd>
+                                    <dd><a onclick="openiframe('WAddMaterial','WXMaterial/AddMaterial.html','上传素材')">上传素材</a></dd>
+                                    <dd><a onclick="openiframe('WPush','WXConfig/WXPush.html','微信推送')">微信推送</a></dd>
+                                </dl>
+                            </dd>
+
+                        </dl>
+                    </li>
+
+                    <li class="layui-nav-item">
+                        <a onclick="openiframe('Log','WXApi/index.html','日志管理')">日志管理</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body" style="bottom:-25px">
+            <iframe :src="item.Url" :data-name="item.Name" :id="item.Name" v-for="(item,index)  in  iframes" v-show="item.check"></iframe>
+        </div>
+
+    </div>
+
+
+</body>
+</html>
+<script src="/HTML/layui/layui.all.js"></script>
+<script src="/HTML/layui/layui.js"></script>
+<script src="/HTML/JS/vue.min.js"></script>
+<script src="/HTML/JS/admin.js"></script>
+
+<script>
+    var iframes = [];
+    //JavaScript代码区域
+    var vm = new Vue({
+        el: ".layui-layout-admin",
+        data: {
+            iframes: [{
+                Name: "Log",
+                Url: "WXApi/index.html",
+                navName: "日志管理",
+                check: true,
+            }],
+            iframedata: [],
+        },
+        created: function () {
+        },
+        methods: {
+            nav(index, item, event) {
+                if (event.target.localName == "i")
+                    vm.close(index, item);
+                else {
+                    $.each(vm.iframes, (i, v) => { v.check = false })
+                    let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
+                    let _i = vm.iframes.indexOf(_index);
+                    if (_i > -1)
+                        _index.check = true;
+                }
+            },
+            close(index, item) {
+                let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
+                let _i = vm.iframes.indexOf(_index);
+                vm.iframes.splice(_i, 1);
+                //$(".layui-body").find("#" + item.Name).remove();
+                if (vm.iframes.length > 0) {
+                    if (vm.iframes.filter(x => { return x.check == true }).length == 0) {
+                        $.each(vm.iframes, (i, v) => { v.check = false });
+                        vm.iframes[(vm.iframes.length - 1)].check = true;
+                    }
+                }
+            },
+        },
+
+    });
+
+    function getopeniframename() {
+        return vm.iframes.filter(x => { return x.check == true })[0];
+    }
+    function openiframe(name, url, navName) {
+        let index = vm.iframes.filter(x => { return x.Name == name })[0]
+        if (!!index) {
+            $.each(vm.iframes, (i, v) => { v.check = false })
+            let _i = vm.iframes.indexOf(index);
+            index.check = true;
+            vm.iframes[_i] = index;
+        } else {
+            if (vm.iframes.length >= 7) {
+                $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
+                return false;
+            }
+            $.each(vm.iframes, (i, v) => { v.check = false })
+            vm.iframes.push({
+                Name: name,
+                Url: url,
+                navName: navName,
+                check: true,
+            });
+        }
+
+    }
+
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+
+    var parent_obj = {
+        layerForm_id(obj) {
+            let iframename = this.getopeniframename();//获取当前打开页面
+
+            let content = window.document.getElementById(iframename.Name).contentWindow.document.getElementById(obj.content);
+            obj["content"] = content;
+            $frame.layerForm_id(obj);
+        },
+        getopeniframename() {//获取当前打开页面
+            return vm.iframes.filter(x => { return x.check == true })[0];
+        },
+        geto_iframe_current() {//获取当前打开页面对象
+            return window.document.getElementById(this.getopeniframename().Name).contentWindow;
+        }
+    }
+
+</script>

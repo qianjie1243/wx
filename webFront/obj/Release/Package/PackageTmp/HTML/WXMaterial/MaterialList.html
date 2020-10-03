@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信基本接口</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/HTML/layui/css/layui.css" rel="stylesheet" />
+    <script src="/HTML/JS/jquery-3.3.1.min.js"></script>
+    <script src="/HTML/JS/vue.min.js"></script>
+    <script src="/HTML/layui/layui.all.js"></script>
+    <script src="/HTML/JS/echarts.min.js"></script>
+    <script src="/HTML/JS/colResizable.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>
+    <div id="app" style="margin:10px;">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">获取素材列表</label>
+            <div class="layui-input-block" style="display:flex">
+                <select class="layui-select" v-model="search.sc.type" :value="search.sc.type">
+                    <option value="image">图片</option>
+                    <option value="video">视频</option>
+                    <option value="voice">语音</option>
+                    <option value="news">图文</option>
+                </select>
+                <input class="layui-input" type="text" placeholder="请输入素材列表的起始数" :value="search.sc.offset" v-model="search.sc.offset" style="width:80px;margin-left:3px;" />
+                <button class="layui-btn" type="button" style="width:80px;margin-right:10px;margin-left:5px;" @click="getsclist">
+                    <i class="layui-icon layui-icon-search"></i>查询
+                </button>
+                <textarea name="desc" placeholder="" class="layui-textarea" v-model="model.SClist" :value="model.SClist"></textarea>
+            </div>
+        </div>
+        <fieldset>
+            <legend>素材详情信息</legend>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">素材总数</label>
+                <div class="layui-input-block">
+                    <label class="layui-form-label">{{lis.total_count}}</label>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">调用获取的数量</label>
+                <div class="layui-input-block">
+                    <label class="layui-form-label">{{lis.item_count}}</label>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">素材列表</label>
+                <div class="layui-input-block">
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>操作</th>
+                                <th>文件名称</th>
+                                <th>mediaID</th>
+                                <th>图文页的URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index)  in lis.item" v-if="lis.item.length>0">
+                                <td style="display:flex">
+                                    <button class="layui-btn layui-btn-warm" type="button" @click="btn_details(item)">查看</button>
+                                    <button class="layui-btn layui-btn-danger" type="button" @click="btn_delete(item.media_id,index)">删除</button>
+                                </td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.media_id}}</td>
+                                <td>{{item.url}}</td>
+                            </tr>
+                            <tr v-if="lis.item.length==0" align="center">
+                                <td colspan="4">暂无数据</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: { Token: '', SClist: [] },
+            search: {
+                sc: { type: 'image', offset: 0, count: 20 },
+            },
+            pagingdata: [],
+            lis: { total_count: 0, item_count: 0, item: [] },
+        },
+        created: function () {
+           // this.lis = _data;
+        },
+        computed: {
+
+
+        },
+        methods: {
+            gettoken() {
+                o.gettoken();
+            },
+            getsclist() {
+                o.getsclist();
+            },
+            btn_details(item) {
+                top.vm.iframedata = item;
+                let obj = {
+                    id: 'form',
+                    title: '素材详情',
+                    url: 'WXMaterial/MaterialForm.html',
+                    width: 1200,
+                    height: 700,
+                    btn: null,
+                    callBack: function (id) {
+
+                    }
+                }
+                $frame.layerForm(obj);
+
+            },
+            btn_delete(media_id, index) {
+                $frame.confirm("提示", `确定要删除(${media_id})素材吗？`, (r) => {
+                    if(r)
+                    o.delete(media_id, index);
+                })
+               
+            }
+        }
+    });
+
+    var o = {
+        load() {
+
+
+        },
+        bind() {
+
+        },
+        getsclist() {
+            $frame.RequestGet('WXData/GetSCList', { data: JSON.stringify(vm.search.sc) }, (x) => {
+                if (x.Success) {
+                    vm.model.SClist = x.Data;
+                    vm.lis = JSON.parse(x.Data);
+                } else
+                    $frame.alert(x.Data);
+            });
+        },
+        delete(mid,index) {
+            $frame.RequestGet('WXData/DeleteSC?mid=' + mid,'', (x) => {
+                if (x.Success) {
+                    var res = JSON.parse(x.Data);
+                    if (res.errcode == 0) {
+                        vm.lis.item.splice(index, 1);
+                        $frame.alert("操作成功！");
+                    } else {
+                        $frame.alert(x.Data);
+                    }
+                } else
+                    $frame.alert(x.Data);
+            });
+
+        }
+    }
+</script>

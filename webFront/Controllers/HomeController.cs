@@ -13,18 +13,15 @@ namespace webFront.Controllers
             return Redirect("/html/admin.html");
         }
 
-        public ActionResult About()
+        /// <summary>
+        /// SQL版
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SQLIndex()
         {
-            ViewBag.Message = "Your application description page.";
+            return Redirect("/v1.1/admin.html");
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+           // return View();
+        }     
     }
 }

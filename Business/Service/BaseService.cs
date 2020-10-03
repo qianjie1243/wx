@@ -120,8 +120,8 @@ namespace Business.Service
             {
                 var query = Db.Queryable<T>()
                         .Where(where)
-                        .OrderByIF((int)orderEnum == 1, order, SqlSugar.OrderByType.Asc)
-                        .OrderByIF((int)orderEnum == 2, order, SqlSugar.OrderByType.Desc);
+                        .OrderByIF(orderEnum == 1, order, SqlSugar.OrderByType.Asc)
+                        .OrderByIF(orderEnum == 2, order, SqlSugar.OrderByType.Desc);
                 return query.ToPage(parm.page, parm.limit);
             }
             catch (Exception ex)

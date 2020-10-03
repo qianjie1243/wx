@@ -1692,7 +1692,7 @@ namespace Common
         /// <param name="value">值</param>
         public static bool IsEmpty(this string value)
         {
-            return string.IsNullOrWhiteSpace(value);
+            return string.IsNullOrWhiteSpace(value.ToString());
         }
 
         /// <summary>

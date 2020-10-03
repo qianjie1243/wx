@@ -24,7 +24,7 @@ namespace webFront.Models
         }
         public object Success()
         {
-            return Json(new { Success = true, Data =new object() { } }, JsonRequestBehavior.AllowGet);
+            return Json(new { Success = true, Data = new object() { } }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         ///  请求异常
@@ -47,9 +47,38 @@ namespace webFront.Models
         /// <returns></returns>
         public object ErrorLog(object Data, string Name)
         {
-            logbll.Add(new Sys_logEntity { Content= JsonHelper.ObjectToJSON(Data), Name= Name });
+            string controllerName = Request.RequestContext.RouteData.Values["controller"].ToString();//获取控制器名
+            string actionName = Request.RequestContext.RouteData.Values["action"].ToString();//获取action名
 
+            string action = controllerName + "/" + actionName;
+
+            var model = new Sys_logEntity { Content = JsonHelper.ObjectToJSON(Data), Name = Name, Action = action, Type = 0 };
+            model.Create();
+            logbll.Add(model);
             return Json(new { Success = false, Data = "系统异常" }, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 操作日志记录功能
+        /// </summary>
+        /// <param name="Data"></param>
+        /// <param name="Name"></param>
+        /// <param name="Type">类型0：异常 1：新增，2修改，删除</param>
+        /// <returns></returns>
+        public object SuccessLog(object Data,object LogData, string Name, int Type)
+        {
+
+            string controllerName = Request.RequestContext.RouteData.Values["controller"].ToString();//获取控制器名
+            string actionName = Request.RequestContext.RouteData.Values["action"].ToString();//获取action名
+
+            string action = controllerName + "/" + actionName;
+
+            var model = new Sys_logEntity { Content = JsonHelper.ObjectToJSON(LogData), Name = Name, Action = action, Type = Type };
+            model.Create();
+            logbll.Add(model);
+
+            return Json(new { Success = true, Data = Data }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

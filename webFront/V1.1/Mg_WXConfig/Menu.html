@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信基本配置</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div id="app" style="margin:10px">
+            <div class="head" style="height:20%;display:flex">
+                <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="getmenu">
+                    拉取菜单
+                </button>
+                <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
+                    <i class="layui-icon layui-icon-refresh"></i>刷新
+                </button>
+                <button class="layui-btn" type="button" style="width:80px;" @click="addmenu">
+                    <i class="layui-icon layui-icon-file-b"></i>保存
+                </button>
+                <!--<label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>-->
+            </div>
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>顶级菜单名称</th>
+                        <th>按钮类型</th>
+                        <th>其他</th>
+                        <th>
+                            操作
+                            <button type="button" class="layui-btn layui-btn-xs" @click="add">
+                                <i class="layui-icon">&#xe608;</i> 添加
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index)  in Menulis.button" v-if="Menulis.button.length>0">
+                        <td>
+                            <div style="height:40px;display:flex">
+                                <label class="layui-label" style="line-height: 40px;">({{index+1}})顶级：</label>
+                                <input type="text" v-model="Menulis.button[index].name" :value="Menulis.button[index].name" class="layui-input" style="width:150px;" placeholder="菜单名称" />
+                            </div>
+                            <div style="margin-left:30px;margin-top:5px;display:flex" v-if="Menulis.button[index].sub_button.length>0" v-for=" (v,i) in Menulis.button[index].sub_button">
+                                <label class="layui-label" style="line-height: 40px;">({{i+1}})二级菜单：</label>
+                                <input type="text" v-model="Menulis.button[index].sub_button[i].name" :value="Menulis.button[index].sub_button[i].name" class="layui-input" style="width:150px;" placeholder="菜单名称" :title="Menulis.button[index].sub_button[i].name" />
+                            </div>
+                        </td>
+                        <td>
+                            <div style="height:40px;">
+                                <label class="layui-label" style="line-height: 40px;">顶级类型：</label>
+                                <select v-model="Menulis.button[index].type" :value="Menulis.button[index].type" class="layui-select" @change="zchange(index)">
+                                    <option value="">--请选择菜单类型--</option>
+                                    <option v-for="itm in btntype" :value="itm.type">{{itm.name}}</option>
+                                </select>
+                            </div>
+                            <div style="margin-left:30px;margin-top:5px;height:40px;" v-if="Menulis.button[index].sub_button.length>0" v-for=" (v,i) in Menulis.button[index].sub_button">
+                                <label class="layui-label" style="line-height: 40px;">二级类型：</label>
+                                <select v-model="Menulis.button[index].sub_button[i].type" :value="Menulis.button[index].sub_button[i].type" class="layui-select" @change="fchange(index,i)">
+                                    <option value="">--请选择菜单类型--</option>
+                                    <option v-for="itm in btntype" :value="itm.type">{{itm.name}}</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+
+                            <div style="display:flex;height:40px;">
+                                <label class="layui-label" style="line-height: 40px;">顶级参数：</label>
+                                <input type="text" v-model="Menulis.button[index].appid" :title="Menulis.button[index].appid" :value="Menulis.button[index].appid" class="layui-input" v-if="Menulis.button[index].type=='miniprogram'" placeholder="小程序appid" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].pagepath" :title="Menulis.button[index].pagepath" :value="Menulis.button[index].pagepath" class="layui-input" v-if="Menulis.button[index].type=='miniprogram'" style="margin-left:3px;width:150px;" placeholder="小程序页面地址" />
+                                <input type="text" v-model="Menulis.button[index].url" :title="Menulis.button[index].url" :value="Menulis.button[index].url" class="layui-input" v-if="Menulis.button[index].type=='view'" placeholder="跳转url地址" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].key" :title="Menulis.button[index].key" :value="Menulis.button[index].key" class="layui-input" v-if="(Menulis.button[index].type=='click'||Menulis.button[index].type=='location_select'|| Menulis.button[index].type=='scancode_push'||Menulis.button[index].type=='pic_sysphoto'||Menulis.button[index].type=='pic_photo_or_album'||Menulis.button[index].type=='scancode_waitmsg')" placeholder="菜单KEY值，用于消息接口推送" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].media_id" :title="Menulis.button[index].media_id" :value="Menulis.button[index].media_id" class="layui-input" v-if="(Menulis.button[index].type=='media_id'||Menulis.button[index].type=='view_limited')" style="width:150px;" placeholder="永久素材接口返回的合法media_id" />
+                            </div>
+
+                            <div style="margin-left:30px;margin-top:5px;display:flex;height:40px;" v-if="Menulis.button[index].sub_button.length>0" v-for=" (v,i) in Menulis.button[index].sub_button">
+                                <label class="layui-label" style="line-height: 40px;">二级参数：</label>
+                                <input type="text" v-model="Menulis.button[index].sub_button[i].appid" :title="Menulis.button[index].sub_button[i].appid" :value="Menulis.button[index].sub_button[i].appid" class="layui-input" v-if="Menulis.button[index].sub_button[i].type=='miniprogram'" placeholder="小程序appid" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].sub_button[i].pagepath" :title="Menulis.button[index].sub_button[i].pagepath" :value="Menulis.button[index].sub_button[i].pagepath" class="layui-input" v-if="Menulis.button[index].sub_button[i].type=='miniprogram'" style="margin-left:3px;width:150px;" placeholder="小程序页面地址" />
+                                <input type="text" v-model="Menulis.button[index].sub_button[i].url" :title="Menulis.button[index].sub_button[i].url" :value="Menulis.button[index].sub_button[i].url" class="layui-input" v-if="Menulis.button[index].sub_button[i].type=='view'" placeholder="跳转url地址" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].sub_button[i].key" :title="Menulis.button[index].sub_button[i].key" :value="Menulis.button[index].sub_button[i].key" class="layui-input" v-if="(Menulis.button[index].sub_button[i].type=='click'||Menulis.button[index].sub_button[i].type=='location_select'|| Menulis.button[index].sub_button[i].type=='scancode_push'||Menulis.button[index].sub_button[i].type=='pic_sysphoto'||Menulis.button[index].sub_button[i].type=='pic_photo_or_album'||Menulis.button[index].sub_button[i].type=='scancode_waitmsg')" placeholder="菜单KEY值，用于消息接口推送" style="width:150px;" />
+                                <input type="text" v-model="Menulis.button[index].sub_button[i].media_id" :title="Menulis.button[index].sub_button[i].media_id" :value="Menulis.button[index].sub_button[i].media_id" class="layui-input" style="width:150px;" v-if="(Menulis.button[index].sub_button[i].type=='media_id'||Menulis.button[index].sub_button[i].type=='view_limited')" placeholder="永久素材接口返回的合法media_id" />
+                            </div>
+                        </td>
+                        <td>
+                            <div style="height:40px;">
+                                <button type="button" class="layui-btn layui-btn-xs" @click="fadd(index)">
+                                    <i class="layui-icon">&#xe608;</i> 添加
+                                </button>
+                                <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" @click="del(index)">
+                                    <i class="layui-icon layui-icon-delete"></i> 移除
+                                </button>
+                            </div>
+                            <div style="margin-left:30px;margin-top:5px;height:40px;" v-if="Menulis.button[index].sub_button.length>0" v-for=" (v,i) in Menulis.button[index].sub_button">
+                                <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" @click="fdel(index,i)">
+                                    <i class="layui-icon layui-icon-delete"></i> 移除
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr v-if="Menulis.button.length==0" align="center"><td colspan="4">暂无数据</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
+<script>
+
+
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            Menulis: { button: [] },
+            btntype: [
+                { name: '按钮', type: 'click', param: ['key'] },
+                { name: '跳转URL', type: 'view', param: ['url'] },
+                { name: '跳转小程序', type: 'miniprogram', param: ['appid', 'pagepath'] },
+                { name: '扫码推事件', type: 'scancode_push' },
+                { name: '扫码推事件且弹出“消息接收中”', type: 'scancode_waitmsg' },
+                { name: '系统拍照', type: 'pic_sysphoto' },
+                { name: '“拍照”或者“从手机相册选择”', type: 'pic_photo_or_album' },
+                { name: '地理位置', type: 'location_select' },
+                { name: '下发消息（除文本消息）', type: 'media_id', param: ['media_id'] },
+                { name: '跳转图文', type: 'view_limited', param: ['media_id'] },
+            ],
+        },
+        created: function () {
+        },
+        computed: {
+
+
+        },
+        methods: {
+            refresh() {
+                o.refresh();
+            },
+            addmenu() {
+                o.addmenu();
+            },
+            getmenu() {
+                o.getmenu();
+            },
+            add() {
+                if (vm.Menulis.button.length >= 3) {
+                    $frame.alert_msg("主菜单已达到上限！");
+                    return false;
+                }
+                vm.Menulis.button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] })
+            },
+            fadd(index) {
+                vm.Menulis.button[index].type = '';
+                if (vm.Menulis.button[index].sub_button.length >= 5) {
+                    $frame.alert_msg("子菜单已达到上限！");
+                    return false;
+                }
+
+                vm.Menulis.button[index].sub_button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] });
+            },
+            del(index) {
+                vm.Menulis.button.splice(index, 1);
+            },
+            fdel(index, i) {
+                vm.Menulis.button[index].sub_button.splice(i, 1);
+            },
+            zchange(index) {
+                if (!$frame.IsEmpty(vm.Menulis.button[index].type)) {
+                    vm.Menulis.button[index].appid = '';
+                    vm.Menulis.button[index].pagepath = '';
+                    vm.Menulis.button[index].url = '';
+                    vm.Menulis.button[index].key = '';
+                    vm.Menulis.button[index].media_id = '';
+                    vm.Menulis.button[index].sub_button = [];
+                }
+            },
+            fchange(index, i) {
+                vm.Menulis.button[index].sub_button[i].appid = '';
+                vm.Menulis.button[index].sub_button[i].pagepath = '';
+                vm.Menulis.button[index].sub_button[i].url = '';
+                vm.Menulis.button[index].sub_button[i].key = '';
+                vm.Menulis.button[index].sub_button[i].media_id = '';
+
+            }
+        }
+
+
+    });
+
+
+    var o = {
+        load() {
+            o.refresh();
+            o.bind();
+        },
+        bind() {
+
+        },
+        getmenu() {
+            $frame.RequestGet('Wx_Data/GetURLWMenu', '', (x) => {
+                if (x.Success) {
+                    let data = JSON.parse(x.Data);
+                    if (!data["errcode"]) {
+                        vm.Menulis = data.menu;
+                    } else
+                        $frame.alert(x.Data);
+                } else {
+                    console.log(x.Data);
+                    $frame.alert(x.Data);
+                }
+
+            });
+        },
+        addmenu() {
+
+
+
+            if (vm.Menulis.button.length == 0) {
+                $frame.alert("生成的菜单数据不能为空！");
+                return false;
+            }
+            let da = { button: [] };
+            $.each(vm.Menulis.button, (i, v) => {
+                let m = {};
+                if (!$frame.IsEmpty(v.name))
+                    m["name"] = v.name;
+                if (!$frame.IsEmpty(v.type)) {
+                    m["type"] = v.type;
+
+                    if (!$frame.IsEmpty(v.appid))
+                        m["appid"] = v.appid;
+                    if (!$frame.IsEmpty(v.pagepath))
+                        m["pagepath"] = v.pagepath;
+                    if (!$frame.IsEmpty(v.url))
+                        m["url"] = v.url;
+                    if (!$frame.IsEmpty(v.key))
+                        m["key"] = v.key;
+                    if (!$frame.IsEmpty(v.media_id))
+                        m["media_id"] = v.media_id;
+                }
+                if (v.sub_button.length > 0) {
+                    $.each(v.sub_button, (index, value) => {
+                        let fm = {};
+                        if (!$frame.IsEmpty(value.name))
+                            fm["name"] = value.name;
+                        if (!$frame.IsEmpty(value.type))
+                            fm["type"] = value.type;
+                        if (!$frame.IsEmpty(value.appid))
+                            fm["appid"] = value.appid;
+                        if (!$frame.IsEmpty(value.pagepath))
+                            fm["pagepath"] = value.pagepath;
+                        if (!$frame.IsEmpty(value.url))
+                            fm["url"] = value.url;
+                        if (!$frame.IsEmpty(value.key))
+                            fm["key"] = value.key;
+                        if (!$frame.IsEmpty(value.media_id))
+                            fm["media_id"] = value.media_id;
+
+                        if (value.type == 'scancode_push' || value.type == 'location_select' || value.type == 'scancode_waitmsg' || value.type == 'pic_photo_or_album' || value.type == 'pic_sysphoto')
+                            fm["sub_button"] = [];
+
+                        m["sub_button"] = m["sub_button"] || [];
+                        m["sub_button"].push(fm);
+                    });
+                }
+
+                da.button.push(m);
+            });
+
+            $frame.RequestGet('Wx_Data/AddWMenu', { menu: JSON.stringify(da) }, (x) => {
+                if (x.Success) {
+                    let r = JSON.parse(x.Data);
+                    if (r.errcode == 0 && r.errmsg == "ok") {
+                        $frame.alert_msg("操作成功！");
+                    } else {
+                        $frame.alert(x.Data);
+                    }
+                } else {
+                    console.log(x.Data);
+                    $frame.alert(x.Data);
+                }
+
+            });
+        },
+        refresh() {
+            $frame.RequestGet('Wx_Data/GetWMenu', '', (x) => {
+                if (x.Success) {
+                    let data = JSON.parse(x.Data);
+                    if (!data["errcode"]) {
+                        vm.Menulis = !!data.menu ? data.menu : [];
+                    } else
+                        $frame.alert(x.Data);
+                } else {
+                    console.log(x.Data);
+                    $frame.alert(x.Data);
+                }
+
+            });
+
+        }
+    }
+    o.load();
+</script>

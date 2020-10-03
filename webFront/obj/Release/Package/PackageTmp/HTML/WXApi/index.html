@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>日志文件</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/HTML/layui/css/layui.css" rel="stylesheet" />
+    <script src="/HTML/JS/jquery-3.3.1.min.js"></script>
+    <script src="/HTML/JS/vue.min.js"></script>
+    <script src="/HTML/layui/layui.all.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item" style="margin-right:5px">
+            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
+                <i class="layui-icon layui-icon-refresh"></i>刷新
+            </button>
+        </div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th>文件名</th>
+                    <th>文件所在地址</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                    <td>{{item.name}}</td>
+                    <td>{{item.path}}</td>
+                    <th><button class="layui-btn layui-btn-warm" type="button" @click="btnopen(item)">查看</button></th>
+                </tr>
+                <tr v-if="pagingdata.length==0" align="center">
+                    <td colspan="3">暂无数据</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+
+    </div>
+
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            datalis: [],
+            pagingdata: [],
+        },
+        created: function () {
+        },
+        computed: {
+
+
+        },
+        methods: {
+            btnopen(item) {
+                top.vm.iframedata = item;
+                let obj = {
+                    id: 'form',
+                    title: '文件详情',
+                    url: 'WXApi/Form.html',
+                    width: 1200,
+                    height: 700,
+                    btn: null,
+                    callBack: function (id) {
+
+                    }
+                }
+                $frame.layerForm(obj);
+
+            },
+            refresh() {
+                window.location.reload();
+            },
+        }
+
+
+    });
+
+    var o = {
+        load() {
+            o.GetUser();
+
+        },
+        bind() {
+
+
+        },
+        GetUser() {
+            $frame.RequestGet('WXlog/GetLog', '', (x) => {
+                if (x.Success) {
+                    $.each(x.Data, (i, v) => {//使用文件夹时间生成时间戳，根据时间戳排序
+                        v['time'] = new Date(v.name).getTime();
+                    });
+                    vm.datalis = $frame.sorting(x.Data, "time", false);  
+                    
+                    o.page(vm.datalis);
+                } else {
+                    console.log(x.Data);
+                    $frame.alert_msg(x.Data);
+                }
+
+            });
+
+        },
+        page(data, pageindex) {
+            pageindex = pageindex || 1;
+            let sta = (pageindex * 10 - 10);
+            let end = (pageindex * 10);
+            vm.pagingdata = data.slice(sta, end);
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage,
+                    layer = layui.layer;
+                laypage.render({
+                    elem: 'page',
+                    count: data.length,
+                    limit: 10,
+                    first: '首页',
+                    last: '尾页',
+                    layout: ['count', 'prev', 'page', 'next', 'skip'],
+                    curr: pageindex,
+                    theme: '#00A0E9',
+                    jump: function (obj, first) {
+                        if (!first) {
+                            //第一次不执行,一定要记住,这个必须有,要不然就是死循环
+                            let curr = obj.curr;
+                            //回调该展示数据的方法,数据展示
+                            o.page(data, curr);
+                        }
+                    }
+                });
+            });
+        }
+
+    };
+
+    o.load();
+</script>
