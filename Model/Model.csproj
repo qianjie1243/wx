@@ -50,10 +50,13 @@
     <Compile Include="Sys\Sys_logEntity.cs" />
     <Compile Include="Sys\Sys_MenuEntity.cs" />
     <Compile Include="Sys\Sys_UserEntity.cs" />
+    <Compile Include="Wx\PushTemplateEntity.cs" />
+    <Compile Include="Wx\Wx_EvenMessageEntity.cs" />
+    <Compile Include="Wx\Wx_MenuEntity.cs" />
+    <Compile Include="Wx\Wx_MessageEntity.cs" />
+    <Compile Include="Wx\Wx_UserEntity.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Wx\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

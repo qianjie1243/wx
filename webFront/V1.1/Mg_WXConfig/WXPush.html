@@ -35,16 +35,25 @@
 
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">接受者OPENID：</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" v-model="model.openid" :value="model.openid" style="width:500px" />
+            <label class="layui-form-label">接受者姓名：</label>
+            <div class="layui-input-block" style="display:flex">
+                <select class="layui-select" v-model="model.openid" :value="model.openid">
+                    <option value="">请选择</option>
+                    <option v-for="item in  userlis" :value="item.Openid">{{item.Nickname}}</option>
+                </select>
+                <input class="layui-input" type="text" style="width:100px;margin-left:5px;" placeholder="查询" id="query_name" @input="query(1)" />
             </div>
         </div>
 
         <div class="layui-form-item " v-if="model.type==1">
-            <label class="layui-form-label">模板ID：</label>
-            <div class="layui-input-block">
-                <input class="layui-input" type="text" v-model="model.temid" :value="model.temid" style="width:500px" />
+            <label class="layui-form-label">推送模板：</label>
+
+            <div class="layui-input-block" style="display:flex">
+                <select class="layui-select" v-model="model.temid" :value="model.temid" @change="upda">
+                    <option value="">请选择</option>
+                    <option v-for="item in  templis" :value="item.TempId">{{item.Name}}</option>
+                </select>
+                <input class="layui-input" type="text" style="width:100px;margin-left:5px;" placeholder="查询" id="query_temid" @input="query(2)" />
             </div>
         </div>
         <div class="layui-form-item " v-if="model.type==1">
@@ -100,18 +109,71 @@
 <script>
 
     let $frame = top.$frame;
+    var userlis, templis;
+    var o = {
+        load() {
+            this.getcolor();
+        },
+        bind() {
+
+        },
+        Getstring(str, data) {
+            let i = str.indexOf("{{");
+            if (i > -1) {
+                let name = str.substring(i);
+                let fi = name.indexOf("}}");
+                if (fi > -1) {
+                    let temp = name.substring(0, fi + 2);
+                    data.push({
+                        temp: temp,
+                        Name: temp.substring(temp.indexOf("{{") + 2, temp.indexOf("}}")).split('.')[0],
+                        values: { value: '', color: '' },
+                    });
+                    let newstr = name.substring(fi + 1);
+                    o.Getstring(newstr, data);
+                }
+            }
+            return data;
+        },
+        getcolor() {
+            clr = new Array('00', '20', '40', '60', '80', 'a0', 'c0', 'ff');
+            for (i = 0; i < 8; i++) {
+                for (j = 0; j < 8; j++) {
+                    for (k = 0; k < 8; k++) {
+                        vm.colors.push('#' + clr[i] + clr[j] + clr[k]);
+                    }
+                }
+
+            }
+
+        },
+        getconfig() {
+            $frame.RequestGet('Wx_Data/GetSmsConfig', '', res => {
+                if (res.Success) {
+                    userlis = res.Data.lis;
+                    templis = res.Data.templateLis;
+                    vm.userlis = res.Data.lis;
+                    vm.templis = res.Data.templateLis;
+                } else
+                    $frame.alert(res.Data);
+            });
+        }
+    }
+
 
     var vm = new Vue({
         el: '#app',
         data: {
             model: { type: 0, content: '', temp: [], openid: '',temid:'',openurl:'' },
             colors: [],
+            userlis:[],
+            templis:[],
 
         },
         created: function () {
-            // this.lis = _data;
+            o.getconfig();
         },
-        computed: {
+        computed: function(){
 
 
         },
@@ -173,47 +235,38 @@
                     });
 
             },
+            upda() {
+                if (!$frame.IsEmpty(vm.model.temid)) {
+                    let v = $frame.filter(vm.templis, "TempId", vm.model.temid)[0];
+                    vm.model.content = v.Content;
+                    vm.model.temp = o.Getstring(vm.model.content, vm.model.temp);
+                } else {
+                    vm.model.content = '';
+                    vm.model.temp = [];
+                }
+            },
+            query(type) {
+                switch (type) {
+                    case 1:
+                        if (!$frame.IsEmpty($("#query_name").val())) {
+                            let v1 = $frame.filter(userlis, "Nickname", $("#query_name").val(), true);
+                            vm.userlis = v1;
+                        } else
+                            vm.userlis = userlis;
+                        break;
+                    case 2:
+                        if (!$frame.IsEmpty($("#query_temid").val())) {
+                            let v2 = $frame.filter(templis, "TempId", $("#query_temid").val(), true);
+                            vm.templis = v2;
+                        } else
+                            vm.templis = templis;
+                        break;
+                }
+            }
 
         }
     });
 
-    var o = {
-        load() {
-            this.getcolor();
-        },
-        bind() {
 
-        },
-        Getstring(str, data) {
-            let i = str.indexOf("{{");
-            if (i > -1) {
-                let name = str.substring(i);
-                let fi = name.indexOf("}}");
-                if (fi > -1) {
-                    let temp = name.substring(0, fi + 2);
-                    data.push({
-                        temp: temp,
-                        Name: temp.substring(temp.indexOf("{{") + 2, temp.indexOf("}}")).split('.')[0],
-                        values: { value: '', color: ''},
-                    });
-                    let newstr = name.substring(fi + 1);
-                    o.Getstring(newstr, data);
-                }
-            }
-            return data;
-        },
-        getcolor() {
-            clr = new Array('00', '20', '40', '60', '80', 'a0', 'c0', 'ff');
-            for (i = 0; i < 8; i++) {
-                for (j = 0; j < 8; j++) {
-                    for (k = 0; k < 8; k++) {
-                        vm.colors.push('#' + clr[i] + clr[j] + clr[k]);
-                    }
-                }
-
-            }
-
-        }
-    }
     o.load();
 </script>

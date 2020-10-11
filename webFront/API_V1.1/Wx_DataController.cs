@@ -25,6 +25,8 @@ namespace webFront.API_V1._1
         private Wx_EvenMessage wxevenmessage = new Wx_EvenMessage();
         private Wx_Menu wxmenu = new Wx_Menu();
         private Wx_Message wxmessage = new Wx_Message();
+        private Wx_User wxuser = new Wx_User();
+        private Wx_PushTemplate wxpushtemplate = new Wx_PushTemplate();
         #endregion
 
         #region wx配置
@@ -138,16 +140,72 @@ namespace webFront.API_V1._1
                 {
                     return Error("请先完善微信配置文件！");
                 }
-                List<WxTenpay.WXoperation.gerenxinxi> use = new List<WxTenpay.WXoperation.gerenxinxi>();
-                if (use.Count == 0)
+                List<Wx_UserEntity> data = new List<Wx_UserEntity>();
+                var use = getWxUserLis(new List<WxTenpay.WXoperation.gerenxinxi>());
+                if (use.Count > 0)//添加数据列表 数据库
                 {
-                    use = getWxUserLis(new List<WxTenpay.WXoperation.gerenxinxi>());
+
+                    wxuser.Delete(x => x.Id > 0);//移除数据库记录
+                    data = use.Select(x =>
+                    {
+                        return new Wx_UserEntity
+                        {
+                            Sex = x.sex,
+                            Address = x.country + x.province + x.city,
+                            GuId = Guid.NewGuid().ToString(),
+                            CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                            Nickname = x.nickname,
+                            SubscribeTime = x.subscribe_time,
+                            Openid = x.openid,
+                            WxAppId = WXconfig.appid,
+                            Headimgurl = x.headimgurl
+                        };
+
+                    }).ToList();
+
+                    wxuser.AddList(data);
                 }
-                return Success(use);
+
+                return Success(data);
             }
             catch (Exception ex)
             {
-                return Error(ex.Message);
+                return ErrorLog(ex.ToString(), "获取关注用户");
+            }
+
+        }
+
+
+        /// <summary>
+        /// 获取数据库关注用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetDBUser(PageParm parm, string queryjson)
+        {
+            try
+            {
+
+                var query = queryjson.ToJObject();
+
+                #region 
+                var expression = LinqExtensions.True<Wx_UserEntity>();
+                if (!query["Name"].IsEmpty())
+                {
+                    expression = expression.And(t => t.Nickname.Contains(query["Name"].ToString()));
+                }
+                if (!query["Sex"].IsEmpty())
+                {
+                    expression = expression.And(t => t.Sex.ToString() == query["Sex"].ToString());
+                }
+
+                #endregion
+                return Success(wxuser.GetPages(parm, expression, x => x.CreateTime, 2));
+
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex.ToString(), "获取数据库关注用户");
             }
 
         }
@@ -308,7 +366,6 @@ namespace webFront.API_V1._1
 
         }
         #endregion
-
 
         #region 获取token/jsapi_ticket
 
@@ -586,7 +643,143 @@ namespace webFront.API_V1._1
             }
 
         }
+
+
+        /// <summary>
+        ///获取推送配置
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetSmsConfig()
+        {
+            try
+            {
+                var lis = wxuser.GetList().Where(x => x.WxAppId == WXconfig.appid);
+                var templateLis = wxpushtemplate.GetList().Where(x => x.WxAppId == WXconfig.appid);
+                var data = new
+                {
+                    lis,
+                    templateLis
+                };
+
+
+                return Success(data);
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "获取微信用户列表");
+            }
+
+        }
         #endregion
+
+        #region 微信推送模板维护
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetTempList(PageParm parm, string queryjson)
+        {
+            try
+            {
+                var query = queryjson.ToJObject();
+
+                #region 
+                var expression = LinqExtensions.True<Wx_PushTemplateEntity>();
+                if (!query["Name"].IsEmpty())
+                {
+                    expression = expression.And(t => t.Name.Contains(query["Name"].ToString()));
+                }
+
+                #endregion
+                return Success(wxpushtemplate.GetPages(parm, expression, x => x.CreateTime, 2));
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "获取微信模板列表");
+            }
+
+        }
+        /// <summary>
+        /// 编辑微信模板
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public object SaveTempFrom(Wx_PushTemplateEntity entity)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(entity.GuId))
+                {
+                    var model = wxpushtemplate.GetModel(x => x.GuId == entity.GuId);
+                    model.Name = entity.Name;
+                    model.TempId = entity.TempId;
+                    model.Content = entity.Content;
+                    wxpushtemplate.Update(model);
+                }
+                else
+                {
+                    entity.WxAppId = WXconfig.appid;
+                    entity.Create();
+                    wxpushtemplate.Add(entity);
+                }
+                return Success("操作成功！");
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "编辑微信模板");
+            }
+
+        }
+
+
+        /// <summary>
+        /// 微信模板详情
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetTempdetails(string guid)
+        {
+            try
+            {
+                var model = wxpushtemplate.GetModel(x => x.GuId == guid);
+                return Success(model);
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "微信模板详情");
+            }
+
+        }
+
+        /// <summary>
+        /// 移除微信模板
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public object DeleteTempList(string guid)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(guid))
+                    wxpushtemplate.Delete(x => x.GuId == guid);
+                else
+                    return Error("参数错误！");
+                return Success("操作成功！");
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "移除微信模板");
+            }
+
+        }
+        #endregion 
 
         #region 微信自动回复
         /// <summary>
@@ -674,9 +867,6 @@ namespace webFront.API_V1._1
 
         }
         #endregion
-
-
-
 
     }
 }

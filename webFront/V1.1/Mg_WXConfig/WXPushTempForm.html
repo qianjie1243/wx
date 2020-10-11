@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>模板详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">模板名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" v-model="model.Name" placeholder="请输入模板名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">模板编号</label>
+            <div class="layui-input-block">
+                <input type="text" v-model="model.TempId" placeholder="请输入编号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">模板详情</label>
+            <div class="layui-input-block">
+                <textarea  class="layui-textarea"   v-model="model.Content" :value="model.Content" rows="15"   ></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" @click="add">立即提交</button>
+                <button class="layui-btn layui-btn-primary" @click="reset">重置</button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+    let guid = top.parent_obj.geto_iframe_current().selectedRow;
+    let $frame = top.$frame;
+
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: {
+                Name: '',
+                TempId: '',
+                Content: '',            
+            },
+        },
+        created: function () {
+        },
+        mounted: function () {
+        },
+        updated: function () {
+        },
+        computed: {
+        },
+        methods: {
+
+            add() {
+                obj.add();
+            },
+            reset() {
+                obj.reset();
+                $frame.alert_msg("操作成功！");
+            },
+
+        }
+    })
+
+    var obj = {
+        load() {
+            if (!$frame.IsEmpty(guid)) {
+                $frame.RequestGet("Wx_Data/GetTempdetails", { guid: guid }, (r) => {
+                    if (r.Success)
+                        vm.model = r.Data;
+                    else
+                        console.log(r.Data);
+                });
+            }
+        },
+      
+        add(){
+            let foat = true;
+            if ($frame.IsEmpty(vm.model.Name)) {
+                $frame.alert("模板名称不能为空！");
+                foat = false;
+            }
+            if ($frame.IsEmpty(vm.model.TempId)) {
+                $frame.alert("模板编号不能为空！");
+                foat = false;
+            }
+            if (foat) {
+                $frame.RequestPost("Wx_Data/SaveTempFrom", vm.model, (r) => {
+                    if (r.Success) {
+                        top.parent_obj.geto_iframe_current().refresh();
+                        top.parent_obj.close("操作成功！");
+                    } else
+                        console.log(r.Data);
+                });
+            }
+
+        },
+        reset() {
+            vm.model.Name = "";
+            vm.model.TempId = 0;
+        }
+
+    }
+
+    obj.load();
+</script>

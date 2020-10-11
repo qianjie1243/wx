@@ -135,6 +135,7 @@
     <Compile Include="API\WxDockingController.cs" />
     <Compile Include="API\WXlogController.cs" />
     <Compile Include="API_V1.1\Wx_DataController.cs" />
+    <Compile Include="API_V1.1\Wx_DockingController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -318,6 +319,8 @@
     <Content Include="V1.1\Mg_WXConfig\User.html" />
     <Content Include="V1.1\Mg_WXConfig\WXApiLis.html" />
     <Content Include="V1.1\Mg_WXConfig\WXPush.html" />
+    <Content Include="V1.1\Mg_WXConfig\WXPushTemp.html" />
+    <Content Include="V1.1\Mg_WXConfig\WXPushTempForm.html" />
     <Content Include="V1.1\Mg_WXMaterial\AddMaterial.html" />
     <Content Include="V1.1\Mg_WXMaterial\Material.html" />
     <Content Include="V1.1\Mg_WXMaterial\MaterialForm.html" />

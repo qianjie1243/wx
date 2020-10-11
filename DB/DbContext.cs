@@ -30,14 +30,19 @@ namespace DB
         }
         public SqlSugarClient Db;//用来处理事务多表查询和复杂的操作
 
-        //系统设置
+        #region 系统设置
         public SimpleClient<Sys_ButtonEntity> SysButtonDb => new SimpleClient<Sys_ButtonEntity>(Db);
         public SimpleClient<Sys_MenuEntity> SysMenuDB => new SimpleClient<Sys_MenuEntity>(Db);
         public SimpleClient<Sys_UserEntity> SysUserDB => new SimpleClient<Sys_UserEntity>(Db);
         public SimpleClient<Sys_logEntity> SyslogDB => new SimpleClient<Sys_logEntity>(Db);
+        #endregion
 
+        #region 微信
         public SimpleClient<Wx_MenuEntity> WxMenu => new SimpleClient<Wx_MenuEntity>(Db);
         public SimpleClient<Wx_MessageEntity> WxMessage => new SimpleClient<Wx_MessageEntity>(Db);
         public SimpleClient<Wx_EvenMessageEntity> WxEvenMessage => new SimpleClient<Wx_EvenMessageEntity>(Db);
+        public SimpleClient<Wx_UserEntity> WxUser => new SimpleClient<Wx_UserEntity>(Db);
+        public SimpleClient<Wx_PushTemplateEntity> WxPushTemplate => new SimpleClient<Wx_PushTemplateEntity>(Db);
+        #endregion 
     }
 }
