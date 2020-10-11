@@ -25,4 +25,8 @@
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0822/180810_5e637fcc_1689037.png "屏幕截图.png")
 ![按钮事件配置](https://images.gitee.com/uploads/images/2020/0822/180910_741782fb_1689037.png "屏幕截图.png")
 ![菜单配置](https://images.gitee.com/uploads/images/2020/0822/180937_2a2e11fc_1689037.png "屏幕截图.png")
+![系统菜单管理](https://images.gitee.com/uploads/images/2020/1003/175759_1cb6ce48_1689037.png "屏幕截图.png")
+![系统日志](https://images.gitee.com/uploads/images/2020/1003/175853_f0d04cc9_1689037.png "屏幕截图.png")
+![数据库配置](https://images.gitee.com/uploads/images/2020/1003/175949_3d6ddaa2_1689037.png "屏幕截图.png")
+![数据库文件](https://images.gitee.com/uploads/images/2020/1003/180022_1fc4527f_1689037.png "屏幕截图.png")
 后期待完善功能
