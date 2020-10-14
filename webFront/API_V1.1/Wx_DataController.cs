@@ -13,20 +13,22 @@ using System.Web.Util;
 using webFront.Models;
 using WxTenpay;
 
-namespace webFront.API_V1._1
+namespace webFront.API
 {
     public class Wx_DataController : BaseController
     {
         #region 业务
-        private WeChatPayment wpm = new WeChatPayment();
-        private Wechat_Menu wm = new Wechat_Menu();
-        private WechatPublic wp = new WechatPublic();
+        private WeChatPayment wpm = new WeChatPayment();//微信操作类型
+        private Wechat_Menu wm = new Wechat_Menu();//微信菜单
+        private WechatPublic wp = new WechatPublic();//微信操作类
         private string personpath = "/file/media";
-        private Wx_EvenMessage wxevenmessage = new Wx_EvenMessage();
-        private Wx_Menu wxmenu = new Wx_Menu();
-        private Wx_Message wxmessage = new Wx_Message();
-        private Wx_User wxuser = new Wx_User();
-        private Wx_PushTemplate wxpushtemplate = new Wx_PushTemplate();
+        private Wx_EvenMessage wxevenmessage = new Wx_EvenMessage();//自动回复事件
+        private Wx_Menu wxmenu = new Wx_Menu();//微信菜单
+        private Wx_Message wxmessage = new Wx_Message();//自动回复
+        private Wx_User wxuser = new Wx_User();//推送人员
+        private Wx_PushTemplate wxpushtemplate = new Wx_PushTemplate();//推送模板
+
+        private Wx_PushList wxpushlist = new Wx_PushList();//推送记录
         #endregion
 
         #region wx配置
@@ -618,6 +620,7 @@ namespace webFront.API_V1._1
 
         #endregion
 
+        #region 推送
         #region  发送微信推送消息
         /// <summary>
         ///发送微信推送消息
@@ -633,9 +636,22 @@ namespace webFront.API_V1._1
                 {
                     return Error("请先完善微信配置文件！");
                 }
-                if (type == 0) return Success(wp.WeiXinKeFu(openid.Trim(), content));
-
-                else return Success(wp.WeiXinTemplate(openid.Trim(), temid.Trim(), temp, openurl));
+                if (type == 0)
+                {
+                    var model = wp.WeiXinKeFu(openid.Trim(), content);
+                    var Pushmodel = new Wx_PushListEntity() { ResContent = JsonConvert.SerializeObject(model), Content= content, Oppid = openid.Trim(), TempId = "文本推送", WxAppId = WXconfig.appid };
+                    Pushmodel.Create();
+                    wxpushlist.Add(Pushmodel);
+                    return Success(model);
+                }
+                else
+                {
+                    var model = wp.WeiXinTemplate(openid.Trim(), temid.Trim(), temp, openurl);
+                    var Pushmodel = new Wx_PushListEntity (){ ResContent=JsonConvert.SerializeObject(model), Oppid = openid.Trim(), TempId = temid.Trim(), WxAppId = WXconfig.appid, Content = temp.ToJson() };
+                    Pushmodel.Create();
+                    wxpushlist.Add(Pushmodel);
+                    return Success(model);
+                }
             }
             catch (Exception ex)
             {
@@ -779,7 +795,53 @@ namespace webFront.API_V1._1
             }
 
         }
+        #endregion
+
+        #region 推送记录
+        /// <summary>
+        /// 获取推送列表
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetPushList(PageParm parm, string queryjson)
+        {
+            try
+            {
+                var query = queryjson.ToJObject();
+
+                #region 
+                var expression = LinqExtensions.True<Wx_PushListEntity>();
+                if (!query["TempId"].IsEmpty())
+                {
+                    expression = expression.And(t => t.TempId.Contains(query["TempId"].ToString()));
+                }
+                if (!query["Oppid"].IsEmpty())
+                {
+                    expression = expression.And(t => t.Oppid.Contains(query["Oppid"].ToString()));
+                }
+
+                var res = wxpushlist.GetPages(parm, expression, x => x.CreateTime, 2);
+                res.Items=res.Items.Select(x =>
+                {
+                    if(!string.IsNullOrWhiteSpace(x.TempId))
+                    x.PushTemp = wxpushtemplate.GetModel(p => p.TempId == x.TempId);
+                    if (!string.IsNullOrWhiteSpace(x.Oppid))
+                        x.User = wxuser.GetModel(p => p.Openid == x.Oppid);
+                    return x;
+                }).ToList();
+                #endregion
+                return Success(res);
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "获取微信模板列表");
+            }
+
+        }
         #endregion 
+
+        #endregion
 
         #region 微信自动回复
         /// <summary>

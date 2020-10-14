@@ -43,6 +43,9 @@ namespace DB
         public SimpleClient<Wx_EvenMessageEntity> WxEvenMessage => new SimpleClient<Wx_EvenMessageEntity>(Db);
         public SimpleClient<Wx_UserEntity> WxUser => new SimpleClient<Wx_UserEntity>(Db);
         public SimpleClient<Wx_PushTemplateEntity> WxPushTemplate => new SimpleClient<Wx_PushTemplateEntity>(Db);
+        public SimpleClient<Wx_PushListEntity> WxPushList => new SimpleClient<Wx_PushListEntity>(Db);
+
+        
         #endregion 
     }
 }

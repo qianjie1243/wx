@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>微信模板推送记录</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/echarts.min.js"></script>
+    <script src="/wwwroot/JS/admin.js"></script>
+    <style>
+        .layui-form-label {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+        <div class="head" style="height:20%;display:flex">
+            <div class="layui-form-item" style="float:left;">
+                <div style="display:flex">
+                    <select class="layui-select" v-model="searchdata.TempId" :value="searchdata.TempId">
+                        <option value="">模板名称</option>
+                        <option v-for="item in  templis" :value="item.TempId"  v-if="templis.length>0">{{item.Name}}</option>
+                    </select>
+                    <input class="layui-input" type="text" style="width:100px;margin-left:5px;" placeholder="查询" id="query_temid" @input="query(2)" />
+
+                    <select class="layui-select" v-model="searchdata.Oppid" :value="searchdata.Oppid">
+                        <option value="">昵称</option>
+                        <option v-for="item in  userlis" :value="item.Openid" v-if="userlis.length>0">{{item.Nickname}}</option>
+                    </select>
+                    <input class="layui-input" type="text" style="width:100px;margin-left:5px;" placeholder="查询" id="query_name" @input="query(1)" />
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="margin-right:5px">
+                <div class="layui-input-block">
+                    <button class="layui-btn" type="button" style="width:80px;" @click="search">
+                        <i class="layui-icon layui-icon-search"></i>查询
+                    </button>
+                    <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
+                        <i class="layui-icon layui-icon-refresh"></i>刷新
+                    </button>                   
+                </div>
+            </div>
+        </div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th>模板名称</th>
+                    <th>推送人员</th>
+                    <th>推送情况</th>
+                    <th>推送时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                    <td :title="item.PushTemp.Name">{{item.PushTemp.Name}}</td>
+                    <td :title="item.User.Nickname">{{item.User.Nickname}}</td>
+                    <td :title="item.ResContent"> {{item.ResContent}}</td>
+                    <td :title="item.CreateTime">{{item.CreateTime}}</td>
+                    <td>
+                        <div style="display:flex">
+                            <button class='layui-btn layui-btn-xs' @click="edit(item)">编辑</button>
+                            <!--<button class='layui-btn layui-btn-danger layui-btn-xs' @click="del(item.GuId)">删除</button>-->
+                        </div>
+                    </td>
+                </tr>
+                <tr v-if="pagingdata.length==0" align="center">
+                    <td colspan="5">暂无数据</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="page"></div>
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    var selectedRow, refresh;
+    let frame = top.$frame;
+    var userlis, templis;
+
+
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            datalis: [],
+            pagingdata: [],
+            searchdata: { TempId: '', Oppid: '' },
+            userlis: [],
+            templis: [],
+        },
+        created: function () {
+          
+        },
+        computed: {
+
+
+        },
+        methods: {
+            search() {
+                let queryjson = {
+                    TempId: vm.searchdata.TempId,
+                    Oppid: vm.searchdata.Oppid,
+                };
+                o.Getlist(queryjson);
+            },
+            refresh() {
+                o.bind();
+            },
+            query(type) {
+                switch (type) {
+                    case 1:
+                        if (!frame.IsEmpty($("#query_name").val())) {
+                            let v1 = frame.filter(userlis, "Nickname", $("#query_name").val(), true);
+                            vm.userlis = v1;
+                        } else
+                            vm.userlis = userlis;
+                        break;
+                    case 2:
+                        if (!frame.IsEmpty($("#query_temid").val())) {
+                            let v2 = frame.filter(templis, "TempId", $("#query_temid").val(), true);
+                            vm.templis = v2;
+                        } else
+                            vm.templis = templis;
+                        break;
+                }
+            },
+      
+            edit(item) {
+                selectedRow = item;
+                let obj = {
+                    id: 'form',
+                    title: '推送详情',
+                    url: 'Mg_WXConfig/WXPushRecordForm.html',
+                    width: 800,
+                    height: 600,
+                    btn: null,
+
+                }
+                frame.layerForm(obj);
+            },
+
+        },
+
+
+
+    });
+
+
+    var o = {
+        bind() {
+            o.getconfig();
+            o.Getlist();
+        },
+        Getlist(queryjson) {
+            queryjson = queryjson || {};
+            $frame.laypaging({
+                url: "Wx_Data/GetPushList",
+                elem: 'page',
+                queryjson: JSON.stringify(queryjson),
+                callBack: (res, fun) => {
+                    if (!!res) {
+                        if (res.Success) {
+                            vm.pagingdata = res.Data.Items;
+                            fun(res.Data.TotalItems);
+                        }
+                    }
+                }
+            });
+        },
+        getconfig() {
+            frame.RequestGet('Wx_Data/GetSmsConfig', '', res => {
+                if (res.Success) {
+                    userlis = res.Data.lis;
+                    templis = res.Data.templateLis;
+                    vm.userlis = res.Data.lis;
+                    vm.templis = res.Data.templateLis;
+                } else
+                    frame.alert(res.Data);
+            });
+        }
+
+    };
+
+
+    refresh = function () {
+        o.bind();
+    }
+    o.bind();
+
+</script>

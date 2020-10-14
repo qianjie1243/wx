@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>推送详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">模板名称</label>
+            <div class="layui-input-block">
+                <!--<label>{{model.PushTemp.Name}}</label>-->
+                <input class="layui-input" type="text" style="margin-left:5px;" :value="model.PushTemp.Name" />
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">推送人员</label>
+            <div class="layui-input-block">
+                <!--<label>{{model.User.Nickname}}</label>-->
+                <input class="layui-input" type="text" style="margin-left:5px;" :value="model.User.Nickname" />
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">推送时间</label>
+            <div class="layui-input-block">
+                <!--<label>{{model.CreateTime}}</label>-->
+                <input class="layui-input" type="text" style="margin-left:5px;"  :value="model.CreateTime" />
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">推送详情</label>
+            <div class="layui-input-block">
+                <textarea name="desc" placeholder="" rows="10" cols="80"  :value="model.Content"></textarea>
+
+            </div>
+        </div>
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">推送返回</label>
+            <div class="layui-input-block">
+                <textarea name="desc" placeholder="" rows="10" cols="80":value="model.ResContent"></textarea>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+   
+    let $frame = top.$frame;
+
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: {
+
+            },
+        },
+        created: function () {
+            this.model = top.parent_obj.geto_iframe_current().selectedRow;
+        },
+        mounted: function () {
+        },
+        updated: function () {
+        },
+        computed: {
+        },
+        methods: {         
+
+        }
+    })
+</script>
