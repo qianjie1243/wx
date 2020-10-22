@@ -10,8 +10,6 @@
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
 
     <script src="/wwwroot/JS/vue.min.js"></script>
-
-
     <style>
         .layui-header li:hover {
             cursor: pointer;
@@ -104,12 +102,13 @@
                     if (r.Success) {
                         this.sysmenu = r.Data.mnue;
                         let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0]
-                        this.openiframe(model.GuId, model.Address, model.Name)
+                        this.openiframe(model.GuId, model.Address, model.Name);
                     } else
                         console.log(r.Data);
                 }
 
-            })
+            });
+
         },
         mounted: function () {//渲染出真实dom
 
@@ -170,7 +169,9 @@
 </script>
 <script src="/wwwroot/layui/layui.all.js"></script>
 <script src="/wwwroot/layui/layui.js"></script>
+
 <script src="/wwwroot/JS/admin.js"></script>
+
 <script>
     var iframes = [];
     //JavaScript代码区域
@@ -195,7 +196,7 @@
                     console.log(r.Data);
 
             });
-
+            window.location.reload();
         },
         close(msg) {//关闭窗口，提示
             layer.closeAll();

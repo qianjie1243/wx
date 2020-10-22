@@ -10,6 +10,11 @@
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
     <script src="/wwwroot/layui/layui.all.js"></script>
+    <style>
+        .lable {
+            line-height: 36px;
+        }
+    </style>
 </head>
 <body>
     <div id="app" style="margin:20px;">
@@ -19,36 +24,36 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">数据来源：</label>
                 <div class="layui-input-block">
-                    <lable >{{model.Name}}</lable>
+                    <lable class="lable">{{model.Name}}</lable>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">类型：</label>
                 <div class="layui-input-block">
-                    <span v-html="getName(model.Type)"> </span>
+                    <span v-html="getName(model.Type)" class="lable"> </span>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">发生时间：</label>
                 <div class="layui-input-block">
-                    <label  >{{model.CreateTime}}</label>
+                    <label class="lable">{{model.CreateTime}}</label>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">来源路劲：</label>
                 <div class="layui-input-block">
-                    <label  >{{model.Action}}</label>
+                    <label class="lable">{{model.Action}}</label>
                 </div>
             </div>
 
 
             <div class="layui-form-item">
-                <label class="layui-form-label">详情</label>
+                <label class="layui-form-label">详情：</label>
                 <div class="layui-input-block">
-                    <textarea placeholder="请输入内容" class="layui-textarea"   :value="model.Content"></textarea>
+                    <textarea placeholder="请输入内容" class="layui-textarea" :value="model.Content"></textarea>
                 </div>
             </div>
 

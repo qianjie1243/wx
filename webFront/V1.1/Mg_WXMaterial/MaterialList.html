@@ -12,6 +12,8 @@
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/echarts.min.js"></script>
     <script src="/wwwroot/JS/colResizable.js"></script>
+
+    <script src="/wwwroot/JS/admin.js"></script>
     <style>
         .layui-form-label {
             width: 150px;
@@ -19,85 +21,77 @@
     </style>
 </head>
 <body>
-    <label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>
+    <!--<label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>-->
     <div id="app" style="margin:10px;">
         <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">获取素材列表</label>
-            <div class="layui-input-block" style="display:flex">
-                <select class="layui-select" v-model="search.sc.type" :value="search.sc.type">
+
+            <div style="height:20%;display:flex">
+                <label class="layui-form-label">获取素材列表：</label>
+                <select class="layui-select" v-model="search.sc.Type" :value="search.sc.Type">
+                    <option value="">请选择</option>
                     <option value="image">图片</option>
                     <option value="video">视频</option>
                     <option value="voice">语音</option>
                     <option value="news">图文</option>
                 </select>
-                <input class="layui-input" type="text" placeholder="请输入素材列表的起始数" :value="search.sc.offset" v-model="search.sc.offset" style="width:80px;margin-left:3px;" />
                 <button class="layui-btn" type="button" style="width:80px;margin-right:10px;margin-left:5px;" @click="getsclist">
                     <i class="layui-icon layui-icon-search"></i>查询
                 </button>
-                <textarea name="desc" placeholder="" class="layui-textarea" v-model="model.SClist" :value="model.SClist"></textarea>
+                <button class="layui-btn layui-btn-normal" type="button" style="width:80px;margin-left:10px" @click="refresh">
+                    <i class="layui-icon layui-icon-refresh"></i>刷新
+                </button>               
             </div>
         </div>
-        <fieldset>
-            <legend>素材详情信息</legend>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">素材总数</label>
-                <div class="layui-input-block">
-                    <label class="layui-form-label">{{lis.total_count}}</label>
-                </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">调用获取的数量</label>
-                <div class="layui-input-block">
-                    <label class="layui-form-label">{{lis.item_count}}</label>
-                </div>
-            </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">素材列表</label>
-                <div class="layui-input-block">
-                    <table class="layui-table">
-                        <thead>
-                            <tr>
-                                <th>操作</th>
-                                <th>文件名称</th>
-                                <th>mediaID</th>
-                                <th>图文页的URL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item,index)  in lis.item" v-if="lis.item.length>0">
-                                <td style="display:flex">
-                                    <button class="layui-btn layui-btn-warm" type="button" @click="btn_details(item)">查看</button>
-                                    <button class="layui-btn layui-btn-danger" type="button" @click="btn_delete(item.media_id,index)">删除</button>
-                                </td>
-                                <td>{{item.name}}</td>
-                                <td>{{item.media_id}}</td>
-                                <td>{{item.url}}</td>
-                            </tr>
-                            <tr v-if="lis.item.length==0" align="center">
-                                <td colspan="4">暂无数据</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </fieldset>
+
+
+
+        <div style="margin: 10px;">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+
+                        <th>素材类型</th>
+                        <th>mediaID</th>
+                        <th>详情内容</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+
+                        <td :title="item.Type">{{getname(item.Type)}}</td>
+                        <td :title="item.Media_Id">{{item.Media_Id}}</td>
+                        <td :title="item.Url">{{item.Url.length>20?item.Url.substring(0,20)+'...':item.Url}}</td>
+                        <td style="display:flex">
+                            <button class="layui-btn layui-btn-warm layui-btn-xs" type="button" @click="btn_details(item)">查看</button>
+                            <button class="layui-btn layui-btn-danger layui-btn-xs" type="button" @click="btn_delete(item.Media_Id,index)">删除</button>
+                        </td>
+                    </tr>
+                    <tr v-if="pagingdata.length==0" align="center">
+                        <td colspan="4">暂无数据</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="paging"></div>
+        </div>
     </div>
+
 </body>
 </html>
 <script>
-    let $frame = top.$frame;
+    var selectedRow;
+    let frame = top.$frame;
     var vm = new Vue({
         el: '#app',
-        data: {
-            model: { Token: '', SClist: [] },
+        data: {         
             search: {
-                sc: { type: 'image', offset: 0, count: 20 },
+                sc: { Type: '' },
             },
             pagingdata: [],
             lis: { total_count: 0, item_count: 0, item: [] },
         },
         created: function () {
-           // this.lis = _data;
+
         },
         computed: {
 
@@ -111,28 +105,53 @@
                 o.getsclist();
             },
             btn_details(item) {
-                top.vm.iframedata = item;
+                selectedRow= item;
                 let obj = {
                     id: 'form',
                     title: '素材详情',
-                    url: 'WXMaterial/MaterialForm.html',
-                    width: 1200,
-                    height: 700,
+                    url: 'Mg_WXMaterial/MaterialForm.html',
+                    width: 1000,
+                    height: 600,
                     btn: null,
                     callBack: function (id) {
 
                     }
                 }
-                $frame.layerForm(obj);
+                frame.layerForm(obj);
 
             },
             btn_delete(media_id, index) {
-                $frame.confirm("提示", `确定要删除(${media_id})素材吗？`, (r) => {
-                    if(r)
-                    o.delete(media_id, index);
+                frame.confirm("提示", `确定要删除(${media_id})素材吗？`, (r) => {
+                    if (r)
+                        o.delete(media_id, index);
                 })
-               
-            }
+
+            },
+            getname(type) {
+                switch (type) {
+                    case 'image':
+                        return "图片"
+                        break;
+                    case 'video':
+                        return "视频";
+                        break;
+                    case 'voice':
+                        return "语音";
+                        break;
+                    case 'news':
+                        return "图文";
+                        break;
+                    default:
+                        return "--";
+                        break;
+
+
+                }
+
+            },
+            refresh() {
+                o.getsclist();
+            },
         }
     });
 
@@ -145,28 +164,31 @@
 
         },
         getsclist() {
-            $frame.RequestGet('WXData/GetSCList', { data: JSON.stringify(vm.search.sc) }, (x) => {
-                if (x.Success) {
-                    vm.model.SClist = x.Data;
-                    vm.lis = JSON.parse(x.Data);
-                } else
-                    $frame.alert(x.Data);
+            $frame.laypaging({
+                url: "Wx_Data/GetSCPageList",
+                elem: 'paging',
+                queryjson: JSON.stringify(vm.search.sc),
+                callBack: (res, fun) => {
+                    if (!!res) {
+                        if (res.Success) {
+                            vm.pagingdata = res.Data.Items;
+                            fun(res.Data.TotalItems);
+                        }
+                    }
+                }
+
             });
         },
-        delete(mid,index) {
-            $frame.RequestGet('WXData/DeleteSC?mid=' + mid,'', (x) => {
+        delete(mid, index) {
+            frame.RequestGet('Wx_Data/DeleteSC?mid=' + mid, '', (x) => {
                 if (x.Success) {
-                    var res = JSON.parse(x.Data);
-                    if (res.errcode == 0) {
-                        vm.lis.item.splice(index, 1);
-                        $frame.alert("操作成功！");
-                    } else {
-                        $frame.alert(x.Data);
-                    }
+                    o.getsclist();
                 } else
-                    $frame.alert(x.Data);
+                    frame.alert(x.Data);
             });
 
         }
     }
+
+    o.getsclist();
 </script>

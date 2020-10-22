@@ -29,6 +29,8 @@ namespace webFront.API
         private Wx_PushTemplate wxpushtemplate = new Wx_PushTemplate();//推送模板
 
         private Wx_PushList wxpushlist = new Wx_PushList();//推送记录
+
+        private Wx_Material wxmaterial = new Wx_Material();//素材数据
         #endregion
 
         #region wx配置
@@ -440,16 +442,44 @@ namespace webFront.API
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public object GetSCList(string data)
+        public object GetSCPageList(PageParm parm, string queryjson)
         {
             try
             {
-                GetConfig.ResetConfig();
-                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+
+                var query = queryjson.ToJObject();
+
+                #region 查询条件
+                var expression = LinqExtensions.True<Wx_MaterialEntity>();
+                if (!query["Type"].IsEmpty())
                 {
-                    return Error("请先完善微信配置文件！");
+                    expression = expression.And(t => t.Type == query["Type"].ToString());
                 }
-                return Success(wm.Get_list(data));
+                #endregion
+
+                return Success(wxmaterial.GetPages(parm, expression, x => x.CreateTime, 2));
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "获取素材列表");
+            }
+
+        }
+
+
+        /// <summary>
+        ///获取素材列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetSCList(string type="")
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(type))
+                    return Success(wxmaterial.GetList());
+                else
+                    return Success(wxmaterial.GetList().Where(x => x.Type == type));
             }
             catch (Exception ex)
             {
@@ -494,12 +524,17 @@ namespace webFront.API
                 {
                     return Error("参数异常！");
                 }
-                GetConfig.ResetConfig();
-                if (WXconfig.appid.IsEmpty() || WXconfig.secret.IsEmpty())
+                var ob = wm.Del_graphic(mid);
+                var obj = (JObject)JsonConvert.DeserializeObject(ob);
+                if (obj["errcode"].ToString() == "0")
                 {
-                    return Error("请先完善微信配置文件！");
+                    wxmaterial.Delete(x => x.Media_Id == mid);
+                    return SuccessLog("操作成功！", ob, "微信素材操作", 3);
                 }
-                return Success(wm.Del_graphic(mid));
+                else
+                {
+                    return Error(ob);
+                }
             }
             catch (Exception ex)
             {
@@ -514,6 +549,7 @@ namespace webFront.API
         public object AddMaterialList(string lis, string type)
         {
             List<string> result = new List<string>();
+            List<Wx_MaterialEntity> addlis = new List<Wx_MaterialEntity>();
             try
             {
 
@@ -527,9 +563,24 @@ namespace webFront.API
                 switch (type)
                 {
                     case "1"://图文素材
-                        result.Add(wm.graphic(lis));
+
+                        var res1 = wm.graphic(lis);
+                        result.Add(res1);
+                        var obj1 = (JObject)JsonConvert.DeserializeObject(res1);
+                        if (obj1["errcode"].IsEmpty())
+                        {
+                            Wx_MaterialEntity model1 = new Wx_MaterialEntity();
+                            model1.Create();
+                            model1.Content = lis;
+                            model1.Type = "news";
+                            model1.Media_Id = obj1["media_id"].ToString();
+                            model1.WxAppId = WXconfig.appid;
+                            addlis.Add(model1);
+                        }
+                        else
+                            return Error(res1);
                         break;
-                    case "2"://图片素材
+                    case "2"://图片素材image
                         #region 保存文件
                         var files = System.Web.HttpContext.Current.Request.Files;
                         if (files != null && files.Count > 0)
@@ -544,14 +595,27 @@ namespace webFront.API
                                     {
                                         return Error("文件异常，请重新上传文件！");
                                     }
-                                    result.Add(wm.material(Thumbnail.GetMapPath(pathfile), "image"));
+                                    var res = wm.material(Thumbnail.GetMapPath(pathfile), "image");
+                                    result.Add(res);
+                                    var obj = (JObject)JsonConvert.DeserializeObject(res);
+                                    if (obj["errcode"].IsEmpty())
+                                    {
+                                        Wx_MaterialEntity model = new Wx_MaterialEntity();
+                                        model.Create();
+                                        model.Media_Id = obj["media_id"].ToString();
+                                        model.Url = obj["url"].ToString();
+                                        model.PathUrl = pathfile;
+                                        model.Type = "image";
+                                        model.WxAppId = WXconfig.appid;
+                                        addlis.Add(model);
+                                    }
                                 }
 
                             }
                         }
                         #endregion                     
                         break;
-                    case "3"://语音素材
+                    case "3"://语音素材voice
                         #region 保存文件
                         var mp3files = System.Web.HttpContext.Current.Request.Files;
                         if (mp3files != null && mp3files.Count > 0)
@@ -566,14 +630,28 @@ namespace webFront.API
                                     {
                                         return Error("文件异常，请重新上传文件！");
                                     }
-                                    result.Add(wm.material(Thumbnail.GetMapPath(pathfile), "voice"));
+
+                                    var res = wm.material(Thumbnail.GetMapPath(pathfile), "voice");
+                                    result.Add(res);
+                                    var obj = (JObject)JsonConvert.DeserializeObject(res);
+                                    if (obj["errcode"].IsEmpty())
+                                    {
+                                        Wx_MaterialEntity model = new Wx_MaterialEntity();
+                                        model.Create();
+                                        model.Media_Id = obj["media_id"].ToString();
+                                        model.PathUrl = pathfile;
+                                        model.Type = "voice";
+                                        model.WxAppId = WXconfig.appid;
+                                        addlis.Add(model);
+                                    }
+                                    //result.Add(wm.material(Thumbnail.GetMapPath(pathfile), "voice"));
                                 }
 
                             }
                         }
                         #endregion
                         break;
-                    case "4"://视频素材
+                    case "4"://视频素材 video
                         JArray ja = (JArray)JsonConvert.DeserializeObject(lis);
                         foreach (var item in ja)
                         {
@@ -591,25 +669,34 @@ namespace webFront.API
                                         {
                                             return Error("文件异常，请重新上传文件！");
                                         }
-                                        result.Add(wm.video(Thumbnail.GetMapPath(pathfile), item["title"].ToString(), item["introduction"].ToString()));
+
+                                        var res = wm.video(Thumbnail.GetMapPath(pathfile), item["title"].ToString(), item["introduction"].ToString());
+                                        result.Add(res);
+                                        var obj = (JObject)JsonConvert.DeserializeObject(res);
+                                        if (obj["errcode"].IsEmpty())
+                                        {
+                                            Wx_MaterialEntity model = new Wx_MaterialEntity();
+                                            model.Create();
+                                            model.Media_Id = obj["media_id"].ToString();
+                                            model.PathUrl = pathfile;
+                                            model.Type = "video";
+                                            model.WxAppId = WXconfig.appid;
+                                            addlis.Add(model);
+                                        }
                                     }
 
                                 }
                             }
                             #endregion
-
-
                         }
                         break;
                     case "5":
                         break;
-
-
                 }
 
+                wxmaterial.AddList(addlis);
 
-
-                return Success(result);
+                return SuccessLog("操作成功！", result, "微信素材操作", 1);
             }
             catch (Exception ex)
             {
@@ -639,7 +726,7 @@ namespace webFront.API
                 if (type == 0)
                 {
                     var model = wp.WeiXinKeFu(openid.Trim(), content);
-                    var Pushmodel = new Wx_PushListEntity() { ResContent = JsonConvert.SerializeObject(model), Content= content, Oppid = openid.Trim(), TempId = "文本推送", WxAppId = WXconfig.appid };
+                    var Pushmodel = new Wx_PushListEntity() { ResContent = JsonConvert.SerializeObject(model), Content = content, Oppid = openid.Trim(), TempId = "文本推送", WxAppId = WXconfig.appid };
                     Pushmodel.Create();
                     wxpushlist.Add(Pushmodel);
                     return Success(model);
@@ -647,7 +734,7 @@ namespace webFront.API
                 else
                 {
                     var model = wp.WeiXinTemplate(openid.Trim(), temid.Trim(), temp, openurl);
-                    var Pushmodel = new Wx_PushListEntity (){ ResContent=JsonConvert.SerializeObject(model), Oppid = openid.Trim(), TempId = temid.Trim(), WxAppId = WXconfig.appid, Content = temp.ToJson() };
+                    var Pushmodel = new Wx_PushListEntity() { ResContent = JsonConvert.SerializeObject(model), Oppid = openid.Trim(), TempId = temid.Trim(), WxAppId = WXconfig.appid, Content = temp.ToJson() };
                     Pushmodel.Create();
                     wxpushlist.Add(Pushmodel);
                     return Success(model);
@@ -822,14 +909,14 @@ namespace webFront.API
                 }
 
                 var res = wxpushlist.GetPages(parm, expression, x => x.CreateTime, 2);
-                res.Items=res.Items.Select(x =>
-                {
-                    if(!string.IsNullOrWhiteSpace(x.TempId))
-                    x.PushTemp = wxpushtemplate.GetModel(p => p.TempId == x.TempId);
-                    if (!string.IsNullOrWhiteSpace(x.Oppid))
-                        x.User = wxuser.GetModel(p => p.Openid == x.Oppid);
-                    return x;
-                }).ToList();
+                res.Items = res.Items.Select(x =>
+                  {
+                      if (!string.IsNullOrWhiteSpace(x.TempId))
+                          x.PushTemp = wxpushtemplate.GetModel(p => p.TempId == x.TempId);
+                      if (!string.IsNullOrWhiteSpace(x.Oppid))
+                          x.User = wxuser.GetModel(p => p.Openid == x.Oppid);
+                      return x;
+                  }).ToList();
                 #endregion
                 return Success(res);
             }

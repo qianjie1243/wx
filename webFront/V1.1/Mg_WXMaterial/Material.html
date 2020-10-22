@@ -27,8 +27,8 @@
                     <i class="layui-icon layui-icon-refresh"></i>拉取数据
                 </button>
             </div>
-            
-            <label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>
+
+            <!--<label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>-->
         </div>
         <table class="layui-table">
             <thead>
@@ -39,19 +39,19 @@
             </thead>
             <tbody>
 
-                <tr v-if="!!datalis" >
+                <tr v-if="!!datalis">
                     <td>语音总数量</td>
                     <td>{{datalis.voice_count}}</td>
                 </tr>
-                <tr v-if="!!datalis" >
+                <tr v-if="!!datalis">
                     <td>视频总数量</td>
                     <td>{{datalis.video_count}}</td>
                 </tr>
-                <tr v-if="!!datalis" >
+                <tr v-if="!!datalis">
                     <td>图片总数量</td>
                     <td>{{datalis.image_count}}</td>
                 </tr>
-                <tr v-if="!!datalis" >
+                <tr v-if="!!datalis">
                     <td>图文总数量</td>
                     <td>{{datalis.news_count}}</td>
                 </tr>
@@ -101,7 +101,7 @@
                 liveDrag: true, //实时显示滑动位置
                 gripInnerHtml: "<div class='grip'></div>",
                 postbackSafe: true, //刷新后保留之前的拖拽宽度
-            });       
+            });
         },
         GetUser() {
             $frame.RequestGet('WXData/GetSCCount', '', (x) => {

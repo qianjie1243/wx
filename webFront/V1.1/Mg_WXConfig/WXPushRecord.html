@@ -25,7 +25,7 @@
                 <div style="display:flex">
                     <select class="layui-select" v-model="searchdata.TempId" :value="searchdata.TempId">
                         <option value="">模板名称</option>
-                        <option v-for="item in  templis" :value="item.TempId"  v-if="templis.length>0">{{item.Name}}</option>
+                        <option v-for="item in  templis" :value="item.TempId" v-if="templis.length>0">{{item.Name}}</option>
                     </select>
                     <input class="layui-input" type="text" style="width:100px;margin-left:5px;" placeholder="查询" id="query_temid" @input="query(2)" />
 
@@ -44,7 +44,7 @@
                     </button>
                     <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
                         <i class="layui-icon layui-icon-refresh"></i>刷新
-                    </button>                   
+                    </button>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
             </thead>
             <tbody>
                 <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
-                    <td :title="item.PushTemp.Name">{{item.PushTemp.Name}}</td>
+                    <td :title="!!item.PushTemp.Name?item.PushTemp.Name:item.TempId">{{!!item.PushTemp.Name?item.PushTemp.Name:item.TempId}}</td>
                     <td :title="item.User.Nickname">{{item.User.Nickname}}</td>
                     <td :title="item.ResContent"> {{item.ResContent}}</td>
                     <td :title="item.CreateTime">{{item.CreateTime}}</td>
@@ -101,7 +101,7 @@
             templis: [],
         },
         created: function () {
-          
+
         },
         computed: {
 
@@ -136,7 +136,7 @@
                         break;
                 }
             },
-      
+
             edit(item) {
                 selectedRow = item;
                 let obj = {

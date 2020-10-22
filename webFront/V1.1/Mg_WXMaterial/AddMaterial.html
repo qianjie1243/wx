@@ -19,14 +19,22 @@
     </style>
 </head>
 <body>
-    <div id="app" style="margin:10px;" >
+    <div id="app" style="margin:10px;">
         <div class="head" style="height:20%;display:flex">
             <button type="button" class="layui-btn" @click="save($event)">
                 <i class="layui-icon layui-icon-upload-circle"></i> 上传保存
             </button>
+            <label class="layui-form-label">新增素材类型：</label>
+            <select class="layui-select" v-model="model.Type" :value="model.Type" @change="typechange()">
+                <option value="1">图文素材</option>
+                <option value="2">图片素材</option>
+                <option value="3">语音素材</option>
+                <option value="4">视频素材</option>
+            </select>
+
 
         </div>
-        <div class="layui-form-item layui-form-text">
+        <!--<div class="layui-form-item layui-form-text">
             <label class="layui-form-label">素材类型：</label>
             <div class="layui-input-block" style="display:flex">
 
@@ -38,7 +46,7 @@
                 </select>
 
             </div>
-        </div>
+        </div>-->
         <fieldset v-if="model.Type==1">
 
             <legend>图文列表</legend>
@@ -163,12 +171,12 @@
             </table>
         </fieldset>
 
-        <fieldset>
+        <!--<fieldset>
 
             <legend>执行结果</legend>
 
             <textarea class="layui-textarea"></textarea>
-        </fieldset>
+        </fieldset>-->
 
 
         <div style="display:none;margin-top:10px;" id="formdes">
@@ -180,10 +188,13 @@
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">图文消息的封面图片素材id：</label>
+                <label class="layui-form-label">封面图片素材id：</label>
                 <div class="layui-input-block" style="display:flex">
-                    <input class="layui-input" :value="Items.thumb_media_id" v-model="Items.thumb_media_id" :title="Items.thumb_media_id" style="width:500px" />
-
+                    <select class="layui-select">
+                        <option value="">请选择</option>
+                        <option v-for="item in Materials" :value="item.Media_Id">{{item.Media_Id}}</option>
+                    </select>
+                    <!--<input class="layui-input" :value="Items.thumb_media_id" v-model="Items.thumb_media_id" :title="Items.thumb_media_id" style="width:500px" />-->
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -247,10 +258,10 @@
                 </div>
             </div>
             <div style="display:flex;padding:20px;">
-                <button type="button"class="layui-btn layui-btn-normal"style="margin-left:30%" @click="addmodel()" >
+                <button type="button" class="layui-btn layui-btn-normal" style="margin-left:30%" @click="addmodel()">
                     保存
                 </button>
-                <button type="button" 	class="layui-btn layui-btn-danger" style="margin-left:20%"  @click="close()">
+                <button type="button" class="layui-btn layui-btn-danger" style="margin-left:20%" @click="close()">
                     取消
                 </button>
             </div>
@@ -265,11 +276,18 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            model: { Type: 1, list: [], articles:[] },
+            model: { Type: 1, list: [], articles: [] },
             Items: {},
-            type:'',//操作类型 ''新增  其他 编辑
+            type: '',//操作类型 ''新增  其他 编辑
+            Materials: [],
         },
         created: function () {
+            $frame.RequestGet("Wx_Data/GetSCList", { type: "image" }, x => {
+                if (x.Success) {
+                    this.Materials = x.Data;
+                } else
+                    $frame.alert(x.Data);
+            });
         },
         computed: {
 
@@ -328,7 +346,7 @@
                     }
 
 
-                   // let iframename = top.parent_obj.geto_iframe_current()["o"].GetUser();//获取打开页面的对象
+                    // let iframename = top.parent_obj.geto_iframe_current()["o"].GetUser();//获取打开页面的对象
 
 
                     oindex = layer.open({
@@ -355,15 +373,15 @@
                         }
                     });
 
-                    
+
 
                 }
             },
             dellis(index, type) {
-                if (type == 2) 
+                if (type == 2)
                     vm.model.articles.splice(index, 1);
                 else
-                vm.model.list.splice(index, 1);
+                    vm.model.list.splice(index, 1);
             },
             getfilename(i) {
                 let fileo = $("#upfile_" + i);
@@ -409,7 +427,7 @@
                 data.append("type", vm.model.Type);
                 $(event.target).hide();
                 if (foat) {
-                    $frame.RequestPostformdata("WXData/AddMaterialList", data, (res) => {
+                    $frame.RequestPostformdata("Wx_Data/AddMaterialList", data, (res) => {
                         $(event.target).show();
                         if (res.Success) {
                             $frame.alert_msg("操作成功！");
@@ -438,20 +456,7 @@
 
     });
 
-    var o = {
-        load() {
 
-
-        },
-        bind() {
-
-        },
-        GetUser() {
-            return "123213213213";
-
-        },
-
-    };
 
 
 </script>
