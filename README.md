@@ -29,4 +29,6 @@
 ![系统日志](https://images.gitee.com/uploads/images/2020/1003/175853_f0d04cc9_1689037.png "屏幕截图.png")
 ![数据库配置](https://images.gitee.com/uploads/images/2020/1003/175949_3d6ddaa2_1689037.png "屏幕截图.png")
 ![数据库文件](https://images.gitee.com/uploads/images/2020/1003/180022_1fc4527f_1689037.png "屏幕截图.png")
+
+![数据库地址](https://images.gitee.com/uploads/images/2020/1014/180518_b03b212c_1689037.png "屏幕截图.png")
 后期待完善功能
