@@ -110,7 +110,7 @@ namespace Business.Service
         /// <param name="parm">分页参数</param>
         /// <param name="where">条件</param>
         /// <param name="order">排序值</param>
-        /// <param name="orderEnum">排序方式OrderByType</param>
+        /// <param name="orderEnum">排序方式OrderByType 1 正序  2 倒序</param>
         /// <returns></returns>
         public Page<T> GetPages(PageParm parm, Expression<Func<T, bool>> where,
             Expression<Func<T, object>> order, int orderEnum)
