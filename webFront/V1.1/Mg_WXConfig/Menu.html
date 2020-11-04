@@ -278,7 +278,7 @@
                 da.button.push(m);
             });
 
-            $frame.RequestGet('Wx_Data/AddWMenu', { menu: JSON.stringify(da) }, (x) => {
+            $frame.RequestPost('Wx_Data/AddWMenu', { menu: JSON.stringify(da) }, (x) => {
                 if (x.Success) {
                     let r = JSON.parse(x.Data);
                     if (r.errcode == 0 && r.errmsg == "ok") {

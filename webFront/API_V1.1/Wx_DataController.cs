@@ -351,13 +351,13 @@ namespace webFront.API
                 var model = wxmenu.GetModel(x => x.WxAppId == WXconfig.appid);
                 if (!string.IsNullOrWhiteSpace(model.GuId))
                 {
-                    model.Content = munlis;
+                    model.Content = menu;
                     wxmenu.Update(model);
                 }
                 else
                 {
                     model.WxAppId = WXconfig.appid;
-                    model.Content = munlis;
+                    model.Content = menu;
                     model.Create();
                     wxmenu.Add(model);
                 }

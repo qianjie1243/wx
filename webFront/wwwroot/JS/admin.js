@@ -481,8 +481,8 @@ var $frame = {
     sorting: function (data, key, _sort) {
         function keysrt(key) {
             return function (object1, object2) {
-                var val1 = object1[key];
-                var val2 = object2[key];
+                let val1 = object1[key];
+                let val2 = object2[key];
                 if (val1 < val2) {
                     return -1;
                 } else if (val1 > val2) {
@@ -909,9 +909,6 @@ Date.prototype.formatDate = function (fmt) {
         [k]).length)));
     return fmt;
 }
-
-
-
 
 
 /* 

@@ -84,9 +84,6 @@
 </body>
 </html>
 <script>
-
-
-
     var vm = new Vue({
         el: ".layui-layout-admin",
         data: {
@@ -175,10 +172,6 @@
 <script>
     var iframes = [];
     //JavaScript代码区域
-
-
-
-
     var parent_obj = {
 
         getopeniframename() {//获取当前打开页面
@@ -279,6 +272,8 @@
 
     layui.use('element', function () {
         var element = layui.element;
+
+        element.init();
     });
 </script>
 
