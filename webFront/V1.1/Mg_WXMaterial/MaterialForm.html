@@ -57,15 +57,15 @@
         <div class="layui-form-item layui-form-text" v-if="lis.Type!='news'">
             <label class="layui-form-label">文件详情：</label>
             <div class="layui-input-block" style="display:flex">
-                <img :src="lis.PathUrl" v-if="lis.Type=='image'" style=" height:200px;width:300px" />
-                <video  v-if="lis.Type=='video'" height="200" width="300" controls>
-                    <source :src="lis.PathUrl"   type="video/mp4"/>
-                
+                <img :src="lis.PathUrl" v-show="lis.Type=='image'" style=" height:200px;width:300px" />
+                <video v-show="lis.Type=='video'" height="200" width="300" controls style="display:none">
+                    <source :src="lis.PathUrl" type="video/mp4" />
+
                 </video>
                 <!--<label class="layui-label">{{lis.PathUrl}}</label>-->
             </div>
         </div>
-        <fieldset v-if="lis.Type=='news'" >
+        <fieldset v-if="lis.Type=='news'">
             <!--style="overflow:scroll; width:1200px; height:600px;"-->
             <legend>图文列表</legend>
 
@@ -77,16 +77,19 @@
                         <th width="10%">封面图片media_id</th>
                         <th width="40%">内容</th>
                         <!--<th width="15%">图文页的URL</th>-->
-                        <th width="10%">原文地址</th>
-                        <!--<th>是否显示封面</th>
-                        <th>作者</th>
-                        <th>摘要</th>-->
+                        <th width="10%">
+                            原文地址
+                            <button class="layui-btn layui-btn-xs" type="button" @click="btn_add(item)">新增</button>
+                        </th>
+                        <!--<th>操作</th>
+                         <th>作者</th>
+                         <th>摘要</th>-->
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(item,index)  in lis.Content.articles" v-if="!!lis.Content">
                         <td>
-                            <button class="layui-btn layui-btn-normal" type="button" @click="details(item)">编辑</button>
+                            <button class="layui-btn layui-btn-normal" type="button" @click="details(item,index)">编辑</button>
                         </td>
                         <td>
                             {{item.title}}
@@ -121,6 +124,10 @@
             </table>
         </fieldset>
     </div>
+
+
+
+
 </body>
 </html>
 <script>
@@ -133,15 +140,11 @@
         },
         created: function () {
             if (selectedRow.Type == "news") {
-
                 selectedRow.Content = typeof (selectedRow.Content) == "string" ? JSON.parse(selectedRow.Content) : selectedRow.Content;
             }
             this.lis = selectedRow;
-
-
         },
         computed: {
-
 
         },
         methods: {
@@ -173,11 +176,31 @@
                 }
 
             },
+            details(itm, index) {
+                itm["index"] = index;
+                top.parent_obj.geto_iframe_current().selectForm = itm;
+                let obj = {
+                    id: 'formDetails',
+                    title: '素材详情',
+                    url: 'Mg_WXMaterial/MaterialDetails.html',
+                    width: 1000,
+                    height: 750,
+                    btn: null,
+                    callBack: function (id) {
 
+                    }
+                }
+                $frame.layerForm(obj);
+
+            }
         }
 
-
     });
+
+    //详情页面重新赋值方法
+    top.parent_obj.geto_iframe_current().changeForm = function (item, index) {
+        vm.lis.Content.articles[index] = item;
+    }
 
     var o = {
         load() {
@@ -191,8 +214,6 @@
             //    postbackSafe: true, //刷新后保留之前的拖拽宽度
             //});
         },
-
-
     };
 
     o.bind();

@@ -266,6 +266,21 @@ var $frame = {
         });
 
     },
+
+    // 关闭弹层----新增layer 关闭窗口
+    layerClose: function (name, index) {
+        let _index;
+        if (!!index) {
+            _index = index;
+        }
+        else {
+            _index = top.layer.getFrameIndex(name);
+        }
+        if (!!_index)
+            top.layer.close(_index); //再执行关闭  
+
+    },
+
     //加载框
     loading: function (msg) {
         msg = msg || "正在读取数据，请稍候……";
@@ -307,7 +322,7 @@ var $frame = {
             elem: 'paging',
         };
         $.extend(data, d || {});
-        $frame.RequestGet(data.url, data,  (res)=> {
+        $frame.RequestGet(data.url, data, (res) => {
             if (data.callBack) {
                 data.callBack(res, function (Count) {
                     let dataLength = Count;

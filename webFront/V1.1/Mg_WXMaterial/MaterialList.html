@@ -39,7 +39,7 @@
                 </button>
                 <button class="layui-btn layui-btn-normal" type="button" style="width:80px;margin-left:10px" @click="refresh">
                     <i class="layui-icon layui-icon-refresh"></i>刷新
-                </button>               
+                </button>
             </div>
         </div>
 
@@ -74,16 +74,21 @@
             </table>
             <div id="paging"></div>
         </div>
+
+
+
     </div>
 
 </body>
 </html>
 <script>
-    var selectedRow;
+    var selectedRow;//定义传参数
+    var selectForm;//定义form参数
+    var changeForm;//定义form页面刷新数据方法
     let frame = top.$frame;
     var vm = new Vue({
         el: '#app',
-        data: {         
+        data: {
             search: {
                 sc: { Type: '' },
             },
@@ -95,7 +100,6 @@
         },
         computed: {
 
-
         },
         methods: {
             gettoken() {
@@ -105,15 +109,15 @@
                 o.getsclist();
             },
             btn_details(item) {
-                selectedRow= item;
+                selectedRow = item;
                 let obj = {
                     id: 'form',
                     title: '素材详情',
                     url: 'Mg_WXMaterial/MaterialForm.html',
                     width: 1000,
                     height: 600,
-                    btn: null,
-                    callBack: function (id) {
+                    //  btn: null,
+                    callBack: function (id) {//确定方法
 
                     }
                 }

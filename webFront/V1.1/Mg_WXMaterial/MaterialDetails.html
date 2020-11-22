@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>详细</title>
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/echarts.min.js"></script>
+    <script src="/wwwroot/JS/colResizable.js"></script>
+</head>
+<body>
+    <div style="margin-top:10px;" id="formdes">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">标题：</label>
+            <div class="layui-input-block" style="display:flex">
+                <input class="layui-input" :value="model.title" v-model="model.title" :title="model.title" style="width:300px" />
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">封面图片素材id：</label>
+            <div class="layui-input-block" style="display:flex">
+                <select class="layui-select">
+                    <option value="">请选择</option>
+                    <option v-for="item in Materials" :value="model.Media_Id">{{item.Media_Id}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">作者：</label>
+            <div class="layui-input-block" style="display:flex">
+                <input class="layui-input" :value="model.author" v-model="model.author" :title="model.author" style="width:300px" />
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">图文消息的摘要：</label>
+            <div class="layui-input-block" style="display:flex">
+                <textarea class="layui-textarea" :value="model.digest" v-model="model.digest" rows="5" style="width:90%"></textarea>
+            </div>
+        </div>
+
+        <div style="display:flex">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">是否显示封面：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <select :value="model.show_cover_pic" v-model="model.show_cover_pic" class="layui-select">
+                        <option value="0">不显示</option>
+                        <option value="1">显示</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">是否打开评论：</label>
+                <div class="layui-input-block" style="display:flex">
+
+                    <select :value="model.need_open_comment" v-model="model.need_open_comment" class="layui-select">
+                        <option value="0">不打开</option>
+                        <option value="1">打开</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">是否粉丝才可评论：</label>
+                <div class="layui-input-block" style="display:flex">
+                    <select :value="model.only_fans_can_comment" v-model="model.only_fans_can_comment" class="layui-select">
+                        <option value="0">所有人</option>
+                        <option value="1">粉丝</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">原文地址：</label>
+            <div class="layui-input-block" style="display:flex">
+                <input class="layui-input" :value="model.content_source_url" v-model="model.content_source_url" :title="model.content_source_url" style="width:300px" />
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">图文消息的具体内容：</label>
+            <div class="layui-input-block" style="display:flex">
+                <textarea class="layui-textarea" :value="model.content" v-model="model.content" rows="10" style="width:90%"></textarea>
+            </div>
+        </div>
+
+        <div style="display:flex;padding:20px;">
+            <button type="button" class="layui-btn layui-btn-normal" style="margin-left:30%" @click="addmodel()">
+                保存
+            </button>
+            <button type="button" class="layui-btn layui-btn-danger" style="margin-left:20%" @click="close()">
+                取消
+            </button>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    let $frame = top.$frame;
+    let selectForm = top.parent_obj.geto_iframe_current().selectForm;
+    var vm = new Vue({
+        el: '#formdes',
+        data: {
+            model: [],
+            Materials: [],
+        },
+        created: function () {
+            this.model = selectForm;
+            $frame.RequestGet("Wx_Data/GetSCList", { type: "image" }, x => {
+                if (x.Success) {
+                    this.Materials = x.Data;
+                } else
+                    $frame.alert(x.Data);
+            });
+        },
+        computed: {
+
+
+        },
+        methods: {
+            refresh() {
+                window.location.reload();
+            },
+            getdata() {
+                o.load();
+            },
+            addmodel() {
+                top.parent_obj.geto_iframe_current().changeForm(vm.model, vm.model.index);
+                $frame.layerClose(window.name);
+            },
+            close() {
+                $frame.layerClose(window.name);
+            },
+            getname(type) {
+                switch (type) {
+                    case 'image':
+                        return "图片"
+                        break;
+                    case 'video':
+                        return "视频";
+                        break;
+                    case 'voice':
+                        return "语音";
+                        break;
+                    case 'news':
+                        return "图文";
+                        break;
+                    default:
+                        return "--";
+                        break;
+
+
+                }
+
+            },
+
+        }
+
+
+    });
+
+    var o = {
+        load() {
+
+        },
+        bind() {
+           
+        },
+
+
+    };
+
+    o.bind();
+</script>
