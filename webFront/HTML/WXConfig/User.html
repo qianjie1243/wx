@@ -102,7 +102,6 @@
                 let fuzzy = [];
                 if ($frame.IsEmpty(vm.searchdata.name) && $frame.IsEmpty(vm.searchdata.sex)) {
                     o.page(vm.datalis);
-
                 } else {
                     if (!$frame.IsEmpty(vm.searchdata.name)) {
                         keys.push("name");
@@ -115,7 +114,6 @@
                     }
                     o.page($frame.filter(vm.datalis, keys, values, fuzzy));
                 }
-
             },
             refresh() {
                 window.location.reload();
@@ -123,10 +121,7 @@
             getdata() {
                 o.load();
             },
-
         }
-
-
     });
 
     var o = {
@@ -184,5 +179,5 @@
 
     };
     o.bind();
-  
+
 </script>

@@ -1,4 +1,6 @@
-﻿/*
+﻿//document.write("<script src=''></script>");添加需要引用的js.cs 等等
+
+/*
  * 每个页面引用jquery，
  * layui.css，
  * layui.all.js，
@@ -32,42 +34,159 @@ var $frame = {
     //post请求
     RequestPost: function (url, data, yes, error) {
         let index = $frame.loading("正在提交数据，请稍候……");
-        $.ajax({
-            type: "post",
-            url: ROOT_PATH + url,
-            data: data,
-            success: function (res) {
-                layer.close(index);
-                if (yes)
-                    yes(res);
-            },
-            error: function (res) {
-                console.log(res);
-                layer.close(index);
-                if (error)
-                    error(res);
-            }
-        });
+        switch (arguments.length) {//根据传入字段数判断执行方法
+            case 1:
+                $.ajax({
+                    type: "post",
+                    url: ROOT_PATH + url,
+                    success: function (res) {
+                        layer.close(index);
+                        console.log("$frame.js==>请求返回结果==>", res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 2:
+                $.ajax({
+                    type: "post",
+                    url: ROOT_PATH + url,
+                    data: data,
+                    success: function (res) {
+                        layer.close(index);
+                        console.log("$frame.js==>请求返回结果==>", res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 3:
+                $.ajax({
+                    type: "get",
+                    url: ROOT_PATH + url,
+                    data: data,
+                    success: function (res) {
+                        layer.close(index);
+                        if (yes)
+                            yes(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 4:
+                $.ajax({
+                    type: "get",
+                    url: ROOT_PATH + url,
+                    data: data,
+                    success: function (res) {
+                        layer.close(index);
+                        if (yes)
+                            yes(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        if (error)
+                            error(res);
+                    }
+                });
+                break;
+            default:
+                return 0;
+                break;
+        }
     },
     //get请求
     RequestGet: function (url, data, yes, error) {
         let index = $frame.loading();
-        $.ajax({
-            type: "get",
-            url: ROOT_PATH + url,
-            data: data,
-            success: function (res) {
-                layer.close(index);
-                if (yes)
-                    yes(res);
-            },
-            error: function (res) {
-                console.log(res);
-                layer.close(index);
-                if (error)
-                    error(res);
-            }
-        });
+        switch (arguments.length) {//更具要判断执行方法
+            case 1:
+                $.ajax({
+                    type: "get",
+                    url: ROOT_PATH + url,
+                    success: function (res) {
+                        layer.close(index);
+                        console.log("$frame.js==>请求返回结果==>", res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 2:
+                $.ajax({
+                    type: "get",
+                    url: ROOT_PATH + url,
+                    success: function (res) {
+                        layer.close(index);
+                        if (data)
+                            data(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 3:
+                $.ajax({
+                    type: "get",
+                    url: ROOT_PATH + url,
+                    data: data,
+                    success: function (res) {
+                        layer.close(index);
+                        if (yes)
+                            yes(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 4:
+                $.ajax({
+                    type: "get",
+                    url: ROOT_PATH + url,
+                    data: data,
+                    success: function (res) {
+                        layer.close(index);
+                        if (yes)
+                            yes(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        if (error)
+                            error(res);
+                    }
+                });
+                break;
+            default:
+                return 0;
+                break;
+        }
+
     },
     //获取表单数据
     getFormData: function (formId) {
@@ -238,7 +357,7 @@ var $frame = {
 
         return r;
     },
-
+    //打开页面 弹窗
     layerForm_id: function (obj) {
 
         var dfop = {
@@ -859,7 +978,43 @@ var $frame = {
         let fileName = arr[arr.length - 1];
         return fileName;
     },
-    //导出网页excel
+
+
+    //获取guid
+    S4: function () {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    },
+    getguid: function (type) {
+        if (!!type && type.toUpperCase() == 'N')
+            return (this.S4() + this.S4() + this.S4() + this.S4() + this.S4() + this.S4() + this.S4() + this.S4());
+
+        return (this.S4() + this.S4() + "-" + this.S4() + "-" + this.S4() + "-" + this.S4() + "-" + this.S4() + this.S4() + this.S4());
+    },
+    //end
+
+    //获取随机数
+    randomNum: function (minNum, maxNum) {
+        switch (arguments.length) {
+            case 1:
+                return parseInt(Math.random() * minNum + 1, 10);
+                break;
+            case 2:
+                return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+                break;
+            default:
+                return 0;
+                break;
+        }
+    },
+
+
+
+    /*
+    *导出网页excel 标签id、class
+    * sheetName:导出文件名
+    *backgroundcolor:表格背景颜色
+    *
+    */
     tableToExcel: function (tableid, sheetName, backgroundcolor) {
         backgroundcolor = backgroundcolor || "#4f891e";
         var uri = 'data:application/vnd.ms-excel;base64,';
@@ -893,6 +1048,7 @@ var $frame = {
                 });
         }
     },
+
     /*
      *导出word  obj:html 标签id、class
      * fileName:导出文件名
@@ -924,6 +1080,9 @@ Date.prototype.formatDate = function (fmt) {
         [k]).length)));
     return fmt;
 }
+
+
+
 
 
 /* 

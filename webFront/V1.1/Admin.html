@@ -77,93 +77,12 @@
         <div class="layui-body" style="bottom:-25px">
             <iframe :src="item.Url" :data-name="item.Name" :id="item.Name" v-for="(item,index)  in  iframes" v-show="item.check"></iframe>
         </div>
-
     </div>
-
-
 </body>
 </html>
-<script>
-    var vm = new Vue({
-        el: ".layui-layout-admin",
-        data: {
-            iframes: [],
-            iframedata: [],
-            sysmenu: [],
-        },
-        created: function () {
-            $.ajax({
-                url: "/Sys_Menu/GetAdminList",
-                type: "get",
-                success: (r) => {
-                    if (r.Success) {
-                        this.sysmenu = r.Data.mnue;
-                        let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0]
-                        this.openiframe(model.GuId, model.Address, model.Name);
-                    } else
-                        console.log(r.Data);
-                }
 
-            });
 
-        },
-        mounted: function () {//渲染出真实dom
 
-        },
-        methods: {
-            nav(index, item, event) {
-                if (event.target.localName == "i")
-                    vm.close(index, item);
-                else {
-                    $.each(vm.iframes, (i, v) => { v.check = false })
-                    let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
-                    let _i = vm.iframes.indexOf(_index);
-                    if (_i > -1)
-                        _index.check = true;
-                }
-            },
-            close(index, item) {
-                let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
-                let _i = vm.iframes.indexOf(_index);
-                vm.iframes.splice(_i, 1);
-                //$(".layui-body").find("#" + item.Name).remove();
-                if (vm.iframes.length > 0) {
-                    if (vm.iframes.filter(x => { return x.check == true }).length == 0) {
-                        $.each(vm.iframes, (i, v) => { v.check = false });
-                        vm.iframes[(vm.iframes.length - 1)].check = true;
-                    }
-                }
-            },
-            openiframe(name, url, navName) {
-                if (!!url) {
-                    let index = vm.iframes.filter(x => { return x.Name == name })[0]
-                    if (!!index) {
-                        $.each(vm.iframes, (i, v) => { v.check = false })
-                        let _i = vm.iframes.indexOf(index);
-                        index.check = true;
-                        vm.iframes[_i] = index;
-                    } else {
-                        if (vm.iframes.length >= 7) {
-                            $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
-                            return false;
-                        }
-                        $.each(vm.iframes, (i, v) => { v.check = false })
-                        vm.iframes.push({
-                            Name: name,
-                            Url: url,
-                            navName: navName,
-                            check: true,
-                        });
-                    }
-                }
-
-            },
-
-        },
-
-    });
-
-</script>
 <script src="/wwwroot/layui/layui.all.js"></script>
 <script src="/wwwroot/layui/layui.js"></script>
 
@@ -180,16 +99,13 @@
         geto_iframe_current() {//获取当前打开页面对象
             return window.document.getElementById(this.getopeniframename().Name).contentWindow;
         },
-        load() {
-
-            $frame.RequestGet("Sys_Menu/GetAdminList", "", (r) => {
-                if (r.Success)
-                    vm.sysmenu = r.Data;
-                else
-                    console.log(r.Data);
+        load() {//加载layui 数据插件
+            layui.use('element', function () {
+                var element = layui.element;
+                element.init();
+                console.log('123');
 
             });
-            window.location.reload();
         },
         close(msg) {//关闭窗口，提示
             layer.closeAll();
@@ -270,12 +186,86 @@
 
     }
 
-    layui.use('element', function () {
-        var element = layui.element;
-
-        element.init();
-    });
 </script>
 
+<script>
+    var vm = new Vue({
+        el: ".layui-layout-admin",
+        data: {
+            iframes: [],
+            iframedata: [],
+            sysmenu: [],
+        },
+        created: function () {
+            $frame.RequestGet("Sys_Menu/GetAdminList", (r) => {
+                if (r.Success) {
+                    console.log('124443');
+                    this.sysmenu = r.Data.mnue;
+                    let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0];
+                    this.openiframe(model.GuId, model.Address, model.Name);
+                    parent_obj.load();//加载layui插件
+                } else
+                    console.log(r.Data);
+            });
 
+        },
+        mounted: function () {//渲染出真实dom
+
+          
+        },
+        methods: {
+            nav(index, item, event) {
+                if (event.target.localName == "i")
+                    vm.close(index, item);
+                else {
+                    $.each(vm.iframes, (i, v) => { v.check = false })
+                    let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
+                    let _i = vm.iframes.indexOf(_index);
+                    if (_i > -1)
+                        _index.check = true;
+                }
+            },
+            close(index, item) {
+                let _index = vm.iframes.filter(x => { return x.Name == item.Name })[0];
+                let _i = vm.iframes.indexOf(_index);
+                vm.iframes.splice(_i, 1);
+                //$(".layui-body").find("#" + item.Name).remove();
+                if (vm.iframes.length > 0) {
+                    if (vm.iframes.filter(x => { return x.check == true }).length == 0) {
+                        $.each(vm.iframes, (i, v) => { v.check = false });
+                        vm.iframes[(vm.iframes.length - 1)].check = true;
+                    }
+                }
+            },
+            openiframe(name, url, navName) {
+                if (!!url) {
+                    let index = vm.iframes.filter(x => { return x.Name == name })[0]
+                    if (!!index) {
+                        $.each(vm.iframes, (i, v) => { v.check = false })
+                        let _i = vm.iframes.indexOf(index);
+                        index.check = true;
+                        vm.iframes[_i] = index;
+                    } else {
+                        if (vm.iframes.length >= 7) {
+                            $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
+                            return false;
+                        }
+                        $.each(vm.iframes, (i, v) => { v.check = false })
+                        vm.iframes.push({
+                            Name: name,
+                            Url: url,
+                            navName: navName,
+                            check: true,
+                        });
+                    }
+                }
+
+            },
+
+        },
+
+    });
+
+   
+</script>
 
