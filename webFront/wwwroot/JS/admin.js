@@ -70,7 +70,7 @@ var $frame = {
                 break;
             case 3:
                 $.ajax({
-                    type: "get",
+                    type: "post",
                     url: ROOT_PATH + url,
                     data: data,
                     success: function (res) {
@@ -88,7 +88,7 @@ var $frame = {
                 break;
             case 4:
                 $.ajax({
-                    type: "get",
+                    type: "post",
                     url: ROOT_PATH + url,
                     data: data,
                     success: function (res) {
@@ -497,7 +497,7 @@ var $frame = {
         }
         $.extend(data, d || {});
 
-        if (data.event) data.event(data.items);
+        if (data.event) data.event(data);
 
         layui.use(['laypage', 'layer'], function () {
             var laypage = layui.laypage;

@@ -32,12 +32,10 @@ namespace Business.Business
   //          catch (Exception ex)
   //          {
   //              throw;
-
   //          }
   //      }
-
-
   //      #endregion
+
 
   //      #region 查询操作
   //      /// <summary>
@@ -50,12 +48,10 @@ namespace Business.Business
   //          try
   //          {
   //             // Expression<Func<Sys_logEntity, bool>> where = null;
-
   //              return GetModel(where);
   //          }
   //          catch (Exception)
   //          {
-
   //              throw;
   //          }
   //      }
@@ -73,7 +69,6 @@ namespace Business.Business
   //          }
   //          catch (Exception)
   //          {
-
   //              throw;
   //          }
   //      }

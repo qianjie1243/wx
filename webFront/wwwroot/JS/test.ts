@@ -1,6 +1,6 @@
 ﻿
 
-class stud {
+class _stud {
     name: string;
     sex: number;
     idnumber: string;
@@ -17,5 +17,5 @@ class stud {
     }
 };
 
-let data = new stud("1231", 11, '123123', true);
-data.ges();
+let ta = new _stud("1231", 11, '123123', true);
+ta.ges();

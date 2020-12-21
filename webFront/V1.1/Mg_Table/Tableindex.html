@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>获取数据库表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/admin.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item" style="margin-right:5px;display:flex">
+            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;margin-left:10px" @click="refresh">
+                <i class="layui-icon layui-icon-refresh"></i>刷新
+            </button>
+        </div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th width="150px">序号</th>
+                    <th width="200px">数据库表名</th>
+                    <th width="100px">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                    <td>{{index+1}}</td>
+                 
+                    <td>{{item.name}}</td>
+                    <th><button class="layui-btn layui-btn-warm  layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>
+                </tr>
+                <tr v-if="pagingdata.length==0" align="center">
+                    <td colspan="5">暂无数据</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="paging"></div>
+
+    </div>
+
+</body>
+</html>
+<script>
+    var selectedRow;
+    let frame = top.$frame;
+
+    let parent_obj = top.parent_obj;
+    var data = [];
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            pagingdata: [],
+        },
+        created: function () {
+
+        },
+        mounted: function () {//渲染出真实dom
+
+        },
+        computed: function () {
+
+
+
+        },
+        methods: {
+
+            btnopen(item) {
+                selectedRow = item;
+                let obj = {
+                    id: 'form',
+                    title: '数据表详情',
+                    url: 'Mg_Table/TableForm.html',
+                    width: 1200,
+                    height: 700,
+                    btn: null,
+                    callBack: function (id) {
+
+                    }
+                }
+                frame.layerForm(obj);
+
+            },
+            refresh() {
+                o.load();
+            },
+            search() {
+                let Name = $("#Name").val();
+                let Type = $("#Type").val();
+                o.load({ Name: Name, Type: Type });
+
+            }
+        }
+
+
+    });
+
+    var o = {
+        load(queryjson) {
+            queryjson = queryjson || {};
+
+            frame.RequestGet("Sys_Table/getTablelist", (x) => {
+
+                if (x.Success) {
+                    data = JSON.parse(x.Data);
+                    $frame.layPagepaging({
+                        event: function (f) {
+                            let sta = (f.page * 12 - 12);
+                            let end = (f.page * 12);
+                            vm.pagingdata = f.items.slice(sta, end);
+                            //调用数据绑定事件
+                        },
+                        items: data,
+                    })
+                } else {
+                    frame.alert(x.Data);
+                }
+            });
+
+        },
+
+
+    }
+    o.load();
+</script>

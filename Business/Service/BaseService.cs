@@ -2,11 +2,11 @@
 using SqlSugar;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Model;
+using System.Threading.Tasks;
+using Common;
+using System.Data;
 
 namespace Business.Service
 {
@@ -298,6 +298,63 @@ namespace Business.Service
             }
         }
         #endregion
+
+        #region 执行sql
+        /// <summary>
+        /// 新增 或者修改
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="pams"></param>
+        /// <returns></returns>
+        public int insertsql(string sql, object pams)
+        {
+            try
+            {
+                return Db.Ado.ExecuteCommand(sql, pams);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 执行查询sql 
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="pams"></param>
+        /// <returns></returns>
+        public List<T> SelectSql(string sql, object pams)
+        {
+            try
+            {
+                return IListDataSet.Tolist<T>(Db.Ado.GetDataTable(sql, pams));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// 执行查询sql to datatable
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="pams"></param>
+        /// <returns></returns>
+        public DataTable  DataSql(string sql, object pams)
+        {
+            try
+            {
+                return Db.Ado.GetDataTable(sql, pams);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        #endregion 
     }
 
 

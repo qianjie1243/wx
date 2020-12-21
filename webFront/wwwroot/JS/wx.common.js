@@ -3,7 +3,8 @@
 
 
 //全局微信JS引用
-document.write("<script src='https://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>");
+document.write("<script src='https://res.wx.qq.com/open/js/jweixin-1.6.0.js'></script>");
+//document.write("<script src='http://res2.wx.qq.com/open/js/jweixin-1.6.0.js'></script>");备用
 
 //微信扫一扫功能-------------------
 //微信扫码配置

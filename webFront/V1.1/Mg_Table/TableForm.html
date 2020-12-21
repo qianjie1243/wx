@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>数据库表结构</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <style>
+        .lable {
+            line-height: 36px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="margin:20px;">
+
+        <form class="layui-form">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">表名：</label>
+                <div class="layui-input-block">
+                    <lable class="lable">{{model.name}}</lable>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">生成路劲：</label>
+                <div class="layui-input-block">
+                    <input class="layui-input" value="" placeholder="默认地址项目中/temp/文件夹中" id="pathname" />
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">生成实体：</label>
+                <div class="layui-input-block">
+                    <input class="layui-btn"  type="button" value="生成实体类" @click="generate()" />
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">业务类：</label>
+                <div class="layui-input-block">
+                    <input class="layui-btn" value="生成业务类" @click="GetBll()"  type="button"  />
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">详情：</label>
+                <div class="layui-input-block">
+                    <table class="layui-table">
+                        <tr>
+                            <th>表名</th>
+                            <th>表备注</th>
+                            <th>字段序号</th>
+                            <th>字段名称</th>
+                            <th>是否自增</th>
+                            <th>是否主键</th>
+                            <th>字段类型</th>
+                            <th>字节长度</th>
+                            <th>提起长度</th>
+                            <th>数字长度</th>
+                            <th>是否为空</th>
+                            <th>字段备注</th>
+                        </tr>
+
+                        <tbody>
+                            <tr v-for="item in data" v-show="data.length>0">
+                                <td>{{item.TbName}}</td>
+                                <td>{{item.TbDesc}}</td>
+                                <td>{{item.FieldIndex}}</td>
+                                <td>{{item.FieldName}}</td>
+                                <td>{{item.IsIdentity}}</td>
+                                <td>{{item.IsKey}}</td>
+                                <td>{{item.FiledType}}</td>
+                                <td>{{item.ByteLength}}</td>
+                                <td>{{item.FiledLength}}</td>
+                                <td>{{item.DecimalLength}}</td>
+                                <td>{{item.IsNullable}}</td>
+                                <td>{{item.FieldDesc}}</td>
+                            </tr>
+                            <tr v-show="data.length==0" align="center">
+                                <td colspan="12">暂无数据</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    let selectedRow = top.parent_obj.geto_iframe_current().selectedRow;
+    let $frame = top.$frame;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: {},
+            data: [],
+
+        },
+        created: function () {
+
+        },
+        computed: {
+
+
+        },
+        methods: {
+            generate() {
+                $frame.RequestGet("Sys_Table/GenerateEntity?tablename=" + selectedRow.name + "&pathname=" + $frame.encrypt($("#pathname").val()), (x) => {
+                    if (x.Success)
+                        $frame.alert(x.Data);
+                    else
+                        $frame.alert(x.Data);
+                });
+            },
+            GetBll() {
+                $frame.RequestGet("Sys_Table/GetBll?tablename=" + selectedRow.name + "&pathname=" + $frame.encrypt($("#pathname").val()), (x) => {
+                    if (x.Success)
+                        $frame.alert(x.Data);
+                    else
+                        $frame.alert(x.Data);
+                });
+            }
+        }
+    });
+
+
+
+    var o = {
+        load() {
+            vm.model = selectedRow;
+            $frame.RequestGet("Sys_Table/getTableD?tablename=" + selectedRow.name, (x) => {
+
+                if (x.Success) {
+                    vm.data = x.Data;
+                }
+            });
+        },
+    }
+    o.load();
+</script>
