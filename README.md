@@ -31,4 +31,5 @@
 ![数据库文件](https://images.gitee.com/uploads/images/2020/1003/180022_1fc4527f_1689037.png "屏幕截图.png")
 
 ![数据库地址](https://images.gitee.com/uploads/images/2020/1014/180518_b03b212c_1689037.png "屏幕截图.png")
+![添加数据库 生成实体](https://images.gitee.com/uploads/images/2020/1221/172824_6633484c_1689037.png "屏幕截图.png")
 后期待完善功能
