@@ -544,10 +544,10 @@ namespace Common
                     Directory.CreateDirectory(ls_path);
                 }
                 ls_path = ls_path + Name + ".jpg";
-                if (!File.Exists(ls_path))
-                {
-                    File.Create(ls_path).Dispose();
-                }
+                //if (!File.Exists(ls_path))
+                //{
+                //    File.Create(ls_path).Dispose();
+                //}
 
                 byte[] arr = Convert.FromBase64String(strbase64);
                 MemoryStream ms = new MemoryStream(arr);
