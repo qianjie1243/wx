@@ -546,7 +546,7 @@ namespace Common
                 ls_path = ls_path + Name + ".jpg";
                 if (!File.Exists(ls_path))
                 {
-                    File.Create(ls_path);
+                    File.Create(ls_path).Dispose();
                 }
 
                 byte[] arr = Convert.FromBase64String(strbase64);
