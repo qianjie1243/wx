@@ -560,6 +560,46 @@ namespace Common
                 throw;
             }
         }
+
+
+
+        /// <summary>
+        /// Base64转文件
+        /// </summary>
+        /// <param name="strbase64">strbase64</param>
+        /// <param name="path">文件地址</param>
+        /// <param name="Name">文件名</param>
+        /// <returns></returns>
+
+        public static string Base64ToFile(string base64, string path, string type)
+        {
+            try
+            {
+                if (base64.Contains(","))
+                {
+                    var arr = base64.Split(',');
+                    base64 = arr[1];
+                }
+                byte[] bt = Convert.FromBase64String(base64);
+                string ls_path = GetMapPath(path);
+                if (!Directory.Exists(ls_path))
+                    Directory.CreateDirectory(ls_path);
+                var filename = "/" + type;
+                ls_path += filename;
+
+                FileStream stream = new FileStream(ls_path, FileMode.CreateNew);
+                stream.Write(bt, 0, bt.Length);
+                stream.Close();
+                return path + filename;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+
         /// <summary>
         /// 获取路径
         /// 
