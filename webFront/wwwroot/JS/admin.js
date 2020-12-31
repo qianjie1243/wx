@@ -738,6 +738,18 @@ var $frame = {
             return Y + '-' + M + '-' + D + ' ' + H + ':' + m;
         }
     },
+    //时间戳 转化时间
+    TimeStampToTime: function (time){
+        let t = time.slice(6, 19);
+        let NewDtime = new Date(parseInt(t));
+        let year = NewDtime.getFullYear();
+        let month = NewDtime.getMonth() + 1;
+        let date = NewDtime.getDate();
+        let hour = NewDtime.getHours();
+        let minute = NewDtime.getMinutes();
+        let second = NewDtime.getSeconds();
+        return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+    },
     ///----end
 
 

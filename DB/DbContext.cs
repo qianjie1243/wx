@@ -24,7 +24,7 @@ namespace DB
             {
                 string s = sql;
                 //Console.WriteLine(sql + "\r\n" +
-                //    Db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                //   Db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                 //Console.WriteLine();
             };
         }

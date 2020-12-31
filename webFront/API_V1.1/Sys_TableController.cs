@@ -200,8 +200,62 @@ namespace webFront.API
 
         }
 
+        /// <summary>
+        /// 生成业务
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <param name="pathname"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetBll(string tablename, string pathname)
+        {
+            try
+            {
+                var path = "";
+                if (string.IsNullOrWhiteSpace(pathname)) path = System.Web.HttpContext.Current.Server.MapPath("/temp/bll");
+                else
+                    path = Common.Base64.DecodeBase64(pathname);
 
 
+
+                string Ibll = GetBLLTemp(2);
+                Ibll = Ibll.Replace("@name", tablename);
+
+                string bll = GetBLLTemp();
+                bll = bll.Replace("@name", tablename);
+                bll = bll.Replace("@entity", tablename);
+                //在将文本写入文件前，处理文本行
+                //StreamWriter一个参数默认覆盖
+                //StreamWriter第二个参数为false覆盖现有文件，为true则把文本追加到文件末尾
+                //检查上传的物理路径是否存在，不存在则创建
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                using (StreamWriter file = new StreamWriter(path + "/" + tablename + ".cs", false))
+                {
+                    file.WriteLine(bll);// 直接追加文件末尾，换行 
+                }
+
+                using (StreamWriter file = new StreamWriter(path + "/I" + tablename + ".cs", false))
+                {
+                    file.WriteLine(Ibll);// 直接追加文件末尾，换行 
+                }
+                return Success("操作成功！");
+
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "数据库表生成实体");
+            }
+
+        }
+
+
+
+
+
+        #region 其他操作
         /// <summary>
         /// 实体模板类型
         /// </summary>
@@ -235,56 +289,7 @@ namespace webFront.API
 
         }
 
-        /// <summary>
-        /// 生成业务
-        /// </summary>
-        /// <param name="tablename"></param>
-        /// <param name="pathname"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public object GetBll(string tablename, string pathname)
-        {
-            try
-            {
-                var path = "";
-                if (string.IsNullOrWhiteSpace(pathname)) path = System.Web.HttpContext.Current.Server.MapPath("/temp/bll");
-                else
-                    path = Common.Base64.DecodeBase64(pathname);
-
-
      
-                string Ibll = GetBLLTemp(2);
-                Ibll = Ibll.Replace("@name", tablename);
-
-                string bll = GetBLLTemp();
-                bll = bll.Replace("@name", tablename);
-                bll = bll.Replace("@entity", tablename);
-                //在将文本写入文件前，处理文本行
-                //StreamWriter一个参数默认覆盖
-                //StreamWriter第二个参数为false覆盖现有文件，为true则把文本追加到文件末尾
-                //检查上传的物理路径是否存在，不存在则创建
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                using (StreamWriter file = new StreamWriter(path + "/" + tablename + ".cs", false))
-                {
-                    file.WriteLine(bll);// 直接追加文件末尾，换行 
-                }
-
-                using (StreamWriter file = new StreamWriter(path + "/I" + tablename + ".cs", false))
-                {
-                    file.WriteLine(Ibll);// 直接追加文件末尾，换行 
-                }
-                return Success("操作成功！");
-
-            }
-            catch (Exception ex)
-            {
-                return ErrorLog(ex, "数据库表生成实体");
-            }
-
-        }
 
         /// <summary>
         /// 业务模板
@@ -323,7 +328,7 @@ namespace webFront.API
             }
 
         }
-
+        #endregion
 
     }
 }
