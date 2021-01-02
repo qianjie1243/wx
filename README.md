@@ -5,7 +5,7 @@
 
 
 # 项目结构
->  WxTenpay 解决方案
+### WxTenpay 解决方案
 > * BLL  数据库操作
 > * AliYun 阿里服务类
 > * BaiDuAi 百度AI服务类
@@ -13,7 +13,7 @@
 > * Redis   缓存类（包含安装文件，word）
 > * webfront HTML页面端
 > * wxtenpay 微信公众号基本操作功能类（如果需要单独运行，需要在web或者在bin添加WxTenPay.config配置文件，目前在项目webfront中已有配置文件）
->  数据库
+### 数据库
 > * DB.sql
 > * DB.bak
 
