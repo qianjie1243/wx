@@ -13,6 +13,10 @@
 > * Redis   缓存类（包含安装文件，word）
 > * webfront HTML页面端
 > * wxtenpay 微信公众号基本操作功能类（如果需要单独运行，需要在web或者在bin添加WxTenPay.config配置文件，目前在项目webfront中已有配置文件）
+>  数据库
+> * DB.sql
+> * DB.bak
+
 
 # WxTenpay 操作类型说明
 ####  Wechat_Menu 类
