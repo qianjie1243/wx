@@ -5,18 +5,72 @@
 
 
 # 项目结构
-> * WxTenpay 解决方案
->> BLL  数据库操作
->> AliYun 阿里服务类
->> BaiDuAi 百度AI服务类
->> Common  公共操作类
->> Redis   缓存类（包含安装文件，word）
->> webfront HTML页面端
->> wxtenpay 微信公众号基本操作功能类（如果需要单独运行，需要在web或者在bin添加WxTenPay.config配置文件，目前在项目webfront中已有配置文件）
+>  WxTenpay 解决方案
+> * BLL  数据库操作
+> * AliYun 阿里服务类
+> * BaiDuAi 百度AI服务类
+> * Common  公共操作类
+> * Redis   缓存类（包含安装文件，word）
+> * webfront HTML页面端
+> * wxtenpay 微信公众号基本操作功能类（如果需要单独运行，需要在web或者在bin添加WxTenPay.config配置文件，目前在项目webfront中已有配置文件）
+
+# WxTenpay 操作类型说明
+####  Wechat_Menu 类
+> * graphic 说明：上传图文素材
+> * material  说明：上传图片,语音，缩略图
+> * video  说明：  视频上传到微信公众号
+> * Update_graphic  说明：修改素材
+> * Get_list   说明：获取素材列表
+> * Get_count  说明：获取素材总数
+> * Get_graphic   说明：获取永久素材
+> * Del_graphic  说明：获取永久素材
+> * Menu   说明：自定义菜单
+> * Getuserlis 说明：获取关注用户数量
+> * CreateLabel 说明:创建用户标签
+> * GetLabels  说明：获取公众号已创建的标签
+> * UpdateLabel  说明：编辑公众号已创建的标签
+> * DeleteLabel  说明：删除公众号已创建的标签
+> * GetLabelUsers  说明：获取标签下粉丝列表
+> * CreateUserLabel  说明：批量为用户打标签
+> * DeteteUserLabel  说明：批量为用户取消标签
+> * GetUserLabels  说明：获取用户身上的标签列表
+#### WechatPublic 类
+> * GetPersonal  说明：code获取个人信息
+> * GetOpenid  说明：code返回openid
+> * GetWxConfig  说明： 获取前端JS所需WX.config
+> * GetToken  说明： 获取access_token
+> * GetTokenTime  说明： 获取access_token获取时间
+> * EmptyToken  说明： 清空Token、jsapi_ticket
+> * GetJsapi_ticket  说明： 获取Asscess,jsapi_ticket
+> * GetJsapiTicketTime  说明： 获取jsapi_ticket获取时间
+> * WeiXinKeFu  说明： 微信客户消息
+> * WeiXinTemplate  说明： 发送微信模板消息
+#### WeChatPayment 类
+> * NATIVEPayMent  说明： 微信扫码支付
+> * APP_PayMent  说明： 微信APP支付
+> * JSAPIPayMent 说明： 微信公众号支付
+> * GetPayMent_result 说明： 查询扫码订单情况，公众号支付订单状态查询、页面端 微信支付状态:OK有可能存在风险，建议使用订单号去查看订单状态,
+> * PayMent_result 说明： 获取支付订单状态（微信回调）
+> * Inform 说明： 通知微信已收到XML回调通知
 
 # 当前版本分为数据库版本与非数据库版本
 ### 一. 数据库版本路劲为 WebFront/v1.1
 ### 二. 非数据库版本路劲为 WebFront/html
+
+# 使用相关技术
+> * sqlsugar （数据库orm）相关文档地址 http://www.donet5.com/
+> * redis （缓存技术）相关文档地址 https://redis.io/
+> * Layui （前端框架）相关文档地址 https://www.layui.com/ 
+> * Vue.js （前端框架）相关文档地址 https://vuejs.org/
+
+# 前端 admin.js 为自行根据layui封装公共操作js
+> * 请求 post、get、formdatapost
+> * 数据基本验证
+> * 数据库分页、页面分页
+> * 弹窗
+> * 提示
+> * 下载表格（excel）
+> * 下载word
 
 # 功能展示图
 
