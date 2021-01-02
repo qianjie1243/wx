@@ -78,13 +78,15 @@
 > * 下载word
 > * ...
 
+# 下次更新内容
+> * 提供手机端公众号测试页面 使用框架（vant.js）
+> * ...
+> * ...
+
 # 功能展示图
 
-### 新增功能模块：![输入图片说明](https://images.gitee.com/uploads/images/2020/0730/155209_78287df9_1689037.png "屏幕截图.png")
-### 新增页面功能：
-
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0730/155209_78287df9_1689037.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0730/155108_58f901bd_1689037.png "屏幕截图.png")
-
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0731/145140_a486a0b3_1689037.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0802/171137_a8a7915e_1689037.png "屏幕截图.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0809/142817_a241e124_1689037.png "屏幕截图.png")
@@ -105,7 +107,6 @@
 ![系统日志](https://images.gitee.com/uploads/images/2020/1003/175853_f0d04cc9_1689037.png "屏幕截图.png")
 ![数据库配置](https://images.gitee.com/uploads/images/2020/1003/175949_3d6ddaa2_1689037.png "屏幕截图.png")
 ![数据库文件](https://images.gitee.com/uploads/images/2020/1003/180022_1fc4527f_1689037.png "屏幕截图.png")
-
 ![数据库地址](https://images.gitee.com/uploads/images/2020/1014/180518_b03b212c_1689037.png "屏幕截图.png")
 ![添加数据库 生成实体](https://images.gitee.com/uploads/images/2020/1221/172824_6633484c_1689037.png "屏幕截图.png")
 后期待完善功能
