@@ -5,7 +5,7 @@
 
 
 # 项目结构
-> WxTenpay 解决方案
+> * WxTenpay 解决方案
 >> BLL  数据库操作
 >> AliYun 阿里服务类
 >> BaiDuAi 百度AI服务类
