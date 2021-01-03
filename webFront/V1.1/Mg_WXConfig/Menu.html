@@ -249,7 +249,7 @@
                     if (!$frame.IsEmpty(v.media_id))
                         m["media_id"] = v.media_id;
                 }
-                if (v.sub_button.length > 0) {
+                if (!!v.sub_button&&v.sub_button.length > 0) {
                     $.each(v.sub_button, (index, value) => {
                         let fm = {};
                         if (!$frame.IsEmpty(value.name))
@@ -298,7 +298,7 @@
                 if (x.Success) {
                     let data = JSON.parse(x.Data);
                     if (!data["errcode"]) {
-                        vm.Menulis = !!data.menu ? data.menu : [];
+                        vm.Menulis = !!data ? data : [];
                     } else
                         $frame.alert(x.Data);
                 } else {
