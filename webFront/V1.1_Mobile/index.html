@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <title>微信公众号测试</title>
+    <link href="/wwwroot/vant/css/vant.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/vant/vant.min.js"></script>
+    <script src="/wwwroot/JS/mobile_admin.js"></script>
+    <script src='https://res.wx.qq.com/open/js/jweixin-1.6.0.js'></script>
+</head>
+<body>
+    <div id='app'>
+        <van-tree-select height="100%" :items="items" :main-active-index.sync="active" @click-nav="btn_click">
+            <template slot="content">
+                <div v-if="active==0" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">获取微信图片</van-button>
+                </div>
+                <div v-if="active==1" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">地理位置</van-button>
+                </div>
+                <div v-if="active==2" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">扫一扫</van-button>
+                </div>
+                <div v-if="active==3" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">公众号支付</van-button>
+                </div>
+                <div v-if="active==4" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">扫码支付</van-button>
+                </div>
+                <div v-if="active==5" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">微信分享</van-button>
+                </div>
+                <div v-if="active==6" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">分享</van-button>
+                </div>
+                <div v-if="active==7" style="margin-left:30px;margin-top:50px;">
+                    <van-button type="primary"  @click="btn_click(active)">个人信息</van-button>
+                </div>
+             
+            </template>
+        </van-tree-select>
+    </div>
+</body>
+</html>
+<script>
+    var  appid = "";
+    var uri = "";
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            items: [
+                { text: '上传图片', dot: true },
+                { text: '地理位置' },
+                { text: '扫一扫' },
+                { text: '公众号支付' },
+                { text: '扫码支付' },
+                { text: '微信分享' },
+                { text: 'QQ分享' },
+                { text: '个人信息' },
+
+            ],
+            images: [],//微信图片
+            active: 0,
+        },
+        created: function () {
+            //加载事件
+        },
+        mounted: function () {//渲染出真实dom
+
+        },
+        updated: function () {//当更新完成后,执行
+
+        },
+        computed: {
+            //用于数据操作
+        },
+        methods: {
+            btn_click(index) {
+                this.active = index;
+                switch (index) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        $frame.alert(obj.wx_QeCode());
+                        break;
+                    case 3:
+                       
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+      
+                }
+            }
+            //绑定按钮事件
+        }
+    })
+
+
+
+    var obj = {
+        load() {
+
+            let url = $frame.encrypt(location.href.split('#')[0]);
+            $frame.RequestGet("MobileApi/GetConfig", { url }, (x) => {
+                if (x.Success)
+                    obj.wxconfig(x.Data);
+                else
+                    $frame.alert(x.Data);
+            });
+
+
+
+            let code = $frame.GetQueryString("code");
+            if ($frame.IsEmpty($frame.sessionget('openid'))) {
+                if ($frame.IsEmpty(code)) {
+                    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect`;
+                } else {
+                    $frame.RequestGet("MobileApi/GetInformation", (x) => {
+                        if (x.Success)
+                            $frame.sessionset(x.Data)
+                        else
+                            $frame.alert(x.Data);
+                    });
+                }
+            }
+        },
+        wxconfig(date, debug) {
+            debug = debug || false;
+            wx.config({
+                debug: debug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: date.appId, // 必填，公众号的唯一标识
+                timestamp: date.timeStamp, // 必填，生成签名的时间戳
+                nonceStr: date.nonceStr, // 必填，生成签名的随机串
+                signature: date.signature,// 必填，签名，见附录1
+                jsApiList: [
+                    "scanQRCode",
+                    "checkJsApi",
+                    "chooseImage",
+                    "uploadImage",
+                    "downloadImage",
+                    "onMenuShareTimeline",
+                    "onMenuShareQZone",
+                    "onMenuShareAppMessage",
+                    "openLocation",
+                    "getLocation",
+                    "translateVoice",
+                    "startRecord",
+                    "playVoice",
+                    "pauseVoice",
+                    "stopVoice",
+                    "onVoicePlayEnd",
+                    "stopRecord",
+                    "onVoiceRecordEnd",
+                    "uploadVoice",
+                    "downloadVoice"
+                ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.error(function (res) {
+                alert(res.errMsg);
+                //alert(res);
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，
+                // 也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+            });
+        },
+        //微信扫一扫
+        wx_QeCode() {
+            wx.scanQRCode({
+                needResult: 1,
+                desc: 'scanQRCode desc',
+                success: function (res) {
+                    //扫到的参数
+                    return res.resultStr;
+                }
+            });
+        },
+        //微信公众号支付
+        jsApiCall(r, fun) {
+            let res = (typeof (r) == "string" ? JSON.parse(r) : r);
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', res,
+                function (res) {
+                    // alert(res.err_code + res.err_desc);
+                    // alert(res.err_msg);
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+                        if (fun)
+                            fun(true);
+                    } else {
+                        if (fun)
+                            fun(false);//用户取消支付
+                    }
+                }
+            );
+
+        },
+        callpay(r, fun) {
+            if (typeof WeixinJSBridge == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            } else {
+                return jsApiCall(r, fun);
+            }
+        },
+
+        //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+        sharetimeline(dfop) {
+            let o = {
+                title: '测试',//分享标题
+                link: '',//分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                desc: '测试',//分享描述
+                imgUrl: ''//分享图标
+            }
+            $.extend(o, dfop || {});
+
+            wx.onMenuShareTimeline({
+                title: o.title, //
+                link: o.link, //
+                imgUrl: o.imgUrl, //
+                success: function () {
+                    alert("分享成功！");
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    alert("您取消了分享");
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        },
+        //获取“分享到QQ空间”按钮点击状态及自定义分享内容接口
+        ShareQZone(dfop) {
+            let o = {
+                title: '测试',//分享标题
+                link: '',//分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                desc: '测试',//分享图标
+                imgUrl: ''
+            }
+            $.extend(o, dfop || {});
+            wx.onMenuShareQZone({
+                title: o.title, // 分享标题
+                desc: o.desc, // 分享描述
+                link: o.link, // 分享链接
+                imgUrl: o.imgUrl, // 分享图标
+                success: function () {
+                    alert("分享成功！");
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    alert("您取消了分享");
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        },
+        //获取“分享给朋友”按钮点击状态及自定义分享内容接口
+        ShareAppMessage(dfop) {
+            let o = {
+                title: '测试',//分享标题
+                link: '',//分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                desc: '测试',//分享图标
+                imgUrl: ''
+            }
+            $.extend(o, dfop || {});
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: desc, // 分享描述
+                link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: imgUrl, // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                    alert("分享成功！");
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function () {
+                    alert("您取消了分享");
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        },
+
+    }
+
+
+    obj.load();
+
+</script>
