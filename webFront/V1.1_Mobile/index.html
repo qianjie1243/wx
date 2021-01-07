@@ -13,14 +13,14 @@
 </head>
 <body>
     <div id='app'>
-        <van-tree-select height="100%" :items="items" :main-active-index.sync="active" @click-nav="btn_click">
+        <van-tree-select height="100%" :items="items" :main-active-index.sync="active" @click-nav="menu_click">
             <template slot="content">
                 <div v-if="active==0" style="margin-left:30px;margin-top:50px;">
                     <van-button type="primary" @click="btn_click(active)">获取微信图片</van-button>
-                    <div v-for="item in images">              
-                        <van-image   :src="item" width="100" height="100" />
+                    <div v-for="item in images">
+                        <van-image :src="item" width="100" height="100" />
                     </div>
-                    <div  v-show="!!remark" style="margin-top:20px">
+                    <div v-show="!!remark" style="margin-top:20px">
                         <textarea>{{remark}}</textarea>
                     </div>
                 </div>
@@ -39,12 +39,17 @@
                 </div>
                 <div v-if="active==5" style="margin-left:30px;margin-top:50px;">
                     <van-button type="primary" @click="btn_click(active)">微信分享</van-button>
+
                 </div>
                 <div v-if="active==6" style="margin-left:30px;margin-top:50px;">
                     <van-button type="primary" @click="btn_click(active)">分享</van-button>
                 </div>
                 <div v-if="active==7" style="margin-left:30px;margin-top:50px;">
                     <van-button type="primary" @click="btn_click(active)">个人信息</van-button>
+
+                    <pre style="margin-top:10px;">个人信息
+{{requestmodel}}
+                    </pre>
                 </div>
 
             </template>
@@ -72,7 +77,8 @@
             ],
             images: [],//微信图片
             active: 0,
-            remark:'',
+            remark: '',
+            requestmodel: {},
         },
         created: function () {
             //加载事件
@@ -87,8 +93,10 @@
             //用于数据操作
         },
         methods: {
-            btn_click(index) {
+            menu_click(index) {
                 this.active = index;
+            },
+            btn_click(index) {               
                 switch (index) {
                     case 0:
                         obj.wx_chooseImage(9);
@@ -104,10 +112,14 @@
                     case 4:
                         break;
                     case 5:
+                        obj.sharetimeline();
                         break;
                     case 6:
+                        obj.ShareQZone();
                         break;
                     case 7:
+                        this.requestmodel = {};
+                        obj.getmodel();
                         break;
 
                 }
@@ -134,10 +146,10 @@
                 if ($frame.IsEmpty(code)) {
                     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect`;
                 } else {
-                    $frame.RequestGet("MobileApi/GetInformation", (x) => {
-                        if (x.Success)
-                            $frame.sessionset(x.Data)
-                        else
+                    $frame.RequestGet("MobileApi/GetInformation", { code: code }, (x) => {
+                        if (x.Success) {
+                            $frame.sessionset("openid", x.Data);
+                        } else
                             $frame.alert(x.Data);
                     });
                 }
@@ -182,7 +194,16 @@
             });
         },
 
+        getmodel() {//获取个人信息
+           
+            $frame.RequestGet("MobileApi/GetOpenidInformation", { openid: $frame.sessionget("openid") }, (x) => {
+                if (x.Success) {
+                    vm.requestmodel = x.Data;
+                } else
+                    $frame.alert(x.Data);
+            });
 
+        },
 
 
 
@@ -199,34 +220,34 @@
                 success: function (res) {
                     let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
                     vm.images = localIds;
-                   
+
                     for (let i = 0; i < localIds.length; i++) {
                         obj.uploadImage(localIds[i], serverIds);
                     }
-                   // vm.remark = "serverIds:" + JSON.stringify(serverIds);// res.serverId + ',';
+                    // vm.remark = "serverIds:" + JSON.stringify(serverIds);// res.serverId + ',';
                 }
             });
-          
+
             return serverIds;
         },
         //返回图片的服务器端ID
         uploadImage(localId, serverIds) {
-          //  var  serverId = "";
+            //  var  serverId = "";
             wx.uploadImage({
                 localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
                 isShowProgressTips: 1, // 默认为1，显示进度提示
-                success: function (res) {  
+                success: function (res) {
                     vm.remark = res.serverId + ',';
                     serverIds.push(res.serverId);
                     return res.serverId; // 返回图片的服务器端ID
                 }
             });
-           // return serverId;
+            // return serverId;
         },
 
         //返回图片下载后的本地ID
         downloadImage(serverId) {
-            var  localId = "";
+            var localId = "";
             wx.downloadImage({
                 serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
                 isShowProgressTips: 1, // 默认为1，显示进度提示
