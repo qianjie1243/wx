@@ -16,37 +16,45 @@
         <van-tree-select height="100%" :items="items" :main-active-index.sync="active" @click-nav="btn_click">
             <template slot="content">
                 <div v-if="active==0" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">获取微信图片</van-button>
+                    <van-button type="primary" @click="btn_click(active)">获取微信图片</van-button>
+                    <div v-for="item in images">              
+                        <van-image   :src="item" width="100" height="100" />
+                    </div>
+                    <div  v-show="!!remark" style="margin-top:20px">
+                        <textarea>{{remark}}</textarea>
+                    </div>
                 </div>
                 <div v-if="active==1" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">地理位置</van-button>
+                    <van-button type="primary" @click="btn_click(active)">地理位置</van-button>
                 </div>
                 <div v-if="active==2" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">扫一扫</van-button>
+                    <van-button type="primary" @click="btn_click(active)">扫一扫</van-button>
                 </div>
                 <div v-if="active==3" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">公众号支付</van-button>
+                    <van-button type="primary" @click="btn_click(active)">公众号支付</van-button>
                 </div>
                 <div v-if="active==4" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">扫码支付</van-button>
+
+                    <van-button type="primary" @click="btn_click(active)">扫码支付</van-button>
                 </div>
                 <div v-if="active==5" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">微信分享</van-button>
+                    <van-button type="primary" @click="btn_click(active)">微信分享</van-button>
                 </div>
                 <div v-if="active==6" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">分享</van-button>
+                    <van-button type="primary" @click="btn_click(active)">分享</van-button>
                 </div>
                 <div v-if="active==7" style="margin-left:30px;margin-top:50px;">
-                    <van-button type="primary"  @click="btn_click(active)">个人信息</van-button>
+                    <van-button type="primary" @click="btn_click(active)">个人信息</van-button>
                 </div>
-             
+
             </template>
         </van-tree-select>
     </div>
 </body>
 </html>
 <script>
-    var  appid = "";
+    var serverIds = [];//定义返回结果
+    var appid = "";
     var uri = "";
     var vm = new Vue({
         el: '#app',
@@ -64,6 +72,7 @@
             ],
             images: [],//微信图片
             active: 0,
+            remark:'',
         },
         created: function () {
             //加载事件
@@ -82,6 +91,7 @@
                 this.active = index;
                 switch (index) {
                     case 0:
+                        obj.wx_chooseImage(9);
                         break;
                     case 1:
                         break;
@@ -89,7 +99,7 @@
                         $frame.alert(obj.wx_QeCode());
                         break;
                     case 3:
-                       
+
                         break;
                     case 4:
                         break;
@@ -99,7 +109,7 @@
                         break;
                     case 7:
                         break;
-      
+
                 }
             }
             //绑定按钮事件
@@ -118,8 +128,6 @@
                 else
                     $frame.alert(x.Data);
             });
-
-
 
             let code = $frame.GetQueryString("code");
             if ($frame.IsEmpty($frame.sessionget('openid'))) {
@@ -167,12 +175,84 @@
                 ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
             wx.error(function (res) {
-                alert(res.errMsg);
-                //alert(res);
+                console.log("错误", res.errMsg);
+                console.log("错误", res);
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，
                 // 也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
             });
         },
+
+
+
+
+
+        //上传图片wx_chooseImage
+        //count 上传图片的张数 默认1张
+        //返回全部选中图片serverId  多个以,分割
+        wx_chooseImage(count) {
+            vm.remark = '';
+            count = count || 1;
+            wx.chooseImage({
+                count: count, // 默认1
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    let localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    vm.images = localIds;
+                   
+                    for (let i = 0; i < localIds.length; i++) {
+                        obj.uploadImage(localIds[i], serverIds);
+                    }
+                   // vm.remark = "serverIds:" + JSON.stringify(serverIds);// res.serverId + ',';
+                }
+            });
+          
+            return serverIds;
+        },
+        //返回图片的服务器端ID
+        uploadImage(localId, serverIds) {
+          //  var  serverId = "";
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {  
+                    vm.remark = res.serverId + ',';
+                    serverIds.push(res.serverId);
+                    return res.serverId; // 返回图片的服务器端ID
+                }
+            });
+           // return serverId;
+        },
+
+        //返回图片下载后的本地ID
+        downloadImage(serverId) {
+            var  localId = "";
+            wx.downloadImage({
+                serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    localId = res.localId; // 返回图片下载后的本地ID
+                }
+            });
+            return localId;
+        },
+
+        //获取本地图片接口
+        getLocalImgData(localId) {
+            var localData = "";
+            wx.getLocalImgData({
+                localId: '', // 图片的localID
+                success: function (res) {
+                    localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                }
+            });
+            return localData;
+        },
+
+
+
+
+
         //微信扫一扫
         wx_QeCode() {
             wx.scanQRCode({
