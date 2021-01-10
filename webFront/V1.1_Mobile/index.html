@@ -6,10 +6,17 @@
     <title>微信公众号测试</title>
     <link href="/wwwroot/vant/css/vant.css" rel="stylesheet" />
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/jquery.qrcode.min.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
     <script src="/wwwroot/vant/vant.min.js"></script>
     <script src="/wwwroot/JS/mobile_admin.js"></script>
     <script src='https://res.wx.qq.com/open/js/jweixin-1.6.0.js'></script>
+    <style>
+        #qrcode > canvas {
+            height: 80px;
+            width: 80px;
+        }
+    </style>
 </head>
 <body>
     <div id='app'>
@@ -25,17 +32,52 @@
                     </div>
                 </div>
                 <div v-if="active==1" style="margin-left:30px;margin-top:50px;">
+                    <pre style="margin-top:10px;margin-left:1px;background-color:#808080;color:white">备注说明：
+1).注册百度地图获取ak
+                    </pre>
                     <van-button type="primary" @click="btn_click(active)">地理位置</van-button>
+                    <van-button type="primary" @click="openwxmap()">微信地图</van-button>
+                    <van-button type="primary" @click="getaddress()" style="margin-top:10px;">获取百度地图详情</van-button>
+                    <div v-show="!!remark" style="margin-top:20px">
+                        <textarea>{{remark}}</textarea>
+                    </div>
+                    <pre style="margin-top:10px;background-color:#808080;color:white" v-show="!!mapmodel">地址详情信息
+                      {{mapmodel}}
+                    </pre>
                 </div>
                 <div v-if="active==2" style="margin-left:30px;margin-top:50px;">
                     <van-button type="primary" @click="btn_click(active)">扫一扫</van-button>
                 </div>
                 <div v-if="active==3" style="margin-left:30px;margin-top:50px;">
+                    <pre style="margin-top:10px;margin-left:1px;background-color:#808080;color:white">备注说明：
+1).配置MchId
+2).配置TenPayKey
+3).配置回调URl
+4).微信商户号中配置授权域名
+5).出现异常请查看log文件
+                    </pre>
+                    <input type="number" placeholder="支付金额" id="number" style="height:30px;margin-bottom:10px" step="0.01" />
                     <van-button type="primary" @click="btn_click(active)">公众号支付</van-button>
+                    <p style="color:brown" v-show="!!orderno">订单编号：{{orderno}}</p>
                 </div>
                 <div v-if="active==4" style="margin-left:30px;margin-top:50px;">
-
+                    <pre style="margin-top:10px;margin-left:1px;background-color:#808080;color:white">备注说明：
+1).配置MchId
+2).配置TenPayKey
+3).配置回调URl
+4).微信商户号中配置授权域名
+5).出现异常请查看log文件
+                    </pre>
+                    <input type="number" placeholder="支付金额" id="codenumber" style="height:30px;margin-bottom:10px" step="0.01" />
                     <van-button type="primary" @click="btn_click(active)">扫码支付</van-button>
+                    <div style="text-align:center;display:none;margin-top:20px;">
+                        <div id="qrcode" style="">
+
+                        </div>
+                        <p style="color:brown"  v-show="!!orderno" >订单编号：{{orderno}}</p>
+                        <p>二维码有效时间5分钟</p>
+                        <p style="color:red">有效时间{{time}}</p>
+                    </div>
                 </div>
                 <div v-if="active==5" style="margin-left:30px;margin-top:50px;">
                     <van-button type="primary" @click="btn_click(active)">微信分享</van-button>
@@ -46,9 +88,37 @@
                 </div>
                 <div v-if="active==7" style="margin-left:30px;margin-top:50px;">
                     <van-button type="primary" @click="btn_click(active)">个人信息</van-button>
+                    <div style="text-align: center;margin-top:10px;font-size:15px;" v-show="!!requestmodel">
 
-                    <pre style="margin-top:10px;">个人信息
-{{requestmodel}}
+                        <fieldset>
+                            <legend>个人信息</legend>
+
+                            <div style="display:flex;height:30px;">
+                                <label>昵称：</label>
+                                <label>{{requestmodel.nickname}}</label>
+                            </div>
+                            <div style="display:flex;height:30px;">
+                                <label>性别：</label>
+                                <label>{{requestmodel.sex==1?'男':'女'}}</label>
+                            </div>
+                            <div style="display:flex;height:30px;">
+                                <label>地址：</label>
+                                <label>{{requestmodel.country+'-'+requestmodel.province+'-'+requestmodel.city}}</label>
+                            </div>
+                            <div style="display:flex;height:30px;">
+                                <label>openid：</label>
+                                <label>{{requestmodel.openid}}</label>
+                            </div>
+                            <div style="display:flex;height:100px;">
+                                <!--<label>头像：</label>-->
+                                <img width="100" height="100" :src="requestmodel.headimgurl" />
+                            </div>
+                        </fieldset>
+
+                   
+                    </div>
+                    <pre style="margin-top:10px;background-color:#808080;color:white" v-show="!!requestmodel">个人信息
+                      {{requestmodel}}
                     </pre>
                 </div>
 
@@ -59,26 +129,32 @@
 </html>
 <script>
     var serverIds = [];//定义返回结果
-    var appid = "";
-    var uri = "";
+    var appid = "wxf4d49d7ee1a463be";
+    var iCount;
+    var uri = "http://152s178870.eicp.vip/V1.1_Mobile/index.html";
     var vm = new Vue({
         el: '#app',
         data: {
             items: [
                 { text: '上传图片', dot: true },
-                { text: '地理位置' },
-                { text: '扫一扫' },
-                { text: '公众号支付' },
-                { text: '扫码支付' },
-                { text: '微信分享' },
-                { text: 'QQ分享' },
-                { text: '个人信息' },
+                { text: '地理位置', dot: true  },
+                { text: '扫一扫', dot: true },
+                { text: '公众号支付', dot: true },
+                { text: '扫码支付', dot: true },
+                { text: '微信分享', dot: true },
+                { text: 'QQ分享', dot: true },
+                { text: '个人信息', dot: true },
 
             ],
             images: [],//微信图片
-            active: 0,
-            remark: '',
-            requestmodel: {},
+            active: 0,//菜单选择事件
+            remark: '',//备注
+            requestmodel: '',//个人信息数据对象
+            Location: {},//微信位置对象数据
+            mapmodel: "",//地图对象
+            time: -100,//二维码有效时间
+            orderno:''//订单编号
+
         },
         created: function () {
             //加载事件
@@ -92,24 +168,36 @@
         computed: {
             //用于数据操作
         },
-        methods: {
+        methods: { //绑定按钮事件
             menu_click(index) {
+                obj.modelempty();
                 this.active = index;
             },
-            btn_click(index) {               
+            btn_click(index) {
                 switch (index) {
                     case 0:
                         obj.wx_chooseImage(9);
                         break;
                     case 1:
+                        obj.getLocation();
                         break;
                     case 2:
-                        $frame.alert(obj.wx_QeCode());
+                        obj.wx_QeCode();
                         break;
                     case 3:
-
+                        obj.Tepcallpay();
                         break;
                     case 4:
+                        clearInterval(iCount);//停止计时器
+                        obj.ScanCode();
+                        iCount = setInterval(function () {
+                            if (vm.time != -100) {
+                                if (vm.time == 0) {
+                                    obj.ScanCode();
+                                } else
+                                    vm.time = vm.time - 1;
+                            }
+                        }, 1000);
                         break;
                     case 5:
                         obj.sharetimeline();
@@ -123,8 +211,15 @@
                         break;
 
                 }
-            }
-            //绑定按钮事件
+            },
+            //打开腾旭地图
+            openwxmap() {
+                obj.openLocation();
+            },
+            getaddress() {
+                if (!!vm.Location)
+                    obj.GetAddress(vm.Location.latitude, vm.Location.longitude);
+            },
         }
     })
 
@@ -132,7 +227,6 @@
 
     var obj = {
         load() {
-
             let url = $frame.encrypt(location.href.split('#')[0]);
             $frame.RequestGet("MobileApi/GetConfig", { url }, (x) => {
                 if (x.Success)
@@ -140,7 +234,6 @@
                 else
                     $frame.alert(x.Data);
             });
-
             let code = $frame.GetQueryString("code");
             if ($frame.IsEmpty($frame.sessionget('openid'))) {
                 if ($frame.IsEmpty(code)) {
@@ -195,7 +288,7 @@
         },
 
         getmodel() {//获取个人信息
-           
+
             $frame.RequestGet("MobileApi/GetOpenidInformation", { openid: $frame.sessionget("openid") }, (x) => {
                 if (x.Success) {
                     vm.requestmodel = x.Data;
@@ -204,6 +297,8 @@
             });
 
         },
+
+
 
 
 
@@ -270,10 +365,6 @@
             return localData;
         },
 
-
-
-
-
         //微信扫一扫
         wx_QeCode() {
             wx.scanQRCode({
@@ -281,7 +372,9 @@
                 desc: 'scanQRCode desc',
                 success: function (res) {
                     //扫到的参数
-                    return res.resultStr;
+                    console.log("返回对象：", res);
+                    $frame.alert(res.resultStr);
+                    //return
                 }
             });
         },
@@ -307,15 +400,58 @@
         callpay(r, fun) {
             if (typeof WeixinJSBridge == "undefined") {
                 if (document.addEventListener) {
-                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                    document.addEventListener('WeixinJSBridgeReady', obj.jsApiCall, false);
                 } else if (document.attachEvent) {
-                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
-                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('WeixinJSBridgeReady', obj.jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', obj.jsApiCall);
                 }
             } else {
                 return jsApiCall(r, fun);
             }
         },
+
+        Tepcallpay() {
+            let number = $("#number").val();
+            if ($frame.IsEmpty(number) || !(Number(number) > 0)) {
+                $frame.alert("请输入金额！");
+                return false;
+            }
+            $frame.RequestGet("MobileApi/GetPay", { openid: $frame.sessionget('openid'), total_fee: number }, (x) => {
+                if (x.Success) {
+                    vm.orderno = x.Data.orderno;//订单编号
+                    obj.callpay(JSON.parse(x.Data.paymodel), (m) => {
+                        if (m) {//支付成功
+                            $frame.alert("支付成功！");
+                            //查询微信订单状态、修改订单状态
+                        } else
+                            $frame.alert("你取消了支付！");
+                    });
+                } else
+                    $frame.alert(x.Data);
+            });
+
+        },
+        //微信扫码支付
+        ScanCode() {
+            let number = $("#codenumber").val();
+            if ($frame.IsEmpty(number) || !(Number(number) > 0)) {
+                $frame.alert("请输入金额！");
+                return false;
+            }
+            $frame.RequestGet("MobileApi/GetScanPay", { total_fee: number }, (x) => {
+                if (x.Success) {
+                    $('#qrcode').empty();
+                    //jQuery('#qrcode').qrcode("http://baidu.com");
+                    vm.orderno = x.Data.orderno;
+                    jQuery('#qrcode').qrcode(x.Data.payurl);
+                    vm.time = 300;
+                    $("#qrcode").parent().show();
+                } else
+                    $frame.alert(x.Data);
+            });
+        },
+
+
 
         //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
         sharetimeline(dfop) {
@@ -332,11 +468,11 @@
                 link: o.link, //
                 imgUrl: o.imgUrl, //
                 success: function () {
-                    alert("分享成功！");
+                    $frame.alert("分享成功！");
                     // 用户确认分享后执行的回调函数
                 },
                 cancel: function () {
-                    alert("您取消了分享");
+                    $frame.alert("您取消了分享");
                     // 用户取消分享后执行的回调函数
                 }
             });
@@ -356,11 +492,11 @@
                 link: o.link, // 分享链接
                 imgUrl: o.imgUrl, // 分享图标
                 success: function () {
-                    alert("分享成功！");
+                    $frame.alert("分享成功！");
                     // 用户确认分享后执行的回调函数
                 },
                 cancel: function () {
-                    alert("您取消了分享");
+                    $frame.alert("您取消了分享");
                     // 用户取消分享后执行的回调函数
                 }
             });
@@ -382,16 +518,75 @@
                 type: '', // 分享类型,music、video或link，不填默认为link
                 dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                 success: function () {
-                    alert("分享成功！");
+                    $frame.alert("分享成功！");
                     // 用户确认分享后执行的回调函数
                 },
                 cancel: function () {
-                    alert("您取消了分享");
+                    $frame.alert("您取消了分享");
                     // 用户取消分享后执行的回调函数
                 }
             });
         },
 
+        //打开微信腾讯地图
+        //longitude,纬度，浮点数，范围为90 ~ -90
+        //latitude 经度，浮点数，范围为180 ~ -180。
+        //name  位置名
+        //address  地址详情说明
+        //scale 地图缩放级别,整形值,范围从1~28。默认为最大
+        //infoUrl:  // 在查看位置界面底部显示的超链接,可点击跳转
+        openLocation(longitude, latitude, name, address, scale) {
+            wx.openLocation({
+                latitude: latitude,
+                longitude: longitude,
+                name: name,
+                address: address,
+                scale: scale,
+                infoUrl: 'http://weixin.<a href="http://www.it165.net/qq/" target="_blank" class="keylink">qq</a>.com'
+            });
+        },
+
+        //获取地理位置
+        getLocation() {
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    vm.Location = res;
+                    vm.remark = '纬度:' + res.latitude + ",经度" + res.longitude;
+                    console.log("返回数据对象", res);
+                    //res.speed;// 速度，以米/每秒计
+                    //res.accuracy; // 位置精度
+                },
+                cancel: function (res) {
+                    $frame.alert('用户拒绝授权获取地理位置');
+                }
+            });
+        },
+        //获取百度位置
+        GetAddress(latitude, longitude) {
+            $frame.RequestGet("MobileApi/GetAddress", { latitude, longitude }, (x) => {
+                if (x.Success) {
+                    x.Data = x.Data.replace('renderReverse&&renderReverse(', '');
+                    vm.mapmodel = JSON.parse(x.Data.substring(0, x.Data.length - 1));
+                } else
+                    $frame.alert(x.Data);
+
+            });
+
+        },
+
+        modelempty() {//vue 绑定对象初始化
+            $("#qrcode").parent().hide();         
+            clearInterval(iCount);
+            $("#codenumber,#number").val('')
+            vm.orderno = '';
+            vm.images = [];//微信图片
+            vm.remark = '';//备注
+            vm.requestmodel = '';//个人信息数据对象
+            vm.Location = {};//微信位置对象数据
+            vm.mapmodel = "";//地图对象
+            vm.time = -100;//二维码有效时间
+        },
     }
 
 

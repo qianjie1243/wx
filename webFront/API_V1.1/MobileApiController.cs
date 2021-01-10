@@ -74,7 +74,7 @@ namespace webFront.API_V1._1
         /// <param name="code"></param>
         /// <returns></returns>
         [HttpGet]
-        public object GetPay(string openid)
+        public object GetPay(string openid, double total_fee)
         {
             try
             {
@@ -83,8 +83,14 @@ namespace webFront.API_V1._1
 
                 var ip = HttpContext.Request.UserHostAddress;//获取ip
                 var orderno = Utils.GetOrderNumber();
-                var data = wxpay.JSAPIPayMent("测试", "测试", openid, ip, 0.01, orderno);
-                return Success(data);
+                var data = wxpay.JSAPIPayMent("测试", "测试", openid, ip, total_fee, orderno);
+                var resdata = new
+                {
+                    paymodel = data,
+                    orderno
+                };
+
+                return Success(resdata);
             }
             catch (Exception ex)
             {
@@ -101,15 +107,21 @@ namespace webFront.API_V1._1
         /// <param name="code"></param>
         /// <returns></returns>
         [HttpGet]
-        public object GetScanPay()
+        public object GetScanPay(double total_fee)
         {
             try
             {
                 var ip = HttpContext.Request.UserHostAddress;//获取ip
                 var orderno = Utils.GetOrderNumber();
                 var product_id = Guid.NewGuid().ToString("N");
-                var data = wxpay.NATIVEPayMent("测试", "测试", ip, 0.01, orderno, product_id);
-                return Success(data);
+                var data = wxpay.NATIVEPayMent("测试", "测试", ip, total_fee, orderno, product_id);
+                var resdata = new
+                {
+                    payurl = data,
+                    orderno
+                };
+
+                return Success(resdata);
             }
             catch (Exception ex)
             {
@@ -140,6 +152,29 @@ namespace webFront.API_V1._1
                 return ErrorLog(ex.ToString(), "微信前端测试接口");
             }
 
+        }
+        #endregion
+
+
+        #region 获取百度地址
+        /// <summary>
+        /// 获取百度地址
+        ///
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object GetAddress(string latitude, string longitude)
+        {
+            try
+            {
+                return Success(wxpu.GetBaiduMap(longitude, latitude, "", 2));
+            }
+            catch (Exception ex)
+            {
+
+                return ErrorLog(ex.ToString(), "微信前端测试接口");
+            }
         }
         #endregion 
 
