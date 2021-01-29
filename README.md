@@ -83,6 +83,11 @@
 > * ...
 > * ...
 
+
+# 后台测试地址  http://111.231.15.185
+# 微信公众号功能测试地址 http://111.231.15.185/v1.1_Mobile/index.html
+微信测试号![输入图片说明](https://images.gitee.com/uploads/images/2021/0111/214710_2ac87124_1689037.png "屏幕截图.png")
+
 # 功能展示图
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2020/0730/155209_78287df9_1689037.png "屏幕截图.png")
