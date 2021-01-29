@@ -534,20 +534,38 @@ var $frame = {
     },
     //=================对象数组分组==========
     //用法  
-    //const sorted = this.groupBy(data, function (item) {
-    //       return [item.key];
-    //  });
-    groupBy: function (array, f) {
-        const groups = {};
-        array.forEach(function (o) {
-            const group = JSON.stringify(f(o));
-            groups[group] = groups[group] || [];
-            groups[group].push(o);
-        });
-        return Object.keys(groups).map(function (group) {
-            return groups[group];
-        });
+    //groupBy(data, ["分组类型", "分组类型"])
+    // 结果  [{data:[],key:[],_key:str}]
+    //  
+
+    groupBy: function (array, keys) {
+        if (!keys) return array;
+        var list = array || [];
+        var groups = [];
+        for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            var key = {};
+            for (var j = 0; j < keys.length; j++) {
+                var k = keys[j];
+                key[k] = item[k];
+            }
+            var group = groups.find(ele => {
+                return ele._key === JSON.stringify(key);
+            });
+            if (!group) {
+                group = {
+                    _key: JSON.stringify(key),
+                    key: key,
+                };
+                groups.push(group);
+            }
+            group.data = group.data || [];
+            group.data.push(item);
+        };
+        return groups;
     },
+
+
     //数据筛查data:数据源，keys:查询key values:key的值,fuzzy:是否模糊查询 true 启用  false完全匹配
     /*用法 模糊查询默认不启用
      * filter(data,["age","name","sex"],[20,"1111",0],[false,true,false])
@@ -739,7 +757,7 @@ var $frame = {
         }
     },
     //时间戳 转化时间
-    TimeStampToTime: function (time){
+    TimeStampToTime: function (time) {
         let t = time.slice(6, 19);
         let NewDtime = new Date(parseInt(t));
         let year = NewDtime.getFullYear();

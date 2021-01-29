@@ -168,7 +168,7 @@ namespace webFront.API_V1._1
         {
             try
             {
-                return Success(wxpu.GetBaiduMap(longitude, latitude, "", 2));
+                return Success(wxpu.GetBaiduMap(longitude, latitude, "FvbuGGt56GHUHMesiEFyOPdfo33qFu3I", 2));
             }
             catch (Exception ex)
             {

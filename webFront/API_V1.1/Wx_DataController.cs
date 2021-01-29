@@ -279,21 +279,26 @@ namespace webFront.API
                     return Error("请先完善微信配置文件！");
                 }
                 var munlis = wm.Menu("", 3);
+                var Content = "";
+                var oj = (JObject)JsonConvert.DeserializeObject(munlis);
+                if (!oj["menu"].IsEmpty())
+                {
+                    Content = oj["menu"].ToString();
+                }
                 var model = wxmenu.GetModel(x => x.WxAppId == WXconfig.appid);
                 if (!string.IsNullOrWhiteSpace(model.GuId))
                 {
-                    model.Content = munlis;
+                    model.Content = Content;
                     wxmenu.Update(model);
                 }
                 else
                 {
                     model.WxAppId = WXconfig.appid;
-                    model.Content = munlis;
+                    model.Content = Content;
                     model.Create();
                     wxmenu.Add(model);
                 }
-
-                return Success(munlis);
+                return Success(Content);
             }
             catch (Exception ex)
             {

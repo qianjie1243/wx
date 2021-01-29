@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item,index)  in Menulis.button" v-if="Menulis.button.length>0">
+                    <tr v-for="(item,index)  in Menulis.button" v-show="Menulis.button.length>0">
                         <td>
                             <div style="height:40px;display:flex">
                                 <label class="layui-label" style="line-height: 40px;">({{index+1}})顶级：</label>
@@ -158,22 +158,32 @@
                     $frame.alert_msg("主菜单已达到上限！");
                     return false;
                 }
-                vm.Menulis.button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] })
+                vm.Menulis.button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] });
+                vm.$forceUpdate();
             },
             fadd(index) {
                 vm.Menulis.button[index].type = '';
-                if (vm.Menulis.button[index].sub_button.length >= 5) {
-                    $frame.alert_msg("子菜单已达到上限！");
-                    return false;
-                }
 
-                vm.Menulis.button[index].sub_button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] });
+                if (!!vm.Menulis.button[index].sub_button) {
+                    if (vm.Menulis.button[index].sub_button.length >= 5) {
+                        $frame.alert_msg("子菜单已达到上限！");
+                        return false;
+                    }
+
+                    vm.Menulis.button[index].sub_button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] });
+                } else {
+                    vm.Menulis.button[index]["sub_button"] = [];
+                    vm.Menulis.button[index].sub_button.push({ name: '', type: '', appid: '', pagepath: '', url: '', key: '', media_id: '', sub_button: [] });
+                }
+                vm.$forceUpdate();
             },
             del(index) {
                 vm.Menulis.button.splice(index, 1);
+                vm.$forceUpdate();
             },
             fdel(index, i) {
                 vm.Menulis.button[index].sub_button.splice(i, 1);
+                vm.$forceUpdate();
             },
             zchange(index) {
                 if (!$frame.IsEmpty(vm.Menulis.button[index].type)) {
@@ -183,7 +193,9 @@
                     vm.Menulis.button[index].key = '';
                     vm.Menulis.button[index].media_id = '';
                     vm.Menulis.button[index].sub_button = [];
+                    vm.$forceUpdate();
                 }
+        
             },
             fchange(index, i) {
                 vm.Menulis.button[index].sub_button[i].appid = '';
@@ -191,8 +203,9 @@
                 vm.Menulis.button[index].sub_button[i].url = '';
                 vm.Menulis.button[index].sub_button[i].key = '';
                 vm.Menulis.button[index].sub_button[i].media_id = '';
-
+                vm.$forceUpdate();
             }
+     
         }
 
 
@@ -212,7 +225,7 @@
                 if (x.Success) {
                     let data = JSON.parse(x.Data);
                     if (!data["errcode"]) {
-                        vm.Menulis = data.menu;
+                        vm.Menulis = data;
                     } else
                         $frame.alert(x.Data);
                 } else {
@@ -249,7 +262,7 @@
                     if (!$frame.IsEmpty(v.media_id))
                         m["media_id"] = v.media_id;
                 }
-                if (!!v.sub_button&&v.sub_button.length > 0) {
+                if (!!v.sub_button && v.sub_button.length > 0) {
                     $.each(v.sub_button, (index, value) => {
                         let fm = {};
                         if (!$frame.IsEmpty(value.name))
