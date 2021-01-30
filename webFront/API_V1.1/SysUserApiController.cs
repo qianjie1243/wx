@@ -41,7 +41,7 @@ namespace webFront.API_V1._1
                     return Error("验证码失效！");
                 }
                 var code = Session["CheckCode"].ToString();
-                if (code != verifyCode)
+                if (code.ToUpper() != verifyCode.ToUpper().Trim())
                     return Error("验证码错误！");
                 else
                     Session["CheckCode"] = null;//清空验证码

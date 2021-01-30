@@ -152,6 +152,25 @@ namespace Business.Service
                 throw;
             }
         }
+        /// <summary>
+		/// 获得列表
+		/// </summary>
+		/// <param name="parm">PageParm</param>
+		/// <returns></returns>
+        public List<T> GetList(Expression<Func<T, bool>> where)
+        {
+            try
+            {
+                var query = Db.Queryable<T>()
+                        .Where(where);
+                      
+                return query.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
         /// <summary>
         /// 获得列表，不需要任何条件
