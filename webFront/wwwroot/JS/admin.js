@@ -188,6 +188,99 @@ var $frame = {
         }
 
     },
+    //授权请求
+    AuthorizationReques: function (type, url, data, yes, error) {
+
+        if ($frame.islogin()) {//是否登入
+            window.location.href = "/V1.1/Login.html";
+            return false;
+        };
+
+        let index = $frame.loading();
+        if (arguments.length < 2) {
+            console.log("方法异常：", "方法必须二个参数");
+            return false;
+        }
+
+        switch (arguments.length) {//更具要判断执行方法
+            case 2:
+                $.ajax({
+                    type: type,
+                    url: ROOT_PATH + url,
+                    success: function (res) {
+                        layer.close(index);
+                        console.log("$frame.js==>请求返回结果==>", res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 3:       
+                $.ajax({
+                    type: type,
+                    url: ROOT_PATH + url,
+                    data: { token: $frame.Storageget("token") },//默认数据为token用户数据   
+                    success: function (res) {
+                        layer.close(index);
+                        if (data)
+                            data(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 4:
+                data[token] = $frame.Storageget("token");//添加用户授权数据
+                $.ajax({
+                    type: type,
+                    url: ROOT_PATH + url,
+                    data: data,
+                    success: function (res) {
+                        layer.close(index);
+                        if (yes)
+                            yes(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        //if (error)
+                        //    error(res);
+                    }
+                });
+                break;
+            case 5:
+                data[token] = $frame.Storageget("token");//添加用户授权数据
+                $.ajax({
+                    type: type,
+                    url: ROOT_PATH + url,
+                    data: data,
+                    success: function (res) {
+                        layer.close(index);
+                        if (yes)
+                            yes(res);
+                    },
+                    error: function (res) {
+                        console.log("$frame.js==>请求异常==>", res);
+                        layer.close(index);
+                        if (error)
+                            error(res);
+                    }
+                });
+                break;
+            default:
+                return 0;
+                break;
+        }
+
+    },
     //获取表单数据
     getFormData: function (formId) {
         var data = {};
@@ -371,7 +464,7 @@ var $frame = {
         /*适应窗口大小*/
         dfop.width = dfop.width > $(window).width() ? $(window).width() - 10 : dfop.width;
         dfop.height = dfop.height > $(window).height() ? $(window).height() - 10 : dfop.height;
-        var opindex = layer.open({
+        let opindex = layer.open({
             type: 1,
             area: [dfop.width + 'px', dfop.height + 'px'],
             title: dfop.title,
@@ -383,7 +476,7 @@ var $frame = {
             },
 
         });
-
+        return opindex;
     },
 
     // 关闭弹层----新增layer 关闭窗口
@@ -1088,7 +1181,18 @@ var $frame = {
     exportWord: function (obj, fileName) {
         fileName = fileName || "Jquery_word";
         $(obj).wordExport(fileName);
+    },
+    //判断用户是否登入
+    islogin() {
+        let token = $frame.Storageget("token");
+        return $frame.IsEmpty(token);        
     }
+
+
+
+
+
+
 }
 
 

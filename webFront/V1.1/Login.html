@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>用户登入</title>
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <style>
+        .container {
+            width: 420px;
+            height: 280px;
+            min-height: 280px;
+            max-height: 280px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            padding: 20px;
+            z-index: 130;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
+            font-size: 16px;
+        }
+
+        .close {
+            background-color: white;
+            border: none;
+            font-size: 18px;
+            margin-left: 410px;
+            margin-top: -10px;
+        }
+
+        .layui-input {
+            border-radius: 5px;
+            width: 300px;
+            height: 40px;
+            font-size: 15px;
+        }
+
+        .layui-form-item {
+            margin-left: -20px;
+        }
+
+        #logoid {
+            margin-top: -16px;
+            padding-left: 150px;
+            padding-bottom: 15px;
+        }
+
+        .layui-btn {
+            margin-left: -50px;
+            border-radius: 5px;
+            width: 350px;
+            height: 40px;
+            font-size: 15px;
+        }
+
+        .verity {
+            width: 120px;
+        }
+
+        .font-set {
+            font-size: 13px;
+            text-decoration: none;
+            margin-left: 120px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .fn-clear {
+            background-image: url('/wwwroot/Images/bg2.jpg');
+            background-repeat: no-repeat;
+            background-size: 100%
+        }
+    </style>
+</head>
+<body class="fn-clear">
+    <div class="layui-form">
+        <div class="container">
+
+            <div class="layui-form-mid layui-word-aux" style="left:40%">
+                系统登入
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" id="phoneNo" placeholder="请输入用户名" autocomplete="off" class="layui-input" :value="model.username" v-model="model.username">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密 &nbsp;&nbsp;码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" id="password" placeholder="请输入密码" autocomplete="off" class="layui-input" :value="model.userpwd" v-model="model.userpwd">
+                </div>
+                <!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证码</label>
+                <div class="layui-input-inline" style="display:flex">
+                    <input type="text" name="title" placeholder="请输入验证码" autocomplete="off" class="layui-input verifyCode" :value="model.verifyCode" v-model="model.verifyCode">
+                    <img style="margin-left: 10px;height:40px;border-radius:6px;cursor:pointer" src="/SysUserApi/GetValidateCode" onclick="this.src =this.src+'?'" title="更新验证码">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" @click="btnlogin($event)">登入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    var vm = new Vue({
+        el: '.container',
+        data: {
+            model: {
+                username: 'system',
+                userpwd: '123456',
+                verifyCode: ''
+            }
+        },
+        created: function () {
+            let token = $frame.Storageget("token");
+            if (!$frame.IsEmpty(token)) {
+                window.location.href = "/V1.1/Admin.html";
+            }
+        },
+        methods: {
+            btnlogin(event) {
+                let foat = true;
+                if ($frame.IsEmpty(vm.model.username)) {
+                    $frame.alert("用户名不能为空！");
+                    foat = false;
+                    return false;
+                }
+                if ($frame.IsEmpty(vm.model.userpwd)) {
+                    $frame.alert("用户名密码不能为空！");
+                    foat = false;
+                    return false;
+                }
+                if ($frame.IsEmpty(vm.model.verifyCode)) {
+                    $frame.alert("验证码不能为空！");
+                    foat = false;
+                    return false;
+                }
+                if (foat) {
+                    $(event.Target).attr("disabled", "disabled");
+                    $frame.RequestPost("SysUserApi/login", vm.model, (x) => {
+                        $(event.Target).removeAttr("disabled");
+                        if (x.Success) {
+                            $frame.Storageset("token", x.Data.token);
+                            window.location.href = "Admin.html";
+                        } else
+                            $frame.alert(x.Data);
+                    });
+
+                }
+            }
+        }
+    })
+
+</script>
+

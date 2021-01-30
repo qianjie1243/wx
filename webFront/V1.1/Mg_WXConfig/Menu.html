@@ -20,15 +20,21 @@
     <form>
         <div id="app" style="margin:10px">
             <div class="head" style="height:20%;display:flex">
-                <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="getmenu">
-                    拉取菜单
-                </button>
-                <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
+               
+                <!--<button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
                     <i class="layui-icon layui-icon-refresh"></i>刷新
-                </button>
-                <button class="layui-btn" type="button" style="width:80px;" @click="addmenu">
-                    <i class="layui-icon layui-icon-file-b"></i>保存
-                </button>
+                </button>-->
+               
+                <div class="layui-btn-group" style=" margin-left: auto;">
+
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                    <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="getmenu">
+                        拉取菜单
+                    </button>
+                    <button class="layui-btn" type="button" style="width:80px;" @click="addmenu">
+                        <i class="layui-icon layui-icon-file-b"></i>保存
+                    </button>
+                </div>
                 <!--<label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>-->
             </div>
             <table class="layui-table">

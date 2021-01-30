@@ -23,6 +23,7 @@ namespace webFront.API
         #region  业务
         private Sys_log logbll = new Sys_log();
         private Sys_Menu Menubll = new Sys_Menu();
+        private Sys_RoleAuthorization rolebll = new Sys_RoleAuthorization();
         #endregion
 
 
@@ -32,23 +33,44 @@ namespace webFront.API
         /// <returns></returns>
         /// 
         [HttpGet]
-        public object GetAdminList()
+        public object GetAdminList(string token)
         {
             try
             {
+                var usermolde = GetUserInfo(token);//获取用户信息
+
                 var lis = Menubll.GetList().Where(x => x.IsDel == 0).ToList();
                 var reslis = new List<Sys_MenuEntity>();
-                foreach (var item in lis.Where(x => x.SuperiorId == "0").ToList())
+                if (usermolde.UserName.ToLower() == "system")//管理员显示全部列表数据
                 {
-                    item.PSysMenu = Getlis(lis, item);
-                    reslis.Add(item);
+                    foreach (var item in lis.Where(x => x.SuperiorId == "0").ToList())
+                    {
+                        item.PSysMenu = Getlis(lis, item);
+                        reslis.Add(item);
+                    }
+                    var res = new
+                    {
+                        mnue = reslis.OrderBy(x => x.Sort),
+                        model = usermolde
+                    };
+                    return Success(res);
                 }
-                var res = new
-                {
-                    mnue = reslis.OrderBy(x => x.Sort),
-                    lis
-                };
-                return Success(res);
+                else
+                {//其他用户数据
+                    var rolelist = rolebll.GetList(x => x.UserGid == usermolde.GuId, x => x.Id, 1);
+                    foreach (var item in lis.Where(x => x.SuperiorId == "0"&& rolelist.Where(m => m.MenuGid == x.GuId).Count() > 0).ToList())
+                    {
+                        item.PSysMenu = GetRolelis(lis, item, rolelist);
+                        reslis.Add(item);
+                    }
+                    var res = new
+                    {
+                        mnue = reslis.OrderBy(x => x.Sort),
+                        model = usermolde
+                    };
+                    return Success(res);
+
+                }
             }
             catch (Exception ex)
             {
@@ -139,7 +161,7 @@ namespace webFront.API
                         model.SuperiorId = entity.SuperiorId;
                         model.Type = entity.Type;
                         Menubll.Update(model);
-                        return SuccessLog("操作成功！", model, "菜单编辑",2);
+                        return SuccessLog("操作成功！", model, "菜单编辑", 2);
                     }
                     else
                         return Error("参数错误");
@@ -148,7 +170,7 @@ namespace webFront.API
                 {
                     entity.Create();
                     Menubll.Add(entity);
-                    return SuccessLog("操作成功！", entity,"菜单编辑", 1);
+                    return SuccessLog("操作成功！", entity, "菜单编辑", 1);
                 }
 
 
@@ -209,7 +231,7 @@ namespace webFront.API
                     return Error("参数错误");
 
 
-               
+
 
             }
             catch (Exception ex)
@@ -218,9 +240,17 @@ namespace webFront.API
             }
         }
 
+ 
+
 
 
         #region 扩展方法
+        /// <summary>
+        /// system 获取权限
+        /// </summary>
+        /// <param name="countlis"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         private List<Sys_MenuEntity> Getlis(List<Sys_MenuEntity> countlis, Sys_MenuEntity model)
         {
             try
@@ -233,6 +263,39 @@ namespace webFront.API
                     lis.ForEach(x =>
                     {
                         x.PSysMenu = Getlis(countlis, x).OrderBy(c => c.Sort).ToList();
+                    });
+                    return lis.OrderBy(c => c.Sort).ToList();
+                }
+                else
+                    return fff;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        /// <summary>
+        /// 其他用户获取权限
+        /// </summary>
+        /// <param name="countlis">全部菜单列表</param>
+        /// <param name="model">当前对象</param>
+        /// <param name="roles">授权列表</param>
+        /// <returns></returns>
+        private List<Sys_MenuEntity> GetRolelis(List<Sys_MenuEntity> countlis, Sys_MenuEntity model,List<Sys_RoleAuthorizationEntity> roles)
+        {
+            try
+            {
+                List<Sys_MenuEntity> fff = new List<Sys_MenuEntity>();
+
+                var lis = countlis.Where(p => p.SuperiorId == model.Id.ToString()&&roles.Where(m=>m.MenuGid==p.GuId).Count()>0);
+                if (lis.Count() > 0)
+                {
+                    lis.ForEach(x =>
+                    {
+                        x.PSysMenu = GetRolelis(countlis, x, roles).OrderBy(c => c.Sort).ToList();
                     });
                     return lis.OrderBy(c => c.Sort).ToList();
                 }

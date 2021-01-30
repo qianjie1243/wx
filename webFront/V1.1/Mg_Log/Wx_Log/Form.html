@@ -35,7 +35,7 @@
                             <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
                                 <td>{{item.name}}</td>
                                 <td>{{item.path}}</td>
-                                <th><button class="layui-btn layui-btn-warm" type="button" @click="btnopen(item)">查看</button></th>
+                                <th><button class="layui-btn layui-btn-warm layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>
                             </tr>
                             <tr v-if="pagingdata.length==0" align="center">
                                 <td colspan="3">暂无数据</td>

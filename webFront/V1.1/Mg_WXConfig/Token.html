@@ -25,15 +25,19 @@
 </head>
 <body>
     <div id="app" style="margin:10px;">
-        <div class="head" style="height:20%;display:flex">
+        <div class="head" style="height:20%;display:flex;margin-bottom:5px;">
 
-            <div class="layui-form-item" style="margin-right:5px">
-                <button class="layui-btn layui-btn-normal" type="button" style="width:120px;" @click="getdata">
-                    <i class="layui-icon layui-icon-refresh"></i>拉取数据
-                </button>
-            </div>
+           
+              
+                <div class="layui-btn-group" style="margin-left: auto;">
 
-          
+                    <button class="layui-btn " type="button" style="width:120px;" @click="getdata">
+                        <i class="layui-icon layui-icon-refresh"></i>拉取数据
+                    </button>
+                </div>
+           
+
+           
         </div>
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">Token：</label>

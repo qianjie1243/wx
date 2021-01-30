@@ -14,13 +14,14 @@
 <body>
     <div id="app" style="margin:10px;">
 
-        <div class="layui-form-item" style="margin-right:5px">
-            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" onclick="refresh()">
-                <i class="layui-icon layui-icon-refresh"></i>刷新
-            </button>
-            <button class="layui-btn" type="button" style="width:80px;" onclick="edit('')">
-                <i class="layui-icon layui-icon-add-1"></i>新增
-            </button>
+        <div class="layui-form-item" style="margin-right:5px;display:flex">
+
+            <div class="layui-btn-group" style=" margin-left: auto;">
+                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                <button class="layui-btn" type="button" style="width:80px;" onclick="edit('')">
+                    <i class="layui-icon layui-icon-add-1"></i>新增
+                </button>
+            </div>
         </div>
         <table class="layui-hide" id="menu" lay-filter="menu"></table>
 
@@ -102,7 +103,7 @@
                     //toolbar: '#toolbarDemo',
                     page: false,
                     cols: [[
-                        //{ type: 'radio' },
+                        //{ type: 'checkbox' },
                         { field: 'name', title: '菜单名称' },
                         { field: 'Number', title: '编号' },
                         { field: 'url', title: '地址' },

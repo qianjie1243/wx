@@ -11,6 +11,11 @@ namespace Model
         public int Id { set; get; }
 
         public string GuId { set; get; } = "";
+
+        /// <summary>
+        /// 功能按钮编号
+        /// </summary>
+        public string Number { set; get; } = "";
         /// <summary>
         /// 功能按钮名称
         /// </summary>
@@ -27,6 +32,7 @@ namespace Model
         public string MenuId { set; get; } = "";
 
         public int IsDel { set; get; } = 0;
+
 
     }
 }

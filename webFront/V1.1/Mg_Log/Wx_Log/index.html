@@ -14,10 +14,10 @@
 <body>
     <div id="app" style="margin:10px;">
 
-        <div class="layui-form-item" style="margin-right:5px">
-            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
-                <i class="layui-icon layui-icon-refresh"></i>刷新
-            </button>
+        <div class="layui-form-item" style="margin-right:5px;display:flex">
+            <div class="layui-btn-group" style=" margin-left: auto;">
+                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+            </div>
         </div>
         <table class="layui-table">
             <thead>
@@ -31,7 +31,7 @@
                 <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
                     <td>{{item.name}}</td>
                     <td>{{item.path}}</td>
-                    <th><button class="layui-btn layui-btn-warm" type="button" @click="btnopen(item)">查看</button></th>
+                    <th><button class="layui-btn layui-btn-warm layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>
                 </tr>
                 <tr v-if="pagingdata.length==0" align="center">
                     <td colspan="3">暂无数据</td>

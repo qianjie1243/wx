@@ -23,9 +23,8 @@
 <body>
     <!--<label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>-->
     <div id="app" style="margin:10px;">
-        <div class="layui-form-item layui-form-text">
+        <div class="layui-form-item " style="margin-right:5px;display:flex">
 
-            <div style="height:20%;display:flex">
                 <label class="layui-form-label">获取素材列表：</label>
                 <select class="layui-select" v-model="search.sc.Type" :value="search.sc.Type">
                     <option value="">请选择</option>
@@ -37,10 +36,12 @@
                 <button class="layui-btn" type="button" style="width:80px;margin-right:10px;margin-left:5px;" @click="getsclist">
                     <i class="layui-icon layui-icon-search"></i>查询
                 </button>
-                <button class="layui-btn layui-btn-normal" type="button" style="width:80px;margin-left:10px" @click="refresh">
-                    <i class="layui-icon layui-icon-refresh"></i>刷新
-                </button>
-            </div>
+
+                <div class="layui-btn-group" style=" margin-left: auto;">
+                    <button type="button" class="layui-btn"  @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+
+                </div>
+            
         </div>
 
 

@@ -20,28 +20,20 @@
 </head>
 <body>
     <div id="app" style="margin:10px;">
-        <div class="head" style="height:20%;display:flex">
-            <div class="layui-form-item" style="float:left;">
-                <div style="display:flex">
-                    <input class="layui-input" type="text" placeholder="模板名称" v-model="searchdata.name" :value="searchdata.name" />
+        <!--<div class="head" style="height:20%;display:flex">-->
+        <div class="layui-form-item " style="margin-right:5px;display:flex">
+            <input class="layui-input" type="text" placeholder="模板名称" style="margin-left:5px;width:120px;" v-model="searchdata.name" :value="searchdata.name" />
+            <button class="layui-btn" type="button" style="width:80px;margin-left:5px;" @click="search">
+                <i class="layui-icon layui-icon-search"></i>查询
+            </button>
 
-                </div>
-            </div>
+            <div class="layui-btn-group" style=" margin-left: auto;">
+                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                <button type="button" class="layui-btn" @click="edit('')"><i class="layui-icon layui-icon-add-1"></i>新增</button>
 
-            <div class="layui-form-item" style="margin-right:5px">
-                <div class="layui-input-block">
-                    <button class="layui-btn" type="button" style="width:80px;" @click="search">
-                        <i class="layui-icon layui-icon-search"></i>查询
-                    </button>
-                    <button class="layui-btn layui-btn-normal" type="button" style="width:80px;" @click="refresh">
-                        <i class="layui-icon layui-icon-refresh"></i>刷新
-                    </button>
-                    <button class="layui-btn" type="button" style="width:80px;" @click="edit('')">
-                        <i class="layui-icon layui-icon-add-1"></i>新增
-                    </button>
-                </div>
             </div>
         </div>
+        <!--</div>-->
         <table class="layui-table">
             <thead>
                 <tr>

@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>用户详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" :value="model.UserName" v-model="model.UserName" placeholder="请输入用户名" autocomplete="off" :disabled="!!model.GuId" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">登入密码</label>
+            <div class="layui-input-block">
+                <input type="password" v-model="model.Pwd" :value="model.Pwd" placeholder="请输入登入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" v-model="model.Name" :value="model.Name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+                <input type="text" v-model="model.NickName" :value="model.NickName" placeholder="请输入昵称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-block">
+                <input type="text" v-model="model.Phone" :value="model.Phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" @click="add">立即提交</button>
+                <button class="layui-btn layui-btn-primary" @click="reset">重置</button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+<script>
+    var selectedRow = top.parent_obj.geto_iframe_current().selectedRow;
+    var $frame = top.$frame;
+
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            model: {
+                Name: '',
+                UserName: '',
+                NickName: '',
+                Phone: '',
+                Pwd: '',
+                GuId: '',
+            },
+        },
+        methods: {
+
+            add() {
+                obj.add();
+            },
+            reset() {
+                obj.reset();
+                $frame.alert_msg("操作成功！");
+            },
+
+        }
+    })
+
+    var obj = {
+        load() {
+            if (!!selectedRow) {
+                $frame.RequestPost("SysUserApi/GetDetails", { Keyvalue: selectedRow.GuId }, (r) => {
+                    if (r.Success)
+                        vm.model = r.Data;
+                    else
+                        $frame.alert(r.Data);
+                });
+            }
+
+        },
+        add() {
+            let foat = true;
+            if ($frame.IsEmpty(vm.model.UserName)) {
+                $frame.alert("用户名不能为空！");
+                foat = false;
+            }
+            if ($frame.IsEmpty(vm.model.NickName)) {
+                $frame.alert("昵称不能为空！");
+                foat = false;
+            }
+            if ($frame.IsEmpty(vm.model.Name)) {
+                $frame.alert("姓名不能为空！");
+                foat = false;
+            }
+            if ($frame.IsEmpty(vm.model.Pwd)) {
+                $frame.alert("登入密码不能为空！");
+                foat = false;
+            }
+            if (foat) {
+                $frame.RequestPost("SysUserApi/SaveFrom", vm.model, (r) => {
+                    if (r.Success) {
+                        top.parent_obj.geto_iframe_current().vm.refresh();
+                        top.parent_obj.close("操作成功！");
+                    } else
+                        console.log(r.Data);
+                });
+            }
+
+        },
+        reset() {
+            if ($frame.IsEmpty(vm.model.GuId)) {
+                vm.model = {
+                    Name: '',
+                    UserName: '',
+                    NickName: '',
+                    Phone: '',
+                    Pwd: '',
+                    GuId: '',
+                };
+            } else {
+                vm.model.Name = "";
+                vm.model.NickName = "";
+                vm.model.Phone = "";
+                vm.model.Pwd = "";
+            }
+        }
+
+    }
+
+    obj.load();
+</script>

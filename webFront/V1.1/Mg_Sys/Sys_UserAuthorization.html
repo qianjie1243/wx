@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>用户权限</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.js"></script>
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item" style="margin-right:5px;display:flex">
+
+            <div class="layui-btn-group" style=" margin-left: auto;">
+              
+                <button class="layui-btn" type="button" style="width:80px;" @click="add($event)">
+                    <i class="layui-icon layui-icon-file-b"></i>保存
+                </button>
+            </div>
+        </div>
+        <table class="layui-hide" id="menu" lay-filter="menu"></table>
+
+    </div>
+
+</body>
+</html>
+<script>
+    var selectedRow = top.parent_obj.geto_iframe_current().selectedRow;
+    var $frame = top.$frame;
+
+    layui.config({
+        base: '/wwwroot/layui/'
+    }).extend({
+        treetable: 'treetable-lay/treetable'
+    });
+
+
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            checkedlis: [],
+            data: [],
+        },
+        created: function () {
+          
+        },
+        mounted: function () {//渲染出真实dom
+           
+    
+           
+
+        },
+        methods: {
+            add(e) {
+                if (vm.checkedlis.length == 0) {
+                    $frame.alert("请选择菜单权限");
+                    return false;
+                }
+                $(e.target).prop("disabled", true);
+                $frame.RequestPost("SysUserApi/AddUserMenu", { keyvalue: selectedRow.GuId, ids: vm.checkedlis }, (r => {
+                    $(e.target).prop("disabled", false);
+                    if (r.Success) {
+                        top.parent_obj.close("操作成功！");
+                    } else {
+                        $frame.alert(r.Data);
+                    }
+                }))
+
+            }
+         
+        }
+    })
+
+    var obj = {
+        load() {
+
+            $frame.RequestGet("SysUserApi/GetUserMenuList?keyvalue=" + selectedRow.GuId, (r) => {
+                if (r.Success) {
+                    vm.checkedlis = r.Data.ids;
+                    vm.data = r.Data.data;
+
+                    layui.use(['treetable', 'table', 'layer'], function () {
+                        var table = layui.table;
+                        var treetable = layui.treetable;
+                        var layer = layui.layer;
+                        // treeTable = $.extend(treeTable, { config: { checkName: 'checked' } });
+                        //渲染表格
+                        var renderTable = function () {
+                            layer.load(2);
+                            treetable.render({
+                                height: 'full-0',
+                                id: 'menu',
+                                treeColIndex: 1,	//树形图标显示在第几列
+                                treeSpid: '0',		//最上级的父级id
+                                treeIdName: 'Id',	//id字段的名称
+                                treePidName: 'parentId',	//父级节点字段
+                                treeDefaultClose: false,	//是否默认折叠
+                                treeLinkage: false,		//父级展开时是否自动展开所有子级
+                                elem: '#menu',	//表格id
+                                data: vm.data,
+                                page: false,
+                                cols: [[
+                                    { type: 'checkbox' },
+                                    { field: 'name', title: '菜单名称' },
+                                    { field: 'Number', title: '编号' },
+
+                                    { field: 'idx', title: '排序' },
+                                ]],
+
+                                //数据渲染完的回调
+                                done: function () {
+                                    layer.closeAll('loading');
+                                    $("tbody .layui-unselect i").click(function () {
+                                        let checked = $($(this).parent().prev()).prop("checked");
+                                        let id = $($(this).parent().prev().parents("td").next().find("span")).attr("lay-tid");
+                                        if (checked) {//移除
+                                            vm.checkedlis.splice(vm.checkedlis.indexOf(id), 1);
+                                        } else {//新增
+                                            vm.checkedlis.push(id);
+                                        }
+
+                                      //console.log(vm.checkedlis);
+                                    });
+
+                                    $.each($("tbody .layui-unselect i"), (i, v) => {
+                                        let id = $($(v).parent().prev().parents("td").next().find("span")).attr("lay-tid");
+                                        if (vm.checkedlis.indexOf(id) > -1) {
+                                            $(v).parent().addClass("layui-form-checked");
+                                           $($(v).parent().prev()).prop("checked", true);
+                                        }
+
+                                    });
+
+
+                                    $("th .layui-unselect").hide();
+
+
+
+                                }
+                            })
+                        };
+                        renderTable();
+                    });    
+
+                } else
+                    console.log(r.Data);
+            });
+     
+        },
+    }
+
+    obj.load();
+
+    
+
+
+
+
+
+</script>

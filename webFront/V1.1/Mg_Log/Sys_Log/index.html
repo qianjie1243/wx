@@ -29,9 +29,10 @@
             <button class="layui-btn" type="button" style="width:80px;margin-left:5px;" @click="search">
                 <i class="layui-icon layui-icon-search"></i>查询
             </button>
-            <button class="layui-btn layui-btn-normal" type="button" style="width:80px;margin-left:10px" @click="refresh">
-                <i class="layui-icon layui-icon-refresh"></i>刷新
-            </button>
+
+            <div class="layui-btn-group" style=" margin-left: auto;">
+                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+            </div>
         </div>
         <table class="layui-table">
             <thead>

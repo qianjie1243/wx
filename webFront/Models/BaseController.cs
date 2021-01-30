@@ -1,6 +1,7 @@
 ﻿using Business.Business;
 using Common;
 using Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace webFront.Models
 {
     public class BaseController : Controller
     {
+        private string dkey = "SYS_USER";
         private Sys_log logbll = new Sys_log();
         /// <summary>
         ///  请求成功
@@ -65,7 +67,7 @@ namespace webFront.Models
         /// <param name="Name"></param>
         /// <param name="Type">类型0：异常 1：新增，2修改，删除</param>
         /// <returns></returns>
-        public object SuccessLog(object Data,object LogData, string Name, int Type)
+        public object SuccessLog(object Data, object LogData, string Name, int Type)
         {
 
             string controllerName = Request.RequestContext.RouteData.Values["controller"].ToString();//获取控制器名
@@ -78,6 +80,25 @@ namespace webFront.Models
             logbll.Add(model);
 
             return Json(new { Success = true, Data = Data }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public Sys_UserEntity GetUserInfo(string token)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Sys_UserEntity>(DESEncrypt.MD5Decrypt(token, dkey));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
     }

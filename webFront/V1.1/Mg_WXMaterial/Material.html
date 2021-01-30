@@ -20,12 +20,14 @@
 </head>
 <body>
     <div id="app" style="margin:10px;">
-        <div class="head" style="height:20%;display:flex">
+        <div class="head" style="height:20%;">
 
-            <div class="layui-form-item" style="margin-right:5px">
-                <button class="layui-btn layui-btn-normal" type="button" style="width:120px;" @click="getdata">
-                    <i class="layui-icon layui-icon-refresh"></i>拉取数据
-                </button>
+            <div class="layui-form-item" style="margin-right:5px;display:flex">
+          
+                <div class="layui-btn-group" style=" margin-left: auto;">
+                    <button type="button" class="layui-btn" @click="getdata"> <i class="layui-icon layui-icon-refresh"></i>拉取数据</button>
+ 
+                </div>
             </div>
 
             <!--<label class="layui-label" style="color:#ff0000;margin-left:50px;">每天获取有次数限制，未使用数据库，缓存功能！</label>-->

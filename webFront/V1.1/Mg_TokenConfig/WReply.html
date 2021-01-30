@@ -18,11 +18,177 @@
 </head>
 <body>
     <div id="app" style="margin:10px;">
-        <button type="button" class="layui-btn" v-on:click="btnsave"> <i class="layui-icon layui-icon-file-b"></i>保存</button>
+
+        <div class="layui-form-item" style="margin-right:5px;display:flex">
+
+            <div class="layui-btn-group" style=" margin-left: auto;">
+                <button type="button" class="layui-btn" v-on:click="btnsave"> <i class="layui-icon layui-icon-file-b"></i>保存</button>
+            </div>
+        </div>
+
         <!--<label class="layui-label" style="color:#ff0000;margin-left:50px;">未使用数据库，缓存功能,每次重启项目清空！</label>-->
 
 
-        <div class="layui-form-item">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">微信关注回复</li>
+                <li>按钮点击事件</li>
+                <li>微信关键字回复</li> 
+            </ul>
+            <div class="layui-tab-content" style="height: 100%;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-input-block">
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>回复类型</th>
+                                    <th width="50%">消息体</th>
+                                    <th>
+                                        操作 <button class="layui-btn layui-btn-xs" @click="reply_addmodel">
+                                            <i class="layui-icon">&#xe608;</i>新增
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in model" v-if="!!model">
+                                    <td>
+                                        <select :value="model[index].Key" v-model="model[index].Key" class="layui-select" @change="reply_btnsel(model[index])">
+                                            <option value="">请选择</option>
+                                            <option v-for="itm in typelis" :value="itm.Key">{{itm.Name}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <fieldset v-for="(v,i) in model[index].Temp " v-if="model[index].Temp.length>0" style="margin-bottom:3px;">
+                                            <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" @click="reply_dellis(model[index],i)" v-if="model[index].Key==2">移除</button></legend>
+                                            <div>
+                                                <template v-for="vitem in  getkey(v)">
+                                                    <label v-if="typebool(vitem)" style="line-height:35px">{{model[index].Temp[i][vitem]}}：</label>
+                                                    <input v-else class="layui-input" :value="model[index].Temp[i][vitem]" type="text" v-model="model[index].Temp[i][vitem]" :placeholder="v[vitem]" style="width:400px;margin-top:3px;">
+                                                </template>
+                                            </div>
+                                        </fieldset>
+                                    </td>
+                                    <td>
+                                        <button class="layui-btn" v-if="model[index].Key==2" @click="reply_addlis(model[index])">新增图文列表</button>
+                                        <button class="layui-btn layui-btn-danger" @click="reply_delmodel(index)">移除</button>
+                                    </td>
+                                </tr>
+                                <tr align="center" v-if="model.length==0">
+                                    <td colspan="3">暂无数据</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-input-block">
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>事件类型</th>
+                                    <th>事件KEY</th>
+                                    <th>
+                                        操作  <button class="layui-btn layui-btn-xs" @click="event_add_list">
+                                            <i class="layui-icon">&#xe608;</i>新增
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in Eventlist" v-if="!!Eventlist&&Eventlist.length>0">
+                                    <td v-if="!!item">
+                                        <select v-model="Eventlist[index].EventType" :value="Eventlist[index].EventType" class="layui-select">
+                                            <option v-for="itm in Eventtype" :value="itm.Id">{{itm.Name}}</option>
+                                        </select>
+                                    </td>
+                                    <td v-if="!!item">
+                                        <input type="text" class="layui-input" :value="Eventlist[index].EventKey" v-model="Eventlist[index].EventKey" placeholder="按钮事件自定义KEY">
+                                    </td>
+
+                                    <td v-if="!!item">
+                                        <button class="layui-btn layui-btn-danger" @click="event_del_lis(Eventlist[index])">移除</button>
+                                    </td>
+                                </tr>
+                                <tr align="center" v-if="!Eventlist||Eventlist.length==0">
+                                    <td colspan="3">暂无数据</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-input-block">
+
+                        <input type="text" class="layui-input" placeholder="关键字" style="width:200px;float:left" id="search_name" />
+                        <button class="layui-btn" type="button" style="width:80px;float:left;margin-left:10px;" @click="reply_search">
+                            <i class="layui-icon layui-icon-search"></i>查询
+                        </button>
+                        <div id="page" style="float:right"></div>
+
+
+
+                        <table class="layui-table">
+                            <thead>
+                                <tr>
+                                    <th>关键字</th>
+                                    <th>匹配类型</th>
+                                    <th>回复类型</th>
+                                    <th>消息体</th>
+                                    <th>
+                                        操作  <button class="layui-btn layui-btn-xs" @click="reply_add_list">
+                                            <i class="layui-icon">&#xe608;</i>新增
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in pagingdata" v-if="pagingdata.length>0">
+                                    <td>
+                                        <input type="text" class="layui-input" :value="pagingdata[index].Name" v-model="pagingdata[index].Name" :placeholder="pagingdata[index].Name">
+                                    </td>
+                                    <td>
+                                        <select :value="pagingdata[index].MatchingWay" v-model="pagingdata[index].MatchingWay" class="layui-select">
+                                            <option value="0">模糊匹配</option>
+                                            <option value="1">完全匹配</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select :value="pagingdata[index].Key" v-model="pagingdata[index].Key" class="layui-select" @change="reply_btnsel(pagingdata[index])">
+                                            <option value="">请选择</option>
+                                            <option v-for="itm in typelis" :value="itm.Key">{{itm.Name}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <fieldset v-for="(v,i) in pagingdata[index].Temp " v-if="pagingdata[index].Temp.length>0" style="margin-bottom:3px;">
+                                            <legend>列表{{i+1}}   <button class="layui-btn layui-btn-danger layui-btn-xs" v-if="pagingdata[index].Key==2" @click="reply_dellis(pagingdata[index],i)">移除</button></legend>
+                                            <div>
+                                                <template v-for="vitem in  getkey(v)">
+                                                    <label v-if="typebool(vitem)" style="line-height:35px">{{pagingdata[index].Temp[i][vitem]}}：</label>
+                                                    <input v-else class="layui-input" :value="pagingdata[index].Temp[i][vitem]" type="text" v-model="pagingdata[index].Temp[i][vitem]" :placeholder="v[vitem]" style="width:400px;margin-top:3px;">
+                                                </template>
+                                            </div>
+                                        </fieldset>
+                                    </td>
+                                    <td>
+                                        <button class="layui-btn" v-if="pagingdata[index].Key==2" @click="reply_addlis(pagingdata[index])">新增图文列表</button>
+                                        <button class="layui-btn layui-btn-danger" @click="reply_del_lis(pagingdata[index])">移除</button>
+                                    </td>
+                                </tr>
+                                <tr align="center" v-if="list.length==0">
+                                    <td colspan="5">暂无数据</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--<div class="layui-form-item">
             <label class="layui-form-label">微信关注回复</label>
             <div class="layui-input-block">
 
@@ -90,16 +256,16 @@
                     </thead>
                     <tbody>
                         <tr v-for="(item,index) in Eventlist" v-if="!!Eventlist&&Eventlist.length>0">
-                            <td  v-if="!!item">
-                                <select v-model="Eventlist[index].EventType" :value="Eventlist[index].EventType"  class="layui-select">
+                            <td v-if="!!item">
+                                <select v-model="Eventlist[index].EventType" :value="Eventlist[index].EventType" class="layui-select">
                                     <option v-for="itm in Eventtype" :value="itm.Id">{{itm.Name}}</option>
                                 </select>
                             </td>
-                            <td  v-if="!!item">
+                            <td v-if="!!item">
                                 <input type="text" class="layui-input" :value="Eventlist[index].EventKey" v-model="Eventlist[index].EventKey" placeholder="按钮事件自定义KEY">
                             </td>
 
-                            <td  v-if="!!item">
+                            <td v-if="!!item">
                                 <button class="layui-btn layui-btn-danger" @click="event_del_lis(Eventlist[index])">移除</button>
                             </td>
                         </tr>
@@ -180,7 +346,7 @@
                 </table>
 
             </div>
-        </div>
+        </div>-->
 
     </div>
 </body>

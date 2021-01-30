@@ -36,6 +36,8 @@ namespace DB
         public SimpleClient<Sys_UserEntity> SysUserDB => new SimpleClient<Sys_UserEntity>(Db);
         public SimpleClient<Sys_logEntity> SyslogDB => new SimpleClient<Sys_logEntity>(Db);
         public SimpleClient<TableTypeEntity> SystableDB => new SimpleClient<TableTypeEntity>(Db);
+        public SimpleClient<Sys_RoleAuthorizationEntity> Sys_RoleAuthorizationDB => new SimpleClient<Sys_RoleAuthorizationEntity>(Db);
+        
         #endregion
 
         #region 微信

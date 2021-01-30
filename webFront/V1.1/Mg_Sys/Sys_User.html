@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>用户管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/JS/vue.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/admin.js"></script>
+    <style>
+        .selected {
+            background-color: #3498DB !important;
+            color: #fff;
+        }
+
+        tbody > tr {
+            cursor: pointer
+        }
+    </style>
+
+</head>
+<body>
+    <div id="app" style="margin:10px;">
+
+        <div class="layui-form-item" style="margin-right:5px;display:flex">
+
+            <select class="layui-select" id="IsDel" style="margin-left:5px; width:80px;" v-model="searchmodel.IsDel" :value="searchmodel.IsDel">
+                <option value="">状态</option>
+                <option value="0">正常</option>
+                <option value="1">禁用</option>
+            </select>
+            <input class="layui-input" placeholder="账号" id="UserName" style="margin-left:5px;width:120px;" v-model="searchmodel.UserName" :value="searchmodel.UserName" />
+            <input class="layui-input" placeholder="姓名" id="Name" style="margin-left:5px;width:120px;" v-model="searchmodel.Name" :value="searchmodel.Name" />
+            <input class="layui-input" placeholder="昵称" id="NickName" style="margin-left:5px;width:120px;" v-model="searchmodel.NickName" :value="searchmodel.NickName" />
+            <button class="layui-btn" type="button" style="width:80px;margin-left:5px;" @click="search">
+                <i class="layui-icon layui-icon-search"></i>查询
+            </button>
+            <!--<button class="layui-btn layui-btn-normal" type="button" style="width:80px;margin-left:10px">
+            <i class="layui-icon layui-icon-refresh"></i>刷新
+        </button>-->
+            <div class="layui-btn-group" style=" margin-left: auto;">
+                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                <button type="button" class="layui-btn" @click="add">新增</button>
+                <button type="button" class="layui-btn layui-btn-warm" @click="edit">编辑</button>
+                <button type="button" class="layui-btn layui-btn-normal" @click="authorization">编辑权限</button>
+                <button type="button" class="layui-btn layui-btn-danger" @click="del">禁用</button>
+                <button type="button" class="layui-btn layui-btn-primary" @click="unlock">正常</button>
+            </div>
+        </div>
+        <table class="layui-table">
+            <thead>
+                <tr>
+                    <th width="150px">账号</th>
+                    <th width="100px">姓名</th>
+                    <th width="100px">昵称</th>
+                    <th width="100px">手机号码</th>
+                    <th width="80px">状态</th>
+                    <!--<th width="100px">操作</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.Id==selectedindex?['selected']:''">
+                    <td>{{item.UserName}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.NickName}}</td>
+                    <td>{{item.Phone}}</td>
+                    <td><p v-html="getName(item.IsDel)"></p></td>
+                </tr>
+                <tr v-if="pagingdata.length==0" align="center">
+                    <td colspan="5">暂无数据</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="paging" style="margin-bottom:30px;position:absolute"></div>
+
+    </div>
+
+</body>
+</html>
+<script>
+    var selectedRow;
+    var frame = top.$frame;
+    var parent_obj = top.parent_obj;
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            pagingdata: [],
+            searchmodel: {
+                UserName: ''
+                , Name: ''
+                , NickName: ''
+                , IsDel: ''
+            },
+            selectedindex: '',
+        },
+        methods: {
+            getName(type) {
+                switch (type) {
+                    case 0:
+                        return `<span class="layui-btn layui-btn-xs">正常</span>`;
+                        break;
+                    case 1:
+                        return `<span class="layui-btn layui-btn-xs  layui-btn-disabled">禁用</span>`;
+                        break;
+
+                }
+
+            },
+            selected(item) {
+
+                vm.selectedindex = item.Id;
+                selectedRow = item;
+
+
+            },
+            del() {
+                if (!selectedRow) {
+                    frame.alert("请选择用户对象！");
+                    return false;
+                }
+                if (selectedRow.IsDel == 1) {
+                    frame.alert("对不起您选择的用户已被禁用、无法操作！");
+                    return false;
+                }
+                frame.confirm("提示", "确定要修改用户状态吗？", function (x) {
+                    if (x) {
+                        o.del(selectedRow.GuId);
+                    }
+                });
+            },
+            unlock() {
+                if (!selectedRow) {
+                    frame.alert("请选择用户对象！");
+                    return false;
+                }
+                if (selectedRow.IsDel == 0) {
+                    frame.alert("对不起您选择的用户状态正常、无法操作！");
+                    return false;
+                }
+                frame.confirm("提示", "确定要修改用户状态吗？", function (x) {
+                    if (x) {
+                        o.unlock(selectedRow.GuId);
+                    }
+                });
+            },
+            refresh() {
+                window.location.reload();
+                // o.load(vm.search);
+            },
+            search() {
+                o.load(vm.searchmodel);
+            },
+            edit() {
+                if (!selectedRow) {
+                    frame.alert("请选择用户对象！");
+                    return false;
+                }
+                let obj = {
+                    id: 'form',
+                    title: '编辑用户',
+                    url: 'Mg_Sys/Sys_UserForm.html',
+                    width: 700,
+                    height: 400,
+                    btn: null,
+                    callBack: function (id) {
+
+                    }
+                }
+                frame.layerForm(obj);
+            },
+            add() {
+                vm.selectedindex = '';
+                selectedRow = null;
+                let obj = {
+                    id: 'form',
+                    title: '新增用户',
+                    url: 'Mg_Sys/Sys_UserForm.html',
+                    width: 700,
+                    height: 400,
+                    btn: null,
+                    callBack: function (id) {
+
+                    }
+                }
+                frame.layerForm(obj);
+            },
+            authorization() {
+                if (!selectedRow) {
+                    frame.alert("请选择用户！");
+                    return false;
+                }
+                let obj = {
+                    id: 'form',
+                    title: '用户权限管理',
+                    url: 'Mg_Sys/Sys_UserAuthorization.html',
+                    width: 1200,
+                    height: 700,
+                    btn: null,
+                    callBack: function (id) {
+
+                    }
+                }
+                frame.layerForm(obj);
+            },
+        }
+
+
+    });
+
+    var o = {
+        load(queryjson) {
+            queryjson = queryjson || {};
+            $frame.laypaging({
+                url: "SysUserApi/GetPageList",
+                elem: 'paging',
+                queryjson: JSON.stringify(queryjson),
+                callBack: (res, fun) => {
+                    if (!!res) {
+                        if (res.Success) {
+                            vm.pagingdata = res.Data.Items;
+                            fun(res.Data.TotalItems);
+                        }
+                    }
+                }
+
+            });
+        },
+        del(Keyvalue) {
+            $frame.RequestPost("SysUserApi/GetDelete", { Keyvalue }, function (x) {
+                if (x.Success) {
+                    frame.alert_msg();
+                    vm.refresh();
+                }
+
+            });
+
+        },
+        unlock(Keyvalue) {
+            $frame.RequestPost("SysUserApi/GetUnlock", { Keyvalue }, function (x) {
+                if (x.Success) {
+                    frame.alert_msg();
+                    vm.refresh();
+                }
+
+            });
+
+        }
+
+    }
+    o.load();
+</script>
