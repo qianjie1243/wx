@@ -112,7 +112,7 @@
 
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" @click="btnlogin($event)">登入</button>
+                    <button class="layui-btn" @click="btnlogin($event)"  id="btnsub">登入</button>
                 </div>
             </div>
         </div>
@@ -133,6 +133,13 @@
             let token = $frame.Storageget("token");
             if (!$frame.IsEmpty(token)) {
                 window.location.href = "/V1.1/Admin.html";
+            };
+           //添加按钮事件
+            document.onkeydown =(e)=> {
+                var key = window.event.keyCode;
+                if (key == 13) {
+                    this.btnlogin($("#btnsub"));
+                }
             }
         },
         methods: {

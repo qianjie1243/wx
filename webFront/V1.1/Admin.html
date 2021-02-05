@@ -74,6 +74,15 @@
             .layui-icon-close:hover {
                 color: red
             }
+
+
+
+       .layui-nav-child a {
+            padding-left: 30px !important;
+        }
+
+
+
     </style>
 </head>
 <body class="layui-layout-body">
@@ -149,13 +158,13 @@
                         <a v-if="item.Type=='expand'" href="javascript:;">{{item.Name}}</a>
                         <a @click="openiframe(item.GuId,item.Address,item.Name)" v-if="item.Type=='iframe'" href="javascript:;">{{item.Name}}</a><!--一级-->
                         <dl class="layui-nav-child" v-if="!!item.PSysMenu&&item.PSysMenu.length>0">
-                            <dd v-for="fitem in item.PSysMenu">
+                            <dd v-for="fitem in item.PSysMenu" >
                                 <a v-if="fitem.Type=='expand'" href="javascript:;">{{fitem.Name}}</a><!--二级-->
                                 <a @click="openiframe(fitem.GuId,fitem.Address,fitem.Name)" v-if="fitem.Type=='iframe'">{{fitem.Name}}</a>
-                                <dl class="layui-nav-child" v-if="!!fitem.PSysMenu&&fitem.PSysMenu.length>0">
-                                    <dd v-for="f_item in fitem.PSysMenu">
-                                        <a v-if="f_item.Type=='expand'" href="javascript:;">{{f_item.Name}}</a><!--三级-->
-                                        <a @click="openiframe(f_item.GuId,f_item.Address,f_item.Name)" v-if="f_item.Type=='iframe'">{{f_item.Name}}</a>
+                                <dl class="layui-nav-child" v-if="!!fitem.PSysMenu&&fitem.PSysMenu.length>0" >
+                                    <dd v-for="f_item in fitem.PSysMenu"  >
+                                        <a v-if="f_item.Type=='expand'" href="javascript:;"  style="padding-left:45px!important">{{f_item.Name}}</a><!--三级-->
+                                        <a @click="openiframe(f_item.GuId,f_item.Address,f_item.Name)" v-if="f_item.Type=='iframe'"  style="padding-left:45px!important">{{f_item.Name}}</a>
                                     </dd>
                                 </dl>
                             </dd>

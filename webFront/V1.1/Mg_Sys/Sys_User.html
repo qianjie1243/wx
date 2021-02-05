@@ -230,7 +230,7 @@
             });
         },
         del(Keyvalue) {
-            $frame.RequestPost("SysUserApi/GetDelete", { Keyvalue }, function (x) {
+            frame.RequestPost("SysUserApi/GetDelete", { Keyvalue }, function (x) {
                 if (x.Success) {
                     frame.alert_msg();
                     vm.refresh();
@@ -240,7 +240,7 @@
 
         },
         unlock(Keyvalue) {
-            $frame.RequestPost("SysUserApi/GetUnlock", { Keyvalue }, function (x) {
+            frame.RequestPost("SysUserApi/GetUnlock", { Keyvalue }, function (x) {
                 if (x.Success) {
                     frame.alert_msg();
                     vm.refresh();
