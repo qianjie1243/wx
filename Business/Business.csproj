@@ -47,6 +47,11 @@
     <Compile Include="Business\Sys\Sys_Button.cs" />
     <Compile Include="Business\Sys\Sys_log.cs" />
     <Compile Include="Business\Sys\Sys_Menu.cs" />
+    <Compile Include="Business\Sys\Sys_RoleAuthorization.cs" />
+    <Compile Include="Business\Sys\Sys_User.cs" />
+    <Compile Include="Business\Sys\TableType.cs" />
+    <Compile Include="Business\Wx\Wx_Material.cs" />
+    <Compile Include="Business\Wx\Wx_PushList.cs" />
     <Compile Include="Business\Wx\Wx_PushTemplate.cs" />
     <Compile Include="Business\Wx\Wx_EvenMessage.cs" />
     <Compile Include="Business\Wx\Wx_Menu.cs" />
@@ -59,6 +64,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\common\Common.csproj">
+      <Project>{a7eb4559-810a-46a3-84fb-e9cb88ee9a09}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DB\DB.csproj">
       <Project>{A3FF085E-BC65-4DB6-888D-884F0407510E}</Project>
       <Name>DB</Name>

@@ -49,11 +49,15 @@
     <Compile Include="Sys\Sys_ButtonEntity.cs" />
     <Compile Include="Sys\Sys_logEntity.cs" />
     <Compile Include="Sys\Sys_MenuEntity.cs" />
+    <Compile Include="Sys\Sys_RoleAuthorizationEntity.cs" />
     <Compile Include="Sys\Sys_UserEntity.cs" />
-    <Compile Include="Wx\PushTemplateEntity.cs" />
+    <Compile Include="Sys\TableTypeEntity.cs" />
+    <Compile Include="Wx\Wx_MaterialEntity.cs" />
+    <Compile Include="Wx\Wx_PushTemplateEntity.cs" />
     <Compile Include="Wx\Wx_EvenMessageEntity.cs" />
     <Compile Include="Wx\Wx_MenuEntity.cs" />
     <Compile Include="Wx\Wx_MessageEntity.cs" />
+    <Compile Include="Wx\Wx_PushListEntity.cs" />
     <Compile Include="Wx\Wx_UserEntity.cs" />
   </ItemGroup>
   <ItemGroup />

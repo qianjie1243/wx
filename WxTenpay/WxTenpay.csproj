@@ -67,6 +67,7 @@
     <Compile Include="WXoperation\TModel\Getopenid.cs" />
     <Compile Include="WXoperation\Common\HttpRequestutil.cs" />
     <Compile Include="WXoperation\TModel\MenuModel.cs" />
+    <Compile Include="WXoperation\TModel\Message.cs" />
     <Compile Include="WXoperation\wxconfiguration\messagehelp.cs" />
     <Compile Include="WXoperation\TModel\token.cs" />
     <Compile Include="Config\WXconfig.cs" />

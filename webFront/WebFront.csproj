@@ -26,7 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>4.0</TypeScriptToolsVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -129,11 +129,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API_V1.1\MobileApiController.cs" />
+    <Compile Include="API_V1.1\SysUserApiController.cs" />
     <Compile Include="API_V1.1\Sys_LogController.cs" />
     <Compile Include="API_V1.1\Sys_MenuController.cs" />
     <Compile Include="API\WXDataController.cs" />
     <Compile Include="API\WxDockingController.cs" />
     <Compile Include="API\WXlogController.cs" />
+    <Compile Include="API_V1.1\Sys_TableController.cs" />
     <Compile Include="API_V1.1\Wx_DataController.cs" />
     <Compile Include="API_V1.1\Wx_DockingController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -306,10 +309,17 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="V1.1\Admin.html" />
+    <Content Include="V1.1\index.html" />
+    <Content Include="V1.1\Login.html" />
     <Content Include="V1.1\Mg_Log\Sys_Log\Form.html" />
     <Content Include="V1.1\Mg_Log\Sys_Log\index.html" />
     <Content Include="V1.1\Mg_Sys\Sys_MenuForm.html" />
     <Content Include="V1.1\Mg_Sys\Sys_Menu.html" />
+    <Content Include="V1.1\Mg_Sys\Sys_User.html" />
+    <Content Include="V1.1\Mg_Sys\Sys_UserAuthorization.html" />
+    <Content Include="V1.1\Mg_Sys\Sys_UserForm.html" />
+    <Content Include="V1.1\Mg_Table\TableForm.html" />
+    <Content Include="V1.1\Mg_Table\Tableindex.html" />
     <Content Include="V1.1\Mg_TokenConfig\WReply.html" />
     <Content Include="V1.1\Mg_Log\Wx_Log\Form.html" />
     <Content Include="V1.1\Mg_Log\Wx_Log\index.html" />
@@ -319,12 +329,16 @@
     <Content Include="V1.1\Mg_WXConfig\User.html" />
     <Content Include="V1.1\Mg_WXConfig\WXApiLis.html" />
     <Content Include="V1.1\Mg_WXConfig\WXPush.html" />
+    <Content Include="V1.1\Mg_WXConfig\WXPushRecord.html" />
+    <Content Include="V1.1\Mg_WXConfig\WXPushRecordForm.html" />
     <Content Include="V1.1\Mg_WXConfig\WXPushTemp.html" />
     <Content Include="V1.1\Mg_WXConfig\WXPushTempForm.html" />
     <Content Include="V1.1\Mg_WXMaterial\AddMaterial.html" />
     <Content Include="V1.1\Mg_WXMaterial\Material.html" />
+    <Content Include="V1.1\Mg_WXMaterial\MaterialDetails.html" />
     <Content Include="V1.1\Mg_WXMaterial\MaterialForm.html" />
     <Content Include="V1.1\Mg_WXMaterial\MaterialList.html" />
+    <Content Include="V1.1_Mobile\index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -340,6 +354,9 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="tsconfig.json" />
+    <Content Include="wwwroot\Images\bg.jpg" />
+    <Content Include="wwwroot\Images\bg1.jpg" />
+    <Content Include="wwwroot\Images\bg2.jpg" />
     <Content Include="wwwroot\JS\admin.js" />
     <Content Include="wwwroot\JS\colResizable.js" />
     <Content Include="wwwroot\JS\echarts.js" />
@@ -347,6 +364,7 @@
     <Content Include="wwwroot\JS\jquery-3.3.1.min.js" />
     <Content Include="wwwroot\JS\jquery.qrcode.min.js" />
     <Content Include="wwwroot\JS\linq.min.js" />
+    <Content Include="wwwroot\JS\mobile_admin.js" />
     <Content Include="wwwroot\JS\vue.min.js" />
     <Content Include="wwwroot\JS\wx.common.js" />
     <Content Include="wwwroot\layui\css\layui.css" />
@@ -456,6 +474,8 @@
     <Content Include="wwwroot\layui\lay\modules\util.js" />
     <Content Include="wwwroot\layui\treetable-lay\treetable.css" />
     <Content Include="wwwroot\layui\treetable-lay\treetable.js" />
+    <Content Include="wwwroot\vant\css\vant.css" />
+    <Content Include="wwwroot\vant\vant.min.js" />
     <Content Include="WxTenpay.config">
       <SubType>Designer</SubType>
     </Content>
@@ -470,7 +490,6 @@
     <Folder Include="HTML\Images\" />
     <Folder Include="HTML\MobileWeb\" />
     <Folder Include="wwwroot\CSS\" />
-    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
