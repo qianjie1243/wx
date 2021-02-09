@@ -427,12 +427,15 @@ namespace webFront.API_V1._1
                   var menumodel=  Menulist.Where(x => x.Id.ToString() == item).FirstOrDefault();
                     if (menumodel != null)
                     {
-                        var chemodel = ches.Where(p => p.fguid == item).FirstOrDefault();
                         var ButtonLis = "[]";
-                        if (chemodel != null) {
-                            ButtonLis = (chemodel.btnlis==null?"[]": chemodel.btnlis.ToJson());
+                        if (ches != null)
+                        {
+                            var chemodel = ches.Where(p => p.fguid == item).FirstOrDefault();                          
+                            if (chemodel != null)
+                            {
+                                ButtonLis = (chemodel.btnlis == null ? "[]" : chemodel.btnlis.ToJson());
+                            }
                         }
-
                         Sys_RoleAuthorizationEntity entity = new Sys_RoleAuthorizationEntity();
                         entity.MenuGid = menumodel.GuId;
                         entity.UserGid = model.GuId;
