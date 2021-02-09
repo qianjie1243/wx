@@ -358,6 +358,7 @@
     <Content Include="wwwroot\Images\bg1.jpg" />
     <Content Include="wwwroot\Images\bg2.jpg" />
     <Content Include="wwwroot\JS\admin.js" />
+    <Content Include="wwwroot\JS\authorization.js" />
     <Content Include="wwwroot\JS\colResizable.js" />
     <Content Include="wwwroot\JS\echarts.js" />
     <Content Include="wwwroot\JS\echarts.min.js" />

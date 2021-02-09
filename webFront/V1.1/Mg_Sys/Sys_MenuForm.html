@@ -38,12 +38,22 @@
             </div>
         </div>
 
+        <!--<div class="layui-form-item layui-col-xs12">
+            <label class="layui-form-label">上级菜单</label>
+            <div class="layui-input-block">
+                <select class="layui-select"  v-model="model.SuperiorId">
+                    <option value="0">顶级</option>
+                    <option :value="item.Id" v-for="  item in MenuLis">{{item.Name}}</option>
+
+                </select>
+            </div>
+        </div>-->
         <div class="layui-form-item layui-col-xs12">
             <label class="layui-form-label">上级菜单</label>
             <div class="layui-input-block">
-                <select class="layui-select" v-model="model.SuperiorId">
+                <select class="layui-select" id="SuperiorId" v-model="model.SuperiorId">
                     <option value="0">顶级</option>
-                    <option :value="item.Id" v-for="  item in MenuLis">{{item.Name}}</option>
+
 
                 </select>
             </div>
@@ -62,6 +72,35 @@
             </div>
         </div>
 
+
+        <div class="layui-form-item layui-col-xs12" v-if="model.Type=='iframe'">
+            <label class="layui-form-label">按钮功能</label>
+            <div class="layui-input-block">
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>名称</th>
+                            <th>编号</th>
+                            <th>操作  <a class="layui-btn layui-btn-warm layui-btn-xs" style="margin-left:20px;" @click="addbtn">新增</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(v,i) in btns" v-if="btns.length>0">
+                            <td>{{i+1}}</td>
+                            <td><input autocomplete="off" class="layui-input" :value="btns[i].Name" v-model="btns[i].Name" /></td>
+                            <td><input autocomplete="off" class="layui-input" :value="btns[i].Number" v-model="btns[i].Number" /></td>
+                            <td>  <a class="layui-btn layui-btn-danger layui-btn-xs" @click="del(i)">移除</a></td>
+                        </tr>
+                        <tr v-if="btns.length==0">
+                            <td colspan="4" align="center">暂无数据</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" @click="add">立即提交</button>
@@ -75,10 +114,12 @@
 </html>
 
 <script>
+
+    var j = "-";
     let guid = top.parent_obj.geto_iframe_current().selectedRow;
     let $frame = top.$frame;
 
-
+    var tree = [];
 
     var vm = new Vue({
         el: '#app',
@@ -93,6 +134,7 @@
                 Type: 'iframe',
             },
             MenuLis: [],
+            btns: [],
         },
         created: function () {
         },
@@ -107,6 +149,17 @@
             add() {
                 obj.add();
             },
+            addbtn() {
+                let btnmodel = {
+                    Number: '',
+                    Name: '',
+                    GuId: '',
+                };
+                vm.btns.push(btnmodel);
+            },
+            del(index) {
+                vm.btns.splice(index, 1);
+            },
             reset() {
                 obj.reset();
                 $frame.alert_msg("操作成功！");
@@ -120,9 +173,10 @@
             this.getlis();
             if (!$frame.IsEmpty(guid)) {
                 $frame.RequestGet("Sys_Menu/GetDes", { Keyvalue: guid }, (r) => {
-                    if (r.Success)
+                    if (r.Success) {
                         vm.model = r.Data;
-                    else
+                        vm.btns = vm.model.buttons;
+                    } else
                         console.log(r.Data);
                 });
             }
@@ -130,9 +184,12 @@
         },
         getlis() {
             $frame.RequestGet("Sys_Menu/GetMenuLis", "", (r) => {
-                if (r.Success)
+                if (r.Success) {
                     vm.MenuLis = r.Data;
-                else
+                    tree = obj.listToTree(r.Data, "0");
+                    var Treed = obj.creatSelectTree(tree);
+                    $("#SuperiorId").append(Treed);
+                } else
                     console.log(r.Data);
 
             });
@@ -155,16 +212,22 @@
             } else {
                 vm.model.Address = "";
             }
+
+            let data =  {
+                entity: vm.model,
+                btnlis: vm.btns
+            };
+
+
             if (foat) {
-                $frame.RequestPost("Sys_Menu/SaveFrom", vm.model, (r) => {
-                    if (r.Success) {                   
+                $frame.RequestPost("Sys_Menu/SaveFrom", data, (r) => {
+                    if (r.Success) {
                         top.parent_obj.geto_iframe_current().refresh();
                         top.parent_obj.close("操作成功！");
                     } else
                         console.log(r.Data);
                 });
             }
-
         },
         reset() {
             vm.model.Name = "";
@@ -173,8 +236,33 @@
             vm.model.Address = "";
             vm.model.Sort = 0;
             vm.model.Type = 'iframe';
-        }
+        },
 
+        creatSelectTree(d) {
+            let option = "";
+            for (var i = 0; i < d.length; i++) {
+                if (d[i].children.length) {//如果有子集
+                    option += "<option value='" + d[i].Id + "'>" + j + d[i].Name + "</option>";
+                    j += "-";//前缀符号加一个符号
+                    option += obj.creatSelectTree(d[i].children);//递归调用子集
+                    j = j.slice(0, j.length - 1);//每次递归结束返回上级时，前缀符号需要减一个符号
+                } else {//没有子集直接显示
+                    option += "<option value='" + d[i].Id + "'  >" + j + d[i].Name + "</option>";
+                }
+            }
+            return option;//返回最终html结果
+        },
+
+        listToTree(list, SuperiorId) {
+            var ret = [];//一个存放结果的临时数组
+            for (var i in list) {
+                if (list[i].SuperiorId == SuperiorId.toString()) {//如果当前项的父id等于要查找的父id，进行递归
+                    list[i]["children"] = obj.listToTree(list, list[i].Id);
+                    ret.push(list[i]);//把当前项保存到临时数组中
+                }
+            }
+            return ret;//递归结束后返回结果
+        }
     }
 
     obj.load();

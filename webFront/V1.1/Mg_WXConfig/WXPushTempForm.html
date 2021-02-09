@@ -48,7 +48,7 @@
 </html>
 
 <script>
-    let guid = top.parent_obj.geto_iframe_current().selectedRow;
+    let selectedRow = top.parent_obj.geto_iframe_current().selectedRow;
     let $frame = top.$frame;
 
 
@@ -61,15 +61,7 @@
                 TempId: '',
                 Content: '',            
             },
-        },
-        created: function () {
-        },
-        mounted: function () {
-        },
-        updated: function () {
-        },
-        computed: {
-        },
+        },      
         methods: {
 
             add() {
@@ -85,8 +77,8 @@
 
     var obj = {
         load() {
-            if (!$frame.IsEmpty(guid)) {
-                $frame.RequestGet("Wx_Data/GetTempdetails", { guid: guid }, (r) => {
+            if (!$frame.IsEmpty(selectedRow)) {
+                $frame.RequestGet("Wx_Data/GetTempdetails", { guid: selectedRow.GuId }, (r) => {
                     if (r.Success)
                         vm.model = r.Data;
                     else

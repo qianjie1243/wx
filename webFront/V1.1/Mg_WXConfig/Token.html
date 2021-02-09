@@ -29,12 +29,17 @@
 
            
               
-                <div class="layui-btn-group" style="margin-left: auto;">
-
-                    <button class="layui-btn " type="button" style="width:120px;" @click="getdata">
-                        <i class="layui-icon layui-icon-refresh"></i>拉取数据
+            <div class="layui-btn-group" style="margin-left: auto;display:flex">
+                <div style="margin-right:1px;">
+                   
+                </div>
+                <div class="buttons" authorization="yes">
+                    <button type="button" class="layui-btn" @click="getdata" id="pull">
+                        <i class="layui-icon layui-icon-refresh"></i>
+                        拉取数据
                     </button>
                 </div>
+            </div>
            
 
            

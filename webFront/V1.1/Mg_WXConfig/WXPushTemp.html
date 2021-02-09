@@ -12,9 +12,19 @@
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/echarts.min.js"></script>
     <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
     <style>
         .layui-form-label {
             width: 150px;
+        }
+
+        .selected {
+            background-color: #3498DB !important;
+            color: #fff;
+        }
+
+        tbody > tr {
+            cursor: pointer
         }
     </style>
 </head>
@@ -27,9 +37,16 @@
                 <i class="layui-icon layui-icon-search"></i>查询
             </button>
 
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
-                <button type="button" class="layui-btn" @click="edit('')"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+            <div class="layui-btn-group" style=" margin-left: auto;display: flex;">
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>
+                <div class="buttons" authorization="yes">
+                    <button type="button" class="layui-btn" @click="add" id="add"><i class="layui-icon layui-icon-add-1"></i>新增</button>
+                    <button type="button" class="layui-btn layui-btn-warm" @click="edit" id="edit">编辑</button>
+                    <button type="button" class="layui-btn layui-btn-danger" @click="del" id="del">删除</button>
+                </div>
+
 
             </div>
         </div>
@@ -41,21 +58,15 @@
                     <th>模板ID</th>
                     <th>详情内容</th>
                     <th>添加时间</th>
-                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.GuId==selectedindex?['selected']:''">
                     <td :title="item.Name">{{item.Name}}</td>
                     <td :title="item.TempId">{{item.TempId}}</td>
                     <td :title="item.Content"> {{item.Content}}</td>
                     <td :title="item.CreateTime">{{item.CreateTime}}</td>
-                    <td>
-                        <div style="display:flex">
-                            <button class='layui-btn layui-btn-xs' @click="edit(item.GuId)">编辑</button>
-                            <button class='layui-btn layui-btn-danger layui-btn-xs' @click="del(item.GuId)">删除</button>
-                        </div>
-                    </td>
+                 
                 </tr>
                 <tr v-if="pagingdata.length==0" align="center">
                     <td colspan="6">暂无数据</td>
@@ -78,6 +89,7 @@
             datalis: [],
             pagingdata: [],
             searchdata: { name: '' },
+            selectedindex: '',
         },
         created: function () {
         },
@@ -86,6 +98,10 @@
 
         },
         methods: {
+            selected(item) {
+                vm.selectedindex = item.GuId;
+                selectedRow = item;
+            },
             search() {
                 let queryjson = {
                     Name: vm.searchdata.name,
@@ -93,27 +109,35 @@
                 o.Getlist(queryjson);
             },
             refresh() {
-                o.Getlist();
+                window.location.reload();
             },
-            del(guid) {
-                if (frame.IsEmpty(guid)) {
+            del() {
+                if (!selectedRow) {
+                    frame.alert("请选择你需要移除的数据！");
+                    return false;
+                }
+                if (frame.IsEmpty(selectedRow.GuId)) {
                     frame.alert("需要删除的数据不能为空！");
                     return false;
                 }
                 frame.confirm("提示", "确定需要删除吗？", (r) => {
                     if (r) {
-                        frame.RequestPost("Wx_Data/DeleteTempList", { Keyvalue: guid }, (r) => {
+                        frame.RequestPost("Wx_Data/DeleteTempList", { guid: selectedRow.GuId }, (r) => {
                             if (r.Success) {
                                 frame.alert_msg("操作成功！");
-                                o.Getlist();
+                                vm.refresh();
                             } else
                                 console.log(r.Data);
                         });
                     }
                 })
             },
-            edit(guid) {
-                selectedRow = guid;
+            edit() {
+
+                if (!selectedRow) {
+                    frame.alert("请选择你需要编辑的数据！");
+                    return false;
+                }
                 let obj = {
                     id: 'form',
                     title: '模板详情',
@@ -124,7 +148,20 @@
 
                 }
                 frame.layerForm(obj);
-            }
+            },
+            add() {
+                selectedRow = null;
+                vm.selectedindex = '';
+                let obj = {
+                    id: 'form',
+                    title: '模板详情',
+                    url: 'Mg_WXConfig/WXPushTempForm.html',
+                    width: 800,
+                    height: 600,
+                    btn: null,
+                }
+                frame.layerForm(obj);
+            },
         },
 
 

@@ -11,6 +11,7 @@
     <script src="/wwwroot/JS/vue.min.js"></script>
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
     <style>
         .selected {
             background-color: #3498DB !important;
@@ -39,16 +40,18 @@
             <button class="layui-btn" type="button" style="width:80px;margin-left:5px;" @click="search">
                 <i class="layui-icon layui-icon-search"></i>查询
             </button>
-            <!--<button class="layui-btn layui-btn-normal" type="button" style="width:80px;margin-left:10px">
-            <i class="layui-icon layui-icon-refresh"></i>刷新
-        </button>-->
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
-                <button type="button" class="layui-btn" @click="add">新增</button>
-                <button type="button" class="layui-btn layui-btn-warm" @click="edit">编辑</button>
-                <button type="button" class="layui-btn layui-btn-normal" @click="authorization">编辑权限</button>
-                <button type="button" class="layui-btn layui-btn-danger" @click="del">禁用</button>
-                <button type="button" class="layui-btn layui-btn-primary" @click="unlock">正常</button>
+
+            <div class="layui-btn-group " style="margin-left:auto;display: flex;"   >
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>         
+                <div class="buttons"  authorization="yes">
+                    <button type="button" class="layui-btn" @click="add" id="add">新增</button>
+                    <button type="button" class="layui-btn layui-btn-warm" @click="edit" id="edit">编辑</button>
+                    <button type="button" class="layui-btn layui-btn-normal" @click="authorization" id="authorization">编辑权限</button>
+                    <button type="button" class="layui-btn layui-btn-danger" @click="del"   id="del">禁用</button>
+                    <button type="button" class="layui-btn layui-btn-primary" @click="unlock" id="unlock">正常</button>
+                </div>          
             </div>
         </div>
         <table class="layui-table">
@@ -111,11 +114,8 @@
 
             },
             selected(item) {
-
                 vm.selectedindex = item.Id;
                 selectedRow = item;
-
-
             },
             del() {
                 if (!selectedRow) {

@@ -33,6 +33,15 @@ namespace Model
 
         public int IsDel { set; get; } = 0;
 
-
+        /// <summary>
+        /// 新增方法
+        /// </summary>
+        public void Create()
+        {
+            if (string.IsNullOrWhiteSpace(this.GuId))
+                this.GuId = Guid.NewGuid().ToString();
+            if (string.IsNullOrWhiteSpace(this.CreateTime))
+                this.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        }
     }
 }

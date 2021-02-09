@@ -10,17 +10,23 @@
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
     <script src="/wwwroot/layui/layui.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
 </head>
 <body>
     <div id="app" style="margin:10px;">
 
         <div class="layui-form-item" style="margin-right:5px;display:flex">
 
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
-                <button class="layui-btn" type="button" style="width:80px;" onclick="edit('')">
-                    <i class="layui-icon layui-icon-add-1"></i>新增
-                </button>
+            <div class="layui-btn-group" style=" margin-left: auto;display: flex;">
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>
+                <div class="buttons" authorization="yes">
+                    <button class="layui-btn" type="button" style="width:80px;" onclick="edit('')"   id="add">
+                        <i class="layui-icon layui-icon-add-1"></i>新增
+                    </button>
+                </div>
+               
             </div>
         </div>
         <table class="layui-hide" id="menu" lay-filter="menu"></table>
@@ -45,8 +51,8 @@
             id: 'form',
             title: '菜单详情',
             url: 'Mg_sys/Sys_MenuForm.html',
-            width: 600,
-            height: 500,
+            width: 850,
+            height: 600,
             btn: null,
 
         }
@@ -107,7 +113,7 @@
                         { field: 'name', title: '菜单名称' },
                         { field: 'Number', title: '编号' },
                         { field: 'url', title: '地址' },
-                        //{ field: 'icon', hide: true, title: '图标' },
+                        { field: 'btns',title: '按钮事件' },
                         { field: 'idx', title: '排序' },
                         {
                             field: 'GuId', title: '操作',

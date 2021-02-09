@@ -17,7 +17,7 @@
         <div class="layui-form-item" style="margin-right:5px;display:flex">
 
             <div class="layui-btn-group" style=" margin-left: auto;">
-              
+
                 <button class="layui-btn" type="button" style="width:80px;" @click="add($event)">
                     <i class="layui-icon layui-icon-file-b"></i>保存
                 </button>
@@ -47,14 +47,15 @@
         data: {
             checkedlis: [],
             data: [],
+            checkbtns: [],
         },
         created: function () {
-          
+
         },
         mounted: function () {//渲染出真实dom
-           
-    
-           
+
+
+
 
         },
         methods: {
@@ -62,19 +63,19 @@
                 if (vm.checkedlis.length == 0) {
                     $frame.alert("请选择菜单权限");
                     return false;
-                }
+                }             
                 $(e.target).prop("disabled", true);
-                $frame.RequestPost("SysUserApi/AddUserMenu", { keyvalue: selectedRow.GuId, ids: vm.checkedlis }, (r => {
+                $frame.RequestPost("SysUserApi/AddUserMenu", { keyvalue: selectedRow.GuId, ids: vm.checkedlis, ches: vm.checkbtns}, (r) => {
                     $(e.target).prop("disabled", false);
                     if (r.Success) {
                         top.parent_obj.close("操作成功！");
                     } else {
                         $frame.alert(r.Data);
                     }
-                }))
+                })
 
             }
-         
+
         }
     })
 
@@ -85,7 +86,6 @@
                 if (r.Success) {
                     vm.checkedlis = r.Data.ids;
                     vm.data = r.Data.data;
-
                     layui.use(['treetable', 'table', 'layer'], function () {
                         var table = layui.table;
                         var treetable = layui.treetable;
@@ -111,29 +111,72 @@
                                     { field: 'name', title: '菜单名称' },
                                     { field: 'Number', title: '编号' },
 
-                                    { field: 'idx', title: '排序' },
+                                    {
+                                        field: 'Id', title: '功能权限', templet: function (d) {
+                                            let html = "";
+                                            $.each(d.buttons, (i, v) => {
+                                                let checkbtns = (!!d.checkbtns ? JSON.parse(d.checkbtns) : []);
+
+                                                if (checkbtns.filter(e => { return e == v.GuId }).length > 0) {
+
+                                                    if (vm.checkbtns.filter(e => { return e.fguid == d.Id}).length == 0) {
+                                                        let checkbtnmodel = {
+                                                            fguid: d.id,
+                                                            btnlis: [v.GuId]
+                                                        };
+                                                        vm.checkbtns.push(checkbtnmodel);
+                                                    } else {
+                                                        vm.checkbtns.filter(e => { return e.fguid == d.Id })[0].btnlis.push(v.GuId);//添加按钮                  
+                                                    }
+                                                    html += `<input type="checkbox" lay-skin="primary" data-guid="${v.GuId}" f-data-guid='${d.Id}' checked  data-type=btn> ${v.Name}`;
+                                                } else
+                                                    html += `<input type="checkbox" lay-skin="primary" data-guid="${v.GuId}" f-data-guid='${d.Id}'  data-type=btn > ${v.Name}`;
+                                            })
+                                            return html;
+                                        }
+                                    },
                                 ]],
 
                                 //数据渲染完的回调
                                 done: function () {
                                     layer.closeAll('loading');
                                     $("tbody .layui-unselect i").click(function () {
-                                        let checked = $($(this).parent().prev()).prop("checked");
-                                        let id = $($(this).parent().prev().parents("td").next().find("span")).attr("lay-tid");
-                                        if (checked) {//移除
-                                            vm.checkedlis.splice(vm.checkedlis.indexOf(id), 1);
-                                        } else {//新增
-                                            vm.checkedlis.push(id);
-                                        }
+                                        var  check = $($(this).parent().prev());
+                                        var  type = check.attr("data-type");
+                                        if (type == "btn") {
+                                            let fguid = check.attr("f-data-guid");
+                                            let btnguid = check.attr("data-guid");
+                                            if (check.prop("checked")) {
 
-                                      //console.log(vm.checkedlis);
+                                                vm.checkbtns.filter(e => { return e.fguid == fguid })[0].btnlis.splice(vm.checkbtns.filter(e => { return e.fguid == fguid })[0].btnlis.indexOf(btnguid), 1);//删除按钮
+                                            } else {
+                                                if (vm.checkbtns.filter(e => { return e.fguid == fguid }).length == 0) {
+                                                    let checkbtnmodel = {
+                                                        fguid:fguid,
+                                                        btnlis:[btnguid]
+                                                    };
+                                                    vm.checkbtns.push(checkbtnmodel);
+                                                } else {
+                                                    vm.checkbtns.filter(e => { return e.fguid == fguid })[0].btnlis.push(btnguid);//添加按钮                  
+                                                }
+                                                                     
+                                            }
+                                        } else {
+                                            let checked = check.prop("checked");
+                                            let id = $(check.parents("td").next().find("span")).attr("lay-tid");
+                                            if (checked) {//移除
+                                                vm.checkedlis.splice(vm.checkedlis.indexOf(id), 1);
+                                            } else {//新增
+                                                vm.checkedlis.push(id);
+                                            }
+                                        }
                                     });
 
                                     $.each($("tbody .layui-unselect i"), (i, v) => {
                                         let id = $($(v).parent().prev().parents("td").next().find("span")).attr("lay-tid");
                                         if (vm.checkedlis.indexOf(id) > -1) {
                                             $(v).parent().addClass("layui-form-checked");
-                                           $($(v).parent().prev()).prop("checked", true);
+                                            $($(v).parent().prev()).prop("checked", true);
                                         }
 
                                     });
@@ -147,18 +190,19 @@
                             })
                         };
                         renderTable();
-                    });    
+                    });
 
                 } else
                     console.log(r.Data);
             });
-     
+
         },
+  
     }
 
     obj.load();
 
-    
+
 
 
 

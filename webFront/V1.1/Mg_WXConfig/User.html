@@ -12,6 +12,7 @@
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/echarts.min.js"></script>
     <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
     <style>
         .layui-form-label {
             width: 150px;
@@ -39,13 +40,15 @@
                     </button>
                 </div>
             </div>
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button class="layui-btn " type="button" style="width:80px;" @click="refresh">
-                    <i class="layui-icon layui-icon-refresh"></i>刷新
-                </button>
-                <button class="layui-btn layui-btn-normal" type="button" style="width:120px;" @click="getdata">
-                    <i class="layui-icon layui-icon-refresh"></i>拉取数据
-                </button>
+            <div class="layui-btn-group" style=" margin-left: auto;display:flex">
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>
+                <div class="buttons" authorization="yes">    
+                    <button class="layui-btn layui-btn-normal" type="button" id="pull" @click="getdata">
+                        <i class="layui-icon layui-icon-refresh"></i>拉取数据
+                    </button>
+                </div>
             </div>
         </div>
         <table class="layui-table">

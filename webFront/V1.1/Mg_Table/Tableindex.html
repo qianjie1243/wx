@@ -9,17 +9,32 @@
     <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
-
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
+    <style>
+        .selected {
+            background-color: #3498DB !important;
+            color: #fff;
+        }
+
+        tbody > tr {
+            cursor: pointer
+        }
+    </style>
 </head>
 <body>
     <div id="app" style="margin:10px;">
 
         <div class="layui-form-item" style="margin-right:5px;display:flex">
            
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+            <div class="layui-btn-group" style=" margin-left: auto;display:flex">
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>
+                <div class="buttons" authorization="yes">    
+                    <button type="button" class="layui-btn layui-btn-warm" @click="btnopen" id="edit">查看</button>          
+                </div>
             </div>
         </div>
         <table class="layui-table">
@@ -27,15 +42,14 @@
                 <tr>
                     <th width="150px">序号</th>
                     <th width="200px">数据库表名</th>
-                    <th width="100px">操作</th>
+               
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
-                    <td>{{index+1}}</td>
-                 
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.name==selectedindex?['selected']:''">
+                    <td>{{index+1}}</td>                
                     <td>{{item.name}}</td>
-                    <th><button class="layui-btn layui-btn-warm  layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>
+                
                 </tr>
                 <tr v-if="pagingdata.length==0" align="center">
                     <td colspan="5">暂无数据</td>
@@ -58,22 +72,18 @@
         el: '#app',
         data: {
             pagingdata: [],
-        },
-        created: function () {
-
-        },
-        mounted: function () {//渲染出真实dom
-
-        },
-        computed: function () {
-
-
-
+            selectedindex: '',
         },
         methods: {
-
-            btnopen(item) {
+            selected(item) {
+                vm.selectedindex = item.name;
                 selectedRow = item;
+            },
+            btnopen() {
+                if (!selectedRow) {
+                    frame.alert("请选择用户对象！");
+                    return false;
+                }
                 let obj = {
                     id: 'form',
                     title: '数据表详情',
@@ -82,11 +92,9 @@
                     height: 700,
                     btn: null,
                     callBack: function (id) {
-
                     }
                 }
                 frame.layerForm(obj);
-
             },
             refresh() {
                 o.load();
@@ -95,7 +103,6 @@
                 let Name = $("#Name").val();
                 let Type = $("#Type").val();
                 o.load({ Name: Name, Type: Type });
-
             }
         }
 

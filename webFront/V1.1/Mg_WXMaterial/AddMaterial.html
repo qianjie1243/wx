@@ -12,6 +12,7 @@
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/echarts.min.js"></script>
     <script src="/wwwroot/JS/colResizable.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
     <style>
         .layui-form-label {
             width: 150px;
@@ -30,10 +31,16 @@
                     <option value="3">语音素材</option>
                     <option value="4">视频素材</option>
                 </select>
-                <div class="layui-btn-group" style=" margin-left: auto;">
-                    <button type="button" class="layui-btn" @click="save($event)">
-                        <i class="layui-icon layui-icon-upload-circle"></i> 上传保存
-                    </button>
+                <div class="layui-btn-group" style=" margin-left: auto;display:flex">
+                    <div style="margin-right:1px;">
+
+                    </div>
+                    <div class="buttons" authorization="yes">
+                        <button type="button" class="layui-btn" @click="save($event)" id="submit">
+                            <i class="layui-icon layui-icon-upload-circle"></i> 上传保存
+                        </button>
+                    </div>
+                   
                 </div>
             </div>
               

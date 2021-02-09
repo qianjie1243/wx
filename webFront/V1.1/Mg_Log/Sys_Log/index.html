@@ -9,9 +9,19 @@
     <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
-
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
+    <style>
+        .selected {
+            background-color: #3498DB !important;
+            color: #fff;
+        }
+
+        tbody > tr {
+            cursor: pointer
+        }
+    </style>
 </head>
 <body>
     <div id="app" style="margin:10px;">
@@ -30,8 +40,13 @@
                 <i class="layui-icon layui-icon-search"></i>查询
             </button>
 
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+            <div class="layui-btn-group" style=" margin-left: auto;display: flex;">
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>
+                <div class="buttons"  authorization="yes">                
+                    <button type="button" class="layui-btn layui-btn-warm" @click="btnopen" id="edit">查看</button>      
+                </div>   
             </div>
         </div>
         <table class="layui-table">
@@ -39,19 +54,17 @@
                 <tr>
                     <th width="150px">数据来源</th>
                     <th width="100px">类型</th>
-
                     <th width="200px">发生时间</th>
                     <th width="150px">来源路劲</th>
-                    <th width="100px">操作</th>
+                  
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.Id==selectedindex?['selected']:''">
                     <td>{{item.Name}}</td>
                     <td><p v-html="getName(item.Type)"></p></td>
                     <td>{{item.CreateTime}}</td>
                     <td>{{item.Action}}</td>
-                    <th><button class="layui-btn layui-btn-warm  layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>
                 </tr>
                 <tr v-if="pagingdata.length==0" align="center">
                     <td colspan="5">暂无数据</td>
@@ -72,19 +85,13 @@
         el: '#app',
         data: {
             pagingdata: [],
-        },
-        created: function () {
-
-        },
-        mounted: function () {//渲染出真实dom
-
-        },
-        computed: function () {
-
-
-
+            selectedindex: '',
         },
         methods: {
+            selected(item) {
+                vm.selectedindex = item.Id;
+                selectedRow = item;
+            },
             getName(type) {
                 switch (type) {
                     case 0:
@@ -106,8 +113,11 @@
                 }
 
             },
-            btnopen(item) {
-                selectedRow = item;
+            btnopen() {
+                if (!selectedRow) {
+                    frame.alert("请选择数据！");
+                    return false;
+                }
                 let obj = {
                     id: 'form',
                     title: '日志详情',

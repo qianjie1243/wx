@@ -77,12 +77,9 @@
 
 
 
-       .layui-nav-child a {
+        .layui-nav-child a {
             padding-left: 30px !important;
         }
-
-
-
     </style>
 </head>
 <body class="layui-layout-body">
@@ -156,15 +153,15 @@
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
                     <li class="layui-nav-item" v-for="item in sysmenu" v-if="sysmenu.length>0">
                         <a v-if="item.Type=='expand'" href="javascript:;">{{item.Name}}</a>
-                        <a @click="openiframe(item.GuId,item.Address,item.Name)" v-if="item.Type=='iframe'" href="javascript:;">{{item.Name}}</a><!--一级-->
+                        <a @click="openiframe(item.GuId,item.Address,item.Name,item.buttons)" v-if="item.Type=='iframe'" href="javascript:;">{{item.Name}}</a><!--一级-->
                         <dl class="layui-nav-child" v-if="!!item.PSysMenu&&item.PSysMenu.length>0">
-                            <dd v-for="fitem in item.PSysMenu" >
+                            <dd v-for="fitem in item.PSysMenu">
                                 <a v-if="fitem.Type=='expand'" href="javascript:;">{{fitem.Name}}</a><!--二级-->
-                                <a @click="openiframe(fitem.GuId,fitem.Address,fitem.Name)" v-if="fitem.Type=='iframe'">{{fitem.Name}}</a>
-                                <dl class="layui-nav-child" v-if="!!fitem.PSysMenu&&fitem.PSysMenu.length>0" >
-                                    <dd v-for="f_item in fitem.PSysMenu"  >
-                                        <a v-if="f_item.Type=='expand'" href="javascript:;"  style="padding-left:45px!important">{{f_item.Name}}</a><!--三级-->
-                                        <a @click="openiframe(f_item.GuId,f_item.Address,f_item.Name)" v-if="f_item.Type=='iframe'"  style="padding-left:45px!important">{{f_item.Name}}</a>
+                                <a @click="openiframe(fitem.GuId,fitem.Address,fitem.Name,fitem.buttons)" v-if="fitem.Type=='iframe'">{{fitem.Name}}</a>
+                                <dl class="layui-nav-child" v-if="!!fitem.PSysMenu&&fitem.PSysMenu.length>0">
+                                    <dd v-for="f_item in fitem.PSysMenu">
+                                        <a v-if="f_item.Type=='expand'" href="javascript:;" style="padding-left:45px!important">{{f_item.Name}}</a><!--三级-->
+                                        <a @click="openiframe(f_item.GuId,f_item.Address,f_item.Name,f_item.buttons)" v-if="f_item.Type=='iframe'" style="padding-left:45px!important">{{f_item.Name}}</a>
                                     </dd>
                                 </dl>
                             </dd>
@@ -197,7 +194,7 @@
         },
         geto_iframe_current() {//获取当前打开页面对象
             return window.document.getElementById(this.getopeniframename().Name).contentWindow;
-        },
+        },    
         load() {//加载layui 数据插件
 
             layui.use('element', function () {
@@ -218,7 +215,6 @@
             })
 
         },
-
         close(msg) {//关闭窗口，提示
             layer.closeAll();
             $frame.alert_msg(msg);
@@ -268,32 +264,32 @@
 
     }
 
-    function getopeniframename() {
-        return vm.iframes.filter(x => { return x.check == true })[0];
-    }
+    //function getopeniframename() {
+    //    return vm.iframes.filter(x => { return x.check == true })[0];
+    //}
 
-    function openiframe(name, url, navName) {
-        let index = vm.iframes.filter(x => { return x.Name == name })[0]
-        if (!!index) {
-            $.each(vm.iframes, (i, v) => { v.check = false })
-            let _i = vm.iframes.indexOf(index);
-            index.check = true;
-            vm.iframes[_i] = index;
-        } else {
-            if (vm.iframes.length >= 7) {
-                $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
-                return false;
-            }
-            $.each(vm.iframes, (i, v) => { v.check = false })
-            vm.iframes.push({
-                Name: name,
-                Url: url,
-                navName: navName,
-                check: true,
-            });
-        }
+    //function openiframe(name, url, navName) {
+    //    let index = vm.iframes.filter(x => { return x.Name == name })[0]
+    //    if (!!index) {
+    //        $.each(vm.iframes, (i, v) => { v.check = false })
+    //        let _i = vm.iframes.indexOf(index);
+    //        index.check = true;
+    //        vm.iframes[_i] = index;
+    //    } else {
+    //        if (vm.iframes.length >= 7) {
+    //            $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
+    //            return false;
+    //        }
+    //        $.each(vm.iframes, (i, v) => { v.check = false })
+    //        vm.iframes.push({
+    //            Name: name,
+    //            Url: url,
+    //            navName: navName,
+    //            check: true,
+    //        });
+    //    }
 
-    }
+    //}
 
     var vm = new Vue({
         el: ".layui-layout-admin",
@@ -305,12 +301,12 @@
 
         },
         created: function () {
-            $frame.AuthorizationReques("get","Sys_Menu/GetAdminList", (r) => {
+            $frame.AuthorizationReques("get", "Sys_Menu/GetAdminList", (r) => {
                 if (r.Success) {
                     this.sysmenu = r.Data.mnue;
                     this.model = r.Data.model;
-                    
-                    this.openiframe(99, "index.html", "首页");
+
+                    this.openiframe(99, "index.html", "首页",[]);
 
                     //let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0];
                     //this.openiframe(model.GuId, model.Address, model.Name);
@@ -347,7 +343,7 @@
                     }
                 }
             },
-            openiframe(name, url, navName) {
+            openiframe(name, url, navName, authorizationbtns) {
                 if (!!url) {
                     let index = vm.iframes.filter(x => { return x.Name == name })[0]
                     if (!!index) {
@@ -365,6 +361,7 @@
                             Name: name,
                             Url: url,
                             navName: navName,
+                            authorizationbtns: authorizationbtns,
                             check: true,
                         });
                     }

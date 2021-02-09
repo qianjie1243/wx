@@ -12,9 +12,18 @@
     <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/echarts.min.js"></script>
     <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
     <style>
         .layui-form-label {
             width: 150px;
+        }
+        .selected {
+            background-color: #3498DB !important;
+            color: #fff;
+        }
+
+        tbody > tr {
+            cursor: pointer
         }
     </style>
 </head>
@@ -37,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="layui-form-item" style="margin-right:5px">
+            <div class="layui-form-item" style="margin-right:5px;">
                 <div class="layui-input-block">
                     <button class="layui-btn" type="button" style="width:80px;" @click="search">
                         <i class="layui-icon layui-icon-search"></i>查询
@@ -45,9 +54,15 @@
 
                 </div>
             </div>
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
-  
+            <div class="layui-btn-group" style=" margin-left: auto;display: flex;">
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>
+                <div class="buttons" authorization="yes">
+                    <button type="button" class="layui-btn layui-btn-warm" @click="edit" id="edit">编辑</button>
+                </div>
+
+
             </div>
         </div>
         <table class="layui-table">
@@ -57,21 +72,16 @@
                     <th>推送人员</th>
                     <th>推送情况</th>
                     <th>推送时间</th>
-                    <th>操作</th>
+             
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.GuId==selectedindex?['selected']:''">
                     <td :title="!!item.PushTemp.Name?item.PushTemp.Name:item.TempId">{{!!item.PushTemp.Name?item.PushTemp.Name:item.TempId}}</td>
                     <td :title="item.User.Nickname">{{item.User.Nickname}}</td>
                     <td :title="item.ResContent"> {{item.ResContent}}</td>
                     <td :title="item.CreateTime">{{item.CreateTime}}</td>
-                    <td>
-                        <div style="display:flex">
-                            <button class='layui-btn layui-btn-xs' @click="edit(item)">编辑</button>
-                            <!--<button class='layui-btn layui-btn-danger layui-btn-xs' @click="del(item.GuId)">删除</button>-->
-                        </div>
-                    </td>
+        
                 </tr>
                 <tr v-if="pagingdata.length==0" align="center">
                     <td colspan="5">暂无数据</td>
@@ -101,15 +111,13 @@
             searchdata: { TempId: '', Oppid: '' },
             userlis: [],
             templis: [],
-        },
-        created: function () {
-
-        },
-        computed: {
-
-
+            selectedindex: '',
         },
         methods: {
+            selected(item) {
+                vm.selectedindex = item.GuId;
+                selectedRow = item;
+            },
             search() {
                 let queryjson = {
                     TempId: vm.searchdata.TempId,
@@ -139,8 +147,11 @@
                 }
             },
 
-            edit(item) {
-                selectedRow = item;
+            edit() {
+                if (!selectedRow) {
+                    frame.alert("请选择数据！");
+                    return false;
+                }
                 let obj = {
                     id: 'form',
                     title: '推送详情',

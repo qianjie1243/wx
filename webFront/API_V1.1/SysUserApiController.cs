@@ -22,7 +22,7 @@ namespace webFront.API_V1._1
         private Sys_User userbull = new Sys_User();
         private Sys_Menu Menubll = new Sys_Menu();
         private Sys_RoleAuthorization rolebll = new Sys_RoleAuthorization();
-
+        private Sys_Button btnbll = new Sys_Button();
         private string dkey = "SYS_USER";
         #endregion
 
@@ -365,11 +365,16 @@ namespace webFront.API_V1._1
 
                 var model = userbull.GetModel(x => x.GuId == keyvalue);
                 var rolelist = rolebll.GetList(x => x.UserGid == model.GuId);
-                List<string> ids = new List<string>();
+                List<string> Menuids = new List<string>();
                 var lis = Menubll.GetList(x => x.IsDel == 0).Select(x =>
                 {
-                    if (rolelist.Where(m => m.MenuGid == x.GuId).Any())
-                        ids.Add(x.Id.ToString());
+                    var checkbtns = "[]";
+                    var rolemodel = rolelist.Where(m => m.MenuGid == x.GuId).FirstOrDefault();
+                    if (rolemodel!=null)
+                    {
+                        Menuids.Add(x.Id.ToString());
+                        checkbtns = rolemodel.ButtonLis;
+                    }
                     return new
                     {
                         name = x.Name,
@@ -378,14 +383,15 @@ namespace webFront.API_V1._1
                         parentId = x.SuperiorId,
                         x.GuId,
                         x.Id,
-                        x.Number
+                        x.Number,
+                        buttons = btnbll.GetList(a => a.MenuId == x.GuId),
+                        checkbtns = checkbtns,
                     };
 
                 }).OrderBy(c => c.idx).ToList();
-
                 var res = new
                 {
-                    ids,
+                    ids = Menuids,
                     data = lis,
                     //msg = true,
                     //code = 0
@@ -407,7 +413,7 @@ namespace webFront.API_V1._1
         /// <returns></returns>
         /// 
         [HttpPost]
-        public object AddUserMenu(string keyvalue,string[] ids)
+        public object AddUserMenu(string keyvalue,string[] ids,List<checks> ches )
         {
             try
             {
@@ -421,9 +427,16 @@ namespace webFront.API_V1._1
                   var menumodel=  Menulist.Where(x => x.Id.ToString() == item).FirstOrDefault();
                     if (menumodel != null)
                     {
+                        var chemodel = ches.Where(p => p.fguid == item).FirstOrDefault();
+                        var ButtonLis = "[]";
+                        if (chemodel != null) {
+                            ButtonLis = (chemodel.btnlis==null?"[]": chemodel.btnlis.ToJson());
+                        }
+
                         Sys_RoleAuthorizationEntity entity = new Sys_RoleAuthorizationEntity();
                         entity.MenuGid = menumodel.GuId;
                         entity.UserGid = model.GuId;
+                        entity.ButtonLis = ButtonLis;
                         entity.Create();
                         lis.Add(entity);
 
@@ -441,5 +454,12 @@ namespace webFront.API_V1._1
         #endregion
 
 
+    }
+
+
+    public class checks {
+        public string fguid { set; get; } = "";
+
+        public string[] btnlis { set; get; }
     }
 }

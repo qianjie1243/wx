@@ -10,13 +10,29 @@
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
     <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/authorization.js"></script>
+    <style>
+        .selected {
+            background-color: #3498DB !important;
+            color: #fff;
+        }
+
+        tbody > tr {
+            cursor: pointer
+        }
+    </style>
 </head>
 <body>
     <div id="app" style="margin:10px;">
-
         <div class="layui-form-item" style="margin-right:5px;display:flex">
-            <div class="layui-btn-group" style=" margin-left: auto;">
-                <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+            <div class="layui-btn-group" style=" margin-left: auto;display:flex">
+                <div style="margin-right:1px;">
+                    <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
+                </div>
+                <div class="buttons" authorization="yes">                 
+                    <button type="button" class="layui-btn layui-btn-warm" @click="btnopen" id="edit">查看</button>
+                </div>
+
             </div>
         </div>
         <table class="layui-table">
@@ -24,14 +40,14 @@
                 <tr>
                     <th>文件名</th>
                     <th>文件所在地址</th>
-                    <th>操作</th>
+                    <!--<th>操作</th>-->
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0">
+                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.name==selectedindex?['selected']:''">
                     <td>{{item.name}}</td>
                     <td>{{item.path}}</td>
-                    <th><button class="layui-btn layui-btn-warm layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>
+                    <!--<th><button class="layui-btn layui-btn-warm layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>-->
                 </tr>
                 <tr v-if="pagingdata.length==0" align="center">
                     <td colspan="3">暂无数据</td>
@@ -51,6 +67,7 @@
         data: {
             datalis: [],
             pagingdata: [],
+            selectedindex: '',
         },
         created: function () {
         },
@@ -59,8 +76,15 @@
 
         },
         methods: {
-            btnopen(item) {
-                top.vm.iframedata = item;
+            selected(item) {
+                vm.selectedindex = item.name;
+                selectedRow = item;
+            },
+            btnopen() {
+                if (!selectedRow) {
+                    $frame.alert("请选择用户对象！");
+                    return false;
+                }
                 let obj = {
                     id: 'form',
                     title: '文件详情',

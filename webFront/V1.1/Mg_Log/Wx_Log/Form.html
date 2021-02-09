@@ -46,9 +46,6 @@
                 </div>
             </div>
 
-
-
-
             <div class="layui-form-item" v-if="type==2">
                 <label class="layui-form-label">文件路径</label>
                 <div class="layui-input-block">
@@ -70,7 +67,6 @@
                             <tr v-for="(item,index)  in vm.Detailslis" v-if="vm.Detailslis.length>0">
                                 <td>{{item.time}}</td>
                                 <td>{{item.value}}</td>
-
                             </tr>
                             <tr v-if="vm.Detailslis.length==0" align="center">
                                 <td colspan="1">暂无数据</td>
@@ -84,7 +80,7 @@
 </body>
 </html>
 <script>
-    let data = top.vm.iframedata;
+    let selectedRow = top.parent_obj.geto_iframe_current().selectedRow;
     let $frame = top.$frame;
     var vm = new Vue({
         el: '#app',
@@ -120,11 +116,11 @@
 
     var o = {
         load() {
-            if (data.name.indexOf('.') > -1) {
-                o.GetDetails(data.path);
+            if (selectedRow.name.indexOf('.') > -1) {
+                o.GetDetails(selectedRow.path);
                 vm.type = 2;
             } else
-                o.GetUser(data.path);
+                o.GetUser(selectedRow.path);
         },
         bind() {
 
