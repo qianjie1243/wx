@@ -302,10 +302,9 @@
         },
         created: function () {
             $frame.AuthorizationReques("get", "Sys_Menu/GetAdminList", (r) => {
-                if (r.Success) {
+                if (r.Success) {              
                     this.sysmenu = r.Data.mnue;
                     this.model = r.Data.model;
-
                     this.openiframe(99, "index.html", "首页",[]);
 
                     //let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0];

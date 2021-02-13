@@ -129,10 +129,11 @@
                 verifyCode: ''
             }
         },
-        created: function () {
+        created: function () {        
             let token = $frame.Storageget("token");
             if (!$frame.IsEmpty(token)) {
                 window.location.href = "/V1.1/Admin.html";
+                return false;
             };
            //添加按钮事件
             document.onkeydown =(e)=> {

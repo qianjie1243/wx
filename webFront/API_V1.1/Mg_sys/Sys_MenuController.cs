@@ -43,6 +43,14 @@ namespace webFront.API
             {
                 var usermolde = GetUserInfo(token);//获取用户信息
 
+
+                //判断登入是否过期、只有当天时间有效
+                if (DateTime.Parse(usermolde.LogTime).ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd"))
+                {
+                    return Success(new { login = false });
+                }
+               
+
                 var lis = Menubll.GetList().Where(x => x.IsDel == 0).ToList();
                 var reslis = new List<Sys_MenuEntity>();
                 if (usermolde.UserName.ToLower() == "system")//管理员显示全部列表数据
@@ -54,6 +62,7 @@ namespace webFront.API
                     }
                     var res = new
                     {
+                        login = true,//登入状态是否正常
                         mnue = reslis.OrderBy(x => x.Sort),
                         model = usermolde
                     };
@@ -69,6 +78,7 @@ namespace webFront.API
                     }
                     var res = new
                     {
+                        login = true,//登入状态是否正常
                         mnue = reslis.OrderBy(x => x.Sort),
                         model = usermolde
                     };
@@ -225,7 +235,8 @@ namespace webFront.API
                 if (string.IsNullOrWhiteSpace(Keyvalue)) return Error("参数错误！");
 
                 var model = Menubll.GetModel(x => x.GuId == Keyvalue);
-                if (model != null) {
+                if (model != null)
+                {
                     model.buttons = btnbll.GetList(x => x.MenuId == model.GuId);
                 }
                 return Success(model);
@@ -295,7 +306,7 @@ namespace webFront.API
                     lis.ForEach(x =>
                     {
                         x.PSysMenu = Getlis(countlis, x).OrderBy(c => c.Sort).ToList();
-                        x.buttons= btnbll.GetList(l => l.MenuId == x.GuId);//获取全部设置的按钮事件
+                        x.buttons = btnbll.GetList(l => l.MenuId == x.GuId);//获取全部设置的按钮事件
                     });
                     return lis.OrderBy(c => c.Sort).ToList();
                 }
@@ -326,12 +337,12 @@ namespace webFront.API
                 var lis = countlis.Where(p => p.SuperiorId == model.Id.ToString() && roles.Where(m => m.MenuGid == p.GuId).Count() > 0);
                 if (lis.Count() > 0)
                 {
-                  
+
 
                     lis.ForEach(x =>
                     {
                         x.buttons = new List<Sys_ButtonEntity>();
-                        var Authorization = roles.Where(m => m.MenuGid ==x.GuId).FirstOrDefault();//获取授权功能菜单
+                        var Authorization = roles.Where(m => m.MenuGid == x.GuId).FirstOrDefault();//获取授权功能菜单
                         x.PSysMenu = GetRolelis(countlis, x, roles).OrderBy(c => c.Sort).ToList();
                         if (Authorization.ButtonLis != null)
                         {

@@ -129,16 +129,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API_V1.1\MobileApiController.cs" />
-    <Compile Include="API_V1.1\SysUserApiController.cs" />
-    <Compile Include="API_V1.1\Sys_LogController.cs" />
-    <Compile Include="API_V1.1\Sys_MenuController.cs" />
+    <Compile Include="API_V1.1\Mg_Mobile\MobileApiController.cs" />
+    <Compile Include="API_V1.1\Mg_sys\SysUserApiController.cs" />
+    <Compile Include="API_V1.1\Mg_sys\Sys_LogController.cs" />
+    <Compile Include="API_V1.1\Mg_sys\Sys_MenuController.cs" />
     <Compile Include="API\WXDataController.cs" />
     <Compile Include="API\WxDockingController.cs" />
     <Compile Include="API\WXlogController.cs" />
-    <Compile Include="API_V1.1\Sys_TableController.cs" />
-    <Compile Include="API_V1.1\Wx_DataController.cs" />
-    <Compile Include="API_V1.1\Wx_DockingController.cs" />
+    <Compile Include="API_V1.1\Mg_sys\Sys_TableController.cs" />
+    <Compile Include="API_V1.1\Mg_Wx\Wx_DataController.cs" />
+    <Compile Include="API_V1.1\Mg_Wx\Wx_DockingController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -490,6 +490,7 @@
     <Folder Include="HTML\CSS\" />
     <Folder Include="HTML\Images\" />
     <Folder Include="HTML\MobileWeb\" />
+    <Folder Include="V1.1_Mobile\Mg_IM\" />
     <Folder Include="wwwroot\CSS\" />
   </ItemGroup>
   <ItemGroup>

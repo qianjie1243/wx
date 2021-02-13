@@ -209,6 +209,11 @@ var $frame = {
                     url: ROOT_PATH + url,
                     success: function (res) {
                         layer.close(index);
+                        if (!res.Data.login) {
+                            $frame.StorageRemove("token");
+                            window.location.href = "/V1.1/Login.html";
+                            return false;
+                        }
                         console.log("$frame.js==>请求返回结果==>", res);
                     },
                     error: function (res) {
@@ -226,6 +231,11 @@ var $frame = {
                     data: { token: $frame.Storageget("token") },//默认数据为token用户数据   
                     success: function (res) {
                         layer.close(index);
+                        if (!res.Data.login) {
+                            $frame.StorageRemove("token");
+                            window.location.href = "/V1.1/Login.html";
+                            return false;
+                        }
                         if (data)
                             data(res);
                     },
@@ -245,6 +255,11 @@ var $frame = {
                     data: data,
                     success: function (res) {
                         layer.close(index);
+                        if (!res.Data.login) {
+                            $frame.StorageRemove("token");
+                            window.location.href = "/V1.1/Login.html";
+                            return false;
+                        }
                         if (yes)
                             yes(res);
                     },
@@ -264,6 +279,11 @@ var $frame = {
                     data: data,
                     success: function (res) {
                         layer.close(index);
+                        if (!res.Data.login) {
+                            $frame.StorageRemove("token");
+                            window.location.href = "/V1.1/Login.html";
+                            return false;
+                        }
                         if (yes)
                             yes(res);
                     },
@@ -1101,7 +1121,6 @@ var $frame = {
         let fileName = arr[arr.length - 1];
         return fileName;
     },
-
 
     //获取guid
     S4: function () {
