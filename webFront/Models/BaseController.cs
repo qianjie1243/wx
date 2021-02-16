@@ -47,14 +47,14 @@ namespace webFront.Models
         /// <param name="Data"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public object ErrorLog(object Data, string Name)
+        public object ErrorLog(Exception ex, string Name)
         {
             string controllerName = Request.RequestContext.RouteData.Values["controller"].ToString();//获取控制器名
             string actionName = Request.RequestContext.RouteData.Values["action"].ToString();//获取action名
 
             string action = controllerName + "/" + actionName;
 
-            var model = new Sys_logEntity { Content = JsonHelper.ObjectToJSON(Data), Name = Name, Action = action, Type = 0 };
+            var model = new Sys_logEntity { Content = ex.ToString(), Name = Name, Action = action, Type = 0 };
             model.Create();
             logbll.Add(model);
             return Json(new { Success = false, Data = "系统异常" }, JsonRequestBehavior.AllowGet);

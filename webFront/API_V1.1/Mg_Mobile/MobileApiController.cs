@@ -36,7 +36,7 @@ namespace webFront.API_V1._1
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex.ToString(), "微信前端测试接口");
+                return ErrorLog(ex, "微信前端测试接口");
             }
 
         }
@@ -61,7 +61,7 @@ namespace webFront.API_V1._1
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex.ToString(), "微信前端测试接口");
+                return ErrorLog(ex, "微信前端测试接口");
             }
 
         }
@@ -94,7 +94,7 @@ namespace webFront.API_V1._1
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex.ToString(), "微信前端测试接口");
+                return ErrorLog(ex, "微信前端测试接口");
             }
 
         }
@@ -125,7 +125,7 @@ namespace webFront.API_V1._1
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex.ToString(), "微信前端测试接口");
+                return ErrorLog(ex, "微信前端测试接口");
             }
 
         }
@@ -149,7 +149,7 @@ namespace webFront.API_V1._1
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex.ToString(), "微信前端测试接口");
+                return ErrorLog(ex, "微信前端测试接口");
             }
 
         }
@@ -173,7 +173,7 @@ namespace webFront.API_V1._1
             catch (Exception ex)
             {
 
-                return ErrorLog(ex.ToString(), "微信前端测试接口");
+                return ErrorLog(ex, "微信前端测试接口");
             }
         }
         #endregion 

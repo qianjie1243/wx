@@ -174,7 +174,7 @@ namespace webFront.API
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex.ToString(), "获取关注用户");
+                return ErrorLog(ex, "获取关注用户");
             }
 
         }
@@ -209,7 +209,7 @@ namespace webFront.API
             }
             catch (Exception ex)
             {
-                return ErrorLog(ex.ToString(), "获取数据库关注用户");
+                return ErrorLog(ex, "获取数据库关注用户");
             }
 
         }
