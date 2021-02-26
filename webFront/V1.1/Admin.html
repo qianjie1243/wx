@@ -80,10 +80,13 @@
         .layui-nav-child a {
             padding-left: 30px !important;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
 <body class="layui-layout-body">
-    <div class="layui-layout layui-layout-admin">
+    <div class="layui-layout layui-layout-admin" v-cloak>
 
         <div class="layui-header">
             <div class="layui-logo">应用管理</div>

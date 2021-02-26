@@ -20,12 +20,12 @@ var $frame = {
             processData: false,//用于对data参数进行序列化处理 这里必须false
             contentType: false, //必须
             success: function (res) {
-                layer.close(index);
+                vant.Toast.clear();
                 if (yes) yes(res);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR, textStatus, errorThrown);
-                layer.close(index);
+                vant.Toast.clear();
                 if (error) error(jqXHR, textStatus, errorThrown);
             }
         });
@@ -74,13 +74,13 @@ var $frame = {
                     url: ROOT_PATH + url,
                     data: data,
                     success: function (res) {
-                        layer.close(index);
+                        vant.Toast.clear();
                         if (yes)
                             yes(res);
                     },
                     error: function (res) {
                         console.log("$frame.js==>请求异常==>", res);
-                        layer.close(index);
+                        vant.Toast.clear();
                         //if (error)
                         //    error(res);
                     }
@@ -92,13 +92,13 @@ var $frame = {
                     url: ROOT_PATH + url,
                     data: data,
                     success: function (res) {
-                        layer.close(index);
+                        vant.Toast.clear();
                         if (yes)
                             yes(res);
                     },
                     error: function (res) {
                         console.log("$frame.js==>请求异常==>", res);
-                        layer.close(index);
+                        vant.Toast.clear();
                         if (error)
                             error(res);
                     }
