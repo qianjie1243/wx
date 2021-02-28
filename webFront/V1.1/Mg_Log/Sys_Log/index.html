@@ -49,28 +49,28 @@
                 </div>   
             </div>
         </div>
-        <table class="layui-table">
-            <thead>
-                <tr>
-                    <th width="150px">数据来源</th>
-                    <th width="100px">类型</th>
-                    <th width="200px">发生时间</th>
-                    <th width="150px">来源路劲</th>
-                  
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.Id==selectedindex?['selected']:''">
-                    <td>{{item.Name}}</td>
-                    <td><p v-html="getName(item.Type)"></p></td>
-                    <td>{{item.CreateTime}}</td>
-                    <td>{{item.Action}}</td>
-                </tr>
-                <tr v-if="pagingdata.length==0" align="center">
-                    <td colspan="5">暂无数据</td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th width="150px">数据来源</th>
+                        <th width="100px">类型</th>
+                        <th width="200px">发生时间</th>
+                        <th width="150px">来源路劲</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.Id==selectedindex?['selected']:''">
+                        <td>{{item.Name}}</td>
+                        <td><p v-html="getName(item.Type)"></p></td>
+                        <td>{{item.CreateTime}}</td>
+                        <td>{{item.Action}}</td>
+                    </tr>
+                    <tr v-if="pagingdata.length==0" align="center">
+                        <td colspan="5">暂无数据</td>
+                    </tr>
+                </tbody>
+            </table>
         <div id="paging"></div>
 
     </div>

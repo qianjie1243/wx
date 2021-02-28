@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>wangEditor编辑器使用</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
+    <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
+    <script src="/wwwroot/JS/admin.js"></script>
+    <script src="/wwwroot/JS/wangEditor.min.js"></script>
+</head>
+<body>
+    <div style="margin:10px;">
+        <div id="div1">
+
+        </div>
+        <div style="margin-top:10px;">
+            <a onclick="gettext()" class="layui-btn layui-btn-normal">获取数据text</a>
+            <a onclick="gethtml()" class="layui-btn">获取数据html</a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    const E = window.wangEditor
+    const editor = new E("#div1");
+    //editor.config.showLinkImg = false;
+    editor.config.uploadFileName = 'mg_images';
+    editor.config.uploadVideoName = 'mg_video';
+    editor.config.uploadImgServer = '/wangEditor/updateimages';
+    editor.config.uploadVideoServer = '/wangEditor/updatevideo';
+    editor.create();
+
+    function gettext() {
+        let v = editor.txt.text();
+        console.log("text", v);
+        alert(v);
+        //$frame.alert(v);
+    }
+    function gethtml() {
+        let v = editor.txt.html();
+        console.log("html", v); alert(v);
+        //$frame.alert(v);
+    }
+</script>

@@ -29,31 +29,32 @@
                 <div style="margin-right:1px;">
                     <button type="button" class="layui-btn" @click="refresh"> <i class="layui-icon layui-icon-refresh"></i>刷新</button>
                 </div>
-                <div class="buttons" authorization="yes">                 
+                <div class="buttons" authorization="yes">
                     <button type="button" class="layui-btn layui-btn-warm" @click="btnopen" id="edit">查看</button>
                 </div>
 
             </div>
         </div>
-        <table class="layui-table">
-            <thead>
-                <tr>
-                    <th>文件名</th>
-                    <th>文件所在地址</th>
-                    <!--<th>操作</th>-->
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.name==selectedindex?['selected']:''">
-                    <td>{{item.name}}</td>
-                    <td>{{item.path}}</td>
-                    <!--<th><button class="layui-btn layui-btn-warm layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>-->
-                </tr>
-                <tr v-if="pagingdata.length==0" align="center">
-                    <td colspan="3">暂无数据</td>
-                </tr>
-            </tbody>
-        </table>
+
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>文件所在地址</th>
+                        <!--<th>操作</th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item,index)  in pagingdata" v-if="pagingdata.length>0" @click="selected(item)" :class="item.name==selectedindex?['selected']:''">
+                        <td>{{item.name}}</td>
+                        <td>{{item.path}}</td>
+                        <!--<th><button class="layui-btn layui-btn-warm layui-btn-xs" type="button" @click="btnopen(item)">查看</button></th>-->
+                    </tr>
+                    <tr v-if="pagingdata.length==0" align="center">
+                        <td colspan="3">暂无数据</td>
+                    </tr>
+                </tbody>
+            </table>
         <div id="page"></div>
 
     </div>
@@ -122,8 +123,8 @@
                     $.each(x.Data, (i, v) => {//使用文件夹时间生成时间戳，根据时间戳排序
                         v['time'] = new Date(v.name).getTime();
                     });
-                    vm.datalis = $frame.sorting(x.Data, "time", false);  
-                    
+                    vm.datalis = $frame.sorting(x.Data, "time", false);
+
                     o.page(vm.datalis);
                 } else {
                     console.log(x.Data);

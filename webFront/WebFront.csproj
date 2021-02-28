@@ -137,6 +137,7 @@
     <Compile Include="API\WxDockingController.cs" />
     <Compile Include="API\WXlogController.cs" />
     <Compile Include="API_V1.1\Mg_sys\Sys_TableController.cs" />
+    <Compile Include="API_V1.1\Mg_wangEditor\wangEditorController.cs" />
     <Compile Include="API_V1.1\Mg_Wx\Wx_DataController.cs" />
     <Compile Include="API_V1.1\Mg_Wx\Wx_DockingController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -338,6 +339,7 @@
     <Content Include="V1.1\Mg_WXMaterial\MaterialDetails.html" />
     <Content Include="V1.1\Mg_WXMaterial\MaterialForm.html" />
     <Content Include="V1.1\Mg_WXMaterial\MaterialList.html" />
+    <Content Include="V1.1\wangEditor\wangEditor.html" />
     <Content Include="V1.1_Mobile\index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -367,6 +369,7 @@
     <Content Include="wwwroot\JS\linq.min.js" />
     <Content Include="wwwroot\JS\mobile_admin.js" />
     <Content Include="wwwroot\JS\vue.min.js" />
+    <Content Include="wwwroot\JS\wangEditor.min.js" />
     <Content Include="wwwroot\JS\wx.common.js" />
     <Content Include="wwwroot\layui\css\layui.css" />
     <Content Include="wwwroot\layui\css\layui.mobile.css" />
