@@ -34,7 +34,7 @@
         }
 
         .admin-header {
-            z-index: 1000;
+            /*z-index: 1000;*/
             height: 40px;
             position: relative;
             width: 100%;
@@ -119,20 +119,11 @@
                     <a href="javascript:;">
                         <cite>{{!!model?model.Name:''}}</cite>
                     </a>
-                    <dl class="layui-nav-child" style=" top: 50px;">
-                        <dd><a>基本资料</a></dd>
-                        <dd><a>修改密码</a></dd>
-                        <hr>
+                    <dl class="layui-nav-child" style=" top: 50px;left:-23px;">
+                        <dd @click="getuser()"><a>基本资料</a></dd>
                         <dd @click="logout()" style="text-align: center;"><a>退出</a></dd>
                     </dl>
                 </li>
-
-                <!--<li class="layui-nav-item layui-hide-xs" lay-unselect>
-                    <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
-                </li>
-                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
-                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
-                </li>-->
             </ul>
         </div>
         <div class="admin-header">
@@ -210,12 +201,14 @@
                 })
             });
 
-            $(".unselect").on("click", function () {
-                if ($(".unselect>dl").css("display") == "none")
-                    $(".unselect>dl").css("display", "block");
-                else
+            $('.unselect').hover(function () {
+                $(".unselect>dl").css("display", "block");
+                $('.unselect').find('.layui-nav-more').addClass('layui-nav-mored');              
+            }, function () {
                     $(".unselect>dl").css("display", "none");
-            })
+                    $('.unselect').find('.layui-nav-more').removeClass('layui-nav-mored');
+            });
+          
 
         },
         close(msg) {//关闭窗口，提示
@@ -267,33 +260,7 @@
 
     }
 
-    //function getopeniframename() {
-    //    return vm.iframes.filter(x => { return x.check == true })[0];
-    //}
-
-    //function openiframe(name, url, navName) {
-    //    let index = vm.iframes.filter(x => { return x.Name == name })[0]
-    //    if (!!index) {
-    //        $.each(vm.iframes, (i, v) => { v.check = false })
-    //        let _i = vm.iframes.indexOf(index);
-    //        index.check = true;
-    //        vm.iframes[_i] = index;
-    //    } else {
-    //        if (vm.iframes.length >= 7) {
-    //            $frame.alert_msg("列表已达到上限，请先关闭个别列表！");
-    //            return false;
-    //        }
-    //        $.each(vm.iframes, (i, v) => { v.check = false })
-    //        vm.iframes.push({
-    //            Name: name,
-    //            Url: url,
-    //            navName: navName,
-    //            check: true,
-    //        });
-    //    }
-
-    //}
-
+   
     var vm = new Vue({
         el: ".layui-layout-admin",
         data: {
@@ -377,8 +344,21 @@
                         window.location.href = "Login.html";
                     }
                 })
+            },
+            getuser() {//基本信息
+                let obj = {
+                    id: 'userform',
+                    title: '基本信息',
+                    url: 'Mg_User/Mg_User.html',
+                    width: 1200,
+                    height: 600,
+                    btn: null,
+                    callBack: function (id) {
 
-            }
+                    }
+                }
+                $frame.layerForm(obj);
+            },
         },
 
     });

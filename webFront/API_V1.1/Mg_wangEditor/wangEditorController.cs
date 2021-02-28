@@ -14,6 +14,7 @@ namespace webFront.API_V1._1
     public class wangEditorController : BaseController
     {
         private string personpath = "/file/wangeditor";
+
         #region 接收编辑器图片接口
         /// <summary>
         /// 接收图片接口

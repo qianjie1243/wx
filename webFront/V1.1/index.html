@@ -8,19 +8,270 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="/wwwroot/layui/css/layui.css" rel="stylesheet" />
     <script src="/wwwroot/JS/jquery-3.3.1.min.js"></script>
+    <script src="/wwwroot/layui/layui.all.js"></script>
     <script src="/wwwroot/JS/vue.min.js"></script>
+    <style>
+        a {
+            color: #0094ff
+        }
+
+        blockquote {
+            background: #e4e2e2;
+            border-left: 10px solid #a5ccef;
+            margin: 1.5em 10px;
+            padding: 0.5em 10px;
+            quotes: "\201C""\201D""\2018""\2019";
+        }
+
+        .layui-tab-content li {
+            margin-top: 5px;
+        }
+
+        blockquote p {
+            display: inline;
+        }
+    </style>
 </head>
 <body>
     <div style="margin:10px;">
-        <div class="layui-form-item">
-            <label class="layui-form-label">计划与版本</label>
-            <div class="layui-input-block">
-              <label  class="layui-label">
-                由于时间问题后期尽快版本迭代 根据layim 开发手机端基础聊天功能
-              </label>
+
+
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本说明</li>
+                <li>测试地址</li>
+                <li>使用技术</li>
+                <li>开发计划</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div>
+                        <h3>
+                            项目介绍 这个微信功能类，目前还未全部完善，
+                            还有一部分功能，暂时未进行测试，关于微信公众号支付中body中文，出现签名失败的问题，
+                            可以对body进行UTF-8处理，已进行完成，没有中文可以把body中的转换格式注释掉，
+                            保证正常使用，关于微信红包功能，已测试（win系统，在服务器上安装证书，
+                            在wxconfig中配置证书路径即可），可以使用。目前针对文档暂未完善。
+                            可以下载，参考，对功能自己进行完善，封装，加密等处理。
+                            （目前未对基本配置参数做配置文件中处理。），
+                            集成了阿里云短信，支付宝支付部分功能，
+                            百度AI部分接口，百度AI后期会全部完善
+                        </h3>
+                        <h1>
+
+                            项目结构
+                        </h1><h3>
+                            WxTenpay 解决方案
+                        </h3>
+                        <blockquote>
+                            <ul>
+                                <li>BLL 数据库操作</li>
+                                <li>AliYun 阿里服务类</li>
+                                <li>BaiDuAi 百度AI服务类</li>
+                                <li>Common 公共操作类</li>
+                                <li>Redis 缓存类（包含安装文件，word）</li>
+                                <li>webfront HTML页面端</li>
+                                <li style="color:#ff6a00">wxTenpay 微信公众号基本操作功能类（如果只需使用微信功能类请添加引用wxTenpay.dll，需要在web根目录中添加WxTenPay.config配置文件，目前在项目webfront中已有配置文件）</li>
+                            </ul>
+                        </blockquote>
+                        <h3>
+                            数据库
+                        </h3>
+                        <blockquote>
+                            <ul>
+                                <li>DB.sql</li>
+                                <li>DB.bak</li>
+                            </ul>
+                        </blockquote>
+                        <h1>
+                            WxTenpay 操作类型说明
+                        </h1>
+                        <h4>Wechat_Menu 类</h4>
+                        <blockquote>
+                            <ul>
+                                <li>graphic 说明：上传图文素材</li>
+                                <li>material 说明：上传图片,语音，缩略图</li>
+                                <li>video 说明： 视频上传到微信公众号</li>
+                                <li>Update_graphic 说明：修改素材</li>
+                                <li>Get_list 说明：获取素材列表</li>
+                                <li>Get_count 说明：获取素材总数</li>
+                                <li>Get_graphic 说明：获取永久素材</li>
+                                <li>Del_graphic 说明：获取永久素材</li>
+                                <li>Menu 说明：自定义菜单</li>
+                                <li>Getuserlis 说明：获取关注用户数量</li>
+                                <li>CreateLabel 说明:创建用户标签</li>
+                                <li>GetLabels 说明：获取公众号已创建的标签</li>
+                                <li>UpdateLabel 说明：编辑公众号已创建的标签</li>
+                                <li>DeleteLabel 说明：删除公众号已创建的标签</li>
+                                <li>GetLabelUsers 说明：获取标签下粉丝列表</li>
+                                <li>CreateUserLabel 说明：批量为用户打标签</li>
+                                <li>DeteteUserLabel 说明：批量为用户取消标签</li>
+                                <li>GetUserLabels 说明：获取用户身上的标签列表</li>
+                            </ul>
+                        </blockquote>
+                        <h4>WechatPublic 类</h4>
+                        <blockquote>
+                            <ul>
+                                <li>GetPersonal 说明：code获取个人信息</li>
+                                <li>GetOpenid 说明：code返回openid</li>
+                                <li>GetWxConfig 说明： 获取前端JS所需WX.config</li>
+                                <li>GetToken 说明： 获取access_token</li>
+                                <li>GetTokenTime 说明： 获取access_token获取时间</li>
+                                <li>EmptyToken 说明： 清空Token、jsapi_ticket</li>
+                                <li>GetJsapi_ticket 说明： 获取Asscess,jsapi_ticket</li>
+                                <li>GetJsapiTicketTime 说明： 获取jsapi_ticket获取时间</li>
+                                <li>WeiXinKeFu 说明： 微信客户消息</li>
+                                <li>WeiXinTemplate 说明： 发送微信模板消息</li>
+                            </ul>
+                        </blockquote><h4>
+                            WeChatPayment 类
+                        </h4>
+                        <blockquote>
+                            <ul>
+                                <li>NATIVEPayMent 说明： 微信扫码支付</li>
+                                <li>APP_PayMent 说明： 微信APP支付</li>
+                                <li>JSAPIPayMent 说明： 微信公众号支付</li>
+                                <li>GetPayMent_result 说明： 查询扫码订单情况，公众号支付订单状态查询、页面端 微信支付状态:OK有可能存在风险，建议使用订单号去查看订单状态,</li>
+                                <li>PayMent_result 说明： 获取支付订单状态（微信回调）</li>
+                                <li>Inform 说明： 通知微信已收到XML回调通知</li>
+                            </ul>
+                        </blockquote><h1>
+                            当前版本分为数据库版本与非数据库版本
+                        </h1><h3>
+                            一. 数据库版本路劲为 WebFront/v1.1/
+                        </h3>
+                        <h3>
+                            二. 非数据库版本路劲为 WebFront/html/
+                        </h3>
+
+                      
+
+
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <h1>
+                        后台测试地址&nbsp;
+                        <a href="http://111.231.15.185/">http://111.231.15.185</a>
+                    </h1>
+                    <h1 style="margin-top:10px">
+                        微信公众号功能测试地址&nbsp;
+                        <a href="http://111.231.15.185/v1.1_Mobile/index.html">http://111.231.15.185/v1.1_Mobile/index.html</a>
+                    </h1>
+                </div>
+                <div class="layui-tab-item">
+                    <blockquote>
+                        <ul>
+                            <li>sqlsugar （数据库orm）相关文档地址&nbsp;<a href="http://www.donet5.com/">http://www.donet5.com/</a></li>
+                            <li>redis （缓存技术）相关文档地址&nbsp;<a href="https://redis.io/">https://redis.io/</a></li>
+                            <li>Layui （前端框架）相关文档地址&nbsp;<a href="https://www.layui.com/">https://www.layui.com/</a></li>
+                            <li>Vue.js （前端框架）相关文档地址&nbsp;<a href="https://vuejs.org/">https://vuejs.org/</a></li>
+                        </ul>
+                    </blockquote>
+                </div>
+
+                <div class="layui-tab-item">
+                    <h1>
+                        更新内容（本人业余时间开发进度比较缓慢、随性而为 ）
+                    </h1>
+                    <blockquote>
+
+
+                        <ul class="layui-timeline">
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis" style="background-color:#5fb878">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">......</h3>
+                                    <span style="color:#0094ff">
+                                        ●<br>
+                                        ●<br>
+                                        ●<br>
+
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis" style="background-color:#5fb878">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">2020-03-15（已完成）</h3>
+                                    <span style="color:#0094ff">
+                                        1、新增admin.js 封装前端基础功能
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis" style="background-color:#5fb878">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">2020-07-30（已完成）</h3>
+                                    <span style="color:#0094ff">
+                                        1、添加WebFront项目<br />
+                                        2、添加HTML （没有数据库版本--已不更新）<br />
+                                        3、添加V1.1 （数据库版本）
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis" style="background-color:#5fb878">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">2021-01-20（已完成）</h3>
+                                    <span style="color:#0094ff">
+                                        1、使用框架（vant.js）
+                                        <br />
+                                        2、手机端公众号测试页面（支付功能需要配置相关支付数据）
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis" style="background-color:#5fb878">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">2021-01-26（已完成）</h3>
+                                    <span style="color:#0094ff">
+                                        1、添加页面端授权authorization.js
+                                        <br />
+                                        2、修改页面js异常显示问题、优化页面展示数据
+                                        <br />
+                                        3、添加页面功能按钮权限。
+                                        <br />
+                                        4、修改登入权限有效时间、修复获取授权数据异常问题。
+                                        <br />
+                                        5、修改按钮权限显示异常问题、添加子页面不能单独打开、需要权限。
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis" style="background-color:#5fb878">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">2021-02-28（已完成）</h3>
+                                    <span style="color:#0094ff">
+                                        1、添加wangEditor编辑器测试页面、添加编辑器图片、视频服务器接口<br />
+                                        2、优化页面数据、修改已有BUG<br />
+                                        3、添加管理员修改基本信息页面<br />
+                                        4、优化右上角点击事件、显示。
+                                    </span>
+
+                                </div>
+                            </li>
+                            <li class="layui-timeline-item">
+                                <i class="layui-icon layui-timeline-axis" style="color:#ff6a00;background-color:#ff6a00">&#xe63f;</i>
+                                <div class="layui-timeline-content layui-text">
+                                    <h3 class="layui-timeline-title">未知（待完成）</h3>
+                                    <p style="color:#ff6a00">
+                                        1、用户操作日志功能    <br />
+                                        2、根据layim.js 开发手机端im基本通讯功能    <br />
+                                        3、使用websocket（需要满足IIS-8.0）、提供（满足其他要求的通讯服务端）    <br />
+                                    </p>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </blockquote>
+                </div>
+
+
             </div>
         </div>
-        
+
     </div>
 </body>
 </html>

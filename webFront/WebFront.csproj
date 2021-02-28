@@ -324,6 +324,7 @@
     <Content Include="V1.1\Mg_TokenConfig\WReply.html" />
     <Content Include="V1.1\Mg_Log\Wx_Log\Form.html" />
     <Content Include="V1.1\Mg_Log\Wx_Log\index.html" />
+    <Content Include="V1.1\Mg_User\Mg_User.html" />
     <Content Include="V1.1\Mg_WXConfig\index.html" />
     <Content Include="V1.1\Mg_WXConfig\Menu.html" />
     <Content Include="V1.1\Mg_WXConfig\Token.html" />

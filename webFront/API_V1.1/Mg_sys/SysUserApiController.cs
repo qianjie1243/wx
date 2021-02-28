@@ -48,7 +48,7 @@ namespace webFront.API_V1._1
 
 
                 var model = userbull.GetModel(x => x.UserName == username && x.Pwd == userpwd);
-                if (model.Id<0)
+                if (model.Id < 0)
                 {
                     return Error("用户名或密码错误！");
                 }
@@ -58,7 +58,8 @@ namespace webFront.API_V1._1
                     return Error("用户名或密码错误！");
                 }
 
-                if (model.IsDel == 1) {
+                if (model.IsDel == 1)
+                {
                     return Error("对不起您的账号已被禁用，请联系管理员！");
                 }
                 var Endata = new
@@ -189,7 +190,6 @@ namespace webFront.API_V1._1
 
         #endregion
 
-
         #region 用户管理
         /// <summary>
         /// 获取用户列表
@@ -204,7 +204,7 @@ namespace webFront.API_V1._1
                 var query = queryjson.ToJObject();
                 #region 
                 var expression = LinqExtensions.True<Sys_UserEntity>();
-                expression = expression.And(t => t.IsDel>-1);//不显示超级管理员
+                expression = expression.And(t => t.IsDel > -1);//不显示超级管理员
                 if (!query["Name"].IsEmpty())
                 {
                     expression = expression.And(t => t.Name.Contains(query["Name"].ToString()));
@@ -215,7 +215,7 @@ namespace webFront.API_V1._1
                 }
                 if (!query["UserName"].IsEmpty())
                 {
-                    expression = expression.And(t => t.UserName.ToString().Contains( query["UserName"].ToString()));
+                    expression = expression.And(t => t.UserName.ToString().Contains(query["UserName"].ToString()));
                 }
                 if (!query["NickName"].IsEmpty())
                 {
@@ -289,7 +289,7 @@ namespace webFront.API_V1._1
                 if (string.IsNullOrWhiteSpace(entity.GuId))
                 { //新增
 
-                    if (userbull.GetModel(x => x.UserName == entity.UserName).Id>0)
+                    if (userbull.GetModel(x => x.UserName == entity.UserName).Id > 0)
                     {
                         return Error("对不起您的用户名已存在！");
                     }
@@ -298,7 +298,8 @@ namespace webFront.API_V1._1
                     entity.Create();
                     userbull.Add(entity);
                 }
-                else { //编辑
+                else
+                { //编辑
                     var model = userbull.GetModel(x => x.GuId == entity.GuId);
                     model.Name = entity.Name;
                     model.NickName = entity.NickName;
@@ -311,13 +312,14 @@ namespace webFront.API_V1._1
                     if (model.UserName != entity.UserName)
                     {
                         model.UserName = entity.UserName;
-                        if (userbull.GetModel(x => x.UserName == entity.UserName).Id > 0) {
+                        if (userbull.GetModel(x => x.UserName == entity.UserName).Id > 0)
+                        {
                             return Error("对不起您的用户名已存在！");
                         }
                     }
-                  
+
                     userbull.Update(model);
-                }            
+                }
                 return Success("操作成功！");
             }
             catch (Exception ex)
@@ -370,7 +372,7 @@ namespace webFront.API_V1._1
                 {
                     var checkbtns = "[]";
                     var rolemodel = rolelist.Where(m => m.MenuGid == x.GuId).FirstOrDefault();
-                    if (rolemodel!=null)
+                    if (rolemodel != null)
                     {
                         Menuids.Add(x.Id.ToString());
                         checkbtns = rolemodel.ButtonLis;
@@ -397,7 +399,7 @@ namespace webFront.API_V1._1
                     //code = 0
                 };
                 return Success(res);
-             //   return Json(res, JsonRequestBehavior.AllowGet);
+                //   return Json(res, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
@@ -413,7 +415,7 @@ namespace webFront.API_V1._1
         /// <returns></returns>
         /// 
         [HttpPost]
-        public object AddUserMenu(string keyvalue,string[] ids,List<checks> ches )
+        public object AddUserMenu(string keyvalue, string[] ids, List<checks> ches)
         {
             try
             {
@@ -421,16 +423,17 @@ namespace webFront.API_V1._1
                 var model = userbull.GetModel(x => x.GuId == keyvalue);
                 if (model.Id < 0)
                     return Error("用户数据异常！");
-                rolebll.Delete(x=>x.UserGid==model.GuId);//移除全部权限重新配置
+                rolebll.Delete(x => x.UserGid == model.GuId);//移除全部权限重新配置
                 var Menulist = Menubll.GetList(x => x.IsDel == 0);
-                foreach (var item in ids) {
-                  var menumodel=  Menulist.Where(x => x.Id.ToString() == item).FirstOrDefault();
+                foreach (var item in ids)
+                {
+                    var menumodel = Menulist.Where(x => x.Id.ToString() == item).FirstOrDefault();
                     if (menumodel != null)
                     {
                         var ButtonLis = "[]";
                         if (ches != null)
                         {
-                            var chemodel = ches.Where(p => p.fguid == item).FirstOrDefault();                          
+                            var chemodel = ches.Where(p => p.fguid == item).FirstOrDefault();
                             if (chemodel != null)
                             {
                                 ButtonLis = (chemodel.btnlis == null ? "[]" : chemodel.btnlis.ToJson());
@@ -456,11 +459,67 @@ namespace webFront.API_V1._1
         }
         #endregion
 
+        #region 管理员个人基本信息
+        /// <summary>
+        /// 获取用户详情
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public object GetUser(string token)
+        {
+            try
+            {
+                var usermolde = GetUserInfo(token);//获取用户信息
+                var model = userbull.GetModel(x => x.GuId == usermolde.GuId);
+                return Success(model);
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "用户管理");
+            }
+
+        }
+
+        /// <summary>
+        /// 修改信息
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpPost]
+        public object UpUser(Sys_UserEntity entity)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(entity.GuId)) return Error("数据异常！");
+              
+                var model = userbull.GetModel(x => x.GuId == entity.GuId);
+                model.NickName = entity.NickName;
+                model.Phone = entity.Phone;
+                if (model.Pwd != entity.Pwd)
+                {
+                    model.Pwd = entity.Pwd;
+                    model.EncryPwd = DESEncrypt.Encrypt(entity.Pwd, model.key);
+                }                
+                userbull.Update(model);
+
+                return Success("操作成功！");
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex, "管理员修改信息");
+            }
+
+        }
+
+        #endregion 
+
 
     }
 
 
-    public class checks {
+    public class checks
+    {
         public string fguid { set; get; } = "";
 
         public string[] btnlis { set; get; }
