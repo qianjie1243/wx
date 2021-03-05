@@ -80,6 +80,7 @@
         .layui-nav-child a {
             padding-left: 30px !important;
         }
+
         [v-cloak] {
             display: none;
         }
@@ -188,7 +189,7 @@
         },
         geto_iframe_current() {//获取当前打开页面对象
             return window.document.getElementById(this.getopeniframename().Name).contentWindow;
-        },    
+        },
         load() {//加载layui 数据插件
 
             layui.use('element', function () {
@@ -203,12 +204,12 @@
 
             $('.unselect').hover(function () {
                 $(".unselect>dl").css("display", "block");
-                $('.unselect').find('.layui-nav-more').addClass('layui-nav-mored');              
+                $('.unselect').find('.layui-nav-more').addClass('layui-nav-mored');
             }, function () {
-                    $(".unselect>dl").css("display", "none");
-                    $('.unselect').find('.layui-nav-more').removeClass('layui-nav-mored');
+                $(".unselect>dl").css("display", "none");
+                $('.unselect').find('.layui-nav-more').removeClass('layui-nav-mored');
             });
-          
+
 
         },
         close(msg) {//关闭窗口，提示
@@ -260,7 +261,7 @@
 
     }
 
-   
+
     var vm = new Vue({
         el: ".layui-layout-admin",
         data: {
@@ -272,10 +273,10 @@
         },
         created: function () {
             $frame.AuthorizationReques("get", "Sys_Menu/GetAdminList", (r) => {
-                if (r.Success) {              
+                if (r.Success) {
                     this.sysmenu = r.Data.mnue;
                     this.model = r.Data.model;
-                    this.openiframe(99, "index.html", "首页",[]);
+                    this.openiframe(99, "index.html", "首页", []);
 
                     //let model = r.Data.lis.filter((r) => { return r.Name == "微信日志" })[0];
                     //this.openiframe(model.GuId, model.Address, model.Name);
@@ -340,8 +341,14 @@
             logout() {//退出登入
                 $frame.confirm("提示", "确定要退出系统吗？", (m) => {
                     if (m) {
-                        $frame.StorageRemove("token");
-                        window.location.href = "Login.html";
+                        $frame.RequestGet("SysUserApi/OutLogin", (r) => {
+                            if (r.Success) {
+                                $frame.StorageRemove("token");
+                                window.location.href = "Login.html";
+                            } else
+                                $frame.alert(r.Data);
+                        })
+
                     }
                 })
             },

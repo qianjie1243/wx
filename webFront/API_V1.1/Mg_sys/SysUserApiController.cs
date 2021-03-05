@@ -72,9 +72,13 @@ namespace webFront.API_V1._1
                     model.UserName,
                     LogTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")//登入时间
                 };
+
+                var token = DESEncrypt.MD5Encrypt(Endata.ToJson(), dkey);
+                Utils.WriteCookie("token", token);//记录数据
+                                                  //Session["token"] = token;//保存数据
                 var data = new
                 {
-                    token = DESEncrypt.MD5Encrypt(Endata.ToJson(), dkey),
+                    token = token
                 };
                 return Success(data);
             }
@@ -470,7 +474,7 @@ namespace webFront.API_V1._1
         {
             try
             {
-                var usermolde = GetUserInfo(token);//获取用户信息
+                var usermolde = (Sys_UserEntity)GetUserInfo();//获取用户信息
                 var model = userbull.GetModel(x => x.GuId == usermolde.GuId);
                 return Success(model);
             }
@@ -492,7 +496,7 @@ namespace webFront.API_V1._1
             try
             {
                 if (string.IsNullOrWhiteSpace(entity.GuId)) return Error("数据异常！");
-              
+
                 var model = userbull.GetModel(x => x.GuId == entity.GuId);
                 model.NickName = entity.NickName;
                 model.Phone = entity.Phone;
@@ -500,7 +504,7 @@ namespace webFront.API_V1._1
                 {
                     model.Pwd = entity.Pwd;
                     model.EncryPwd = DESEncrypt.Encrypt(entity.Pwd, model.key);
-                }                
+                }
                 userbull.Update(model);
 
                 return Success("操作成功！");
@@ -512,9 +516,30 @@ namespace webFront.API_V1._1
 
         }
 
+        #endregion
+
+        #region 退出登入
+        /// <summary>
+        /// 退出登入
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public object OutLogin()
+        {
+            try
+            {
+                Utils.WriteCookie("token", "");
+                return Success("操作成功！");
+            }
+            catch (Exception ex)
+            {
+                return ErrorLog(ex,"系统退出");
+            }
+
+        }
         #endregion 
-
-
     }
 
 

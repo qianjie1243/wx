@@ -41,16 +41,8 @@ namespace webFront.API
         {
             try
             {
-                var usermolde = GetUserInfo(token);//获取用户信息
-
-
-                //判断登入是否过期、只有当天时间有效
-                if (DateTime.Parse(usermolde.LogTime).ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd"))
-                {
-                    return Success(new { login = false });
-                }
+                var usermolde =(Sys_UserEntity)GetUserInfo();//获取用户信息
                
-
                 var lis = Menubll.GetList().Where(x => x.IsDel == 0).ToList();
                 var reslis = new List<Sys_MenuEntity>();
                 if (usermolde.UserName.ToLower() == "system")//管理员显示全部列表数据
@@ -83,7 +75,6 @@ namespace webFront.API
                         model = usermolde
                     };
                     return Success(res);
-
                 }
             }
             catch (Exception ex)
@@ -163,6 +154,22 @@ namespace webFront.API
         {
             try
             {
+
+                #region 判断是否登入
+                //if (string.IsNullOrWhiteSpace(token))//是否存在数据
+                //{
+                //    return Success(new { login = false });
+                //}
+
+                //var usermolde = GetUserInfo(token);//获取用户信息
+
+                ////判断登入是否过期、只有当天时间有效
+                //if (DateTime.Parse(usermolde.LogTime).ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd"))
+                //{
+                //    return Success(new { login = false });
+                //}
+                #endregion
+
                 if (!string.IsNullOrWhiteSpace(entity.GuId))
                 {
                     var model = Menubll.GetModel(x => x.GuId == entity.GuId);
@@ -190,7 +197,7 @@ namespace webFront.API
                             }
                             tran.Complete();
                         }
-                        return SuccessLog("操作成功！", model, "菜单编辑", 2);
+                        return SuccessLog(new { msg = "操作成功", login = true }, model, "菜单编辑", 2);
                     }
                     else
                         return Error("参数错误");
@@ -212,7 +219,7 @@ namespace webFront.API
                         }
                         tran.Complete();
                     }
-                    return SuccessLog("操作成功！", entity, "菜单编辑", 1);
+                    return SuccessLog(new { msg = "操作成功", login = true }, entity, "菜单编辑", 1);
                 }
             }
             catch (Exception ex)
@@ -232,6 +239,7 @@ namespace webFront.API
         {
             try
             {
+          
                 if (string.IsNullOrWhiteSpace(Keyvalue)) return Error("参数错误！");
 
                 var model = Menubll.GetModel(x => x.GuId == Keyvalue);
@@ -240,7 +248,6 @@ namespace webFront.API
                     model.buttons = btnbll.GetList(x => x.MenuId == model.GuId);
                 }
                 return Success(model);
-
             }
             catch (Exception ex)
             {
@@ -258,6 +265,21 @@ namespace webFront.API
         {
             try
             {
+                //#region 判断是否登入
+                //if (string.IsNullOrWhiteSpace(token))//是否存在数据
+                //{
+                //    return Success(new { login = false });
+                //}
+
+                //var usermolde = GetUserInfo(token);//获取用户信息
+
+                ////判断登入是否过期、只有当天时间有效
+                //if (DateTime.Parse(usermolde.LogTime).ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd"))
+                //{
+                //    return Success(new { login = false });
+                //}
+                //#endregion
+
                 if (!string.IsNullOrWhiteSpace(Keyvalue))
                 {
                     var model = Menubll.GetModel(x => x.GuId == Keyvalue);
@@ -265,27 +287,19 @@ namespace webFront.API
                     {
                         model.IsDel = 1;
                         Menubll.Update(model);
-                        return SuccessLog("操作成功！", model, "菜单编辑", 3);
+                        return SuccessLog(new { msg = "操作成功！", login = true }, model, "菜单编辑", 3);
                     }
                     else
                         return Error("参数错误");
                 }
                 else
                     return Error("参数错误");
-
-
-
-
             }
             catch (Exception ex)
             {
                 return ErrorLog(ex, "移除菜单API");
             }
         }
-
-
-
-
 
         #region 扩展方法
         /// <summary>

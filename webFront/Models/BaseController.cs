@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace webFront.Models
 {
+
     public class BaseController : Controller
     {
         private string dkey = "SYS_USER";
@@ -66,16 +67,18 @@ namespace webFront.Models
         /// <param name="Data"></param>
         /// <param name="Name"></param>
         /// <param name="Type">类型0：异常 1：新增，2修改，删除</param>
+        /// <param name="UserGuId">添加数据列表</param>
         /// <returns></returns>
         public object SuccessLog(object Data, object LogData, string Name, int Type)
         {
 
+            var usermodel = (Sys_UserEntity)GetUserInfo();//用户基本信息
             string controllerName = Request.RequestContext.RouteData.Values["controller"].ToString();//获取控制器名
             string actionName = Request.RequestContext.RouteData.Values["action"].ToString();//获取action名
 
             string action = controllerName + "/" + actionName;
 
-            var model = new Sys_logEntity { Content = JsonHelper.ObjectToJSON(LogData), Name = Name, Action = action, Type = Type };
+            var model = new Sys_logEntity { Content = JsonHelper.ObjectToJSON(LogData), Name = Name, Action = action, Type = Type, AddUserGuId = usermodel.GuId };
             model.Create();
             logbll.Add(model);
 
@@ -88,17 +91,29 @@ namespace webFront.Models
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public Sys_UserEntity GetUserInfo(string token)
+        public object GetUserInfo()
         {
             try
             {
-                return JsonConvert.DeserializeObject<Sys_UserEntity>(DESEncrypt.MD5Decrypt(token, dkey));
+                //验证登录状态
+                var token = Utils.GetCookie("token");
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    return Redirect("/V1.1/Login.html");
+                }
+                var usermolde = JsonConvert.DeserializeObject<Sys_UserEntity>(DESEncrypt.MD5Decrypt(token, dkey));
+                //判断登入是否过期、只有当天时间有效
+                if (DateTime.Parse(usermolde.LogTime).ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd"))
+                {
+                    return Redirect("/V1.1/Login.html");
+                }
+                return usermolde;
             }
             catch (Exception)
             {
                 throw;
             }
-            
+
         }
 
     }

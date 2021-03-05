@@ -248,7 +248,7 @@ var $frame = {
                 });
                 break;
             case 4:
-                data[token] = $frame.Storageget("token");//添加用户授权数据
+                data['token'] = $frame.Storageget("token");//添加用户授权数据
                 $.ajax({
                     type: type,
                     url: ROOT_PATH + url,
@@ -272,7 +272,7 @@ var $frame = {
                 });
                 break;
             case 5:
-                data[token] = $frame.Storageget("token");//添加用户授权数据
+                data['token'] = $frame.Storageget("token");//添加用户授权数据
                 $.ajax({
                     type: type,
                     url: ROOT_PATH + url,
@@ -299,7 +299,6 @@ var $frame = {
                 return 0;
                 break;
         }
-
     },
     //获取表单数据
     getFormData: function (formId) {
@@ -523,6 +522,8 @@ var $frame = {
         content = content || "操作成功！";
         return layer.msg(content);
     },
+
+ 
     //分页
     /***
      * d 对象   rows： 每页数据

@@ -36,6 +36,10 @@ namespace Model
         /// 控制器名称
         /// </summary>
         public string Action { set; get; } = "";
+        /// <summary>
+        /// 录入人 UserGuId
+        /// </summary>
+        public string AddUserGuId { set; get; } = "";
 
         /// <summary>
         /// 新增方法

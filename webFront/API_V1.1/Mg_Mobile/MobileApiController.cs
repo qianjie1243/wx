@@ -155,7 +155,6 @@ namespace webFront.API_V1._1
         }
         #endregion
 
-
         #region 获取百度地址
         /// <summary>
         /// 获取百度地址
@@ -172,7 +171,6 @@ namespace webFront.API_V1._1
             }
             catch (Exception ex)
             {
-
                 return ErrorLog(ex, "微信前端测试接口");
             }
         }

@@ -31,11 +31,13 @@ namespace webFront.API
         {
             try
             {
-                var query = queryjson.ToJObject();
-                //  List<Sys_logEntity> conModels = new List<Sys_logEntity>();
 
+                var usermolde = (Sys_UserEntity)GetUserInfo();//获取用户信息
+                var query = queryjson.ToJObject();
                 #region 
                 var expression = LinqExtensions.True<Sys_logEntity>();
+                if (usermolde.Name.ToUpper() != "SYSTEM")//不是超级管理员 获取自己数据
+                    expression = expression.And(t => t.AddUserGuId == usermolde.GuId);
                 if (!query["Name"].IsEmpty())
                 {
                     expression = expression.And(t => t.Name.Contains(query["Name"].ToString()));
@@ -54,6 +56,7 @@ namespace webFront.API
             }
 
         }
+
 
     }
 }
